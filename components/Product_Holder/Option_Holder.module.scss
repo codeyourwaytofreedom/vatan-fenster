@@ -1,0 +1,43 @@
+$primary-color: navy;
+$secondary-color: gold;
+$shine-color: #00ff36;
+
+.option, .option_selected{
+    box-shadow: 0 0 1px 2px silver;
+    padding-top: 20px;
+    label{
+        border-radius: 4px;
+        display: grid;
+        justify-items: center;
+        width: 250px;
+        min-width: 100px;
+        aspect-ratio: 5/2;
+        cursor: pointer;
+        position: relative;
+        padding-bottom: 20px;
+        #check{
+            color: $shine-color;
+            font-size: 50px;
+            font-weight: bold;
+            justify-self: center;
+            align-self: flex-end;
+            z-index: 9;
+        }
+        input, p{
+            height: 40px;
+            font-size: large;
+        }
+        input:checked{
+            display:  none;
+        }
+        &:hover{
+            img{
+                filter: brightness(1.2);
+            }
+        }
+    }
+}
+.option_selected{
+    box-shadow: 0 0 2px 3px $primary-color;
+    background-color: whitesmoke;
+}

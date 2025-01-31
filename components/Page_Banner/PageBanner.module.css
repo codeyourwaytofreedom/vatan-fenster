@@ -1,0 +1,54 @@
+.banner {
+  display: flex;
+  justify-content: space-between;
+  background-color: white;
+  padding: 0 4vw;
+}
+.banner_actions {
+  height: 100px;
+  display: flex;
+  align-items: center;
+  -moz-column-gap: 5px;
+       column-gap: 5px;
+}
+.banner_actions button {
+  display: grid;
+  justify-items: center;
+  row-gap: 5px;
+  padding: 10px;
+  padding-top: 7px;
+  font-size: 14px;
+  cursor: pointer;
+  -moz-column-gap: 10px;
+       column-gap: 10px;
+  border: none;
+  border-radius: 7px;
+  background: none;
+  filter: brightness(0.6);
+}
+.banner_actions button:hover {
+  filter: brightness(0.8);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+.logo_company_name {
+  margin-top: 7px;
+  margin-left: 4px;
+}
+.logo h1 {
+  font-size: 40px;
+  letter-spacing: -3.5px;
+  color: navy;
+}
+.logo h2 {
+  color: navy;
+  font-size: 25px;
+  letter-spacing: 3.5px;
+  position: relative;
+  top: -9px;
+  left: 7px;
+  opacity: 0.7;
+}/*# sourceMappingURL=PageBanner.module.css.map */

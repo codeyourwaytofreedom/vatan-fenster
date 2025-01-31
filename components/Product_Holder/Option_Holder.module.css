@@ -1,0 +1,38 @@
+.option, .option_selected {
+  box-shadow: 0 0 1px 2px silver;
+  padding-top: 20px;
+}
+.option label, .option_selected label {
+  border-radius: 4px;
+  display: grid;
+  justify-items: center;
+  width: 250px;
+  min-width: 100px;
+  aspect-ratio: 5/2;
+  cursor: pointer;
+  position: relative;
+  padding-bottom: 20px;
+}
+.option label #check, .option_selected label #check {
+  color: #00ff36;
+  font-size: 50px;
+  font-weight: bold;
+  justify-self: center;
+  align-self: flex-end;
+  z-index: 9;
+}
+.option label input, .option label p, .option_selected label input, .option_selected label p {
+  height: 40px;
+  font-size: large;
+}
+.option label input:checked, .option_selected label input:checked {
+  display: none;
+}
+.option label:hover img, .option_selected label:hover img {
+  filter: brightness(1.2);
+}
+
+.option_selected {
+  box-shadow: 0 0 2px 3px navy;
+  background-color: whitesmoke;
+}/*# sourceMappingURL=Option_Holder.module.css.map */

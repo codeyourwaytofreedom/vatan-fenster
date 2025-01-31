@@ -1,0 +1,111 @@
+$primary-color: navy;
+$secondary-color: gold;
+$shine-color: #00ff36;
+.config{
+    min-height: 700px;
+    padding-top: 50px;
+    &_steps{
+        padding: 10px 0;
+        display: flex;
+        margin: 20px 0;
+        margin-bottom: 30px;
+        .complete, .next, .inactive, .selected_next, .selected_complete{
+            border: none;
+            display: flex;
+            align-items: center;
+            column-gap: 10px;
+            font-size: medium;
+            padding: 5px calc(10px + 1vw);
+            position: relative;
+            color: whitesmoke;
+            img{
+                filter: invert(100%);
+            }
+            span{
+                display: none;
+            }
+            #anchor{
+                font-size: 40px;
+                position: absolute;
+                bottom: -35px;
+                left: 42%;
+                color: $primary-color;
+                display: none;
+            }
+        }
+        .selected_next{
+            border: 3px solid $shine-color;
+            font-weight: bold;
+            background: $secondary-color;
+            color: black;
+            span{
+                display: inline-block;
+            }
+            #anchor{
+                display: inline-block;
+                color: $secondary-color;
+            }
+            img{
+                filter: none;
+            }
+        }
+        .next{
+            font-weight: bold;
+            background: $secondary-color;
+            span{
+                display: inline-block;
+            }
+            color: black;
+            img{
+                filter: none;
+            }
+        }
+        .selected_complete{
+            border: 3px solid $shine-color;
+            background: $primary-color;
+            #anchor{
+                display: inline-block;
+            }
+        }
+        .complete{
+            background: $primary-color;
+        }
+        .inactive{
+            background: rgba(100, 100, 100, 0.15);
+            color: black;
+            img{
+                filter: none;
+            }
+        }
+    }
+    &_option_holders{
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1vw;
+        position: relative;
+        padding: 10px;
+        overflow: hidden;
+    }
+    &_sizer{
+        border: 2px solid red;
+        display: flex;
+        #left{
+            border: 2px solid red;
+            width: 400px;
+            h3{
+                color: gray;
+            }
+            #entries{
+                display: grid;
+                border: 2px solid black;
+                margin-top: 40px;
+                label{
+                    line-height: 30px;
+                }
+                input{
+                    height: 40px;
+                }
+            }
+        }
+    }
+}

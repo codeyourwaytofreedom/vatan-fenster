@@ -1,0 +1,109 @@
+.config {
+  min-height: 700px;
+  padding-top: 50px;
+}
+.config_steps {
+  padding: 10px 0;
+  display: flex;
+  margin: 20px 0;
+  margin-bottom: 30px;
+}
+.config_steps .complete, .config_steps .next, .config_steps .inactive, .config_steps .selected_next, .config_steps .selected_complete {
+  border: none;
+  display: flex;
+  align-items: center;
+  -moz-column-gap: 10px;
+       column-gap: 10px;
+  font-size: medium;
+  padding: 5px calc(10px + 1vw);
+  position: relative;
+  color: whitesmoke;
+}
+.config_steps .complete img, .config_steps .next img, .config_steps .inactive img, .config_steps .selected_next img, .config_steps .selected_complete img {
+  filter: invert(100%);
+}
+.config_steps .complete span, .config_steps .next span, .config_steps .inactive span, .config_steps .selected_next span, .config_steps .selected_complete span {
+  display: none;
+}
+.config_steps .complete #anchor, .config_steps .next #anchor, .config_steps .inactive #anchor, .config_steps .selected_next #anchor, .config_steps .selected_complete #anchor {
+  font-size: 40px;
+  position: absolute;
+  bottom: -35px;
+  left: 42%;
+  color: navy;
+  display: none;
+}
+.config_steps .selected_next {
+  border: 3px solid #00ff36;
+  font-weight: bold;
+  background: gold;
+  color: black;
+}
+.config_steps .selected_next span {
+  display: inline-block;
+}
+.config_steps .selected_next #anchor {
+  display: inline-block;
+  color: gold;
+}
+.config_steps .selected_next img {
+  filter: none;
+}
+.config_steps .next {
+  font-weight: bold;
+  background: gold;
+  color: black;
+}
+.config_steps .next span {
+  display: inline-block;
+}
+.config_steps .next img {
+  filter: none;
+}
+.config_steps .selected_complete {
+  border: 3px solid #00ff36;
+  background: navy;
+}
+.config_steps .selected_complete #anchor {
+  display: inline-block;
+}
+.config_steps .complete {
+  background: navy;
+}
+.config_steps .inactive {
+  background: rgba(100, 100, 100, 0.15);
+  color: black;
+}
+.config_steps .inactive img {
+  filter: none;
+}
+.config_option_holders {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1vw;
+  position: relative;
+  padding: 10px;
+  overflow: hidden;
+}
+.config_sizer {
+  border: 2px solid red;
+  display: flex;
+}
+.config_sizer #left {
+  border: 2px solid red;
+  width: 400px;
+}
+.config_sizer #left h3 {
+  color: gray;
+}
+.config_sizer #left #entries {
+  display: grid;
+  border: 2px solid black;
+  margin-top: 40px;
+}
+.config_sizer #left #entries label {
+  line-height: 30px;
+}
+.config_sizer #left #entries input {
+  height: 40px;
+}/*# sourceMappingURL=KonfiguratorPage.module.css.map */
