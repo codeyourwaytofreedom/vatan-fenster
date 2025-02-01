@@ -29,7 +29,7 @@ export default function Home() {
         className={`${styles.page} ${geistSans.variable} ${geistMono.variable}`}
       >
         <main className={styles.main}>
-          <Image id={styles.test} src={wall} alt="wall" />
+          <Image priority id={styles.test} src={wall} alt="wall" />
           <div className={styles.left1}>
             <Link id={styles.go} href={'/konfigurator'}>Jetzt starten</Link>
             <Image id={styles.abstract} src={abstract1} alt="wall" />

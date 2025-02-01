@@ -309,8 +309,8 @@ export default function Page() {
                     }
                 </Feedback>
             </div>
-            <pre>{JSON.stringify(size, null, 2)}</pre>
-            <pre>{JSON.stringify(configuration, null, 2)}</pre>
+{/*             <pre>{JSON.stringify(size, null, 2)}</pre>
+            <pre>{JSON.stringify(configuration, null, 2)}</pre> */}
             </div>
         </div>
     );
