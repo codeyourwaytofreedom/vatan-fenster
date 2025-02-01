@@ -26,6 +26,18 @@ export const materials = [
     {
         name: 'Holz',
         image: wood
+    },
+    {
+        name: 'Kunststoff1',
+        image: plastic
+    },
+    {
+        name: 'Aluminium1',
+        image: aluminum
+    },
+    {
+        name: 'Holz1',
+        image: wood
     }
 ]
 
@@ -41,6 +53,18 @@ export const brands = [
     {
         name: 'Milgard',
         image: window_brand3
+    },
+    {
+        name: 'Alside1',
+        image: window_brand1
+    },
+    {
+        name: 'JW1',
+        image: window_brand2
+    },
+    {
+        name: 'Milgard1',
+        image: window_brand3
     }
 ]
 
@@ -55,6 +79,18 @@ export const profiles = [
     },
     {
         name: 'Ank-06',
+        image: profile1
+    },
+    {
+        name: 'Grs-281',
+        image: profile1
+    },
+    {
+        name: 'Yzg-661',
+        image: profile1
+    },
+    {
+        name: 'Ank-061',
         image: profile1
     }
 ]
@@ -74,6 +110,22 @@ export const directions = [
     },
     {
         name: 'Double',
+        image: double
+    },
+    {
+        name: 'Closed1',
+        image: closed
+    },
+    {
+        name: 'Left-side1',
+        image: left
+    },
+    {
+        name: 'Upsid1e',
+        image: upside
+    },
+    {
+        name: 'Double1',
         image: double
     }
 ]

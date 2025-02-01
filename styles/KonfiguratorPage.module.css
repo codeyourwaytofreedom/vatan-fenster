@@ -7,23 +7,25 @@
   display: flex;
   margin: 20px 0;
   margin-bottom: 30px;
+  height: 80px;
+  position: relative;
 }
 .config_steps .complete, .config_steps .next, .config_steps .inactive, .config_steps .selected_next, .config_steps .selected_complete {
   border: none;
-  display: flex;
+  display: grid;
   align-items: center;
+  justify-items: center;
   -moz-column-gap: 10px;
        column-gap: 10px;
-  font-size: medium;
-  padding: 5px calc(10px + 1vw);
+  font-size: calc(12px + 0.1vw);
   position: relative;
+  padding: 5px 0;
   color: whitesmoke;
+  width: 20vw;
+  max-width: 250px;
 }
-.config_steps .complete img, .config_steps .next img, .config_steps .inactive img, .config_steps .selected_next img, .config_steps .selected_complete img {
+.config_steps .complete svg, .config_steps .next svg, .config_steps .inactive svg, .config_steps .selected_next svg, .config_steps .selected_complete svg {
   filter: invert(100%);
-}
-.config_steps .complete span, .config_steps .next span, .config_steps .inactive span, .config_steps .selected_next span, .config_steps .selected_complete span {
-  display: none;
 }
 .config_steps .complete #anchor, .config_steps .next #anchor, .config_steps .inactive #anchor, .config_steps .selected_next #anchor, .config_steps .selected_complete #anchor {
   font-size: 40px;
@@ -39,14 +41,11 @@
   background: gold;
   color: black;
 }
-.config_steps .selected_next span {
-  display: inline-block;
-}
 .config_steps .selected_next #anchor {
   display: inline-block;
   color: gold;
 }
-.config_steps .selected_next img {
+.config_steps .selected_next svg {
   filter: none;
 }
 .config_steps .next {
@@ -57,7 +56,7 @@
 .config_steps .next span {
   display: inline-block;
 }
-.config_steps .next img {
+.config_steps .next svg {
   filter: none;
 }
 .config_steps .selected_complete {
@@ -71,26 +70,53 @@
   background: navy;
 }
 .config_steps .inactive {
-  background: rgba(100, 100, 100, 0.15);
+  background: rgba(100, 100, 100, 0.2);
   color: black;
 }
-.config_steps .inactive img {
+.config_steps .inactive svg {
   filter: none;
 }
-.config_option_holders {
+.config_steps_summary {
+  width: 100%;
+  max-width: 400px;
+  position: absolute;
+  right: 0;
+}
+.config_steps_summary h2 {
+  background-color: gold;
+  height: 60px;
+  margin-bottom: 40px;
   display: flex;
-  flex-wrap: wrap;
-  gap: 1vw;
+  justify-content: center;
+  align-items: center;
+}
+.config_steps_summary_item {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid silver;
+  width: 100%;
+  max-width: 250px;
+  justify-self: flex-end;
+}
+.config_steps_summary_item div {
+  width: 30%;
+}
+.config_option_holders {
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
   position: relative;
-  padding: 10px;
-  overflow: hidden;
 }
 .config_sizer {
-  border: 2px solid red;
   display: flex;
+  -moz-column-gap: 1vw;
+       column-gap: 1vw;
+  padding-bottom: 40px;
+  padding-right: 20px;
 }
 .config_sizer #left {
-  border: 2px solid red;
   width: 400px;
 }
 .config_sizer #left h3 {
@@ -98,12 +124,34 @@
 }
 .config_sizer #left #entries {
   display: grid;
-  border: 2px solid black;
   margin-top: 40px;
 }
 .config_sizer #left #entries label {
   line-height: 30px;
+  font-size: 15px;
+  font-weight: bold;
 }
 .config_sizer #left #entries input {
   height: 40px;
+  padding-left: 10px;
+}
+.config_sizer #right {
+  padding-left: 40px;
+  padding-top: 40px;
+  padding-right: 40px;
+  position: relative;
+}
+.config_sizer #right #ruler_w, .config_sizer #right #ruler_h {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+}
+.config_sizer #right #ruler_h {
+  top: unset;
+  left: 48%;
+  top: 60%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  transform: rotate(90deg);
 }/*# sourceMappingURL=KonfiguratorPage.module.css.map */

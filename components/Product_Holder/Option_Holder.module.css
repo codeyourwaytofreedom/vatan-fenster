@@ -1,12 +1,14 @@
 .option, .option_selected {
   box-shadow: 0 0 1px 2px silver;
   padding-top: 20px;
+  max-width: 300px;
+  display: grid;
+  justify-self: center;
 }
 .option label, .option_selected label {
   border-radius: 4px;
   display: grid;
   justify-items: center;
-  width: 250px;
   min-width: 100px;
   aspect-ratio: 5/2;
   cursor: pointer;
@@ -14,7 +16,7 @@
   padding-bottom: 20px;
 }
 .option label #check, .option_selected label #check {
-  color: #00ff36;
+  color: navy;
   font-size: 50px;
   font-weight: bold;
   justify-self: center;

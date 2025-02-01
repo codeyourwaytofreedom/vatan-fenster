@@ -14,7 +14,7 @@ export default function OptionHolder({image, name, imageAlt, selected, action }:
     return (
         <div className={selected ? style.option_selected : style.option}>
             <label>
-                <Image  src={image} alt={imageAlt} width={200} height={200} /> <br />
+                <Image  src={image} alt={imageAlt} width={220} height={220} /> <br />
                 <p>{name}</p><br />
                 <input type="radio" name={name} onChange={action} checked={selected} />
                 {

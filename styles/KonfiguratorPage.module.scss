@@ -9,20 +9,22 @@ $shine-color: #00ff36;
         display: flex;
         margin: 20px 0;
         margin-bottom: 30px;
+        height: 80px;
+        position: relative;
         .complete, .next, .inactive, .selected_next, .selected_complete{
             border: none;
-            display: flex;
+            display: grid;
             align-items: center;
+            justify-items: center;
             column-gap: 10px;
-            font-size: medium;
-            padding: 5px calc(10px + 1vw);
+            font-size: calc(12px + 0.1vw);
             position: relative;
+            padding: 5px 0;
             color: whitesmoke;
-            img{
+            width: 20vw;
+            max-width: 250px;
+            svg{
                 filter: invert(100%);
-            }
-            span{
-                display: none;
             }
             #anchor{
                 font-size: 40px;
@@ -38,14 +40,11 @@ $shine-color: #00ff36;
             font-weight: bold;
             background: $secondary-color;
             color: black;
-            span{
-                display: inline-block;
-            }
             #anchor{
                 display: inline-block;
                 color: $secondary-color;
             }
-            img{
+            svg{
                 filter: none;
             }
         }
@@ -56,7 +55,7 @@ $shine-color: #00ff36;
                 display: inline-block;
             }
             color: black;
-            img{
+            svg{
                 filter: none;
             }
         }
@@ -71,40 +70,89 @@ $shine-color: #00ff36;
             background: $primary-color;
         }
         .inactive{
-            background: rgba(100, 100, 100, 0.15);
+            background: rgba(100, 100, 100, 0.2);
             color: black;
-            img{
+            svg{
                 filter: none;
+            }
+        }
+        &_summary{
+            width: 100%;
+            max-width: 400px;
+            position: absolute;
+            right: 0;
+            h2{
+                background-color: gold;
+                height: 60px;
+                margin-bottom: 40px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            &_item{
+                margin-bottom: 20px;
+                display: flex;
+                justify-content: space-between;
+                border-bottom: 1px solid silver;
+                width: 100%;
+                max-width: 250px;
+                justify-self: flex-end;
+                div{
+                    width: 30%;
+                }
+                img{
+
+                }
             }
         }
     }
     &_option_holders{
-        display: flex;
-        flex-wrap: wrap;
-        gap: 1vw;
+        display: grid;
+        justify-content: center;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));          
+        gap: 20px; 
         position: relative;
-        padding: 10px;
-        overflow: hidden;
     }
     &_sizer{
-        border: 2px solid red;
         display: flex;
+        column-gap: 1vw;
+        padding-bottom: 40px;
+        padding-right: 20px;
         #left{
-            border: 2px solid red;
             width: 400px;
             h3{
                 color: gray;
             }
             #entries{
                 display: grid;
-                border: 2px solid black;
                 margin-top: 40px;
                 label{
                     line-height: 30px;
+                    font-size: 15px;
+                    font-weight: bold;
                 }
                 input{
                     height: 40px;
+                    padding-left: 10px;
                 }
+            }
+        }
+        #right{
+            padding-left: 40px;
+            padding-top: 40px;
+            padding-right: 40px;
+            position: relative;
+            #ruler_w, #ruler_h{
+                position: absolute;
+                left: 0; top: 0;
+                width: 100%;
+            }
+            #ruler_h{
+                top: unset;
+                left: 48%;
+                top: 60%;
+                object-fit: cover;
+                transform: rotate(90deg);
             }
         }
     }

@@ -1,19 +1,33 @@
-import Image from 'next/image';
+import Image, { StaticImageData } from 'next/image';
 import style from '.././styles/KonfiguratorPage.module.css'
 import { steps } from '@/data/steps';
 import { categoryItems, directions } from '@/data/configuration_options';
 import type { Step } from '@/data/steps';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import OptionHolder from '@/components/Product_Holder/Option_Holder';
 import Feedback from '@/components/Feedback/Feedback';
+
+import ruler from '../assets/configurator/sizer/ruler.png';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+interface Size {
+    w: number | undefined, 
+    h: number | undefined
+}
+
 
 interface Config {
     material: string | null;
     brand: string | null;
     profile: string | null;
     direction: string | null;
-    size: Record<string, number> | null;
+    size: boolean;
+}
+
+interface Summary {
+    key: string;
+    summaryItem: { name: string; image: StaticImageData; }; 
 }
 
 export default function Page() {
@@ -23,10 +37,16 @@ export default function Page() {
         brand: null,
         profile: null,
         direction: null,
-        size: null
+        size: false
     }
     const [configuration, setConfiguration] = useState<Config>(initialConfiguration);
     const [feedback, setFeedback] = useState<null | {key: string, text: string}>(null);
+    // handle size separately
+    const [size, setSize] = useState<Size | null>(null);
+    const [orderDetailsReady, setOrderDetailsReady] = useState<boolean>(false);
+    const [summary, setSummary] = useState<Summary[]>();
+
+    const anchor = useRef<HTMLHeadingElement | null>(null);
 
     const updateConfiguration = (key: keyof Config, value: Config[keyof Config]) => {
         setConfiguration((prevConfig) => ({
@@ -34,6 +54,16 @@ export default function Page() {
             [key]: value
         }));
     };
+
+    const updateSize = (e: React.ChangeEvent<HTMLInputElement>, property: 'w' | 'h') => {
+        const value = e.target.value ? Number(e.target.value) : undefined;
+    
+        setSize((prevSize) => ({
+            ...(prevSize || { w: undefined, h: undefined }),
+            [property]: value,
+        }));
+    };
+    
 
     const updateStep = (step: Step) => {
         let lastCompletedStepIndex = -1;
@@ -86,6 +116,19 @@ export default function Page() {
         // selected_next
         // complete
         // inactive
+/*         const allConfigComplete =             
+            size &&
+            Object.values(size).every(v => v !== null && v !== undefined) &&
+            Object.values(configuration).every(v => v !== null && v !== undefined); */
+        if(orderDetailsReady){
+            if(currentlySelected){
+                return style.selected_complete; 
+            }
+            return style.complete;
+        }
+/*         if(!orderDetailsReady){
+            return style.inactive;
+        } */
         if(currentlySelected){
             if(completed){
                 return style.selected_complete; 
@@ -111,31 +154,86 @@ export default function Page() {
         return  style.inactive
     };
 
+    // select first step when page loads
+    useEffect(() => {
+        setStep(steps[0]);
+    }, []);  
+
+    // handle switch to next step when config changes
     useEffect(() => {
         const stepIndex = steps.findIndex((st)=> st.key == currentStep?.key);
         const nextStep = steps[stepIndex+1];
-        const nextStepIsComplete = Boolean(configuration[nextStep.key as keyof Config]);
-        if(nextStep && !nextStepIsComplete){
-            setStep(nextStep);
+        if(nextStep){
+            //const nextStepIsComplete = Boolean(configuration[nextStep.key as keyof Config]);
+            if(nextStep /* && !nextStepIsComplete */){
+                setStep(nextStep);
+                if (anchor.current) {
+                    anchor.current.scrollIntoView({ behavior: "smooth", block: "start" });
+                }
+            }
         }
-    }, [configuration]);
+    }, [configuration]);  
 
+    // check config and size are ready
+    // if so, move to summary
     useEffect(() => {
-        setStep(steps[0]);
-    }, []);    
+        let timeoutId: NodeJS.Timeout;
+    
+        const allValuesFilled =
+            size && configuration && 
+            Object.values(size).every(v => v !== null && v !== undefined) &&
+            Object.values(configuration).every(v => v !== null && v !== undefined);
+    
+        if (allValuesFilled) {
+            timeoutId = setTimeout(() => {
+                setOrderDetailsReady(true);
+                setConfiguration((pr)=>{
+                    return {...pr, size: true}
+                })
+            }, 500);
+        }
+        else{
+            setOrderDetailsReady(false);
+        }
+    
+        return () => clearTimeout(timeoutId);
+    }, [size]);
 
+    useEffect(()=>{
+        const summary = createSummary();
+        if(summary){
+            setSummary(summary);
+        }
+    },[orderDetailsReady, size, configuration])
+    
+    
+    const createSummary = () => {
+        if(orderDetailsReady){
+            const x =  Object.keys(configuration).map(key=>{
+                const category = categoryItems.find(cat=>cat.key === key);
+                const items = category?.items;
+                if(items){
+                    const summaryItem = items.find(item=>item.name === configuration[key as keyof Config]);
+                    if(summaryItem){
+                        return { summaryItem, key: key.toUpperCase()}
+                    }
+                }
+            }).filter(i=>Boolean(i));
+            return x as Summary[];
+        }
+    }
+
+    console.log(summary);
     return (
         <div className={style.config}>
-            <h1>Fenster-Konfigurator</h1>
+            <h1 ref={anchor}>Fenster-Konfigurator</h1>
             <div className={style.config_steps}>
                 {
                 steps.map((st, index)=>
                 <button key={index} className={stepClass(st)} onClick={()=>updateStep(st)}>
-                    <Image src={st.image} alt='brand' width={50} height={50} />
+                    <FontAwesomeIcon icon={st.icon} size={'2x'} color="black" beatFade={stepClass(st).includes('next')} />
                     <p>
                         {st.name}
-                         <br />
-                         <span>Auswählen</span>
                     </p>
                     <span id={style.anchor}>&#9660;</span>
                 </button>
@@ -163,16 +261,47 @@ export default function Page() {
                             <h1>Stückzahl und Größe </h1>
                             <h3>Achtung Wichtig! - Das Angegebene Maß ist das Fensterrahmen Außenmaß.</h3>
                             <div id={style.entries}>
-                                <label>Window width</label>
-                                <input type="number" placeholder='Window width' /> <br />
-                                <label>Window height</label>
-                                <input type="number" placeholder='Window height' />
+                                <label>Fensterbreite (in Zentimetern) min ne oalcak?</label>
+                                <input 
+                                    type="number" 
+                                    onChange={(e)=>updateSize(e,'w')}
+                                    value={size?.w}
+                                    placeholder='Bitte geben Sie die Fensterbreite ein...' /> <br />
+                                <label>Fensterhöhe (in Zentimetern) min ne oalcak?</label>
+                                <input 
+                                    type="number" 
+                                    onChange={(e)=>updateSize(e,'h')}
+                                    value={size?.h}
+                                    placeholder='Bitte geben Sie die Fensterhöhe ein...' />
                             </div>
                         </div>
-                        <Image src={sizeImage!} alt='brand' width={350} height={350} />
-
+                        <div id={style.right}>
+                            <Image id={style.ruler_w} src={ruler} alt='ruler' width={400} height={20} />
+                            <Image src={sizeImage!} alt='brand' width={350} height={350} />
+                            <Image id={style.ruler_h} src={ruler} alt='ruler' width={400} height={20} />
+                        </div>
                     </div>
                 }
+
+{/*                 {
+                    orderDetailsReady &&
+                    <div className={style.config_steps_summary}>
+                        <h2>Bestellübersicht</h2>
+                        {
+                            summary &&
+                            summary.map((sum, index)=>
+                                <div key={index} className={style.config_steps_summary_item}>
+                                    <div>
+                                        <h4>{sum.key}</h4>
+                                        <p>{sum.summaryItem.name}</p>
+                                    </div>
+                                    <Image alt='alt' src={sum.summaryItem.image} width={60} height={60} />
+                                </div>
+                            )
+                        }
+                    </div>
+                } */}
+
                 <Feedback visible={Boolean(feedback)}>
                     {
                         feedback?.key === 'step-warning' &&
@@ -180,7 +309,7 @@ export default function Page() {
                     }
                 </Feedback>
             </div>
-            <br /><br />
+            <pre>{JSON.stringify(size, null, 2)}</pre>
             <pre>{JSON.stringify(configuration, null, 2)}</pre>
             </div>
         </div>
