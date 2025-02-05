@@ -4,11 +4,10 @@ import { steps } from '@/data/steps';
 import { categoryItems, directions } from '@/data/configuration_options';
 import type { Step } from '@/data/steps';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import OptionHolder from '@/components/Product_Holder/Option_Holder';
 import Feedback from '@/components/Feedback/Feedback';
 
-import ruler from '../assets/configurator/sizer/ruler.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface Size {
@@ -45,8 +44,6 @@ export default function Page() {
     const [size, setSize] = useState<Size | null>(null);
     const [orderDetailsReady, setOrderDetailsReady] = useState<boolean>(false);
     const [summary, setSummary] = useState<Summary[]>();
-
-    const anchor = useRef<HTMLHeadingElement | null>(null);
 
     const updateConfiguration = (key: keyof Config, value: Config[keyof Config]) => {
         setConfiguration((prevConfig) => ({
@@ -167,9 +164,7 @@ export default function Page() {
             //const nextStepIsComplete = Boolean(configuration[nextStep.key as keyof Config]);
             if(nextStep /* && !nextStepIsComplete */){
                 setStep(nextStep);
-                if (anchor.current) {
-                    anchor.current.scrollIntoView({ behavior: "smooth", block: "start" });
-                }
+                window.scrollTo({top: 0, behavior: "smooth"})
             }
         }
     }, [configuration]);  
@@ -215,7 +210,7 @@ export default function Page() {
                 if(items){
                     const summaryItem = items.find(item=>item.name === configuration[key as keyof Config]);
                     if(summaryItem){
-                        return { summaryItem, key: key.toUpperCase()}
+                        return { summaryItem, key: key[0].toUpperCase()+key.slice(1,key.length)}
                     }
                 }
             }).filter(i=>Boolean(i));
@@ -223,10 +218,9 @@ export default function Page() {
         }
     }
 
-    console.log(summary);
     return (
         <div className={style.config}>
-            <h1 ref={anchor}>Fenster-Konfigurator</h1>
+            <h1>Fenster-Konfigurator</h1>
             <div className={style.config_steps}>
                 {
                 steps.map((st, index)=>
@@ -240,34 +234,44 @@ export default function Page() {
                     )
                 }
             </div>
-            <div>
-                
-            <div className={style.config_option_holders}>
-                {
-                visibleSection?.items.map((item, index) =>
-                <OptionHolder 
-                    name={item.name}
-                    image={item.image}
-                    imageAlt={item.name}
-                    selected={configuration[currentStep?.key as keyof Config] === item.name}
-                    action={() => updateConfiguration(currentStep?.key as keyof Config, item.name)}
-                    key={index} />
-                    )
-                }
+
+            <div className={style.config_wrapper}>
+            {                
+                currentStep?.key !== 'size' &&
+                <div className={style.config_wrapper_option_holders}>
+                    {
+                    visibleSection?.items.map((item, index) =>
+                    <OptionHolder 
+                        name={item.name}
+                        image={item.image}
+                        imageAlt={item.name}
+                        selected={configuration[currentStep?.key as keyof Config] === item.name}
+                        action={() => updateConfiguration(currentStep?.key as keyof Config, item.name)}
+                        key={index} />
+                        )
+                    }
+
+                    <Feedback visible={Boolean(feedback)}>
+                        {
+                            feedback?.key === 'step-warning' &&
+                            <p>Bitte wählen Sie zuerst die <span style={{color: 'crimson'}}>{feedback.text}</span> aus.</p>
+                        }
+                    </Feedback>
+                </div>}
                 {
                     currentStep?.key === 'size' &&
-                    <div className={style.config_sizer}>
+                    <div className={style.config_wrapper_sizer}>
                         <div id={style.left}>
                             <h1>Stückzahl und Größe </h1>
                             <h3>Achtung Wichtig! - Das Angegebene Maß ist das Fensterrahmen Außenmaß.</h3>
                             <div id={style.entries}>
-                                <label>Fensterbreite (in Zentimetern) min ne oalcak?</label>
+                                <label>Fensterbreite (in MM) min ne oalcak?</label>
                                 <input 
                                     type="number" 
                                     onChange={(e)=>updateSize(e,'w')}
                                     value={size?.w}
                                     placeholder='Bitte geben Sie die Fensterbreite ein...' /> <br />
-                                <label>Fensterhöhe (in Zentimetern) min ne oalcak?</label>
+                                <label>Fensterhöhe (in MM) min ne oalcak?</label>
                                 <input 
                                     type="number" 
                                     onChange={(e)=>updateSize(e,'h')}
@@ -276,21 +280,19 @@ export default function Page() {
                             </div>
                         </div>
                         <div id={style.right}>
-                            <Image id={style.ruler_w} src={ruler} alt='ruler' width={400} height={20} />
-                            <Image src={sizeImage!} alt='brand' width={350} height={350} />
-                            <Image id={style.ruler_h} src={ruler} alt='ruler' width={400} height={20} />
+                            <Image src={sizeImage!} alt='brand' width={300} height={300} />
                         </div>
                     </div>
                 }
-
-{/*                 {
+                {
                     orderDetailsReady &&
-                    <div className={style.config_steps_summary}>
-                        <h2>Bestellübersicht</h2>
+                    <div id={style.summary}>
+                        <h3>Bestellübersicht</h3>
+                        <div id={style.items}>
                         {
                             summary &&
                             summary.map((sum, index)=>
-                                <div key={index} className={style.config_steps_summary_item}>
+                                <div key={index} className={style.item}>
                                     <div>
                                         <h4>{sum.key}</h4>
                                         <p>{sum.summaryItem.name}</p>
@@ -299,18 +301,12 @@ export default function Page() {
                                 </div>
                             )
                         }
+                                <div key={999} className={style.item}>
+                                    <h2><span>Total Price:</span> $874.54</h2>
+                                </div>
+                        </div>
                     </div>
-                } */}
-
-                <Feedback visible={Boolean(feedback)}>
-                    {
-                        feedback?.key === 'step-warning' &&
-                        <p>Bitte wählen Sie zuerst die <span style={{color: 'crimson'}}>{feedback.text}</span> aus.</p>
-                    }
-                </Feedback>
-            </div>
-{/*             <pre>{JSON.stringify(size, null, 2)}</pre>
-            <pre>{JSON.stringify(configuration, null, 2)}</pre> */}
+                }
             </div>
         </div>
     );

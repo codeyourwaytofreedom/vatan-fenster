@@ -1,14 +1,11 @@
 .config {
-  min-height: 700px;
-  padding-top: 50px;
+  padding-top: 20px;
 }
 .config_steps {
   padding: 10px 0;
   display: flex;
-  margin: 20px 0;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   height: 80px;
-  position: relative;
 }
 .config_steps .complete, .config_steps .next, .config_steps .inactive, .config_steps .selected_next, .config_steps .selected_complete {
   border: none;
@@ -22,7 +19,6 @@
   padding: 5px 0;
   color: whitesmoke;
   width: 20vw;
-  max-width: 250px;
 }
 .config_steps .complete svg, .config_steps .next svg, .config_steps .inactive svg, .config_steps .selected_next svg, .config_steps .selected_complete svg {
   filter: invert(100%);
@@ -32,11 +28,10 @@
   position: absolute;
   bottom: -35px;
   left: 42%;
-  color: navy;
+  color: var(--color-1);
   display: none;
 }
 .config_steps .selected_next {
-  border: 3px solid #00ff36;
   font-weight: bold;
   background: gold;
   color: black;
@@ -60,14 +55,14 @@
   filter: none;
 }
 .config_steps .selected_complete {
-  border: 3px solid #00ff36;
-  background: navy;
+  background: var(--color-2);
 }
 .config_steps .selected_complete #anchor {
   display: inline-block;
+  color: var(--color-2);
 }
 .config_steps .complete {
-  background: navy;
+  background: var(--color-1);
 }
 .config_steps .inactive {
   background: rgba(100, 100, 100, 0.2);
@@ -76,82 +71,117 @@
 .config_steps .inactive svg {
   filter: none;
 }
-.config_steps_summary {
+.config_wrapper {
   width: 100%;
-  max-width: 400px;
-  position: absolute;
-  right: 0;
-}
-.config_steps_summary h2 {
-  background-color: gold;
-  height: 60px;
-  margin-bottom: 40px;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  -moz-column-gap: 40px;
+       column-gap: 40px;
 }
-.config_steps_summary_item {
-  margin-bottom: 20px;
-  display: flex;
-  justify-content: space-between;
-  border-bottom: 1px solid silver;
+.config_wrapper_option_holders {
   width: 100%;
-  max-width: 250px;
-  justify-self: flex-end;
-}
-.config_steps_summary_item div {
-  width: 30%;
-}
-.config_option_holders {
   display: grid;
   justify-content: center;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 20px;
-  position: relative;
 }
-.config_sizer {
+.config_wrapper #summary {
+  width: 500px;
+  min-width: 300px !important;
+  background-color: whitesmoke;
+  position: sticky !important;
+  position: -webkit-sticky !important;
+  top: 120px;
+  height: -moz-fit-content;
+  height: fit-content;
+  padding-bottom: 20px;
+}
+.config_wrapper #summary h2 {
+  color: green;
+}
+.config_wrapper #summary h2 span {
+  color: black;
+}
+.config_wrapper #summary h3 {
+  background-color: gold;
+  height: 60px;
+  margin-bottom: 20px;
   display: flex;
-  -moz-column-gap: 1vw;
-       column-gap: 1vw;
-  padding-bottom: 40px;
-  padding-right: 20px;
+  justify-content: center;
+  align-items: center;
 }
-.config_sizer #left {
-  width: 400px;
+.config_wrapper #summary .item {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid silver;
+  padding: 10px 30px;
 }
-.config_sizer #left h3 {
+.config_wrapper #summary .item div {
+  width: 30%;
+}
+.config_wrapper_sizer {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 100%;
+  row-gap: 10px;
+}
+.config_wrapper_sizer #left h3 {
   color: gray;
 }
-.config_sizer #left #entries {
+.config_wrapper_sizer #left #entries {
   display: grid;
-  margin-top: 40px;
+  margin-top: 20px;
 }
-.config_sizer #left #entries label {
+.config_wrapper_sizer #left #entries label {
   line-height: 30px;
   font-size: 15px;
   font-weight: bold;
 }
-.config_sizer #left #entries input {
+.config_wrapper_sizer #left #entries input {
   height: 40px;
   padding-left: 10px;
+  max-width: 600px;
 }
-.config_sizer #right {
-  padding-left: 40px;
-  padding-top: 40px;
-  padding-right: 40px;
+.config_wrapper_sizer #right {
   position: relative;
+  display: flex;
+  justify-content: center;
 }
-.config_sizer #right #ruler_w, .config_sizer #right #ruler_h {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
+
+@media (max-width: 991.98px) {
+  .config h1 {
+    font-size: x-large;
+  }
+  .config h2 {
+    font-size: larger;
+  }
 }
-.config_sizer #right #ruler_h {
-  top: unset;
-  left: 48%;
-  top: 60%;
-  -o-object-fit: cover;
-     object-fit: cover;
-  transform: rotate(90deg);
+@media (max-width: 767.98px) {
+  .config #anchor {
+    font-size: x-large !important;
+    bottom: -25px !important;
+  }
+  .config_wrapper {
+    flex-wrap: wrap;
+  }
+  .config_wrapper_option_holders {
+    order: 2;
+  }
+  .config_wrapper_sizer {
+    order: 2;
+  }
+  .config_wrapper #summary {
+    order: 1 !important;
+    width: 100%;
+    position: unset !important;
+    margin-bottom: 20px;
+  }
+  .config_wrapper #summary h3 {
+    height: 40px;
+    margin-bottom: 0;
+    font-size: medium;
+  }
+  .config_wrapper #summary .item {
+    padding: 10px;
+  }
 }/*# sourceMappingURL=KonfiguratorPage.module.css.map */

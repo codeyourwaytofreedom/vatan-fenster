@@ -17,12 +17,12 @@
   padding-bottom: 20px;
 }
 .option label #check, .option_selected label #check {
-  color: navy;
+  color: var(--color-1);
   font-size: 50px;
   font-weight: bold;
   justify-self: center;
   align-self: flex-end;
-  z-index: 9;
+  z-index: 2;
 }
 .option label input, .option label p, .option_selected label input, .option_selected label p {
   height: 40px;
@@ -36,6 +36,6 @@
 }
 
 .option_selected {
-  box-shadow: 0 0 2px 3px navy;
+  box-shadow: 0 0 2px 3px var(--color-1);
   background-color: whitesmoke;
 }/*# sourceMappingURL=Option_Holder.module.css.map */

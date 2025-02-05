@@ -1,5 +1,13 @@
 .banner {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 100px;
+  z-index: 9;
+  border-bottom: 1px solid silver;
   display: flex;
+  align-items: center;
   justify-content: space-between;
   background-color: white;
   padding: 0 4vw;
@@ -28,27 +36,4 @@
 }
 .banner_actions button:hover {
   filter: brightness(0.8);
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-}
-.logo_company_name {
-  margin-top: 7px;
-  margin-left: 4px;
-}
-.logo h1 {
-  font-size: 40px;
-  letter-spacing: -3.5px;
-  color: navy;
-}
-.logo h2 {
-  color: navy;
-  font-size: 25px;
-  letter-spacing: 3.5px;
-  position: relative;
-  top: -9px;
-  left: 7px;
-  opacity: 0.7;
 }/*# sourceMappingURL=PageBanner.module.css.map */

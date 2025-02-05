@@ -1,8 +1,11 @@
-$primary-color: navy;
-$secondary-color: gold;
-
 .banner{
+    position: fixed;
+    top: 0; right: 0; left: 0;
+    height: 100px;
+    z-index: 9;
+    border-bottom: 1px solid silver;
     display: flex;
+    align-items: center;
     justify-content: space-between;
     background-color: white;
     padding: 0 4vw;
@@ -28,28 +31,5 @@ $secondary-color: gold;
                 filter: brightness(0.8);
             }
         }
-    }
-}
-
-.logo{
-    display: flex;
-    align-items: center;
-    &_company_name{
-        margin-top: 7px;
-        margin-left: 4px;
-    }
-    h1{
-        font-size: 40px;
-        letter-spacing: -3.5px;
-        color: $primary-color;
-    }
-    h2{
-        color: $primary-color;
-        font-size: 25px;
-        letter-spacing: 3.5px;
-        position: relative;
-        top: -9px;
-        left: 7px;
-        opacity: 0.7;
     }
 }

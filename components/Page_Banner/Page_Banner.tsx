@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import styles from './PageBanner.module.css';
-import logo from '../../assets/banner/window2.png';
+import logo from '../../assets/logo.webp';
 import whatsapp from '../../assets/banner/whatsapp.png';
 import gallery from '../../assets/banner/gallery.png';
 import who from '../../assets/banner/who.png';
@@ -9,11 +9,7 @@ export default function PageBanner() {
     return (
         <div style={styles} className={styles.banner}>
             <div className={styles.logo}>
-                <Image src={logo} alt="LOL" width={60} height={60} />
-                <div className={styles.logo_company_name}>
-                    <h1>VATAN</h1>
-                    <h2>fenster</h2>
-                </div>
+                <Image src={logo} alt="LOL" width={210} height={53} />
             </div>
             <div className={styles.banner_actions}>
                 <button>

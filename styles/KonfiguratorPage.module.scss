@@ -1,16 +1,13 @@
-$primary-color: navy;
 $secondary-color: gold;
-$shine-color: #00ff36;
+$shine-color: gold;
+
 .config{
-    min-height: 700px;
-    padding-top: 50px;
+    padding-top: 20px;
     &_steps{
         padding: 10px 0;
         display: flex;
-        margin: 20px 0;
-        margin-bottom: 30px;
+        margin-bottom: 20px;
         height: 80px;
-        position: relative;
         .complete, .next, .inactive, .selected_next, .selected_complete{
             border: none;
             display: grid;
@@ -22,7 +19,6 @@ $shine-color: #00ff36;
             padding: 5px 0;
             color: whitesmoke;
             width: 20vw;
-            max-width: 250px;
             svg{
                 filter: invert(100%);
             }
@@ -31,12 +27,11 @@ $shine-color: #00ff36;
                 position: absolute;
                 bottom: -35px;
                 left: 42%;
-                color: $primary-color;
+                color: var(--color-1);
                 display: none;
             }
         }
         .selected_next{
-            border: 3px solid $shine-color;
             font-weight: bold;
             background: $secondary-color;
             color: black;
@@ -60,14 +55,14 @@ $shine-color: #00ff36;
             }
         }
         .selected_complete{
-            border: 3px solid $shine-color;
-            background: $primary-color;
+            background: var(--color-2);
             #anchor{
                 display: inline-block;
+                color: var(--color-2);
             }
         }
         .complete{
-            background: $primary-color;
+            background: var(--color-1);
         }
         .inactive{
             background: rgba(100, 100, 100, 0.2);
@@ -76,84 +71,125 @@ $shine-color: #00ff36;
                 filter: none;
             }
         }
-        &_summary{
+    }
+    &_wrapper{
+        width: 100%;
+        display: flex;
+        column-gap: 40px;
+        &_option_holders{
             width: 100%;
-            max-width: 400px;
-            position: absolute;
-            right: 0;
+            display: grid;
+            justify-content: center;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));          
+            gap: 20px; 
+        }
+        #summary{
+            width: 500px;
+            min-width: 300px !important;
+            background-color: whitesmoke;
+            position: sticky !important;
+            position: -webkit-sticky !important;
+            top: 120px;
+            height: fit-content;
+            padding-bottom: 20px;
             h2{
+                color: green;
+                span{
+                    color: black;
+                }
+            }
+            h3{
                 background-color: gold;
                 height: 60px;
-                margin-bottom: 40px;
+                margin-bottom: 20px;
                 display: flex;
                 justify-content: center;
                 align-items: center;
             }
-            &_item{
-                margin-bottom: 20px;
+            .item{
                 display: flex;
                 justify-content: space-between;
                 border-bottom: 1px solid silver;
-                width: 100%;
-                max-width: 250px;
-                justify-self: flex-end;
+                padding: 10px 30px;
                 div{
                     width: 30%;
                 }
-                img{
-
-                }
             }
         }
-    }
-    &_option_holders{
-        display: grid;
-        justify-content: center;
-        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));          
-        gap: 20px; 
-        position: relative;
-    }
-    &_sizer{
-        display: flex;
-        column-gap: 1vw;
-        padding-bottom: 40px;
-        padding-right: 20px;
-        #left{
-            width: 400px;
-            h3{
-                color: gray;
-            }
-            #entries{
-                display: grid;
-                margin-top: 40px;
-                label{
-                    line-height: 30px;
-                    font-size: 15px;
-                    font-weight: bold;
+        &_sizer{
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            width: 100%;
+            row-gap: 10px;
+            #left{
+                h3{
+                    color: gray;
                 }
-                input{
-                    height: 40px;
-                    padding-left: 10px;
+                #entries{
+                    display: grid;
+                    margin-top: 20px;
+                    label{
+                        line-height: 30px;
+                        font-size: 15px;
+                        font-weight: bold;
+                    }
+                    input{
+                        height: 40px;
+                        padding-left: 10px;
+                        max-width: 600px;
+                    }
                 }
             }
-        }
-        #right{
-            padding-left: 40px;
-            padding-top: 40px;
-            padding-right: 40px;
-            position: relative;
-            #ruler_w, #ruler_h{
-                position: absolute;
-                left: 0; top: 0;
-                width: 100%;
-            }
-            #ruler_h{
-                top: unset;
-                left: 48%;
-                top: 60%;
-                object-fit: cover;
-                transform: rotate(90deg);
+            #right{
+                position: relative;
+                display: flex;
+                justify-content: center;
             }
         }
     }
 }
+
+
+@media (max-width: 991.98px) { 
+    .config{
+        h1{
+            font-size: x-large;
+        }
+        h2{
+            font-size: larger;
+        }
+    }
+ }
+
+@media (max-width: 767.98px) { 
+    .config{
+        #anchor{
+            font-size: x-large !important;
+            bottom: -25px !important;
+        }
+        &_wrapper{
+            flex-wrap: wrap;
+            &_option_holders{
+                order: 2;
+            }
+            &_sizer{
+                order: 2;
+            }
+            #summary{
+                order: 1!important;
+                width: 100%;
+                position: unset !important;
+                margin-bottom: 20px;
+                h3{
+                    height: 40px;
+                    margin-bottom: 0;
+                    font-size: medium;
+                }
+                .item{
+                    padding: 10px;
+                }
+            }
+        }
+    }
+ }

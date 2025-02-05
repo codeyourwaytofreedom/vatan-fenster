@@ -1,13 +1,9 @@
-$primary-color: navy;
-$secondary-color: gold;
-
 .wrapper{
-    border: 1px solid silver;
-    padding: 0 4vw;
+    padding: 100px 4vw;
 }
 
 #footer{
-    background-color: $primary-color;
+    background-color: var(--color-1);
     position: fixed;
     bottom: 0;
     right: 0; left: 0;
