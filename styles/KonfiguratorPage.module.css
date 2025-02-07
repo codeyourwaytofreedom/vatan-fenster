@@ -116,7 +116,7 @@
   padding: 10px 30px;
 }
 .config_wrapper #summary .item div {
-  width: 30%;
+  width: 50%;
 }
 .config_wrapper_sizer {
   display: flex;
@@ -152,17 +152,27 @@
   .config h1 {
     font-size: x-large;
   }
-  .config h2 {
-    font-size: larger;
+  .config h2, .config h3 {
+    font-size: large;
+  }
+  .config h4 {
+    font-size: small;
   }
 }
 @media (max-width: 767.98px) {
+  .config h1 {
+    font-size: larger;
+  }
+  .config h2, .config h3 {
+    font-size: medium;
+  }
   .config #anchor {
     font-size: x-large !important;
     bottom: -25px !important;
   }
   .config_wrapper {
     flex-wrap: wrap;
+    justify-content: center;
   }
   .config_wrapper_option_holders {
     order: 2;
@@ -173,13 +183,32 @@
   .config_wrapper #summary {
     order: 1 !important;
     width: 100%;
+    max-width: 500px;
     position: unset !important;
     margin-bottom: 20px;
   }
   .config_wrapper #summary h3 {
     height: 40px;
     margin-bottom: 0;
-    font-size: medium;
+  }
+  .config_wrapper #summary .item {
+    padding: 10px;
+  }
+}
+@media (max-width: 575.98px) {
+  .config #anchor {
+    font-size: larger !important;
+    bottom: -15px !important;
+  }
+  .config_wrapper #summary {
+    order: 1 !important;
+    width: 100%;
+    position: unset !important;
+    margin-bottom: 20px;
+  }
+  .config_wrapper #summary h3 {
+    height: 40px;
+    margin-bottom: 0;
   }
   .config_wrapper #summary .item {
     padding: 10px;

@@ -1,138 +1,277 @@
-import window_brand1 from '../assets/configurator/brands/window_brand1.jpg';
-import window_brand2 from '../assets/configurator/brands/window_brand2.jpg';
-import window_brand3 from '../assets/configurator/brands/window_brand3.jpg';
+import drutex from '../assets/configurator/brands/drutex.svg';
+/* import schuco from '../assets/configurator/brands/schuco.png';
+import gealan from '../assets/configurator/brands/gealan.webp';
+import veka from '../assets/configurator/brands/veka.png';
+import aluplast from '../assets/configurator/brands/aluplast.png'; */
+
+import fensterart from '../assets/configurator/type/fensterart.png';
+
+import flugel1 from '../assets/configurator/style/flugel1.png';
+import flugel2 from '../assets/configurator/style/flugel2.png';
+import flugel3 from '../assets/configurator/style/flugel3.png';
+
 
 import profile1 from '../assets/configurator/profiles/profile1.jpg';
 
-import closed from '../assets/configurator/directions/closed.png';
+/* import closed from '../assets/configurator/directions/closed.png';
 import left from '../assets/configurator/directions/left.png';
 import upside from '../assets/configurator/directions/upside.png';
-import double from '../assets/configurator/directions/double.png';
+import double from '../assets/configurator/directions/double.png'; */
 
-import aluminum from '../assets/configurator/materials/aluminum.jpeg';
 import plastic from '../assets/configurator/materials/plastic.jpeg';
-import wood from '../assets/configurator/materials/wood.jpg';
 
+/* import aluminum from '../assets/configurator/materials/aluminum.jpeg';
+import wood from '../assets/configurator/materials/wood.jpg'; */
+import { StaticImageData } from 'next/image';
 
-export const materials = [
+type Image = StaticImageData;
+
+export type SelectionItem = {
+    name: string;
+    image: Image;
+    isActive?: boolean;
+    children?: {
+        profile?: SelectionItem[];
+        type?: SelectionItem [];
+        style?: SelectionItem [];
+    };
+}
+
+export interface SelectionItemWithChilren extends SelectionItem {
+    children: {
+        profile?: SelectionItem[];
+        type?: SelectionItem [];
+        style?: SelectionItem [];
+    };
+}
+
+type GenericItem = SelectionItemWithChilren | SelectionItem;
+
+export const materials:GenericItem[] = [
     {
-        name: 'Kunststoff',
-        image: plastic
+        name: 'Kunststoff (PVC)',
+        image: plastic,
+        isActive: true,
     },
-    {
+/*     {
         name: 'Aluminium',
-        image: aluminum
+        image: aluminum,
+        isActive: false
     },
     {
         name: 'Holz',
-        image: wood
+        image: wood,
+        isActive: false
     },
     {
-        name: 'Kunststoff1',
-        image: plastic
+        name: 'Kunststoff/Aluminium',
+        image: aluminum,
+        isActive: false
     },
     {
-        name: 'Aluminium1',
-        image: aluminum
-    },
-    {
-        name: 'Holz1',
-        image: wood
-    }
+        name: 'Holz/Aluminium',
+        image: wood,
+        isActive: false
+    } */
 ]
 
-export const brands = [
+export const brands:GenericItem[] = [
     {
-        name: 'Alside',
-        image: window_brand1
+        name: 'Drutex',
+        image: drutex,
+        isActive: true,
+        children: {
+            profile: [
+                {
+                    name: 'Iglo 5',
+                    image: profile1,
+                },
+                {
+                    name: 'Iglo 5 Classic',
+                    image: profile1
+                },
+                {
+                    name: 'Iglo Energy',
+                    image: profile1
+                },
+                {
+                    name: 'Iglo Energy Classic',
+                    image: profile1
+                },
+                {
+                    name: 'Iglo Light',
+                    image: profile1
+                },
+                {
+                    name: 'Iglo Edge',
+                    image: profile1
+                }
+            ]
+        },
+    },
+/*     {
+        name: 'Schüco',
+        image: schuco,
+        isActive: false
     },
     {
-        name: 'JW',
-        image: window_brand2
+        name: 'Gealan',
+        image: gealan,
+        isActive: false
     },
     {
-        name: 'Milgard',
-        image: window_brand3
+        name: 'Veka',
+        image: veka,
+        isActive: false
     },
     {
-        name: 'Alside1',
-        image: window_brand1
-    },
-    {
-        name: 'JW1',
-        image: window_brand2
-    },
-    {
-        name: 'Milgard1',
-        image: window_brand3
-    }
+        name: 'Aluplast',
+        image: aluplast,
+        isActive: false
+    } */
 ]
 
-export const profiles = [
+export const windowStyles:GenericItem[] = [
     {
-        name: 'Grs-28',
-        image: profile1
+        name: '1. Flügel',
+        image: flugel1,
+        children: {
+            type: [
+                {
+                    name: 'Fest',
+                    image: fensterart
+                },
+                {
+                    name: 'Fester Flügel',
+                    image: fensterart
+                },
+                {
+                    name: 'Dreh-Kipp links ',
+                    image: fensterart
+                },
+                {
+                    name: 'Dreh-Kipp rechts ',
+                    image: fensterart
+                },
+                {
+                    name: 'Kipp',
+                    image: fensterart
+                },
+                {
+                    name: 'Dreh links',
+                    image: fensterart
+                },
+                {
+                    name: 'Dreh rechts',
+                    image: fensterart
+                }
+            ]
+        }
     },
     {
-        name: 'Yzg-66',
-        image: profile1
+        name: '2. Flügel',
+        image: flugel2,
+        children: {
+            type: [
+                {
+                    name: 'Fest + Fest',
+                    image: fensterart
+                },                
+                {
+                    name: 'Fester Flüger + Fester Flügel',
+                    image: fensterart
+                },
+                {
+                    name: 'Dreh-Kipp + Dreh-Kipp (Pfosten)',
+                    image: fensterart
+                },
+                {
+                    name: 'Dreh-Kipp + Dreh-Kipp (Stulp)',
+                    image: fensterart
+                },
+                {
+                    name: 'Fest + Dreh-Kipp',
+                    image: fensterart
+                },
+                {
+                    name: 'Dreh-Kipp + Fest',
+                    image: fensterart
+                },
+                {
+                    name: 'Dreh + Dreh-Kipp (Pfosten)',
+                    image: fensterart
+                },
+                {
+                    name: 'Dreh-Kipp + Dreh (Pfosten)',
+                    image: fensterart
+                },
+                {
+                    name: 'Kipp + Kipp',
+                    image: fensterart
+                }
+            ]
+        }
     },
     {
-        name: 'Ank-06',
-        image: profile1
-    },
-    {
-        name: 'Grs-281',
-        image: profile1
-    },
-    {
-        name: 'Yzg-661',
-        image: profile1
-    },
-    {
-        name: 'Ank-061',
-        image: profile1
-    }
-]
-
-export const directions = [
-    {
-        name: 'Closed',
-        image: closed
-    },
-    {
-        name: 'Left-side',
-        image: left
-    },
-    {
-        name: 'Upside',
-        image: upside
-    },
-    {
-        name: 'Double',
-        image: double
-    },
-    {
-        name: 'Closed1',
-        image: closed
-    },
-    {
-        name: 'Left-side1',
-        image: left
-    },
-    {
-        name: 'Upsid1e',
-        image: upside
-    },
-    {
-        name: 'Double1',
-        image: double
+        name: '3. Flügel',
+        image: flugel3,
+        children: {
+            type: [
+                {
+                    name: 'Fest + Fest + Fest',
+                    image: fensterart
+                }, 
+                {
+                    name: 'Fester Flügel + Fester Flügel + Fester Flügel',
+                    image: fensterart
+                },
+                {
+                    name: 'Kipp + Kipp + Kipp',
+                    image: fensterart
+                },
+                {
+                    name: 'Dreh-Kipp + Fest + Fest',
+                    image: fensterart
+                },
+                {
+                    name: 'Fest + Fest + Dreh-Kipp',
+                    image: fensterart
+                },
+                {
+                    name: 'Fest + Dreh-Kipp links + Fest',
+                    image: fensterart
+                },
+                {
+                    name: 'Fest + Dreh-Kipp rechts + Fest',
+                    image: fensterart
+                },
+                {
+                    name: 'Dreh-Kipp + Fest + Dreh- Kipp',
+                    image: fensterart
+                },
+                {
+                    name: 'Dreh-Kipp + Dreh links + Dreh- Kipp (Pfosten)',
+                    image: fensterart
+                },
+                {
+                    name: 'Dreh-Kipp + Dreh rechts + Dreh- Kipp (Pfosten)',
+                    image: fensterart
+                },
+                {
+                    name: 'Dreh-Kipp + Dreh links + Dreh- Kipp (Stulp)',
+                    image: fensterart
+                },
+                {
+                    name: 'Dreh-Kipp + Dreh rechts + Dreh- Kipp (Stulp)',
+                    image: fensterart
+                }
+            ]
+        }
     }
 ]
 
 export const categoryItems = [
     {key: 'material', items: materials},
     {key: 'brand', items: brands}, 
-    {key: 'profile', items: profiles}, 
-    {key: 'direction', items: directions}
+    {key: 'style', items: windowStyles},
 ];

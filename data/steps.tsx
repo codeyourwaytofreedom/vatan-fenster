@@ -1,11 +1,4 @@
 import { faCopyright, faCropSimple, faFlask, faMaximize, faSignsPost } from "@fortawesome/free-solid-svg-icons";
-import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
-
-export interface Step {
-    key: string,
-    name: string,
-    icon: IconDefinition
-}
 
 export const steps = [
     {
@@ -15,7 +8,7 @@ export const steps = [
     },
     {
         key: 'brand',
-        name: 'Brand',
+        name: 'Hersteller',
         icon: faCopyright
     },
     {
@@ -24,13 +17,18 @@ export const steps = [
         icon: faCropSimple
     },
     {
-        key: 'direction',
-        name: 'Richtung',
+        key: 'style',
+        name: 'Fensterart',
+        icon: faCropSimple
+    },
+    {
+        key: 'type',
+        name: 'Type',
         icon: faSignsPost
     },
     {
         key: 'size',
-        name: 'Größe',
+        name: 'Maß',
         icon: faMaximize
     }
 ];
