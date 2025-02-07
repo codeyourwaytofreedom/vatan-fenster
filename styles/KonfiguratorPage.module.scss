@@ -150,29 +150,8 @@ $shine-color: gold;
     }
 }
 
-
-@media (max-width: 991.98px) { 
-    .config{
-        h1{
-            font-size: x-large;
-        }
-        h2, h3{
-            font-size: large;
-        }
-        h4{
-            font-size: small;
-        }
-    }
- }
-
 @media (max-width: 767.98px) { 
     .config{
-        h1{
-            font-size: larger;
-        }
-        h2, h3{
-            font-size: medium;
-        }
         #anchor{
             font-size: x-large !important;
             bottom: -25px !important;

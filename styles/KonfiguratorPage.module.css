@@ -148,24 +148,7 @@
   justify-content: center;
 }
 
-@media (max-width: 991.98px) {
-  .config h1 {
-    font-size: x-large;
-  }
-  .config h2, .config h3 {
-    font-size: large;
-  }
-  .config h4 {
-    font-size: small;
-  }
-}
 @media (max-width: 767.98px) {
-  .config h1 {
-    font-size: larger;
-  }
-  .config h2, .config h3 {
-    font-size: medium;
-  }
   .config #anchor {
     font-size: x-large !important;
     bottom: -25px !important;
