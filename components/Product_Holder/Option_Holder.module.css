@@ -6,6 +6,7 @@
   display: grid;
   justify-self: center;
   border-radius: 10px;
+  overflow: hidden;
 }
 .option label, .option_selected label {
   border-radius: 4px;
