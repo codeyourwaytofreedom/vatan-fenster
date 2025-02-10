@@ -65,7 +65,7 @@ export default function Page() {
                     break;
                 case 'profile':
                     const selectedBrand = brands.find(br=>br.name === configuration['brand']);
-                    const profilesOfBrand = selectedBrand?.children?.profile;
+                    const profilesOfBrand = selectedBrand?.children?.profile?.[configuration.material as keyof typeof selectedBrand.children.profile];
                     setItemsToDisplay(profilesOfBrand);
                     break;
                 case 'style':

@@ -8,6 +8,11 @@
   border-radius: 10px;
   overflow: hidden;
   text-align: center;
+  border: 2px solid white;
+}
+.option:hover, .option_selected:hover {
+  border: 2px solid black;
+  font-weight: bold;
 }
 .option label, .option_selected label {
   border-radius: 4px;
@@ -33,10 +38,6 @@
 }
 .option label input:checked, .option_selected label input:checked {
   display: none;
-}
-.option label:hover img, .option_selected label:hover img {
-  transition: scale 0.3s ease;
-  scale: 1.1;
 }
 
 .option_selected {
