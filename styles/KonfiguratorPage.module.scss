@@ -83,6 +83,39 @@ $shine-color: gold;
             grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));          
             gap: 20px; 
         }
+        &_subcategories{
+            width: 100%;
+            h2{
+                text-align: center;
+                padding: 10px 0;
+                margin-bottom: 20px;
+                margin-top: 30px;
+            }
+            #complete{
+                background-color: var(--color-1);
+                color: white;
+            }
+            #notcomplete{
+                background-color: gold;
+            }
+            #minified{
+                border: 1px solid silver;
+                width: fit-content;
+                justify-self: center;
+                position: relative;
+                padding: 30px;
+                margin-top: 20px;
+                button{
+                    position: absolute;
+                    right: 10px; top: 10px;
+                    background: none;
+                    font-weight: bold;
+                    border: none;
+                    font-size: xx-large;
+                    color: crimson;
+                }
+            }
+        }
         #summary{
             width: 500px;
             min-width: 300px !important;

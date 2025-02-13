@@ -43,4 +43,23 @@
 .option_selected {
   box-shadow: 0 0 2px 3px var(--color-1);
   background-color: whitesmoke;
+}
+
+#mini {
+  padding: 5px;
+  transform: scale(0.8);
+  box-shadow: unset;
+  border: 2px solid silver;
+  width: 200px;
+  height: 200px;
+}
+#mini img {
+  -o-object-fit: contain;
+     object-fit: contain;
+  width: 140px;
+  height: auto;
+}
+#mini:hover {
+  border: 2px solid silver;
+  font-weight: unset;
 }/*# sourceMappingURL=Option_Holder.module.css.map */

@@ -97,11 +97,10 @@ export default function Stepper({steps, currentStep, configuration,orderDetailsR
     useEffect(() => {
         const stepIndex = steps.findIndex((st)=> st.key == currentStep?.key);
         const nextStep = steps[stepIndex+1];
-        if(nextStep && configuration[currentStep?.key as keyof Config]){
-            if(nextStep){
+        const stepComplete = configuration[currentStep?.key as keyof Config];
+        if(nextStep && stepComplete){
                 setStep(nextStep);
-                window.scrollTo({top: 0, behavior: "smooth"})
-            }
+                window.scrollTo({top: 0, behavior: "smooth"})            
         }
     }, [configuration]); 
     

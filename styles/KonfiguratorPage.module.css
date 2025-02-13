@@ -84,6 +84,41 @@
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 20px;
 }
+.config_wrapper_subcategories {
+  width: 100%;
+}
+.config_wrapper_subcategories h2 {
+  text-align: center;
+  padding: 10px 0;
+  margin-bottom: 20px;
+  margin-top: 30px;
+}
+.config_wrapper_subcategories #complete {
+  background-color: var(--color-1);
+  color: white;
+}
+.config_wrapper_subcategories #notcomplete {
+  background-color: gold;
+}
+.config_wrapper_subcategories #minified {
+  border: 1px solid silver;
+  width: -moz-fit-content;
+  width: fit-content;
+  justify-self: center;
+  position: relative;
+  padding: 30px;
+  margin-top: 20px;
+}
+.config_wrapper_subcategories #minified button {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  background: none;
+  font-weight: bold;
+  border: none;
+  font-size: xx-large;
+  color: crimson;
+}
 .config_wrapper #summary {
   width: 500px;
   min-width: 300px !important;
