@@ -44,7 +44,7 @@ import dkl__unten from '../assets/configurator/type/flugel_1/006.Dreh-Kipp links
 import dkr__unten from '../assets/configurator/type/flugel_1/007.Dreh-Kipp rechts.webp';
 
 import f_oben from '../assets/configurator/style/oberlicht/flugel1_oben_flugel1_unten/Öffnungsrichtung_oben/001.Fest.webp';
-import ff_oben from '../assets/configurator/style/oberlicht/flugel1_oben_flugel1_unten/Öffnungsrichtung_oben/002.Fester Flügel.webp';
+//import ff_oben from '../assets/configurator/style/oberlicht/flugel1_oben_flugel1_unten/Öffnungsrichtung_oben/002.Fester Flügel.webp';
 import dl_oben from '../assets/configurator/style/oberlicht/flugel1_oben_flugel1_unten/Öffnungsrichtung_oben/003.Dreh links.webp';
 import dr_oben from '../assets/configurator/style/oberlicht/flugel1_oben_flugel1_unten/Öffnungsrichtung_oben/004.Dreh rechts.webp';
 import dkl__oben from '../assets/configurator/style/oberlicht/flugel1_oben_flugel1_unten/Öffnungsrichtung_oben/006.Dreh-Kipp links.webp';
@@ -444,7 +444,7 @@ export const subStyleOptions: SubStyleOptions = {
                     {
                         key: 'ff_oben',
                         name: 'Fester Flügel',
-                        image: ff_oben
+                        image: f_oben
                     },
                     {
                         key: 'dl_oben',
