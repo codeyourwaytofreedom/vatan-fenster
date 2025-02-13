@@ -98,6 +98,7 @@ export default function Page() {
         });
         setShowSubCat(false);
         setSubStyleKey('');
+        setSubStyle(initialSubstyle);
     }
     
 
