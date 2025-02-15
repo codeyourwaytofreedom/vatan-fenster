@@ -1,7 +1,7 @@
 import { SelectionItem } from '../configuration_options';
 
 import fest_fest_fest_o from '../../assets/configurator/style/flugel3/oben/001.Fest + Fest + Fest.webp';
-import ff_ff_ff_o from '../../assets/configurator/style/flugel3/oben/002.Fester Flügel + Fester Flügel + Fester Flügel.webp';
+import ff_ff_ff_o from '../../assets/configurator/style/flugel3/oben/002.ff_ff_ffl.webp';
 import kipp_kipp_kipp_o from '../../assets/configurator/style/flugel3/oben/003.Kipp + Kipp + Kipp.webp';
 import dreh_kipp_fest_dreh_kipp_o from '../../assets/configurator/style/flugel3/oben/004.Dreh-Kipp + Fest + Dreh Kipp.webp';
 import dreh_kipp_dreh_links_dreh_kipp_pfosten_o from '../../assets/configurator/style/flugel3/oben/005.Dreh-Kipp + Dreh links + Dreh Kipp (pfosten).webp';
