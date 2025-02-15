@@ -1,55 +1,59 @@
-.banner{
-    position: fixed;
-    top: 0; right: 0; left: 0;
-    height: 100px;
-    z-index: 9;
-    border-bottom: 1px solid silver;
+.banner {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 100px;
+  z-index: 9;
+  border-bottom: 1px solid silver;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
+  padding: 0 4vw;
+  &_actions,
+  #items {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    background-color: white;
-    padding: 0 4vw;
-    &_actions, #items{
-        display: flex;
-        align-items: center;
-        column-gap: 10px;
-        color: var(--color-2);
-        #menu{
-            display: none;
-            cursor: pointer;
-        }
-        a{
-            display: grid;
-            justify-items: center;
-            row-gap: 3px;
-            svg{
-                color: var(--color-2);
-            }
-        }
+    column-gap: 10px;
+    color: var(--color-2);
+    #menu {
+      display: none;
+      cursor: pointer;
     }
+    a {
+      display: grid;
+      justify-items: center;
+      row-gap: 3px;
+      svg {
+        color: var(--color-2);
+      }
+    }
+  }
 }
 
-@media (max-width: 992px) { 
-    .banner{
-        height: 80px;
-        #menu{
-            display: block;
-        }
-        &_actions, #items{
-            height: 34px;
-            display: grid;
-            justify-items: center;
-            #menu{
-                margin-bottom: 35px;
-            }
-        }
-        #items{
-            height: fit-content;
-            row-gap: 10px;
-            padding: 20px;
-            background-color: black;
-            filter: brightness(1.5);
-            display: none;
-        }
+@media (max-width: 992px) {
+  .banner {
+    height: 80px;
+    #menu {
+      display: block;
     }
- }
+    &_actions,
+    #items {
+      height: 34px;
+      display: grid;
+      justify-items: center;
+      #menu {
+        margin-bottom: 35px;
+      }
+    }
+    #items {
+      height: fit-content;
+      row-gap: 10px;
+      padding: 20px;
+      background-color: black;
+      filter: brightness(1.5);
+      display: none;
+    }
+  }
+}

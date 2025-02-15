@@ -1,19 +1,19 @@
-import Head from "next/head";
-import Image from "next/image";
-import { Geist, Geist_Mono } from "next/font/google";
-import styles from "@/styles/Home.module.css";
+import Head from 'next/head';
+import Image from 'next/image';
+import { Geist, Geist_Mono } from 'next/font/google';
+import styles from '@/styles/Home.module.css';
 import wall from '../assets/home/wall.jpg';
 import abstract1 from '../assets/home/abstract1.png';
-import Link from "next/link";
+import Link from 'next/link';
 
 const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+  variable: '--font-geist-sans',
+  subsets: ['latin'],
 });
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  variable: '--font-geist-mono',
+  subsets: ['latin'],
 });
 
 export default function Home() {
@@ -25,13 +25,13 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div
-        className={`${styles.page} ${geistSans.variable} ${geistMono.variable}`}
-      >
+      <div className={`${styles.page} ${geistSans.variable} ${geistMono.variable}`}>
         <main className={styles.main}>
           <Image priority id={styles.test} src={wall} alt="wall" />
           <div className={styles.left1}>
-            <Link id={styles.go} href={'/konfigurator'}>Jetzt starten</Link>
+            <Link id={styles.go} href={'/konfigurator'}>
+              Jetzt starten
+            </Link>
             <Image id={styles.abstract} src={abstract1} alt="wall" />
           </div>
         </main>

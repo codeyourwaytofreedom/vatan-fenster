@@ -12,23 +12,27 @@
   background-color: white;
   padding: 0 4vw;
 }
-.banner_actions, .banner #items {
+.banner_actions,
+.banner #items {
   display: flex;
   align-items: center;
   -moz-column-gap: 10px;
-       column-gap: 10px;
+  column-gap: 10px;
   color: var(--color-2);
 }
-.banner_actions #menu, .banner #items #menu {
+.banner_actions #menu,
+.banner #items #menu {
   display: none;
   cursor: pointer;
 }
-.banner_actions a, .banner #items a {
+.banner_actions a,
+.banner #items a {
   display: grid;
   justify-items: center;
   row-gap: 3px;
 }
-.banner_actions a svg, .banner #items a svg {
+.banner_actions a svg,
+.banner #items a svg {
   color: var(--color-2);
 }
 
@@ -39,12 +43,14 @@
   .banner #menu {
     display: block;
   }
-  .banner_actions, .banner #items {
+  .banner_actions,
+  .banner #items {
     height: 34px;
     display: grid;
     justify-items: center;
   }
-  .banner_actions #menu, .banner #items #menu {
+  .banner_actions #menu,
+  .banner #items #menu {
     margin-bottom: 35px;
   }
   .banner #items {
@@ -56,4 +62,4 @@
     filter: brightness(1.5);
     display: none;
   }
-}/*# sourceMappingURL=PageBanner.module.css.map */
+} /*# sourceMappingURL=PageBanner.module.css.map */

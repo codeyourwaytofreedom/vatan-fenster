@@ -1,4 +1,5 @@
-.option, .option_selected {
+.option,
+.option_selected {
   box-shadow: 0 0 1px 1px silver;
   padding-top: 20px;
   max-width: 300px;
@@ -9,12 +10,20 @@
   overflow: hidden;
   text-align: center;
   border: 2px solid white;
+  position: relative;
+  box-sizing: border-box;
 }
-.option:hover, .option_selected:hover {
+.option:hover,
+.option_selected:hover {
   border: 2px solid black;
   font-weight: bold;
 }
-.option label, .option_selected label {
+.option:hover button,
+.option_selected:hover button {
+  display: block;
+}
+.option label,
+.option_selected label {
   border-radius: 4px;
   display: grid;
   justify-items: center;
@@ -24,7 +33,8 @@
   position: relative;
   padding-bottom: 20px;
 }
-.option label #check, .option_selected label #check {
+.option label #check,
+.option_selected label #check {
   color: var(--color-1);
   font-size: 50px;
   font-weight: bold;
@@ -32,34 +42,43 @@
   align-self: flex-end;
   z-index: 2;
 }
-.option label input, .option label p, .option_selected label input, .option_selected label p {
+.option label p,
+.option_selected label p {
   height: 40px;
   font-size: large;
+  text-align: center;
+  padding: 0 5px;
 }
-.option label input:checked, .option_selected label input:checked {
+.option button,
+.option_selected button {
+  width: 30px;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  justify-self: flex-end;
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  border: 2px solid black;
+  background-color: gold;
+  z-index: 8;
   display: none;
+}
+.option #infobox,
+.option_selected #infobox {
+  position: absolute;
+  top: 25px;
+  border: 2px solid black;
+  border-radius: 4%;
+  left: 20px;
+  width: calc(100% - 40px);
+  min-height: 50px;
+  font-size: small;
+  padding: 5px;
+  background-color: black;
+  color: whitesmoke;
 }
 
 .option_selected {
   box-shadow: 0 0 2px 3px var(--color-1);
   background-color: whitesmoke;
-}
-
-#mini {
-  padding: 5px;
-  transform: scale(0.8);
-  box-shadow: unset;
-  border: 2px solid silver;
-  width: 200px;
-  height: 200px;
-}
-#mini img {
-  -o-object-fit: contain;
-     object-fit: contain;
-  width: 140px;
-  height: auto;
-}
-#mini:hover {
-  border: 2px solid silver;
-  font-weight: unset;
-}/*# sourceMappingURL=Option_Holder.module.css.map */
+} /*# sourceMappingURL=Option_Holder.module.css.map */

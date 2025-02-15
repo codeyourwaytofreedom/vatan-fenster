@@ -1,23 +1,24 @@
-.wrapper{
-    padding: 100px 4vw;
+.wrapper {
+  padding: 100px 4vw;
 }
 
-#footer{
-    background-color: var(--color-1);
-    position: fixed;
-    bottom: 0;
-    right: 0; left: 0;
-    height: 50px;
-    color: whitesmoke !important;
-    display: flex;
-    justify-content: flex-end;
+#footer {
+  background-color: var(--color-1);
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  height: 50px;
+  color: whitesmoke !important;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 4vw;
+  column-gap: 10px;
+  font-size: calc(12px + 0.3vw) !important;
+  div {
+    display: inherit;
     align-items: center;
-    padding-right: 4vw;
     column-gap: 10px;
-    font-size: calc(12px + 0.3vw) !important;
-    div{
-        display: inherit;
-        align-items: center;
-        column-gap: 10px;
-    }
+  }
 }

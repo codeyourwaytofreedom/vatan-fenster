@@ -7,26 +7,38 @@
   margin-bottom: 20px;
   height: 80px;
 }
-.config_steps .complete, .config_steps .next, .config_steps .inactive, .config_steps .selected_next, .config_steps .selected_complete {
+.config_steps .complete,
+.config_steps .next,
+.config_steps .inactive,
+.config_steps .selected_next,
+.config_steps .selected_complete {
   border: none;
   display: grid;
   align-items: center;
   justify-items: center;
   -moz-column-gap: 10px;
-       column-gap: 10px;
+  column-gap: 10px;
   font-size: calc(12px + 0.1vw);
   position: relative;
   padding: 5px 0;
   color: whitesmoke;
   width: 20vw;
 }
-.config_steps .complete svg, .config_steps .next svg, .config_steps .inactive svg, .config_steps .selected_next svg, .config_steps .selected_complete svg {
+.config_steps .complete svg,
+.config_steps .next svg,
+.config_steps .inactive svg,
+.config_steps .selected_next svg,
+.config_steps .selected_complete svg {
   filter: invert(100%);
 }
-.config_steps .complete #anchor, .config_steps .next #anchor, .config_steps .inactive #anchor, .config_steps .selected_next #anchor, .config_steps .selected_complete #anchor {
-  font-size: 40px;
+.config_steps .complete #anchor,
+.config_steps .next #anchor,
+.config_steps .inactive #anchor,
+.config_steps .selected_next #anchor,
+.config_steps .selected_complete #anchor {
+  font-size: 30px;
   position: absolute;
-  bottom: -35px;
+  bottom: -30px;
   left: 42%;
   color: var(--color-1);
   display: none;
@@ -75,7 +87,7 @@
   width: 100%;
   display: flex;
   -moz-column-gap: 40px;
-       column-gap: 40px;
+  column-gap: 40px;
 }
 .config_wrapper_option_holders {
   width: 100%;
@@ -91,7 +103,6 @@
   text-align: center;
   padding: 10px 0;
   margin-bottom: 20px;
-  margin-top: 30px;
 }
 .config_wrapper_subcategories #complete {
   background-color: var(--color-1);
@@ -99,25 +110,6 @@
 }
 .config_wrapper_subcategories #notcomplete {
   background-color: gold;
-}
-.config_wrapper_subcategories #minified {
-  border: 1px solid silver;
-  width: -moz-fit-content;
-  width: fit-content;
-  justify-self: center;
-  position: relative;
-  padding: 30px;
-  margin-top: 20px;
-}
-.config_wrapper_subcategories #minified button {
-  position: absolute;
-  right: 10px;
-  top: 10px;
-  background: none;
-  font-weight: bold;
-  border: none;
-  font-size: xx-large;
-  color: crimson;
 }
 .config_wrapper #summary {
   width: 500px;
@@ -231,4 +223,4 @@
   .config_wrapper #summary .item {
     padding: 10px;
   }
-}/*# sourceMappingURL=KonfiguratorPage.module.css.map */
+} /*# sourceMappingURL=KonfiguratorPage.module.css.map */
