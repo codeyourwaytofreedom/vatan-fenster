@@ -61,7 +61,7 @@ export default function Substyle_Stepper({
         <>
           {substyle.option && (
             <Substyle_Section
-              title={'Unten'}
+              title={'Oben'}
               configKey="unten"
               items={untenItems}
               substyle={substyle}
@@ -71,7 +71,7 @@ export default function Substyle_Stepper({
           )}
           {substyle.unten && (
             <Substyle_Section
-              title={'Oben'}
+              title={'Unten'}
               configKey="oben"
               items={obenItems}
               substyle={substyle}

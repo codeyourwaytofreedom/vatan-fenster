@@ -29,8 +29,8 @@ export const unterlicht_substyle = [
     image: _1_2,
     key: '_1_2',
     children: {
-      oben: flugel1_oben,
-      unten: flugel2_unten,
+      oben: flugel2_oben,
+      unten: flugel1_unten,
     },
   },
   {
@@ -38,8 +38,8 @@ export const unterlicht_substyle = [
     image: _1_3,
     key: '_1_3',
     children: {
-      oben: flugel1_oben,
-      unten: flugel3_unten,
+      oben: flugel3_oben,
+      unten: flugel1_unten,
     },
   },
   {
@@ -47,8 +47,8 @@ export const unterlicht_substyle = [
     image: _2_1,
     key: '_2_1',
     children: {
-      oben: flugel2_oben,
-      unten: flugel1_unten,
+      oben: flugel1_oben,
+      unten: flugel2_unten,
     },
   },
   {
@@ -65,8 +65,8 @@ export const unterlicht_substyle = [
     image: _2_3,
     key: '_2_3',
     children: {
-      oben: flugel2_oben,
-      unten: flugel3_unten,
+      oben: flugel3_oben,
+      unten: flugel2_unten,
     },
   },
 
@@ -75,8 +75,8 @@ export const unterlicht_substyle = [
     image: _3_1,
     key: '_3_1',
     children: {
-      oben: flugel3_oben,
-      unten: flugel1_unten,
+      oben: flugel1_oben,
+      unten: flugel3_unten,
     },
   },
   {
@@ -84,8 +84,8 @@ export const unterlicht_substyle = [
     image: _3_2,
     key: '_3_2',
     children: {
-      oben: flugel3_oben,
-      unten: flugel2_unten,
+      oben: flugel2_oben,
+      unten: flugel3_unten,
     },
   },
   {
