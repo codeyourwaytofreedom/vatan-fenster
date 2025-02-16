@@ -3,25 +3,36 @@ import OptionHolder from '../Product_Holder/Option_Holder';
 import style from '../.././styles/KonfiguratorPage.module.css';
 import { SubStyle } from '@/pages/konfigurator';
 import { scrollToElement } from '@/utils';
-import { Step } from '@/types/Configurator';
-import { steps } from '@/data/steps';
 
 type SubStyleProps = {
   configKey: 'option' | 'oben' | 'unten';
   title: string;
   items?: SelectionItem[];
   substyle: SubStyle;
+  comesFirst?: 'Oberlicht' | 'Unterlicht';
   setSubStyle: React.Dispatch<React.SetStateAction<SubStyle>>;
-  setStep?: React.Dispatch<React.SetStateAction<Step | null>>;
 };
 export default function Substyle_Section({
   title,
   items,
   configKey,
   substyle,
+  comesFirst,
   setSubStyle,
-  setStep,
 }: SubStyleProps) {
+  const moveToSection = () => {
+    switch (comesFirst) {
+      case 'Oberlicht':
+        scrollToElement('oben');
+        break;
+      case 'Unterlicht':
+        scrollToElement('unten');
+        break;
+      default:
+        break;
+    }
+  };
+
   const updateSubStyle = (key: string, item: SelectionItem) => {
     setSubStyle((pr) => ({
       ...pr,
@@ -29,18 +40,13 @@ export default function Substyle_Section({
     }));
 
     if (key === 'option') {
-      scrollToElement('oben');
-    } else if (key === 'oben') {
+      moveToSection();
+    }
+    if (key === 'oben' && comesFirst === 'Oberlicht') {
       scrollToElement('unten');
-    } else if (key === 'unten') {
-      if (substyle.unten) {
-        const stepSize = steps.find((s) => s.key === 'size');
-        if (stepSize && setStep) {
-          setTimeout(() => {
-            setStep(stepSize || steps[0]);
-          }, 300);
-        }
-      }
+    }
+    if (key === 'unten' && comesFirst === 'Unterlicht') {
+      scrollToElement('oben');
     }
   };
 

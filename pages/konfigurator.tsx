@@ -129,7 +129,7 @@ export default function Page() {
         return { ...pr, type: JSON.stringify(substyle) };
       });
     }
-  }, [substyle.unten]);
+  }, [substyle]);
 
   // when substyle option changes, remove oben and unten
   useEffect(() => {
@@ -193,7 +193,6 @@ export default function Page() {
             substyle={substyle}
             subStyleOptions={subStyleOptions}
             setSubStyle={setSubStyle}
-            setStep={setStep}
           />
         )}
 
