@@ -125,8 +125,11 @@ export default function Page() {
     const allSubStylesComplete = Object.values(substyle).every((s) => Boolean(s));
     if (allSubStylesComplete) {
       //select type step
+      const { oben, unten, option } = substyle;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { children, ...optionRest } = option as SelectionItem;
       setConfiguration((pr) => {
-        return { ...pr, type: JSON.stringify(substyle) };
+        return { ...pr, type: JSON.stringify({ unten, oben, optionRest }) };
       });
     }
   }, [substyle]);
@@ -199,12 +202,14 @@ export default function Page() {
         <Sizer
           size={size}
           configuration={configuration}
-          currentStep={currentStep}
+          currentStep={currentStep!}
           setConfiguration={setConfiguration}
           setOrderDetailsReady={setOrderDetailsReady}
           setSize={setSize}
+          substyle={substyle}
           sizeImage={sizeImage!}
         />
+
         {orderDetailsReady && <SummaryDisplayer finishedSteps={finishedSteps} />}
       </div>
     </div>

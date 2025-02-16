@@ -48,7 +48,7 @@ h2 {
 }
 
 h3 {
-  font-size: clamp(16px, 3vw, 20px);
+  font-size: clamp(16px, 3vw, 18px);
 }
 
 h4 {

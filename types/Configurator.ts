@@ -6,6 +6,17 @@ export interface Size {
   h: number | undefined;
 }
 
+export interface DoubleSize {
+  oben: {
+    w: number | undefined;
+    h: number | undefined;
+  },
+  unten: {
+    w: number | undefined;
+    h: number | undefined;
+  }
+}
+
 export interface Config {
   material: string | null;
   brand: string | null;

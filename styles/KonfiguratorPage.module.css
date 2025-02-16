@@ -145,35 +145,6 @@
 .config_wrapper #summary .item div {
   width: 50%;
 }
-.config_wrapper_sizer {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  width: 100%;
-  row-gap: 10px;
-}
-.config_wrapper_sizer #left h3 {
-  color: gray;
-}
-.config_wrapper_sizer #left #entries {
-  display: grid;
-  margin-top: 20px;
-}
-.config_wrapper_sizer #left #entries label {
-  line-height: 30px;
-  font-size: 15px;
-  font-weight: bold;
-}
-.config_wrapper_sizer #left #entries input {
-  height: 40px;
-  padding-left: 10px;
-  max-width: 600px;
-}
-.config_wrapper_sizer #right {
-  position: relative;
-  display: flex;
-  justify-content: center;
-}
 
 @media (max-width: 767.98px) {
   .config #anchor {
@@ -185,9 +156,6 @@
     justify-content: center;
   }
   .config_wrapper_option_holders {
-    order: 2;
-  }
-  .config_wrapper_sizer {
     order: 2;
   }
   .config_wrapper #summary {

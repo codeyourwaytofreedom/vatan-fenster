@@ -1,14 +1,15 @@
 import { Config, Size, Step } from '@/types/Configurator';
-import style from '../.././styles/KonfiguratorPage.module.css';
 import { StaticImageData } from 'next/image';
-import Image from 'next/image';
 import { useEffect } from 'react';
+import { SubStyle } from '@/pages/konfigurator';
+import Size_Holder from './Size_Holder';
 
 interface SizerProps {
   size: Size | null;
   configuration: Config;
-  currentStep: Step | null;
   sizeImage: StaticImageData;
+  substyle?: SubStyle;
+  currentStep: Step;
   setSize: React.Dispatch<React.SetStateAction<Size | null>>;
   setOrderDetailsReady: React.Dispatch<React.SetStateAction<boolean>>;
   setConfiguration: React.Dispatch<React.SetStateAction<Config>>;
@@ -20,17 +21,24 @@ export default function Sizer({
   configuration,
   currentStep,
   setSize,
+  substyle,
   setConfiguration,
   setOrderDetailsReady,
 }: SizerProps) {
-  const updateSize = (e: React.ChangeEvent<HTMLInputElement>, property: 'w' | 'h') => {
-    const value = e.target.value ? Number(e.target.value) : undefined;
+  const showDouble = ['Oberlicht', 'Unterlicht'].includes(configuration.style as string);
 
+  const updateSizeSingle = (e: React.ChangeEvent<HTMLInputElement>, property: 'w' | 'h') => {
+    const value = e.target.value ? Number(e.target.value) : undefined;
     setSize((prevSize) => ({
       ...(prevSize || { w: undefined, h: undefined }),
       [property]: value,
     }));
   };
+  const updateSizeDouble = (e: React.ChangeEvent<HTMLInputElement>, property: 'w' | 'h') => {
+    const value = e.target.value ? Number(e.target.value) : undefined;
+    console.log(value,property);
+  };
+
   // check if size is ready
   // if so, it means steps are complete, so move to summary
   useEffect(() => {
@@ -63,35 +71,28 @@ export default function Sizer({
       setSize(null);
     }
   }, [configuration.style]);
+
+  const sizerOrder = {
+    Oberlicht: ['oben', 'unten'],
+    Unterlicht: ['unten', 'oben'],
+  };
   return (
     <>
-      {currentStep && currentStep.key === 'size' && (
-        <div className={style.config_wrapper_sizer}>
-          <div id={style.left}>
-            <h1>Stückzahl und Größe </h1>
-            <h3>Achtung Wichtig! - Das Angegebene Maß ist das Fensterrahmen Außenmaß.</h3>
-            <div id={style.entries}>
-              <label>Fensterbreite (in MM) min ne oalcak?</label>
-              <input
-                type="number"
-                onChange={(e) => updateSize(e, 'w')}
-                value={size?.w}
-                placeholder="Bitte geben Sie die Fensterbreite ein..."
-              />{' '}
-              <br />
-              <label>Fensterhöhe (in MM) min ne oalcak?</label>
-              <input
-                type="number"
-                onChange={(e) => updateSize(e, 'h')}
-                value={size?.h}
-                placeholder="Bitte geben Sie die Fensterhöhe ein..."
-              />
-            </div>
-          </div>
-          <div id={style.right}>
-            <Image src={sizeImage!} alt="brand" width={300} height={300} />
-          </div>
-        </div>
+      {currentStep && currentStep.key === 'size' && !showDouble && (
+        <Size_Holder size={size} sizeImage={sizeImage!} updateSize={updateSizeSingle} />
+      )}
+
+      {currentStep && currentStep.key === 'size' && showDouble && (
+        <>
+          {sizerOrder[configuration.style as keyof typeof sizerOrder].map((key, index) => (
+            <Size_Holder
+              key={index}
+              size={size}
+              sizeImage={substyle![key as keyof SubStyle]!.image!}
+              updateSize={updateSizeDouble}
+            />
+          ))}
+        </>
       )}
     </>
   );

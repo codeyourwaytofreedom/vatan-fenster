@@ -135,37 +135,6 @@ $shine-color: gold;
         }
       }
     }
-    &_sizer {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      width: 100%;
-      row-gap: 10px;
-      #left {
-        h3 {
-          color: gray;
-        }
-        #entries {
-          display: grid;
-          margin-top: 20px;
-          label {
-            line-height: 30px;
-            font-size: 15px;
-            font-weight: bold;
-          }
-          input {
-            height: 40px;
-            padding-left: 10px;
-            max-width: 600px;
-          }
-        }
-      }
-      #right {
-        position: relative;
-        display: flex;
-        justify-content: center;
-      }
-    }
   }
 }
 
@@ -179,9 +148,6 @@ $shine-color: gold;
       flex-wrap: wrap;
       justify-content: center;
       &_option_holders {
-        order: 2;
-      }
-      &_sizer {
         order: 2;
       }
       #summary {
