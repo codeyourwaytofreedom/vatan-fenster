@@ -34,9 +34,13 @@ export default function Sizer({
       [property]: value,
     }));
   };
-  const updateSizeDouble = (e: React.ChangeEvent<HTMLInputElement>, property: 'w' | 'h') => {
+  const updateSizeDouble = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    property: 'w' | 'h',
+    key?: string
+  ) => {
     const value = e.target.value ? Number(e.target.value) : undefined;
-    console.log(value,property);
+    console.log(value, property, key);
   };
 
   // check if size is ready
@@ -72,27 +76,23 @@ export default function Sizer({
     }
   }, [configuration.style]);
 
-  const sizerOrder = {
-    Oberlicht: ['oben', 'unten'],
-    Unterlicht: ['unten', 'oben'],
-  };
+  const orderOfKeys =
+    configuration.style === 'Oberlicht'
+      ? ['oben', 'unten']
+      : configuration.style === 'Unterlicht'
+        ? ['unten', 'oben']
+        : undefined;
+
   return (
     <>
-      {currentStep && currentStep.key === 'size' && !showDouble && (
-        <Size_Holder size={size} sizeImage={sizeImage!} updateSize={updateSizeSingle} />
-      )}
-
-      {currentStep && currentStep.key === 'size' && showDouble && (
-        <>
-          {sizerOrder[configuration.style as keyof typeof sizerOrder].map((key, index) => (
-            <Size_Holder
-              key={index}
-              size={size}
-              sizeImage={substyle![key as keyof SubStyle]!.image!}
-              updateSize={updateSizeDouble}
-            />
-          ))}
-        </>
+      {currentStep && currentStep.key === 'size' && (
+        <Size_Holder
+          orderOfKeys={orderOfKeys}
+          subStyle={substyle}
+          size={size}
+          sizeImage={sizeImage!}
+          updateSize={showDouble ? updateSizeDouble : updateSizeSingle}
+        />
       )}
     </>
   );

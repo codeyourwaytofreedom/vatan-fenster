@@ -10,11 +10,11 @@ export interface DoubleSize {
   oben: {
     w: number | undefined;
     h: number | undefined;
-  },
+  };
   unten: {
     w: number | undefined;
     h: number | undefined;
-  }
+  };
 }
 
 export interface Config {

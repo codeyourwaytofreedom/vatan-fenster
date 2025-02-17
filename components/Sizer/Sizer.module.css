@@ -8,6 +8,63 @@
 .config_wrapper_sizer h4 {
   color: crimson !important;
 }
+.config_wrapper_sizer #obenunten {
+  overflow: hidden;
+  padding-left: 20px;
+}
+.config_wrapper_sizer #obenunten #first_image {
+  height: 130px;
+  overflow: hidden;
+}
+.config_wrapper_sizer #obenunten #first_image img {
+  position: relative;
+  top: -80px;
+}
+.config_wrapper_sizer #obenunten #second_image {
+  overflow: hidden;
+  height: 200px;
+}
+.config_wrapper_sizer #obenunten #second_image img {
+  position: relative;
+  top: -55px;
+}
+.config_wrapper_sizer #obenunten #second_image #right_line {
+  height: 70%;
+  top: 15%;
+}
+.config_wrapper_sizer #untenoben {
+  padding-left: 20px;
+  position: relative;
+}
+.config_wrapper_sizer #untenoben #first_image {
+  height: 240px;
+  overflow: hidden;
+  z-index: 2;
+}
+.config_wrapper_sizer #untenoben #first_image img {
+  position: relative;
+  top: -15px;
+}
+.config_wrapper_sizer #untenoben #first_image #top_line {
+  top: 20px;
+}
+.config_wrapper_sizer #untenoben #first_image #right_line {
+  top: 25%;
+}
+.config_wrapper_sizer #untenoben #second_image {
+  height: 130px;
+  overflow: hidden;
+  position: relative;
+  top: -30px;
+}
+.config_wrapper_sizer #untenoben #second_image img {
+  position: relative;
+  top: -70px;
+}
+.config_wrapper_sizer #untenoben #second_image #right_line {
+  z-index: 9;
+  top: 30%;
+}
 .config_wrapper_sizer #left h3 {
   color: gray;
 }
@@ -53,7 +110,7 @@
   font-weight: bold;
 }
 .config_wrapper_sizer #right #top_line::before {
-  content: '';
+  content: "";
   position: absolute;
   left: -5px;
   top: 50%;
@@ -63,7 +120,7 @@
   border-bottom: 8px solid var(--color-1);
 }
 .config_wrapper_sizer #right #top_line::after {
-  content: '';
+  content: "";
   position: absolute;
   right: -5px;
   top: 50%;
@@ -76,8 +133,8 @@
   position: absolute;
   border: 1px solid var(--color-1);
   right: 5%;
-  top: 15%;
-  height: 70%;
+  top: 20%;
+  height: 60%;
   display: flex;
   align-items: center;
 }
@@ -91,7 +148,7 @@
   font-weight: bold;
 }
 .config_wrapper_sizer #right #right_line::before {
-  content: '';
+  content: "";
   position: absolute;
   top: -5px;
   left: 50%;
@@ -101,7 +158,7 @@
   border-bottom: 8px solid var(--color-1);
 }
 .config_wrapper_sizer #right #right_line::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -5px;
   left: 50%;
@@ -115,4 +172,4 @@
   .config_wrapper_sizer {
     order: 2;
   }
-} /*# sourceMappingURL=Sizer.module.css.map */
+}/*# sourceMappingURL=Sizer.module.css.map */
