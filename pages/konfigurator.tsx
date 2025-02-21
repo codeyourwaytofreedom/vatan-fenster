@@ -1,10 +1,29 @@
 import { useEffect, useState } from 'react';
 import { StaticImageData } from 'next/image';
-import style from '.././styles/KonfiguratorPage.module.css';
+import { GetStaticProps } from 'next';
 import { steps } from '@/data/steps';
 import { categoryItems, brands, windowStyles, subStyleOptions } from '@/data/configuration_options';
 import type { SelectionItem } from '@/data/configuration_options';
+import style from '.././styles/KonfiguratorPage.module.css';
 
+interface Props {
+  steps: typeof steps;
+  categoryItems: typeof categoryItems;
+  brands: typeof brands;
+  windowStyles: typeof windowStyles;
+  subStyleOptions: typeof subStyleOptions;
+}
+export const getStaticProps: GetStaticProps = async () => {
+  return {
+    props: {
+      steps,
+      categoryItems,
+      brands,
+      windowStyles,
+      subStyleOptions,
+    },
+  };
+};
 import { Config, Size, Step, Summary } from '@/types/Configurator';
 
 import OptionHolder from '@/components/Product_Holder/Option_Holder';
@@ -32,7 +51,13 @@ export const initialSubstyle = {
   oben: null,
   unten: null,
 };
-export default function Page() {
+export default function Page({
+  steps,
+  categoryItems,
+  brands,
+  windowStyles,
+  subStyleOptions,
+}:Props) {
   const [configuration, setConfiguration] = useState<Config>(initialConfiguration);
   const [feedback, setFeedback] = useState<null | { key: string; text: string }>(null);
   const [orderDetailsReady, setOrderDetailsReady] = useState<boolean>(false);
