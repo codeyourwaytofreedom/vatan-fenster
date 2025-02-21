@@ -1,175 +1,162 @@
 .config_wrapper_sizer {
-  display: flex;
+  display: grid;
   justify-content: center;
   flex-wrap: wrap;
   width: 100%;
   row-gap: 10px;
+  height: -moz-fit-content;
+  height: fit-content;
 }
 .config_wrapper_sizer h4 {
   color: crimson !important;
 }
-.config_wrapper_sizer #obenunten {
-  overflow: hidden;
-  padding-left: 20px;
+.config_wrapper_sizer h2,
+.config_wrapper_sizer h4 {
+  display: flex;
+  justify-self: center;
 }
-.config_wrapper_sizer #obenunten #first_image {
-  height: 130px;
-  overflow: hidden;
+.config_wrapper_sizer .container {
+  width: 100vw;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
 }
-.config_wrapper_sizer #obenunten #first_image img {
+.config_wrapper_sizer .container_small {
+  height: 85px;
+  z-index: 3;
+}
+.config_wrapper_sizer .container_big {
+  height: 250px;
+}
+.config_wrapper_sizer .container_small, .config_wrapper_sizer .container_big {
+  padding-right: 20px;
   position: relative;
-  top: -80px;
-}
-.config_wrapper_sizer #obenunten #second_image {
-  overflow: hidden;
-  height: 200px;
-}
-.config_wrapper_sizer #obenunten #second_image img {
-  position: relative;
-  top: -55px;
-}
-.config_wrapper_sizer #obenunten #second_image #right_line {
-  height: 70%;
-  top: 15%;
-}
-.config_wrapper_sizer #untenoben {
-  padding-left: 20px;
-  position: relative;
-}
-.config_wrapper_sizer #untenoben #first_image {
-  height: 240px;
-  overflow: hidden;
-  z-index: 2;
-}
-.config_wrapper_sizer #untenoben #first_image img {
-  position: relative;
-  top: -15px;
-}
-.config_wrapper_sizer #untenoben #first_image #top_line {
-  top: 20px;
-}
-.config_wrapper_sizer #untenoben #first_image #right_line {
-  top: 25%;
-}
-.config_wrapper_sizer #untenoben #second_image {
-  height: 130px;
-  overflow: hidden;
-  position: relative;
-  top: -30px;
-}
-.config_wrapper_sizer #untenoben #second_image img {
-  position: relative;
-  top: -70px;
-}
-.config_wrapper_sizer #untenoben #second_image #right_line {
-  z-index: 9;
-  top: 30%;
-}
-.config_wrapper_sizer #left h3 {
-  color: gray;
-}
-.config_wrapper_sizer #left #entries {
   display: grid;
-  margin-top: 20px;
+  align-items: center;
 }
-.config_wrapper_sizer #left #entries label {
-  line-height: 30px;
-  font-size: 15px;
-  font-weight: bold;
-}
-.config_wrapper_sizer #left #entries input {
-  height: 40px;
-  padding-left: 10px;
-  max-width: 600px;
-}
-.config_wrapper_sizer #right {
-  position: relative;
-  display: flex;
+.config_wrapper_sizer .container_small_shell, .config_wrapper_sizer .container_big_shell {
+  height: 100%;
+  display: grid;
   justify-content: center;
-  height: -moz-fit-content;
-  height: fit-content;
-  /* Left Arrowhead */
-  /* Right Arrowhead */
-  /* Top Arrowhead */
-  /* Bottom Arrowhead */
+  align-content: center;
+  overflow: hidden;
 }
-.config_wrapper_sizer #right #top_line {
+.config_wrapper_sizer .container_small #right_line, .config_wrapper_sizer .container_big #right_line {
   position: absolute;
-  border: 1px solid var(--color-1);
-  top: 10%;
-  width: 70%;
-  left: 15%;
-  height: 2px;
-  display: flex;
-  justify-content: center;
-}
-.config_wrapper_sizer #right #top_line span {
-  position: absolute;
-  top: -20px;
-  font-size: small;
-  font-weight: bold;
-}
-.config_wrapper_sizer #right #top_line::before {
-  content: "";
-  position: absolute;
-  left: -5px;
-  top: 50%;
-  transform: translateY(-50%) rotate(-90deg);
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-bottom: 8px solid var(--color-1);
-}
-.config_wrapper_sizer #right #top_line::after {
-  content: "";
-  position: absolute;
-  right: -5px;
-  top: 50%;
-  transform: translateY(-50%) rotate(90deg);
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-bottom: 8px solid var(--color-1);
-}
-.config_wrapper_sizer #right #right_line {
-  position: absolute;
-  border: 1px solid var(--color-1);
-  right: 5%;
-  top: 20%;
-  height: 60%;
+  right: 15%;
+  height: 80%;
+  border: 1px solid black;
+  width: 1px;
   display: flex;
   align-items: center;
 }
-.config_wrapper_sizer #right #right_line span {
-  position: absolute;
-  right: -20px;
-  font-size: small;
-  writing-mode: vertical-rl;
+.config_wrapper_sizer .container_small #right_line span, .config_wrapper_sizer .container_big #right_line span {
+  writing-mode: vertical-lr;
   text-orientation: upright;
-  letter-spacing: -2px;
-  font-weight: bold;
+  letter-spacing: -3px;
+  font-size: 14px;
+  color: crimson;
+  font-weight: 600;
+  position: relative;
+  left: 5px;
 }
-.config_wrapper_sizer #right #right_line::before {
+.config_wrapper_sizer .container_small #right_line::before, .config_wrapper_sizer .container_big #right_line::before {
   content: "";
   position: absolute;
   top: -5px;
   left: 50%;
   transform: translateX(-50%) rotate(0deg);
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-bottom: 8px solid var(--color-1);
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-bottom: 6px solid var(--color-1);
 }
-.config_wrapper_sizer #right #right_line::after {
+.config_wrapper_sizer .container_small #right_line::after, .config_wrapper_sizer .container_big #right_line::after {
   content: "";
   position: absolute;
   bottom: -5px;
   left: 50%;
   transform: translateX(-50%) rotate(180deg);
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-bottom: 8px solid var(--color-1);
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-bottom: 6px solid var(--color-1);
+}
+.config_wrapper_sizer .container #bottom_line {
+  border: 1px solid black;
+  width: 60%;
+  position: relative;
+  left: 18%;
+  margin-top: 7px;
+  display: flex;
+  justify-content: center;
+}
+.config_wrapper_sizer .container #bottom_line span {
+  position: absolute;
+  top: 5px;
+  font-size: 14px;
+  color: crimson;
+  font-weight: 600;
+}
+.config_wrapper_sizer .container #bottom_line::before,
+.config_wrapper_sizer .container #bottom_line::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 5px solid transparent;
+}
+.config_wrapper_sizer .container #bottom_line::before {
+  left: -10px;
+  border-right-color: black;
+}
+.config_wrapper_sizer .container #bottom_line::after {
+  right: -10px;
+  border-left-color: black;
+}
+.config_wrapper_sizer #untenoben .container_big {
+  order: 1;
+}
+.config_wrapper_sizer #untenoben .container_small {
+  order: 2;
+}
+.config_wrapper_sizer #untenoben #bottom_line {
+  order: 3;
+}
+.config_wrapper_sizer #untenoben #inputs {
+  order: 4;
+}
+.config_wrapper_sizer #inputs {
+  background-color: silver;
+  padding: 10px;
+  border-radius: 5px;
+  display: grid;
+  row-gap: 10px;
+  justify-self: center;
+  align-items: center;
+  -moz-column-gap: 20px;
+       column-gap: 20px;
+  padding: 5px;
+  position: relative;
+  width: -moz-fit-content;
+  width: fit-content;
+  left: 15%;
+  margin-top: 30px;
+}
+.config_wrapper_sizer #inputs #input_line {
+  display: grid;
+  align-items: center;
+  grid-template-columns: 60px 190px;
+}
+.config_wrapper_sizer #inputs #input_line input {
+  padding: 3px 5px;
 }
 
 @media (max-width: 767.98px) {
   .config_wrapper_sizer {
     order: 2;
+  }
+}
+@media (max-width: 499px) {
+  .config_wrapper_sizer .container #right_line {
+    right: 12%;
   }
 }/*# sourceMappingURL=Sizer.module.css.map */

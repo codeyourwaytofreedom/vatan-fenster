@@ -41,7 +41,15 @@ export default function Page() {
   const visibleSection = categoryItems.find((cat) => cat.key === currentStep?.key);
   const [itemsToDisplay, setItemsToDisplay] = useState<SelectionItem[]>();
   const [size, setSize] = useState<Size | null>(null);
-  const sizeImage = windowStyles.find((img) => img.name === configuration.style)?.image;
+
+  const findSizeImage = () => {
+    if(configuration.style){
+      const selectedStyle = windowStyles.find((sty) => sty.name === configuration['style']);
+      const typesForSelectedStyle = selectedStyle?.children?.type;
+      const selectedType = typesForSelectedStyle?.find((typ)=> typ.name === configuration.type);
+      return selectedType?.image;
+    }
+  }
 
   const [substyle, setSubStyle] = useState<SubStyle>(initialSubstyle);
 
@@ -207,7 +215,7 @@ export default function Page() {
           setOrderDetailsReady={setOrderDetailsReady}
           setSize={setSize}
           substyle={substyle}
-          sizeImage={sizeImage!}
+          sizeImage={findSizeImage()!}
         />
 
         {orderDetailsReady && <SummaryDisplayer finishedSteps={finishedSteps} />}

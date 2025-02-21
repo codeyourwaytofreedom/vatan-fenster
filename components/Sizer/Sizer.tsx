@@ -25,29 +25,29 @@ export default function Sizer({
   setConfiguration,
   setOrderDetailsReady,
 }: SizerProps) {
-  const showDouble = ['Oberlicht', 'Unterlicht'].includes(configuration.style as string);
+  //const showDouble = ['Oberlicht', 'Unterlicht'].includes(configuration.style as string);
 
-  const updateSizeSingle = (e: React.ChangeEvent<HTMLInputElement>, property: 'w' | 'h') => {
+  const updateSizeSingle = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    property: 'w' | 'h' | 'h_unten'
+  ) => {
     const value = e.target.value ? Number(e.target.value) : undefined;
     setSize((prevSize) => ({
       ...(prevSize || { w: undefined, h: undefined }),
       [property]: value,
     }));
   };
-  const updateSizeDouble = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    property: 'w' | 'h',
-    key?: string
-  ) => {
-    const value = e.target.value ? Number(e.target.value) : undefined;
-    console.log(value, property, key);
-  };
 
   // check if size is ready
   // if so, it means steps are complete, so move to summary
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
-    if (size?.w && size.h) {
+    const sizeComplete = ['Oberlicht', 'Unterlicht'].includes(configuration.style as string)
+      ? !!(size?.w && size?.h && size?.h_unten)
+      : !!(size?.w && size?.h);
+    console.log(sizeComplete);
+
+    if (sizeComplete) {
       timeoutId = setTimeout(() => {
         setOrderDetailsReady(true);
         setConfiguration((pr) => {
@@ -91,7 +91,7 @@ export default function Sizer({
           subStyle={substyle}
           size={size}
           sizeImage={sizeImage!}
-          updateSize={showDouble ? updateSizeDouble : updateSizeSingle}
+          updateSize={updateSizeSingle}
         />
       )}
     </>

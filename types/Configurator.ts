@@ -4,6 +4,13 @@ import { StaticImageData } from 'next/image';
 export interface Size {
   w: number | undefined;
   h: number | undefined;
+  h_unten?: number | undefined;
+}
+
+export interface TripleSize {
+  w_oben: number | undefined;
+  h_oben: number | undefined;
+  h_unten: number | undefined;
 }
 
 export interface DoubleSize {

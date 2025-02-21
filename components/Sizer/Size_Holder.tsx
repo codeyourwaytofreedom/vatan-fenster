@@ -8,7 +8,7 @@ interface SizeHolderProps {
   sizeImage: StaticImageData;
   orderOfKeys?: string[];
   subStyle?: SubStyle;
-  updateSize: (e: React.ChangeEvent<HTMLInputElement>, property: 'w' | 'h', key?: string) => void;
+  updateSize: (e: React.ChangeEvent<HTMLInputElement>, property: 'w' | 'h' | 'h_unten') => void;
 }
 
 export default function Size_Holder({
@@ -21,71 +21,85 @@ export default function Size_Holder({
   const image1 =
     orderOfKeys && subStyle ? subStyle[orderOfKeys[0] as keyof SubStyle]?.image : sizeImage;
   const image2 = orderOfKeys && subStyle ? subStyle[orderOfKeys[1] as keyof SubStyle]?.image : null;
+
+  const displayedImageOne =
+    orderOfKeys && orderOfKeys[0] === 'oben'
+      ? image1
+      : orderOfKeys && orderOfKeys[0] === 'unten'
+        ? image2
+        : sizeImage;
+  const displayedImageTwo =
+    orderOfKeys && orderOfKeys[0] === 'oben'
+      ? image2
+      : orderOfKeys && orderOfKeys[0] === 'unten'
+        ? image1
+        : sizeImage;
+
   return (
     <div className={style.config_wrapper_sizer}>
-      <div id={style.left}>
-        <h2>Stückzahl und Größe </h2>
-        <h4>Achtung Wichtig! - Das Angegebene Maß ist das Fensterrahmen Außenmaß.</h4>
-        <div id={style.entries}>
-          <label>Fensterbreite (in MM) min ne oalcak?</label>
-          <input
-            type="number"
-            onChange={(e) => updateSize(e, 'w')}
-            value={size?.w}
-            placeholder="Bitte geben Sie die Fensterbreite ein..."
-          />
-          <br />
-          <label>Fensterhöhe (in MM) min ne oalcak?</label>
-          <input
-            type="number"
-            onChange={(e) => updateSize(e, 'h')}
-            value={size?.h}
-            placeholder="Bitte geben Sie die Fensterhöhe ein..."
-          />
-          {image2 && (
-            <>
-              <br />
-              <label>Fensterhöhe (in MM) min ne oalcak?</label>
-              <input
-                type="number"
-                onChange={(e) => updateSize(e, 'h')}
-                value={size?.h}
-                placeholder="Bitte geben Sie die Fensterhöhe ein..."
-              />
-            </>
-          )}
-        </div>
-      </div>
+      <h2>Stückzahl und Größe </h2>
       <div
+        className={style.container}
         id={
           orderOfKeys && orderOfKeys[0] === 'unten'
             ? style.untenoben
             : orderOfKeys && orderOfKeys[0] === 'oben'
               ? style.obenunten
-              : ''
+              : style.default
         }
       >
-        <div id={style.right}>
-          <span id={style.first_image}>
-            <Image src={image1!} alt="brand" width={300} height={300} />
-            <span id={style.top_line}>
-              <span>{size?.w}</span>
-            </span>
-            <span id={style.right_line}>
-              <span>{size?.h}</span>
-            </span>
-          </span>
-        </div>
-        {image2 && (
-          <div id={style.right}>
-            <span id={style.second_image}>
-              <Image src={image2} alt="brand" width={300} height={300} />
-              <span id={style.right_line}>
-                <span>{size?.h}</span>
-              </span>
-            </span>
+        {orderOfKeys && (
+          <div className={style.container_small}>
+            <div className={style.container_small_shell}>
+              <Image src={displayedImageOne!} alt="brand" width={370} height={370} />
+            </div>
+            <div id={style.right_line}>
+              <span>{size?.h_unten}</span>
+            </div>
           </div>
         )}
+        <div className={style.container_big}>
+          <div className={style.container_big_shell}>
+            <Image src={displayedImageTwo!} alt="brand" width={370} height={370} />
+          </div>
+          <div id={style.right_line}>
+            <span>{size?.h}</span>
+          </div>
+        </div>
+        <div id={style.bottom_line}>
+          <span>{size?.w}</span>
+        </div>
+        <div id={style.inputs}>
+          <div id={style.input_line}>
+            <h5>Width</h5>
+            <input
+              type="number"
+              onChange={(e) => updateSize(e, 'w')}
+              value={size?.w}
+              placeholder="Fensterbreite"
+            />
+          </div>
+          <div id={style.input_line}>
+            <h5>Height</h5>
+            <input
+              type="number"
+              onChange={(e) => updateSize(e, 'h')}
+              value={size?.h}
+              placeholder="Fensterhöhe"
+            />
+          </div>
+          {orderOfKeys && (
+            <div id={style.input_line}>
+              <h5>Height</h5>
+              <input
+                type="number"
+                onChange={(e) => updateSize(e, 'h_unten')}
+                value={size?.h_unten}
+                placeholder="Fensterhöhe"
+              />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
