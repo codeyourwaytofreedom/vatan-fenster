@@ -113,7 +113,6 @@
 }
 .config_wrapper #summary {
   width: 500px;
-  min-width: 300px !important;
   background-color: whitesmoke;
   position: sticky !important;
   position: -webkit-sticky !important;
@@ -141,6 +140,12 @@
   justify-content: space-between;
   border-bottom: 1px solid silver;
   padding: 10px 30px;
+  font-size: small;
+}
+.config_wrapper #summary .item #detail {
+  font-size: small;
+  display: grid;
+  grid-template-columns: 1fr auto;
 }
 .config_wrapper #summary .item div {
   width: 50%;
@@ -155,7 +160,8 @@
     flex-wrap: wrap;
     justify-content: center;
   }
-  .config_wrapper_option_holders {
+  .config_wrapper_option_holders,
+  .config_wrapper_subcategories {
     order: 2;
   }
   .config_wrapper #summary {

@@ -57,7 +57,7 @@ export default function Page({
   brands,
   windowStyles,
   subStyleOptions,
-}:Props) {
+}: Props) {
   const [configuration, setConfiguration] = useState<Config>(initialConfiguration);
   const [feedback, setFeedback] = useState<null | { key: string; text: string }>(null);
   const [orderDetailsReady, setOrderDetailsReady] = useState<boolean>(false);
@@ -66,17 +66,16 @@ export default function Page({
   const visibleSection = categoryItems.find((cat) => cat.key === currentStep?.key);
   const [itemsToDisplay, setItemsToDisplay] = useState<SelectionItem[]>();
   const [size, setSize] = useState<Size | null>(null);
+  const [substyle, setSubStyle] = useState<SubStyle>(initialSubstyle);
 
   const findSizeImage = () => {
-    if(configuration.style){
+    if (configuration.style) {
       const selectedStyle = windowStyles.find((sty) => sty.name === configuration['style']);
       const typesForSelectedStyle = selectedStyle?.children?.type;
-      const selectedType = typesForSelectedStyle?.find((typ)=> typ.name === configuration.type);
+      const selectedType = typesForSelectedStyle?.find((typ) => typ.name === configuration.type);
       return selectedType?.image;
     }
-  }
-
-  const [substyle, setSubStyle] = useState<SubStyle>(initialSubstyle);
+  };
 
   const showDefaultProductHolders =
     currentStep?.key !== 'size' &&
@@ -125,6 +124,44 @@ export default function Page({
     }
   };
 
+  // summary operations for size and substyles
+  useEffect(() => {
+    if (orderDetailsReady) {
+      let nonDuplicateFinishedSteps = (finishedSteps || [])?.filter(
+        (st) => !['type oben', 'type unten', 'size'].includes(st.key)
+      );
+      // when order is ready, add the size data to the summary
+      const summaryItemSize = {
+        key: 'size',
+        summaryItem: {
+          key: 'size',
+          detail: size,
+        },
+      };
+      if (substyle.option) {
+        const obenKey = configuration.style === 'Oberlicht' ? 'oben' : 'unten';
+        const untenKey = configuration.style === 'Unterlicht' ? 'oben' : 'unten';
+        const summaryItemOben = {
+          key: 'type oben',
+          summaryItem: substyle[obenKey]!,
+        };
+        const summaryItemUnten = {
+          key: 'type unten',
+          summaryItem: substyle[untenKey]!,
+        };
+        nonDuplicateFinishedSteps = nonDuplicateFinishedSteps.filter((it) => it.key !== 'type');
+        setFinishedSteps(() => [
+          ...nonDuplicateFinishedSteps,
+          summaryItemOben,
+          summaryItemUnten,
+          summaryItemSize,
+        ]);
+        return;
+      }
+      setFinishedSteps(() => [...nonDuplicateFinishedSteps, summaryItemSize]);
+    }
+  }, [orderDetailsReady]);
+
   // determine what items are to be displayed for current step
   useEffect(() => {
     if (currentStep) {
@@ -164,6 +201,8 @@ export default function Page({
       setConfiguration((pr) => {
         return { ...pr, type: JSON.stringify({ unten, oben, optionRest }) };
       });
+    } else {
+      setSize(null);
     }
   }, [substyle]);
 

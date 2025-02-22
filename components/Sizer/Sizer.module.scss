@@ -86,7 +86,7 @@
       margin-top: 7px;
       display: flex;
       justify-content: center;
-      span{
+      span {
         position: absolute;
         top: 5px;
         font-size: 14px;
@@ -163,8 +163,8 @@
 
 @media (max-width: 499px) {
   .config_wrapper_sizer {
-    .container{
-      #right_line{
+    .container {
+      #right_line {
         right: 12%;
       }
     }

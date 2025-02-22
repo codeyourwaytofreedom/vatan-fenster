@@ -25,8 +25,6 @@ export default function Sizer({
   setConfiguration,
   setOrderDetailsReady,
 }: SizerProps) {
-  //const showDouble = ['Oberlicht', 'Unterlicht'].includes(configuration.style as string);
-
   const updateSizeSingle = (
     e: React.ChangeEvent<HTMLInputElement>,
     property: 'w' | 'h' | 'h_unten'
@@ -45,7 +43,6 @@ export default function Sizer({
     const sizeComplete = ['Oberlicht', 'Unterlicht'].includes(configuration.style as string)
       ? !!(size?.w && size?.h && size?.h_unten)
       : !!(size?.w && size?.h);
-    console.log(sizeComplete);
 
     if (sizeComplete) {
       timeoutId = setTimeout(() => {

@@ -104,7 +104,6 @@ $shine-color: gold;
     }
     #summary {
       width: 500px;
-      min-width: 300px !important;
       background-color: whitesmoke;
       position: sticky !important;
       position: -webkit-sticky !important;
@@ -130,6 +129,12 @@ $shine-color: gold;
         justify-content: space-between;
         border-bottom: 1px solid silver;
         padding: 10px 30px;
+        font-size: small;
+        #detail {
+          font-size: small;
+          display: grid;
+          grid-template-columns: 1fr auto;
+        }
         div {
           width: 50%;
         }
@@ -147,7 +152,8 @@ $shine-color: gold;
     &_wrapper {
       flex-wrap: wrap;
       justify-content: center;
-      &_option_holders {
+      &_option_holders,
+      &_subcategories {
         order: 2;
       }
       #summary {

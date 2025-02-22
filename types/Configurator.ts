@@ -35,7 +35,7 @@ export interface Config {
 
 export interface Summary {
   key: string;
-  summaryItem: { name: string; image: StaticImageData };
+  summaryItem: { name?: string; image?: StaticImageData; detail?: Size | null };
 }
 
 export interface Step {

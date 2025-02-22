@@ -48,58 +48,157 @@ export default function Size_Holder({
               : style.default
         }
       >
-        {orderOfKeys && (
-          <div className={style.container_small}>
-            <div className={style.container_small_shell}>
-              <Image src={displayedImageOne!} alt="brand" width={370} height={370} />
+        {!orderOfKeys && (
+          <>
+            <div className={style.container_big}>
+              <div className={style.container_big_shell}>
+                <Image src={displayedImageTwo!} alt="brand" width={370} height={370} />
+              </div>
+              <div id={style.right_line}>
+                <span>{size?.h}</span>
+              </div>
             </div>
-            <div id={style.right_line}>
-              <span>{size?.h_unten}</span>
+            <div id={style.bottom_line}>
+              <span>{size?.w}</span>
             </div>
-          </div>
+            <div id={style.inputs}>
+              <div id={style.input_line}>
+                <h5>Width</h5>
+                <input
+                  type="number"
+                  onChange={(e) => updateSize(e, 'w')}
+                  value={size?.w}
+                  placeholder="Fensterbreite"
+                />
+              </div>
+              <div id={style.input_line}>
+                <h5>Height</h5>
+                <input
+                  type="number"
+                  onChange={(e) => updateSize(e, 'h')}
+                  value={size?.h}
+                  placeholder="Fensterhöhe"
+                />
+              </div>
+            </div>
+          </>
         )}
-        <div className={style.container_big}>
-          <div className={style.container_big_shell}>
-            <Image src={displayedImageTwo!} alt="brand" width={370} height={370} />
-          </div>
-          <div id={style.right_line}>
-            <span>{size?.h}</span>
-          </div>
-        </div>
-        <div id={style.bottom_line}>
-          <span>{size?.w}</span>
-        </div>
-        <div id={style.inputs}>
-          <div id={style.input_line}>
-            <h5>Width</h5>
-            <input
-              type="number"
-              onChange={(e) => updateSize(e, 'w')}
-              value={size?.w}
-              placeholder="Fensterbreite"
-            />
-          </div>
-          <div id={style.input_line}>
-            <h5>Height</h5>
-            <input
-              type="number"
-              onChange={(e) => updateSize(e, 'h')}
-              value={size?.h}
-              placeholder="Fensterhöhe"
-            />
-          </div>
-          {orderOfKeys && (
-            <div id={style.input_line}>
-              <h5>Height</h5>
-              <input
-                type="number"
-                onChange={(e) => updateSize(e, 'h_unten')}
-                value={size?.h_unten}
-                placeholder="Fensterhöhe"
-              />
+        {orderOfKeys && orderOfKeys[0] === 'oben' && (
+          <>
+            <div className={style.container_small}>
+              <div className={style.container_small_shell}>
+                <Image
+                  src={displayedImageOne!}
+                  alt="brand"
+                  width={370}
+                  height={370}
+                  placeholder={'blur'}
+                />
+              </div>
+              <div id={style.right_line}>
+                <span>{size?.h}</span>
+              </div>
             </div>
-          )}
-        </div>
+            <div className={style.container_big}>
+              <div className={style.container_big_shell}>
+                <Image src={displayedImageTwo!} alt="brand" width={370} height={370} />
+              </div>
+              <div id={style.right_line}>
+                <span>{size?.h_unten}</span>
+              </div>
+            </div>
+            <div id={style.bottom_line}>
+              <span>{size?.w}</span>
+            </div>
+            <div id={style.inputs}>
+              <div id={style.input_line}>
+                <h5>Width</h5>
+                <input
+                  type="number"
+                  onChange={(e) => updateSize(e, 'w')}
+                  value={size?.w}
+                  placeholder="Fensterbreite"
+                />
+              </div>
+              <div id={style.input_line}>
+                <h5>Height Oben</h5>
+                <input
+                  type="number"
+                  onChange={(e) => updateSize(e, 'h')}
+                  value={size?.h}
+                  placeholder="Fensterhöhe"
+                />
+              </div>
+              <div id={style.input_line}>
+                <h5>Height Unten</h5>
+                <input
+                  type="number"
+                  onChange={(e) => updateSize(e, 'h_unten')}
+                  value={size?.h_unten}
+                  placeholder="Fensterhöhe"
+                />
+              </div>
+            </div>
+          </>
+        )}
+        {orderOfKeys && orderOfKeys[0] === 'unten' && (
+          <>
+            <div className={style.container_small}>
+              <div className={style.container_small_shell}>
+                <Image
+                  src={displayedImageOne!}
+                  alt="brand"
+                  width={370}
+                  height={370}
+                  placeholder={'blur'}
+                />
+              </div>
+              <div id={style.right_line}>
+                <span>{size?.h_unten}</span>
+              </div>
+            </div>
+            <div className={style.container_big}>
+              <div className={style.container_big_shell}>
+                <Image src={displayedImageTwo!} alt="brand" width={370} height={370} />
+              </div>
+              <div id={style.right_line}>
+                <span>{size?.h}</span>
+              </div>
+            </div>
+            <div id={style.bottom_line}>
+              <span>{size?.w}</span>
+            </div>
+            <div id={style.inputs}>
+              <div id={style.input_line}>
+                <h5>Width</h5>
+                <input
+                  type="number"
+                  onChange={(e) => updateSize(e, 'w')}
+                  value={size?.w}
+                  placeholder="Fensterbreite"
+                />
+              </div>
+              <div id={style.input_line}>
+                <h5>Height Oben</h5>
+                <input
+                  type="number"
+                  onChange={(e) => updateSize(e, 'h')}
+                  value={size?.h}
+                  placeholder="Fensterhöhe"
+                />
+              </div>
+              <div id={style.input_line}>
+                <h5>Height Unten</h5>
+                <input
+                  type="number"
+                  onChange={(e) => updateSize(e, 'h_unten')}
+                  value={size?.h_unten}
+                  placeholder="Fensterhöhe"
+                />
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

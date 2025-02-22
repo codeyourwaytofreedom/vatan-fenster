@@ -17,9 +17,22 @@ export default function SummaryDisplayer({ finishedSteps }: SummaryProps) {
             <div key={index} className={style.item}>
               <div>
                 <h4>{sum.key.toUpperCase()}</h4>
-                <p>{sum.summaryItem.name}</p>
+                {sum.summaryItem?.name && <p>{sum.summaryItem.name}</p>}
               </div>
-              <Image alt="alt" src={sum.summaryItem.image} width={60} height={60} />
+              {sum.summaryItem?.image && (
+                <Image alt="alt" src={sum.summaryItem.image} width={90} height={90} />
+              )}
+              {sum.summaryItem?.detail && (
+                <div id={style.detail}>
+                  <span>Bereite:</span> <span>{sum.summaryItem.detail.w}</span>
+                  <span>Höhe Oben:</span> <span>{sum.summaryItem.detail.h}</span>
+                  {sum.summaryItem?.detail.h_unten && (
+                    <>
+                      <span>Höhe Unten:</span> <span>{sum.summaryItem.detail.h_unten}</span>
+                    </>
+                  )}
+                </div>
+              )}
             </div>
           ))}
         <div key={999} className={style.item}>
