@@ -1,46 +1,27 @@
-import type { Summary } from '@/types/Configurator';
+import { Config } from '@/types/Configurator';
 import style from '../.././styles/KonfiguratorPage.module.css';
-import Image from 'next/image';
+import { ReactNode } from 'react';
 
 interface SummaryProps {
-  finishedSteps?: Summary[];
+  configuration: Config;
+  children?: ReactNode;
 }
 
-export default function SummaryDisplayer({ finishedSteps }: SummaryProps) {
+export default function SummaryDisplayer({ configuration, children }: SummaryProps) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { size, type, ...config } = configuration;
   return (
     <div id={style.summary}>
       <h3>Bestellübersicht</h3>
       <div id={style.items}>
-        {finishedSteps
-          ?.sort((a, b) => a.key.localeCompare(b.key))
-          .map((sum, index) => (
-            <div key={index} className={style.item}>
-              <div>
-                <h4>{sum.key.toUpperCase()}</h4>
-                {sum.summaryItem?.name && <p>{sum.summaryItem.name}</p>}
-              </div>
-              {sum.summaryItem?.image && (
-                <Image alt="alt" src={sum.summaryItem.image} width={90} height={90} />
-              )}
-              {sum.summaryItem?.detail && (
-                <div id={style.detail}>
-                  <span>Bereite:</span> <span>{sum.summaryItem.detail.w}</span>
-                  <span>Höhe Oben:</span> <span>{sum.summaryItem.detail.h}</span>
-                  {sum.summaryItem?.detail.h_unten && (
-                    <>
-                      <span>Höhe Unten:</span> <span>{sum.summaryItem.detail.h_unten}</span>
-                    </>
-                  )}
-                </div>
-              )}
-            </div>
-          ))}
-        <div key={999} className={style.item}>
-          <h2>
-            <span>Total Price:</span> $874.54
-          </h2>
-        </div>
+        {Object.keys(config).map((key, index) => (
+          <div key={index} className={style.item}>
+            <span id={style.title}>&#x2022; {key.toUpperCase()}</span>
+            <span id={style.value}>{config[key as keyof typeof config]}</span>
+          </div>
+        ))}
       </div>
+      {children}
     </div>
   );
 }

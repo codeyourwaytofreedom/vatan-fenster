@@ -2,28 +2,21 @@
   display: grid;
   justify-content: center;
   flex-wrap: wrap;
-  width: 100%;
   row-gap: 10px;
   height: fit-content;
-  h4 {
-    color: crimson !important;
-  }
-  h2,
-  h4 {
-    display: flex;
-    justify-self: center;
-  }
+  padding-top: 20px;
   .container {
-    width: 100vw;
-    max-width: 400px;
+    width: 100%;
     display: flex;
     flex-direction: column;
     &_small {
-      height: 85px;
+      height: 60px;
       z-index: 3;
+      position: relative;
+      top: 8px;
     }
     &_big {
-      height: 250px;
+      height: 160px;
     }
     &_small,
     &_big {
@@ -40,21 +33,18 @@
       }
       #right_line {
         position: absolute;
-        right: 15%;
+        right: 7%;
         height: 80%;
         border: 1px solid black;
         width: 1px;
         display: flex;
         align-items: center;
         span {
-          writing-mode: vertical-lr;
-          text-orientation: upright;
-          letter-spacing: -3px;
-          font-size: 14px;
+          font-size: 12px;
           color: crimson;
           font-weight: 600;
           position: relative;
-          left: 5px;
+          left: -30px;
         }
         &::before {
           content: '';
@@ -89,7 +79,7 @@
       span {
         position: absolute;
         top: 5px;
-        font-size: 14px;
+        font-size: 12px;
         color: crimson;
         font-weight: 600;
       }
@@ -121,6 +111,7 @@
     }
     .container_small {
       order: 2;
+      top: -7px;
     }
     #bottom_line {
       order: 3;
@@ -131,25 +122,42 @@
   }
 
   #inputs {
-    background-color: silver;
-    padding: 10px;
-    border-radius: 5px;
     display: grid;
-    row-gap: 10px;
+    row-gap: 5px;
     justify-self: center;
     align-items: center;
     column-gap: 20px;
     padding: 5px;
     position: relative;
     width: fit-content;
-    left: 15%;
     margin-top: 30px;
+    font-weight: 15px;
+    line-height: 1.1 !important;
+    left: 5%;
+    top: -4%;
     #input_line {
-      display: grid;
-      align-items: center;
-      grid-template-columns: 60px 190px;
+      display: flex;
+      justify-content: space-between;
+      width: 200px;
+      font-size: small;
+      h5 {
+        display: grid;
+        #range {
+          font-size: 11px !important;
+          color: gray;
+          font-weight: 100;
+        }
+      }
       input {
-        padding: 3px 5px;
+        padding: 1px 5px;
+        padding-left: 10px;
+        border: 1px solid silver;
+        border-radius: 10px;
+        width: 90px;
+        font-size: 12px !important;
+        &::after {
+          content: 'mm';
+        }
       }
     }
   }
@@ -164,9 +172,6 @@
 @media (max-width: 499px) {
   .config_wrapper_sizer {
     .container {
-      #right_line {
-        right: 12%;
-      }
     }
   }
 }

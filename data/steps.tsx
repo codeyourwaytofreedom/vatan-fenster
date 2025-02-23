@@ -1,10 +1,4 @@
-import {
-  faCopyright,
-  faCropSimple,
-  faFlask,
-  faMaximize,
-  faSignsPost,
-} from '@fortawesome/free-solid-svg-icons';
+import { faCopyright, faCropSimple, faFlask, faSignsPost } from '@fortawesome/free-solid-svg-icons';
 
 export const steps = [
   {
@@ -32,9 +26,9 @@ export const steps = [
     name: 'Type',
     icon: faSignsPost,
   },
-  {
+  /*   {
     key: 'size',
     name: 'Maß',
     icon: faMaximize,
-  },
+  }, */
 ];

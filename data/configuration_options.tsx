@@ -1,4 +1,5 @@
 import { StaticImageData } from 'next/image';
+import dummy from '../assets/placeholder.jpg';
 
 import drutex from '../assets/configurator/brands/drutex.svg';
 
@@ -27,6 +28,7 @@ import { flugel2_unten } from './flugel/flugel2';
 import { flugel3_unten } from './flugel/flugel3';
 import { oberlicht_substyle } from './flugel/oberlicht_substyle';
 import { unterlicht_substyle } from './flugel/unterlicht_substyle';
+import { Config, Size } from '@/types/Configurator';
 
 type Image = StaticImageData;
 
@@ -66,26 +68,6 @@ export const materials: GenericItem[] = [
     name: 'Aluminium',
     image: aluminum,
   },
-  /*     {
-        name: 'Aluminium',
-        image: aluminum,
-        isActive: false
-    },
-    {
-        name: 'Holz',
-        image: wood,
-        isActive: false
-    },
-    {
-        name: 'Kunststoff/Aluminium',
-        image: aluminum,
-        isActive: false
-    },
-    {
-        name: 'Holz/Aluminium',
-        image: wood,
-        isActive: false
-    } */
 ];
 
 export const brands: GenericItem[] = [
@@ -217,3 +199,104 @@ export const categoryItems = [
   { key: 'brand', items: brands },
   { key: 'style', items: windowStyles },
 ];
+
+// initial deafult configuration
+
+export const initialConfiguration: Config = {
+  material: 'Kunststoff (PVC)',
+  brand: 'Drutex',
+  profile: 'Iglo 5',
+  style: '1. Flügel',
+  type: 'Fest',
+  size: true,
+};
+
+export const initialSize: Size = {
+  w: 1000,
+  h: 700,
+  h_unten: 800,
+};
+
+export const extraOptionsMock = {
+  color: [
+    {
+      name: 'Dark Brown',
+      image: dummy,
+      key: 'dark-brown',
+    },
+    {
+      name: 'Whitesmoke',
+      image: dummy,
+      key: 'whitesmoke',
+    },
+    {
+      name: 'Antrasite',
+      image: dummy,
+      key: 'antrasite',
+    },
+    {
+      name: 'Gold',
+      image: dummy,
+      key: 'gold',
+    },
+    {
+      name: 'pink',
+      image: dummy,
+      key: 'pink',
+    },
+  ],
+  tint: [
+    {
+      name: '10%',
+      image: dummy,
+      key: '10',
+    },
+    {
+      name: '20%',
+      image: dummy,
+      key: '20',
+    },
+    {
+      name: '30%',
+      image: dummy,
+      key: '30',
+    },
+    {
+      name: '50%',
+      image: dummy,
+      key: '50',
+    },
+    {
+      name: '75%',
+      image: dummy,
+      key: '75',
+    },
+  ],
+  handle: [
+    {
+      name: 'H-83274',
+      image: dummy,
+      key: 'H-83274',
+    },
+    {
+      name: 'H-85375',
+      image: dummy,
+      key: 'H-85375',
+    },
+    {
+      name: 'H-12748',
+      image: dummy,
+      key: 'H-12748',
+    },
+    {
+      name: 'H-94798',
+      image: dummy,
+      key: 'H-94798',
+    },
+    {
+      name: 'H-36783',
+      image: dummy,
+      key: 'H-36783',
+    },
+  ],
+};

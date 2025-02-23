@@ -19,16 +19,12 @@ export default function Sizer({
   size,
   sizeImage,
   configuration,
-  currentStep,
   setSize,
   substyle,
   setConfiguration,
   setOrderDetailsReady,
 }: SizerProps) {
-  const updateSizeSingle = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    property: 'w' | 'h' | 'h_unten'
-  ) => {
+  const updateSize = (e: React.ChangeEvent<HTMLInputElement>, property: 'w' | 'h' | 'h_unten') => {
     const value = e.target.value ? Number(e.target.value) : undefined;
     setSize((prevSize) => ({
       ...(prevSize || { w: undefined, h: undefined }),
@@ -61,8 +57,9 @@ export default function Sizer({
     return () => clearTimeout(timeoutId);
   }, [size]);
 
+  // this logic needs to be renewed because of loading initial configuration
   // if fesnterart changes, restart selection for type and size
-  useEffect(() => {
+  /*   useEffect(() => {
     if (Boolean(configuration.type)) {
       setConfiguration((prevConfig) => ({
         ...prevConfig,
@@ -71,7 +68,7 @@ export default function Sizer({
       }));
       setSize(null);
     }
-  }, [configuration.style]);
+  }, [configuration.style]); */
 
   const orderOfKeys =
     configuration.style === 'Oberlicht'
@@ -82,15 +79,13 @@ export default function Sizer({
 
   return (
     <>
-      {currentStep && currentStep.key === 'size' && (
-        <Size_Holder
-          orderOfKeys={orderOfKeys}
-          subStyle={substyle}
-          size={size}
-          sizeImage={sizeImage!}
-          updateSize={updateSizeSingle}
-        />
-      )}
+      <Size_Holder
+        orderOfKeys={orderOfKeys}
+        subStyle={substyle}
+        size={size}
+        sizeImage={sizeImage!}
+        updateSize={updateSize}
+      />
     </>
   );
 }

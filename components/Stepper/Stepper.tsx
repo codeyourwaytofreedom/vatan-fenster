@@ -99,8 +99,10 @@ export default function Stepper({
     setStep(steps[0]);
   }, []);
 
+  // to revisit for the new auto complete logic
+  // might have to depend on click solely
   // handle switch to next step when config changes
-  useEffect(() => {
+  /*   useEffect(() => {
     const stepIndex = steps.findIndex((st) => st.key == currentStep?.key);
     const nextStep = steps[stepIndex + 1];
     const stepComplete = configuration[currentStep?.key as keyof Config];
@@ -110,7 +112,7 @@ export default function Stepper({
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }, 300);
     }
-  }, [configuration]);
+  }, [configuration]); */
 
   return (
     <div className={style.config_steps}>

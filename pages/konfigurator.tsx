@@ -1,8 +1,14 @@
 import { useEffect, useState } from 'react';
-import { StaticImageData } from 'next/image';
 import { GetStaticProps } from 'next';
 import { steps } from '@/data/steps';
-import { categoryItems, brands, windowStyles, subStyleOptions } from '@/data/configuration_options';
+import {
+  categoryItems,
+  brands,
+  windowStyles,
+  subStyleOptions,
+  initialConfiguration,
+  initialSize,
+} from '@/data/configuration_options';
 import type { SelectionItem } from '@/data/configuration_options';
 import style from '.././styles/KonfiguratorPage.module.css';
 
@@ -24,7 +30,7 @@ export const getStaticProps: GetStaticProps = async () => {
     },
   };
 };
-import { Config, Size, Step, Summary } from '@/types/Configurator';
+import { Config, ExtraConfig, Size, Step } from '@/types/Configurator';
 
 import OptionHolder from '@/components/Product_Holder/Option_Holder';
 import Feedback from '@/components/Feedback/Feedback';
@@ -32,25 +38,20 @@ import Stepper from '@/components/Stepper/Stepper';
 import Sizer from '@/components/Sizer/Sizer';
 import SummaryDisplayer from '@/components/Summary/Summary';
 import Substyle_Stepper from '@/components/Substyle_Stepper/Substyle_Stepper';
+import Extra_Options from '@/components/Extra_Options/Extra_Options';
 
 export interface SubStyle {
   option: SelectionItem | null;
   oben: SelectionItem | null;
   unten: SelectionItem | null;
 }
-const initialConfiguration = {
-  material: null,
-  brand: null,
-  profile: null,
-  style: null,
-  type: null,
-  size: false,
-};
+
 export const initialSubstyle = {
   option: null,
   oben: null,
   unten: null,
 };
+
 export default function Page({
   steps,
   categoryItems,
@@ -61,24 +62,47 @@ export default function Page({
   const [configuration, setConfiguration] = useState<Config>(initialConfiguration);
   const [feedback, setFeedback] = useState<null | { key: string; text: string }>(null);
   const [orderDetailsReady, setOrderDetailsReady] = useState<boolean>(false);
-  const [finishedSteps, setFinishedSteps] = useState<Summary[]>();
   const [currentStep, setStep] = useState<Step | null>(null);
   const visibleSection = categoryItems.find((cat) => cat.key === currentStep?.key);
   const [itemsToDisplay, setItemsToDisplay] = useState<SelectionItem[]>();
-  const [size, setSize] = useState<Size | null>(null);
+  const [size, setSize] = useState<Size | null>(initialSize);
   const [substyle, setSubStyle] = useState<SubStyle>(initialSubstyle);
+  const [extraConfig, setExtraConfig] = useState<ExtraConfig | null>(null);
 
   const findSizeImage = () => {
-    if (configuration.style) {
+    const selectedStyle = windowStyles.find((sty) => sty.name === configuration['style']);
+    const typesForSelectedStyle = selectedStyle?.children?.type;
+    const selectedType = typesForSelectedStyle?.find((typ) => typ.name === configuration.type);
+    return selectedType?.image;
+  };
+
+  const autoSelectFirstType = () => {
+    if (['Oberlicht', 'Unterlicht'].includes(configuration.style as string)) {
+      const subStyles =
+        subStyleOptions[configuration.style?.toLowerCase() as keyof typeof subStyleOptions];
+      const firstSubstyle = subStyles[0];
+      if (firstSubstyle) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { children, ...rest } = firstSubstyle;
+        const { oben, unten } = children as { oben: SelectionItem[]; unten: SelectionItem[] };
+        setSubStyle(() => {
+          return {
+            option: firstSubstyle,
+            oben: oben[0],
+            unten: unten[0],
+          };
+        });
+      }
+    } else {
       const selectedStyle = windowStyles.find((sty) => sty.name === configuration['style']);
       const typesForSelectedStyle = selectedStyle?.children?.type;
-      const selectedType = typesForSelectedStyle?.find((typ) => typ.name === configuration.type);
-      return selectedType?.image;
+      const firstTypeToSelect = typesForSelectedStyle![0];
+      updateConfiguration('type', firstTypeToSelect.name);
     }
   };
 
   const showDefaultProductHolders =
-    currentStep?.key !== 'size' &&
+    currentStep &&
     !(
       ['Oberlicht', 'Unterlicht'].includes(configuration.style as string) &&
       currentStep?.key === 'type'
@@ -98,34 +122,21 @@ export default function Page({
     }
   };
 
-  const updateConfiguration = (
-    key: keyof Config,
-    value: Config[keyof Config],
-    item: { name: string; image: StaticImageData }
-  ) => {
-    const valueChanged = value !== configuration[key];
-    if (!valueChanged) {
-      moveNextStep();
-      return;
-    }
+  const updateConfiguration = (key: keyof Config, value: Config[keyof Config]) => {
+    moveNextStep();
     setConfiguration((prevConfig) => ({
       ...prevConfig,
       [key]: value,
     }));
-    const stepAlreadyIn = finishedSteps?.some((step) => step.key === key);
-    if (stepAlreadyIn) {
-      const updatedSteps = finishedSteps?.filter((s) => s.key !== key);
-      setFinishedSteps(() => [...(updatedSteps || []), { key, summaryItem: item }]);
-    } else {
-      setFinishedSteps((prevFinishedSteps) => [
-        ...(prevFinishedSteps || []),
-        { key, summaryItem: item },
-      ]);
-    }
+  };
+
+  const handleShowExtraOptions = () => {
+    setStep(null);
+    setItemsToDisplay([]);
   };
 
   // summary operations for size and substyles
-  useEffect(() => {
+  /*   useEffect(() => {
     if (orderDetailsReady) {
       let nonDuplicateFinishedSteps = (finishedSteps || [])?.filter(
         (st) => !['type oben', 'type unten', 'size'].includes(st.key)
@@ -160,7 +171,7 @@ export default function Page({
       }
       setFinishedSteps(() => [...nonDuplicateFinishedSteps, summaryItemSize]);
     }
-  }, [orderDetailsReady]);
+  }, [orderDetailsReady]); */
 
   // determine what items are to be displayed for current step
   useEffect(() => {
@@ -201,9 +212,9 @@ export default function Page({
       setConfiguration((pr) => {
         return { ...pr, type: JSON.stringify({ unten, oben, optionRest }) };
       });
-    } else {
+    } /* else {
       setSize(null);
-    }
+    } */
   }, [substyle]);
 
   // when substyle option changes, remove oben and unten
@@ -212,17 +223,30 @@ export default function Page({
       setConfiguration((pr) => {
         return { ...pr, type: null };
       });
-      setSubStyle((pr) => {
+      // causes side effect for autoselection
+      // will revisit
+      /*       setSubStyle((pr) => {
         return { ...pr, oben: null, unten: null };
+      }); */
+    }
+  }, [substyle.option]);
+
+  // when substyle option changes, autoselect oben and unten
+  useEffect(() => {
+    if (substyle.option) {
+      setSubStyle(() => {
+        return {
+          option: substyle.option! || null,
+          oben: substyle.option!.children?.oben![0] || null,
+          unten: substyle.option!.children?.unten![0] || null,
+        };
       });
     }
   }, [substyle.option]);
 
   // remove substyle selection if style changes from oberlicht/unterlicht
   useEffect(() => {
-    if (substyle) {
-      setSubStyle(initialSubstyle);
-    }
+    autoSelectFirstType();
   }, [configuration.style]);
 
   return (
@@ -254,9 +278,7 @@ export default function Page({
                 image={item.image}
                 imageAlt={item.name}
                 selected={configuration[currentStep?.key as keyof Config] === item.name}
-                action={() =>
-                  updateConfiguration(currentStep?.key as keyof Config, item.name, item)
-                }
+                action={() => updateConfiguration(currentStep?.key as keyof Config, item.name)}
                 key={index}
               />
             ))}
@@ -270,19 +292,28 @@ export default function Page({
             setSubStyle={setSubStyle}
           />
         )}
+        {!currentStep && (
+          <Extra_Options extraConfig={extraConfig} setExtraConfig={setExtraConfig} />
+        )}
 
-        <Sizer
-          size={size}
-          configuration={configuration}
-          currentStep={currentStep!}
-          setConfiguration={setConfiguration}
-          setOrderDetailsReady={setOrderDetailsReady}
-          setSize={setSize}
-          substyle={substyle}
-          sizeImage={findSizeImage()!}
-        />
-
-        {orderDetailsReady && <SummaryDisplayer finishedSteps={finishedSteps} />}
+        <SummaryDisplayer configuration={configuration}>
+          <Sizer
+            size={size}
+            configuration={configuration}
+            currentStep={currentStep!}
+            setConfiguration={setConfiguration}
+            setOrderDetailsReady={setOrderDetailsReady}
+            setSize={setSize}
+            substyle={substyle}
+            sizeImage={findSizeImage()!}
+          />
+          <div id={style.actions}>
+            <button id={style.add_to_chart}>In den Warenkorb</button>
+            <button onClick={handleShowExtraOptions} id={style.additional}>
+              Weitere optionen
+            </button>
+          </div>
+        </SummaryDisplayer>
       </div>
     </div>
   );

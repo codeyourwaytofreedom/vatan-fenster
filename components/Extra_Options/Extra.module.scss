@@ -1,0 +1,23 @@
+.extra {
+  width: 100%;
+  h2 {
+    text-align: center;
+    padding: 10px 0;
+    margin-bottom: 20px;
+  }
+  #complete {
+    background-color: var(--color-1);
+    color: white;
+  }
+  #notcomplete {
+    background-color: gold;
+  }
+
+  &_options_holder {
+    width: 100%;
+    display: grid;
+    justify-content: center;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+  }
+}

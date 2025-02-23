@@ -37,7 +37,6 @@ export default function Size_Holder({
 
   return (
     <div className={style.config_wrapper_sizer}>
-      <h2>Stückzahl und Größe </h2>
       <div
         className={style.container}
         id={
@@ -52,7 +51,7 @@ export default function Size_Holder({
           <>
             <div className={style.container_big}>
               <div className={style.container_big_shell}>
-                <Image src={displayedImageTwo!} alt="brand" width={370} height={370} />
+                <Image src={displayedImageTwo!} alt="brand" width={230} height={230} />
               </div>
               <div id={style.right_line}>
                 <span>{size?.h}</span>
@@ -63,21 +62,29 @@ export default function Size_Holder({
             </div>
             <div id={style.inputs}>
               <div id={style.input_line}>
-                <h5>Width</h5>
+                <h5>
+                  <span>Width</span> <span id={style.range}>(1000-1700)</span>
+                </h5>
                 <input
                   type="number"
                   onChange={(e) => updateSize(e, 'w')}
                   value={size?.w}
-                  placeholder="Fensterbreite"
+                  min={1000}
+                  max={1700}
+                  placeholder="breite"
                 />
               </div>
               <div id={style.input_line}>
-                <h5>Height</h5>
+                <h5>
+                  <span>Height Oben</span> <span id={style.range}>(500-800)</span>
+                </h5>
                 <input
                   type="number"
                   onChange={(e) => updateSize(e, 'h')}
                   value={size?.h}
-                  placeholder="Fensterhöhe"
+                  min={500}
+                  max={800}
+                  placeholder="höhe"
                 />
               </div>
             </div>
@@ -87,13 +94,7 @@ export default function Size_Holder({
           <>
             <div className={style.container_small}>
               <div className={style.container_small_shell}>
-                <Image
-                  src={displayedImageOne!}
-                  alt="brand"
-                  width={370}
-                  height={370}
-                  placeholder={'blur'}
-                />
+                <Image src={displayedImageOne!} alt="brand" width={230} height={230} />
               </div>
               <div id={style.right_line}>
                 <span>{size?.h}</span>
@@ -101,41 +102,47 @@ export default function Size_Holder({
             </div>
             <div className={style.container_big}>
               <div className={style.container_big_shell}>
-                <Image src={displayedImageTwo!} alt="brand" width={370} height={370} />
+                <Image src={displayedImageTwo!} alt="brand" width={230} height={230} />
               </div>
               <div id={style.right_line}>
                 <span>{size?.h_unten}</span>
               </div>
             </div>
             <div id={style.bottom_line}>
-              <span>{size?.w}</span>
+              <span>{size?.w} </span>
             </div>
             <div id={style.inputs}>
               <div id={style.input_line}>
-                <h5>Width</h5>
+                <h5>
+                  <span>Width</span> <span id={style.range}>(1000-1700)</span>
+                </h5>
                 <input
                   type="number"
                   onChange={(e) => updateSize(e, 'w')}
                   value={size?.w}
-                  placeholder="Fensterbreite"
+                  placeholder="breite"
                 />
               </div>
               <div id={style.input_line}>
-                <h5>Height Oben</h5>
-                <input
-                  type="number"
-                  onChange={(e) => updateSize(e, 'h')}
-                  value={size?.h}
-                  placeholder="Fensterhöhe"
-                />
-              </div>
-              <div id={style.input_line}>
-                <h5>Height Unten</h5>
+                <h5>
+                  <span>Height Unten</span> <span id={style.range}>(1000-1700)</span>
+                </h5>
                 <input
                   type="number"
                   onChange={(e) => updateSize(e, 'h_unten')}
                   value={size?.h_unten}
-                  placeholder="Fensterhöhe"
+                  placeholder="höhe"
+                />
+              </div>
+              <div id={style.input_line}>
+                <h5>
+                  <span>Height Oben</span> <span id={style.range}>(500-800)</span>
+                </h5>
+                <input
+                  type="number"
+                  onChange={(e) => updateSize(e, 'h')}
+                  value={size?.h}
+                  placeholder="höhe"
                 />
               </div>
             </div>
@@ -145,13 +152,7 @@ export default function Size_Holder({
           <>
             <div className={style.container_small}>
               <div className={style.container_small_shell}>
-                <Image
-                  src={displayedImageOne!}
-                  alt="brand"
-                  width={370}
-                  height={370}
-                  placeholder={'blur'}
-                />
+                <Image src={displayedImageOne!} alt="brand" width={230} height={230} />
               </div>
               <div id={style.right_line}>
                 <span>{size?.h_unten}</span>
@@ -159,7 +160,7 @@ export default function Size_Holder({
             </div>
             <div className={style.container_big}>
               <div className={style.container_big_shell}>
-                <Image src={displayedImageTwo!} alt="brand" width={370} height={370} />
+                <Image src={displayedImageTwo!} alt="brand" width={230} height={230} />
               </div>
               <div id={style.right_line}>
                 <span>{size?.h}</span>
@@ -170,30 +171,36 @@ export default function Size_Holder({
             </div>
             <div id={style.inputs}>
               <div id={style.input_line}>
-                <h5>Width</h5>
+                <h5>
+                  <span>Width</span> <span id={style.range}>(1000-1700)</span>
+                </h5>
                 <input
                   type="number"
                   onChange={(e) => updateSize(e, 'w')}
                   value={size?.w}
-                  placeholder="Fensterbreite"
+                  placeholder="breite"
                 />
               </div>
               <div id={style.input_line}>
-                <h5>Height Oben</h5>
-                <input
-                  type="number"
-                  onChange={(e) => updateSize(e, 'h')}
-                  value={size?.h}
-                  placeholder="Fensterhöhe"
-                />
-              </div>
-              <div id={style.input_line}>
-                <h5>Height Unten</h5>
+                <h5>
+                  <span>Height Unten</span> <span id={style.range}>(500-800)</span>
+                </h5>
                 <input
                   type="number"
                   onChange={(e) => updateSize(e, 'h_unten')}
                   value={size?.h_unten}
-                  placeholder="Fensterhöhe"
+                  placeholder="höhe"
+                />
+              </div>
+              <div id={style.input_line}>
+                <h5>
+                  <span>Height Oben</span> <span id={style.range}>(1000-1700)</span>
+                </h5>
+                <input
+                  type="number"
+                  onChange={(e) => updateSize(e, 'h')}
+                  value={size?.h}
+                  placeholder="höhe"
                 />
               </div>
             </div>

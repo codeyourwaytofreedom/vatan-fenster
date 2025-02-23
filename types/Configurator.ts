@@ -33,6 +33,12 @@ export interface Config {
   size: boolean;
 }
 
+export interface ExtraConfig {
+  color?: string;
+  tint?: string;
+  handle?: string;
+}
+
 export interface Summary {
   key: string;
   summaryItem: { name?: string; image?: StaticImageData; detail?: Size | null };

@@ -1,0 +1,22 @@
+.extra {
+  width: 100%;
+}
+.extra h2 {
+  text-align: center;
+  padding: 10px 0;
+  margin-bottom: 20px;
+}
+.extra #complete {
+  background-color: var(--color-1);
+  color: white;
+}
+.extra #notcomplete {
+  background-color: gold;
+}
+.extra_options_holder {
+  width: 100%;
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+}/*# sourceMappingURL=Extra.module.css.map */
