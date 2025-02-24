@@ -1,5 +1,8 @@
 import { StaticImageData } from 'next/image';
 import dummy from '../assets/placeholder.jpg';
+import color from '../assets/color.jpg';
+import tinted from '../assets/tinted.jpg';
+import handle from '../assets/handle.webp';
 
 import drutex from '../assets/configurator/brands/drutex.svg';
 
@@ -221,81 +224,81 @@ export const extraOptionsMock = {
   color: [
     {
       name: 'Dark Brown',
-      image: dummy,
+      image: color,
       key: 'dark-brown',
     },
     {
       name: 'Whitesmoke',
-      image: dummy,
+      image: color,
       key: 'whitesmoke',
     },
     {
       name: 'Antrasite',
-      image: dummy,
+      image: color,
       key: 'antrasite',
     },
     {
       name: 'Gold',
-      image: dummy,
+      image: color,
       key: 'gold',
     },
     {
       name: 'pink',
-      image: dummy,
+      image: color,
       key: 'pink',
     },
   ],
   tint: [
     {
       name: '10%',
-      image: dummy,
+      image: tinted,
       key: '10',
     },
     {
       name: '20%',
-      image: dummy,
+      image: tinted,
       key: '20',
     },
     {
       name: '30%',
-      image: dummy,
+      image: tinted,
       key: '30',
     },
     {
       name: '50%',
-      image: dummy,
+      image: tinted,
       key: '50',
     },
     {
       name: '75%',
-      image: dummy,
+      image: tinted,
       key: '75',
     },
   ],
   handle: [
     {
       name: 'H-83274',
-      image: dummy,
+      image: handle,
       key: 'H-83274',
     },
     {
       name: 'H-85375',
-      image: dummy,
+      image: handle,
       key: 'H-85375',
     },
     {
       name: 'H-12748',
-      image: dummy,
+      image: handle,
       key: 'H-12748',
     },
     {
       name: 'H-94798',
-      image: dummy,
+      image: handle,
       key: 'H-94798',
     },
     {
       name: 'H-36783',
-      image: dummy,
+      image: handle,
       key: 'H-36783',
     },
   ],

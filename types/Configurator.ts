@@ -29,7 +29,7 @@ export interface Config {
   brand: string | null;
   profile: string | null;
   style: string | null;
-  type: string | null;
+  type: string | object | null;
   size: boolean;
 }
 

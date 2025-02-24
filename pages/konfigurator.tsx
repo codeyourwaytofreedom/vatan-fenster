@@ -210,7 +210,7 @@ export default function Page({
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { children, ...optionRest } = option as SelectionItem;
       setConfiguration((pr) => {
-        return { ...pr, type: JSON.stringify({ unten, oben, optionRest }) };
+        return { ...pr, type: { unten, oben, option: optionRest } };
       });
     } /* else {
       setSize(null);
@@ -296,7 +296,7 @@ export default function Page({
           <Extra_Options extraConfig={extraConfig} setExtraConfig={setExtraConfig} />
         )}
 
-        <SummaryDisplayer configuration={configuration}>
+        <SummaryDisplayer configuration={configuration} extraConfig={extraConfig}>
           <Sizer
             size={size}
             configuration={configuration}
