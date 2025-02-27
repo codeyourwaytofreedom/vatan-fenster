@@ -133,6 +133,7 @@ export default function Page({
   const handleShowExtraOptions = () => {
     setStep(null);
     setItemsToDisplay([]);
+    window.scrollTo({top: 0, behavior: 'smooth'});
   };
 
   // summary operations for size and substyles
@@ -296,7 +297,12 @@ export default function Page({
           <Extra_Options extraConfig={extraConfig} setExtraConfig={setExtraConfig} />
         )}
 
-        <SummaryDisplayer configuration={configuration} extraConfig={extraConfig}>
+        <SummaryDisplayer
+          configuration={configuration}
+          extraConfig={extraConfig}
+          setStep={setStep}
+          setExtraConfig={setExtraConfig}
+        >
           <Sizer
             size={size}
             configuration={configuration}

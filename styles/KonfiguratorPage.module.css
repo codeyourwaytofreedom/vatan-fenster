@@ -17,7 +17,7 @@
   align-items: center;
   justify-items: center;
   -moz-column-gap: 10px;
-       column-gap: 10px;
+  column-gap: 10px;
   font-size: calc(12px + 0.1vw);
   position: relative;
   padding: 5px 0;
@@ -87,7 +87,7 @@
   width: 100%;
   display: flex;
   -moz-column-gap: 40px;
-       column-gap: 40px;
+  column-gap: 40px;
 }
 .config_wrapper_option_holders {
   width: 100%;
@@ -148,10 +148,23 @@
   border-bottom: 1px solid silver;
   padding: 5px 0;
   font-size: small;
+  cursor: pointer;
+}
+.config_wrapper #summary .item:hover {
+  background-color: silver;
 }
 .config_wrapper #summary .item #title {
   font-size: 11px;
   font-weight: bold;
+}
+.config_wrapper #summary .item #value {
+  display: flex;
+  align-items: flex-end;
+  -moz-column-gap: 15px;
+  column-gap: 15px;
+}
+.config_wrapper #summary .item #value svg:hover {
+  color: crimson;
 }
 .config_wrapper #summary #actions {
   display: grid;
@@ -181,7 +194,8 @@
     flex-wrap: wrap;
     justify-content: center;
   }
-  .config_wrapper_option_holders, .config_wrapper_subcategories {
+  .config_wrapper_option_holders,
+  .config_wrapper_subcategories {
     order: 2;
   }
   .config_wrapper #summary {
@@ -217,4 +231,4 @@
   .config_wrapper #summary .item {
     padding: 10px;
   }
-}/*# sourceMappingURL=KonfiguratorPage.module.css.map */
+} /*# sourceMappingURL=KonfiguratorPage.module.css.map */
