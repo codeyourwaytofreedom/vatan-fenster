@@ -100,7 +100,7 @@ export default function Page({
       const selectedStyle = windowStyles.find((sty) => sty.name === configuration['style']);
       const typesForSelectedStyle = selectedStyle?.children?.type;
       const firstTypeToSelect = typesForSelectedStyle![0];
-      updateConfiguration(firstTypeToSelect);
+      updateConfiguration(firstTypeToSelect, 'type');
     }
   };
 
