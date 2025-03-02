@@ -136,6 +136,7 @@ export default function Page({
     if (nextStep && value) {
       setTimeout(() => {
         action(nextStep);
+        window.scrollTo({top:0, behavior: 'smooth'})
       }, 300);
     }
   };
