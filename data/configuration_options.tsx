@@ -1,7 +1,8 @@
 import { StaticImageData } from 'next/image';
-import dummy from '../assets/placeholder.jpg';
 import color from '../assets/color.jpg';
-import tinted from '../assets/tinted.jpg';
+import color2 from '../assets/color2.png';
+import color3 from '../assets/color3.jpg';
+
 import handle from '../assets/handle.webp';
 
 import drutex from '../assets/configurator/brands/drutex.svg';
@@ -197,12 +198,6 @@ export const subStyleOptions: SubStyleOptions = {
   unterlicht: unterlicht_substyle,
 };
 
-export const categoryItems = [
-  { key: 'material', items: materials },
-  { key: 'brand', items: brands },
-  { key: 'style', items: windowStyles },
-];
-
 // initial deafult configuration
 
 export const initialConfiguration: Config = {
@@ -220,8 +215,86 @@ export const initialSize: Size = {
   h_unten: 800,
 };
 
+export const initialExtraConfig = {
+  colorExt: 'white',
+  colorInt: 'white',
+  colorMid: 'white',
+  sealExt: 'white',
+  sealInt: 'white',
+  handle: 'H-83274'
+}
+
 export const extraOptionsMock = {
-  color: [
+  colorExt: [
+    {
+      name: 'white',
+      image: color2,
+      key: 'white',
+    },
+    {
+      name: 'Dark Brown',
+      image: color2,
+      key: 'dark-brown',
+    },
+    {
+      name: 'Whitesmoke',
+      image: color2,
+      key: 'whitesmoke',
+    },
+    {
+      name: 'Antrasite',
+      image: color2,
+      key: 'antrasite',
+    },
+    {
+      name: 'Gold',
+      image: color2,
+      key: 'gold',
+    },
+    {
+      name: 'pink',
+      image: color2,
+      key: 'pink',
+    },
+  ],
+  colorInt: [
+    {
+      name: 'white',
+      image: color3,
+      key: 'white',
+    },
+    {
+      name: 'Dark Brown',
+      image: color3,
+      key: 'dark-brown',
+    },
+    {
+      name: 'Whitesmoke',
+      image: color3,
+      key: 'whitesmoke',
+    },
+    {
+      name: 'Antrasite',
+      image: color3,
+      key: 'antrasite',
+    },
+    {
+      name: 'Gold',
+      image: color3,
+      key: 'gold',
+    },
+    {
+      name: 'pink',
+      image: color3,
+      key: 'pink',
+    },
+  ],
+  colorMid: [
+    {
+      name: 'white',
+      image: color,
+      key: 'white',
+    },
     {
       name: 'Dark Brown',
       image: color,
@@ -248,31 +321,68 @@ export const extraOptionsMock = {
       key: 'pink',
     },
   ],
-  tint: [
+  sealExt: [
     {
-      name: '10%',
-      image: tinted,
-      key: '10',
+      name: 'white',
+      image: color2,
+      key: 'white',
     },
     {
-      name: '20%',
-      image: tinted,
-      key: '20',
+      name: 'Dark Brown',
+      image: color2,
+      key: 'dark-brown',
     },
     {
-      name: '30%',
-      image: tinted,
-      key: '30',
+      name: 'Whitesmoke',
+      image: color2,
+      key: 'whitesmoke',
     },
     {
-      name: '50%',
-      image: tinted,
-      key: '50',
+      name: 'Antrasite',
+      image: color2,
+      key: 'antrasite',
     },
     {
-      name: '75%',
-      image: tinted,
-      key: '75',
+      name: 'Gold',
+      image: color2,
+      key: 'gold',
+    },
+    {
+      name: 'pink',
+      image: color2,
+      key: 'pink',
+    },
+  ],
+  sealInt: [
+    {
+      name: 'white',
+      image: color3,
+      key: 'white',
+    },
+    {
+      name: 'Dark Brown',
+      image: color3,
+      key: 'dark-brown',
+    },
+    {
+      name: 'Whitesmoke',
+      image: color3,
+      key: 'whitesmoke',
+    },
+    {
+      name: 'Antrasite',
+      image: color3,
+      key: 'antrasite',
+    },
+    {
+      name: 'Gold',
+      image: color3,
+      key: 'gold',
+    },
+    {
+      name: 'pink',
+      image: color3,
+      key: 'pink',
     },
   ],
   handle: [
@@ -303,3 +413,16 @@ export const extraOptionsMock = {
     },
   ],
 };
+
+
+export const categoryItems = [
+  { key: 'material', items: materials },
+  { key: 'brand', items: brands },
+  { key: 'style', items: windowStyles },
+  { key: 'colorExt', items: extraOptionsMock.colorExt },
+  { key: 'colorInt', items: extraOptionsMock.colorInt },
+  { key: 'colorMid', items: extraOptionsMock.colorMid },
+  { key: 'sealExt', items: extraOptionsMock.sealExt },
+  { key: 'sealInt', items: extraOptionsMock.sealInt },
+  { key: 'handle', items: extraOptionsMock.handle },
+];

@@ -207,6 +207,7 @@ export default function Size_Holder({
           </>
         )}
       </div>
+      <span style={{ color: 'crimson' }}>Fotolar yenilenince Sizer büyütülecek!</span>
     </div>
   );
 }

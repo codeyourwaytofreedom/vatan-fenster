@@ -2,19 +2,21 @@ import Substyle_Section from '../Substyle/Substyle_Section';
 import style from '../.././styles/KonfiguratorPage.module.css';
 import { SubStyleOptions } from '@/data/configuration_options';
 import { SubStyle } from '@/pages/konfigurator';
-import { Config } from '@/types/Configurator';
+import { Config, Step } from '@/types/Configurator';
 
 interface SubstyleStepperProps {
   configuration: Config;
   substyle: SubStyle;
   subStyleOptions: SubStyleOptions;
   setSubStyle: React.Dispatch<React.SetStateAction<SubStyle>>;
+  setStep: React.Dispatch<React.SetStateAction<Step | null>>;
 }
 export default function Substyle_Stepper({
   substyle,
   configuration,
   subStyleOptions,
   setSubStyle,
+  setStep,
 }: SubstyleStepperProps) {
   const obenItems = subStyleOptions[
     configuration.style?.toLowerCase() as keyof SubStyleOptions
@@ -53,6 +55,7 @@ export default function Substyle_Stepper({
               substyle={substyle}
               comesFirst={'Oberlicht'}
               setSubStyle={setSubStyle}
+              setStep={setStep}
             />
           )}
         </>
@@ -77,6 +80,7 @@ export default function Substyle_Stepper({
               substyle={substyle}
               comesFirst={'Unterlicht'}
               setSubStyle={setSubStyle}
+              setStep={setStep}
             />
           )}
         </>

@@ -8,6 +8,7 @@ import {
   subStyleOptions,
   initialConfiguration,
   initialSize,
+  initialExtraConfig,
 } from '@/data/configuration_options';
 import type { SelectionItem } from '@/data/configuration_options';
 import style from '.././styles/KonfiguratorPage.module.css';
@@ -33,12 +34,14 @@ export const getStaticProps: GetStaticProps = async () => {
 import { Config, ExtraConfig, Size, Step } from '@/types/Configurator';
 
 import OptionHolder from '@/components/Product_Holder/Option_Holder';
-import Feedback from '@/components/Feedback/Feedback';
 import Stepper from '@/components/Stepper/Stepper';
-import Sizer from '@/components/Sizer/Sizer';
 import SummaryDisplayer from '@/components/Summary/Summary';
 import Substyle_Stepper from '@/components/Substyle_Stepper/Substyle_Stepper';
-import Extra_Options from '@/components/Extra_Options/Extra_Options';
+import SizerSummary from '@/components/SizerSummary/SizerSummary';
+import Sizer from '@/components/Sizer/Sizer';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronDown, faChevronUp, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import { extraSteps } from '@/data/extra_steps';
 
 export interface SubStyle {
   option: SelectionItem | null;
@@ -60,14 +63,14 @@ export default function Page({
   subStyleOptions,
 }: Props) {
   const [configuration, setConfiguration] = useState<Config>(initialConfiguration);
-  const [feedback, setFeedback] = useState<null | { key: string; text: string }>(null);
   const [orderDetailsReady, setOrderDetailsReady] = useState<boolean>(false);
-  const [currentStep, setStep] = useState<Step | null>(null);
-  const visibleSection = categoryItems.find((cat) => cat.key === currentStep?.key);
+  const [basisStep, setBasisStep] = useState<Step | null>(null);
+  const [extraStep, setExtraStep] = useState<Step | null>(null);
+  const visibleSection = categoryItems.find((cat) => cat.key === (basisStep?.key ?? extraStep?.key));
   const [itemsToDisplay, setItemsToDisplay] = useState<SelectionItem[]>();
   const [size, setSize] = useState<Size | null>(initialSize);
   const [substyle, setSubStyle] = useState<SubStyle>(initialSubstyle);
-  const [extraConfig, setExtraConfig] = useState<ExtraConfig | null>(null);
+  const [extraConfig, setExtraConfig] = useState<ExtraConfig>(initialExtraConfig);
 
   const findSizeImage = () => {
     const selectedStyle = windowStyles.find((sty) => sty.name === configuration['style']);
@@ -97,87 +100,96 @@ export default function Page({
       const selectedStyle = windowStyles.find((sty) => sty.name === configuration['style']);
       const typesForSelectedStyle = selectedStyle?.children?.type;
       const firstTypeToSelect = typesForSelectedStyle![0];
-      updateConfiguration('type', firstTypeToSelect.name);
+      updateConfiguration(firstTypeToSelect);
     }
   };
 
+  const autoSelectProfile = () => {
+    const selectedBrand = brands.find((sty) => sty.name === configuration['brand']);
+    const profiles = selectedBrand?.children?.profile;
+    const profileForSelectedMaterial = profiles![configuration.material as keyof typeof profiles];
+    if(profileForSelectedMaterial && profileForSelectedMaterial[0]){
+      console.log(profileForSelectedMaterial[0]);
+      updateConfiguration(profileForSelectedMaterial[0],'profile');
+    }
+  }
+
   const showDefaultProductHolders =
-    currentStep &&
+    (basisStep || extraStep) &&
+    basisStep?.key !== 'size' &&
     !(
       ['Oberlicht', 'Unterlicht'].includes(configuration.style as string) &&
-      currentStep?.key === 'type'
+      basisStep?.key === 'type'
     );
   const showSubstyleStepper =
     configuration.style &&
     ['Oberlicht', 'Unterlicht'].includes(configuration.style) &&
-    currentStep?.key === 'type';
+    basisStep?.key === 'type';
 
   const moveNextStep = () => {
-    const stepIndex = steps.findIndex((st) => st.key == currentStep?.key);
-    const nextStep = steps[stepIndex + 1];
-    if (nextStep && configuration[currentStep?.key as keyof Config]) {
+    const stepsToUse = basisStep ? steps : extraSteps;
+    const relevantStep = basisStep ?? extraStep;
+    const stepIndex = stepsToUse.findIndex((st) => st.key == relevantStep?.key);
+    const nextStep = stepsToUse[stepIndex + 1];
+    const action = basisStep ? setBasisStep : setExtraStep;
+    const value = basisStep ? configuration[basisStep?.key as keyof Config] : extraConfig[extraStep?.key as keyof ExtraConfig];
+    if (nextStep && value) {
       setTimeout(() => {
-        setStep(nextStep);
+        action(nextStep);
       }, 300);
     }
   };
 
-  const updateConfiguration = (key: keyof Config, value: Config[keyof Config]) => {
+  const updateConfiguration = ( item: SelectionItem, key?: string,) => {
+    if(basisStep){
+      setConfiguration((prevConfig) => ({
+        ...prevConfig,
+        [key ?? basisStep?.key as keyof Config]: item.name,
+      }));
+    }
+    if(extraStep){
+      setExtraConfig((prevConfig) => ({
+        ...prevConfig,
+        [key ?? extraStep?.key as keyof ExtraConfig]: item.name,
+      }));
+    }
     moveNextStep();
-    setConfiguration((prevConfig) => ({
-      ...prevConfig,
-      [key]: value,
-    }));
+  };
+
+  const handleSubmitOrder = () => {
+    if (orderDetailsReady) {
+      alert('Ihre Konfiguration wurde übermittelt.');
+    } else {
+      setBasisStep(steps.find((st) => st.key === 'size')!);
+    }
+  };
+
+  const handleShowBasis = () => {
+    setBasisStep(steps[0]);
+    setExtraStep(null);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleShowExtraOptions = () => {
-    setStep(null);
-    setItemsToDisplay([]);
-    window.scrollTo({top: 0, behavior: 'smooth'});
+    setBasisStep(null);
+    setExtraStep(extraSteps[0]);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // summary operations for size and substyles
-  /*   useEffect(() => {
-    if (orderDetailsReady) {
-      let nonDuplicateFinishedSteps = (finishedSteps || [])?.filter(
-        (st) => !['type oben', 'type unten', 'size'].includes(st.key)
-      );
-      // when order is ready, add the size data to the summary
-      const summaryItemSize = {
-        key: 'size',
-        summaryItem: {
-          key: 'size',
-          detail: size,
-        },
-      };
-      if (substyle.option) {
-        const obenKey = configuration.style === 'Oberlicht' ? 'oben' : 'unten';
-        const untenKey = configuration.style === 'Unterlicht' ? 'oben' : 'unten';
-        const summaryItemOben = {
-          key: 'type oben',
-          summaryItem: substyle[obenKey]!,
-        };
-        const summaryItemUnten = {
-          key: 'type unten',
-          summaryItem: substyle[untenKey]!,
-        };
-        nonDuplicateFinishedSteps = nonDuplicateFinishedSteps.filter((it) => it.key !== 'type');
-        setFinishedSteps(() => [
-          ...nonDuplicateFinishedSteps,
-          summaryItemOben,
-          summaryItemUnten,
-          summaryItemSize,
-        ]);
-        return;
-      }
-      setFinishedSteps(() => [...nonDuplicateFinishedSteps, summaryItemSize]);
+  const isSelected = ( name: string) => {
+    if(basisStep){
+      return configuration[basisStep?.key as keyof Config] === name;
     }
-  }, [orderDetailsReady]); */
+    if(extraStep){
+      return extraConfig[extraStep?.key as keyof ExtraConfig] === name;
+    }
+    return false;
+  }
 
   // determine what items are to be displayed for current step
   useEffect(() => {
-    if (currentStep) {
-      switch (currentStep?.key) {
+    if (basisStep) {
+      switch (basisStep?.key) {
         case 'material':
         case 'brand':
           setItemsToDisplay(visibleSection?.items);
@@ -188,6 +200,7 @@ export default function Page({
             selectedBrand?.children?.profile?.[
               configuration.material as keyof typeof selectedBrand.children.profile
             ];
+          console.log('profilesOfBrand',profilesOfBrand);
           setItemsToDisplay(profilesOfBrand);
           break;
         case 'style':
@@ -200,7 +213,10 @@ export default function Page({
           break;
       }
     }
-  }, [currentStep, visibleSection]);
+    if(extraStep){
+      setItemsToDisplay(visibleSection?.items);
+    }
+  }, [basisStep,extraStep, visibleSection]);
 
   // when substyles are complete, make style complete for configuration
   useEffect(() => {
@@ -213,9 +229,7 @@ export default function Page({
       setConfiguration((pr) => {
         return { ...pr, type: { unten, oben, option: optionRest } };
       });
-    } /* else {
-      setSize(null);
-    } */
+    }
   }, [substyle]);
 
   // when substyle option changes, remove oben and unten
@@ -224,11 +238,6 @@ export default function Page({
       setConfiguration((pr) => {
         return { ...pr, type: null };
       });
-      // causes side effect for autoselection
-      // will revisit
-      /*       setSubStyle((pr) => {
-        return { ...pr, oben: null, unten: null };
-      }); */
     }
   }, [substyle.option]);
 
@@ -250,77 +259,111 @@ export default function Page({
     autoSelectFirstType();
   }, [configuration.style]);
 
+    // autoselect for profiles
+    useEffect(() => {
+      autoSelectProfile();
+    }, [configuration.material]);
+
+    // select first step when page loads
+  useEffect(() => {
+    setBasisStep(steps[0]);
+  }, []);
+
   return (
-    <div className={style.config}>
-      <h1>Fenster-Konfigurator</h1>
-      <Stepper
-        steps={steps}
-        setStep={setStep}
-        setFeedback={setFeedback}
-        orderDetailsReady={orderDetailsReady}
-        currentStep={currentStep!}
-        configuration={configuration}
-      />
-
-      <div className={style.config_wrapper}>
-        <Feedback visible={Boolean(feedback)}>
-          {feedback?.key === 'step-warning' && (
-            <p>
-              Bitte wählen Sie zuerst die <span style={{ color: 'crimson' }}>{feedback.text}</span>{' '}
-              aus.
-            </p>
-          )}
-        </Feedback>
-        {showDefaultProductHolders && (
-          <div className={style.config_wrapper_option_holders}>
-            {itemsToDisplay?.map((item, index) => (
-              <OptionHolder
-                name={item.name}
-                image={item.image}
-                imageAlt={item.name}
-                selected={configuration[currentStep?.key as keyof Config] === item.name}
-                action={() => updateConfiguration(currentStep?.key as keyof Config, item.name)}
-                key={index}
-              />
-            ))}
-          </div>
-        )}
-        {showSubstyleStepper && (
-          <Substyle_Stepper
-            configuration={configuration}
-            substyle={substyle}
-            subStyleOptions={subStyleOptions}
-            setSubStyle={setSubStyle}
-          />
-        )}
-        {!currentStep && (
-          <Extra_Options extraConfig={extraConfig} setExtraConfig={setExtraConfig} />
-        )}
-
-        <SummaryDisplayer
-          configuration={configuration}
-          extraConfig={extraConfig}
-          setStep={setStep}
-          setExtraConfig={setExtraConfig}
-        >
-          <Sizer
-            size={size}
-            configuration={configuration}
-            currentStep={currentStep!}
-            setConfiguration={setConfiguration}
-            setOrderDetailsReady={setOrderDetailsReady}
-            setSize={setSize}
-            substyle={substyle}
-            sizeImage={findSizeImage()!}
-          />
-          <div id={style.actions}>
-            <button id={style.add_to_chart}>In den Warenkorb</button>
-            <button onClick={handleShowExtraOptions} id={style.additional}>
-              Weitere optionen
+    <>
+      <div className={style.config}>
+        <div>
+          <div className={style.layers}>
+            <button id={style.must} onClick={handleShowBasis}>
+              <FontAwesomeIcon icon={basisStep ? faChevronDown : faChevronUp} />
+              <span>Basiskonfiguration</span>
+            </button>
+            <button id={style.may} onClick={handleShowExtraOptions}>
+              <FontAwesomeIcon icon={extraStep ? faChevronDown : faChevronUp} />
+              <span>Erweiterte Konfiguration</span>
             </button>
           </div>
-        </SummaryDisplayer>
+          {
+            <Stepper
+              id={!basisStep ? 'orange' : ''}
+              steps={basisStep ? steps : extraSteps}
+              setStep={basisStep ? setBasisStep : setExtraStep}
+              orderDetailsReady={orderDetailsReady}
+              currentStep={basisStep ?? extraStep!}
+              configuration={configuration}
+            />
+          }
+
+          <div className={style.config_wrapper}>
+            {showDefaultProductHolders && (
+              <div className={style.config_wrapper_option_holders}>
+                {itemsToDisplay?.map((item, index) => (
+                  <OptionHolder
+                    name={item.name}
+                    image={item.image}
+                    imageAlt={item.name}
+                    selected={isSelected(item.name)}
+                    action={() => updateConfiguration(item)}
+                    key={index}
+                  />
+                ))}
+              </div>
+            )}
+            {showSubstyleStepper && (
+              <Substyle_Stepper
+                configuration={configuration}
+                substyle={substyle}
+                subStyleOptions={subStyleOptions}
+                setSubStyle={setSubStyle}
+                setStep={setBasisStep}
+              />
+            )}
+
+            {basisStep?.key === 'size' && (
+              <Sizer
+                size={size}
+                configuration={configuration}
+                currentStep={basisStep!}
+                setConfiguration={setConfiguration}
+                setSize={setSize}
+                setOrderDetailsReady={setOrderDetailsReady}
+                substyle={substyle}
+                sizeImage={findSizeImage()!}
+              />
+            )}
+          </div>
+        </div>
+        <SummaryDisplayer
+          configuration={configuration}
+          setStep={setBasisStep}
+          sizer={
+            <SizerSummary
+              size={size}
+              configuration={configuration}
+              currentStep={basisStep!}
+              setConfiguration={setConfiguration}
+              setOrderDetailsReady={setOrderDetailsReady}
+              substyle={substyle}
+              sizeImage={findSizeImage()!}
+            />
+          }
+          actions={
+            <div id={style.actions}>
+              <button id={style.add_to_chart} onClick={handleSubmitOrder}>
+                {configuration.size ? (
+                  <>
+                    <FontAwesomeIcon icon={faShoppingCart} />
+
+                    <span style={{ marginLeft: '20px' }}>In den Warenkorb</span>
+                  </>
+                ) : (
+                  <span>Bitte geben Sie die Fenstergröße ein.</span>
+                )}
+              </button>
+            </div>
+          }
+        ></SummaryDisplayer>
       </div>
-    </div>
+    </>
   );
 }

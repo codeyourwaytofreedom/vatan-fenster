@@ -1,11 +1,44 @@
+.layers {
+  height: 60px;
+  display: flex;
+  align-items: center;
+}
+.layers button {
+  border: none;
+  width: 50%;
+  color: whitesmoke;
+  padding: 10px;
+  font-size: medium;
+  position: relative;
+}
+.layers button span {
+  margin-left: 10px;
+}
+.layers button:hover {
+  filter: brightness(1.1);
+}
+.layers #must {
+  background: var(--color-1);
+}
+.layers #must:hover {
+  filter: brightness(1.5);
+}
+.layers #may {
+  background: #ffa500;
+  color: black;
+}
+
 .config {
-  padding-top: 20px;
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  -moz-column-gap: 20px;
+       column-gap: 20px;
+  padding-top: 10px;
 }
 .config_steps {
-  padding: 10px 0;
   display: flex;
-  margin-bottom: 20px;
-  height: 80px;
+  margin-bottom: 30px;
+  height: 40px;
 }
 .config_steps .complete,
 .config_steps .next,
@@ -17,12 +50,12 @@
   align-items: center;
   justify-items: center;
   -moz-column-gap: 10px;
-  column-gap: 10px;
+       column-gap: 10px;
   font-size: calc(12px + 0.1vw);
   position: relative;
   padding: 5px 0;
   color: whitesmoke;
-  width: 20vw;
+  flex: 1;
 }
 .config_steps .complete svg,
 .config_steps .next svg,
@@ -83,11 +116,46 @@
 .config_steps .inactive svg {
   filter: none;
 }
+.config #orange .complete,
+.config #orange .next,
+.config #orange .inactive,
+.config #orange .selected_next,
+.config #orange .selected_complete {
+  background-color: #ffa500;
+  color: black;
+}
+.config #orange .complete svg,
+.config #orange .next svg,
+.config #orange .inactive svg,
+.config #orange .selected_next svg,
+.config #orange .selected_complete svg {
+  filter: none;
+}
+.config #orange .complete #anchor,
+.config #orange .next #anchor,
+.config #orange .inactive #anchor,
+.config #orange .selected_next #anchor,
+.config #orange .selected_complete #anchor {
+  color: #ffa500;
+}
+.config #orange .selected_next,
+.config #orange .selected_complete {
+  background-color: #846429;
+  color: white;
+}
+.config #orange .selected_next svg,
+.config #orange .selected_complete svg {
+  filter: invert(100%);
+}
+.config #orange .selected_next #anchor,
+.config #orange .selected_complete #anchor {
+  color: #846429;
+}
 .config_wrapper {
   width: 100%;
   display: flex;
   -moz-column-gap: 40px;
-  column-gap: 40px;
+       column-gap: 40px;
 }
 .config_wrapper_option_holders {
   width: 100%;
@@ -114,8 +182,8 @@
 .config_wrapper_subcategories #notcomplete {
   background-color: gold;
 }
-.config_wrapper #summary {
-  width: 500px;
+.config #summary {
+  width: 350px;
   background-color: whitesmoke;
   position: sticky !important;
   position: -webkit-sticky !important;
@@ -123,26 +191,26 @@
   height: -moz-fit-content;
   height: fit-content;
 }
-.config_wrapper #summary h2 {
+.config #summary h2 {
   color: green;
 }
-.config_wrapper #summary h2 span {
+.config #summary h2 span {
   color: black;
 }
-.config_wrapper #summary h3 {
-  background-color: gold;
-  height: 40px;
+.config #summary h3 {
+  height: 60px;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: greenyellow;
 }
-.config_wrapper #summary h4 {
+.config #summary h4 {
   font-size: 12px;
 }
-.config_wrapper #summary #items {
+.config #summary #items {
   padding: 0 10px;
 }
-.config_wrapper #summary .item {
+.config #summary .item {
   display: flex;
   justify-content: space-between;
   border-bottom: 1px solid silver;
@@ -150,38 +218,38 @@
   font-size: small;
   cursor: pointer;
 }
-.config_wrapper #summary .item:hover {
+.config #summary .item:hover {
   background-color: silver;
 }
-.config_wrapper #summary .item #title {
+.config #summary .item #title {
   font-size: 11px;
   font-weight: bold;
 }
-.config_wrapper #summary .item #value {
+.config #summary .item #value {
   display: flex;
   align-items: flex-end;
   -moz-column-gap: 15px;
-  column-gap: 15px;
+       column-gap: 15px;
 }
-.config_wrapper #summary .item #value svg:hover {
+.config #summary .item #value svg:hover {
   color: crimson;
 }
-.config_wrapper #summary #actions {
+.config #summary #actions {
   display: grid;
-  grid-template-columns: 3fr 2fr;
+  margin-top: 10px;
 }
-.config_wrapper #summary #actions button {
+.config #summary #actions button {
   border: none;
   height: 35px;
   font-weight: bold;
 }
-.config_wrapper #summary #actions button:hover {
+.config #summary #actions button:hover {
   filter: brightness(1.1);
 }
-.config_wrapper #summary #actions #add_to_chart {
+.config #summary #actions #add_to_chart {
   background-color: greenyellow;
 }
-.config_wrapper #summary #actions #additional {
+.config #summary #actions #additional {
   background-color: gold;
 }
 
@@ -194,8 +262,7 @@
     flex-wrap: wrap;
     justify-content: center;
   }
-  .config_wrapper_option_holders,
-  .config_wrapper_subcategories {
+  .config_wrapper_option_holders, .config_wrapper_subcategories {
     order: 2;
   }
   .config_wrapper #summary {
@@ -231,4 +298,4 @@
   .config_wrapper #summary .item {
     padding: 10px;
   }
-} /*# sourceMappingURL=KonfiguratorPage.module.css.map */
+}/*# sourceMappingURL=KonfiguratorPage.module.css.map */

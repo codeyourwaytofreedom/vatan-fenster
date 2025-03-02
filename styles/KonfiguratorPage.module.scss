@@ -1,13 +1,44 @@
 $secondary-color: gold;
 $shine-color: gold;
 
+.layers {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  button {
+    border: none;
+    width: 50%;
+    color: whitesmoke;
+    padding: 10px;
+    font-size: medium;
+    position: relative;
+    span {
+      margin-left: 10px;
+    }
+    &:hover {
+      filter: brightness(1.1);
+    }
+  }
+  #must {
+    background: var(--color-1);
+    &:hover {
+      filter: brightness(1.5);
+    }
+  }
+  #may {
+    background: #ffa500;
+    color: black;
+  }
+}
 .config {
-  padding-top: 20px;
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  column-gap: 20px;
+  padding-top: 10px;
   &_steps {
-    padding: 10px 0;
     display: flex;
-    margin-bottom: 20px;
-    height: 80px;
+    margin-bottom: 30px;
+    height: 40px;
     .complete,
     .next,
     .inactive,
@@ -22,7 +53,7 @@ $shine-color: gold;
       position: relative;
       padding: 5px 0;
       color: whitesmoke;
-      width: 20vw;
+      flex: 1;
       svg {
         filter: invert(100%);
       }
@@ -76,6 +107,33 @@ $shine-color: gold;
       }
     }
   }
+  #orange {
+    .complete,
+    .next,
+    .inactive,
+    .selected_next,
+    .selected_complete {
+      background-color: #ffa500;
+      color: black;
+      svg {
+        filter: none;
+      }
+      #anchor {
+        color: #ffa500;
+      }
+    }
+    .selected_next,
+    .selected_complete {
+      background-color: #846429;
+      color: white;
+      svg {
+        filter: invert(100%);
+      }
+      #anchor {
+        color: #846429;
+      }
+    }
+  }
   &_wrapper {
     width: 100%;
     display: flex;
@@ -105,74 +163,74 @@ $shine-color: gold;
         background-color: gold;
       }
     }
-    #summary {
-      width: 500px;
-      background-color: whitesmoke;
-      position: sticky !important;
-      position: -webkit-sticky !important;
-      top: 120px;
-      height: fit-content;
-      h2 {
-        color: green;
-        span {
-          color: black;
-        }
+  }
+  #summary {
+    width: 350px;
+    background-color: whitesmoke;
+    position: sticky !important;
+    position: -webkit-sticky !important;
+    top: 120px;
+    height: fit-content;
+    h2 {
+      color: green;
+      span {
+        color: black;
       }
-      h3 {
-        background-color: gold;
-        height: 40px;
+    }
+    h3 {
+      height: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: greenyellow;
+    }
+    h4 {
+      font-size: 12px;
+    }
+    #items {
+      padding: 0 10px;
+    }
+    .item {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid silver;
+      padding: 5px 0;
+      font-size: small;
+      cursor: pointer;
+      &:hover {
+        background-color: silver;
+      }
+      #title {
+        font-size: 11px;
+        font-weight: bold;
+      }
+      #value {
         display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-      h4 {
-        font-size: 12px;
-      }
-      #items {
-        padding: 0 10px;
-      }
-      .item {
-        display: flex;
-        justify-content: space-between;
-        border-bottom: 1px solid silver;
-        padding: 5px 0;
-        font-size: small;
-        cursor: pointer;
-        &:hover {
-          background-color: silver;
-        }
-        #title {
-          font-size: 11px;
-          font-weight: bold;
-        }
-        #value {
-          display: flex;
-          align-items: flex-end;
-          column-gap: 15px;
-          svg {
-            &:hover {
-              color: crimson;
-            }
-          }
-        }
-      }
-      #actions {
-        display: grid;
-        grid-template-columns: 3fr 2fr;
-        button {
-          border: none;
-          height: 35px;
-          font-weight: bold;
+        align-items: flex-end;
+        column-gap: 15px;
+        svg {
           &:hover {
-            filter: brightness(1.1);
+            color: crimson;
           }
         }
-        #add_to_chart {
-          background-color: greenyellow;
+      }
+    }
+    #actions {
+      display: grid;
+      margin-top: 10px;
+      button {
+        border: none;
+        height: 35px;
+        font-weight: bold;
+        &:hover {
+          filter: brightness(1.1);
         }
-        #additional {
-          background-color: $shine-color;
-        }
+      }
+      #add_to_chart {
+        background-color: greenyellow;
+      }
+      #additional {
+        background-color: $shine-color;
       }
     }
   }

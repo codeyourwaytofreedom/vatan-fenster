@@ -10,28 +10,18 @@ interface SizerProps {
   sizeImage: StaticImageData;
   substyle?: SubStyle;
   currentStep: Step;
-  setSize: React.Dispatch<React.SetStateAction<Size | null>>;
   setOrderDetailsReady: React.Dispatch<React.SetStateAction<boolean>>;
   setConfiguration: React.Dispatch<React.SetStateAction<Config>>;
 }
 
-export default function Sizer({
+export default function SizerSummary({
   size,
   sizeImage,
   configuration,
-  setSize,
   substyle,
   setConfiguration,
   setOrderDetailsReady,
 }: SizerProps) {
-  const updateSize = (e: React.ChangeEvent<HTMLInputElement>, property: 'w' | 'h' | 'h_unten') => {
-    const value = e.target.value ? Number(e.target.value) : undefined;
-    setSize((prevSize) => ({
-      ...(prevSize || { w: undefined, h: undefined }),
-      [property]: value,
-    }));
-  };
-
   // check if size is ready
   // if so, it means steps are complete, so move to summary
   useEffect(() => {
@@ -71,7 +61,6 @@ export default function Sizer({
         subStyle={substyle}
         size={size}
         sizeImage={sizeImage!}
-        updateSize={updateSize}
       />
     </>
   );

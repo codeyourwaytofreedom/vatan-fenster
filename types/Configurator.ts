@@ -25,18 +25,21 @@ export interface DoubleSize {
 }
 
 export interface Config {
-  material: string | null;
-  brand: string | null;
-  profile: string | null;
-  style: string | null;
+  material: string;
+  brand: string;
+  profile: string;
+  style: string;
   type: string | object | null;
   size: boolean;
 }
 
 export interface ExtraConfig {
-  color?: string;
-  tint?: string;
-  handle?: string;
+  colorExt: string;
+  colorInt: string;
+  colorMid: string;
+  sealExt: string;
+  sealInt: string;
+  handle: string;
 }
 
 export interface Summary {
