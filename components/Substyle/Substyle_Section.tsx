@@ -1,14 +1,14 @@
 import { SelectionItem } from '@/data/configuration_options';
 import OptionHolder from '../Product_Holder/Option_Holder';
 import style from '../.././styles/KonfiguratorPage.module.css';
-import { SubStyle } from '@/pages/konfigurator';
 import { scrollToElement } from '@/utils';
-import { Step } from '@/types/Configurator';
+import { Step, SubStyle } from '@/types/Configurator';
 import { steps } from '@/data/steps';
 
 type SubStyleProps = {
   configKey: 'option' | 'oben' | 'unten';
   title: string;
+  currentGroup: 'basis' | 'farben';
   items?: SelectionItem[];
   substyle: SubStyle;
   comesFirst?: 'Oberlicht' | 'Unterlicht';
@@ -18,6 +18,7 @@ type SubStyleProps = {
 export default function Substyle_Section({
   title,
   items,
+  currentGroup,
   configKey,
   substyle,
   comesFirst,
@@ -51,7 +52,7 @@ export default function Substyle_Section({
     }
     if (key === 'unten' && comesFirst === 'Oberlicht') {
       setTimeout(() => {
-        setStep!(steps.find((s) => s.key === 'size')!);
+        setStep!(steps[currentGroup].find((s) => s.key === 'size')!);
       }, 300);
     }
     if (key === 'unten' && comesFirst === 'Unterlicht') {
@@ -59,8 +60,9 @@ export default function Substyle_Section({
     }
     if (key === 'oben' && comesFirst === 'Unterlicht') {
       setTimeout(() => {
-        setStep!(steps.find((s) => s.key === 'size')!);
-      }, 300);
+        setStep!(steps[currentGroup].find((s) => s.key === 'size')!);
+        window.scrollTo({top: 0, behavior: 'smooth'});
+      }, 200);
     }
   };
 

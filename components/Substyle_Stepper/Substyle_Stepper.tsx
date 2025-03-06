@@ -1,11 +1,11 @@
 import Substyle_Section from '../Substyle/Substyle_Section';
 import style from '../.././styles/KonfiguratorPage.module.css';
 import { SubStyleOptions } from '@/data/configuration_options';
-import { SubStyle } from '@/pages/konfigurator';
-import { Config, Step } from '@/types/Configurator';
+import { Config, Step, SubStyle } from '@/types/Configurator';
 
 interface SubstyleStepperProps {
   configuration: Config;
+  currentGroup: 'basis' | 'farben';
   substyle: SubStyle;
   subStyleOptions: SubStyleOptions;
   setSubStyle: React.Dispatch<React.SetStateAction<SubStyle>>;
@@ -14,6 +14,7 @@ interface SubstyleStepperProps {
 export default function Substyle_Stepper({
   substyle,
   configuration,
+  currentGroup,
   subStyleOptions,
   setSubStyle,
   setStep,
@@ -34,6 +35,7 @@ export default function Substyle_Stepper({
         substyle={substyle}
         comesFirst={configuration.style as 'Oberlicht' | 'Unterlicht'}
         setSubStyle={setSubStyle}
+        currentGroup={currentGroup}
       />
       {configuration.style === 'Oberlicht' && (
         <>
@@ -45,6 +47,7 @@ export default function Substyle_Stepper({
               substyle={substyle}
               comesFirst={'Oberlicht'}
               setSubStyle={setSubStyle}
+              currentGroup={currentGroup}
             />
           )}
           {substyle.oben && (
@@ -53,6 +56,7 @@ export default function Substyle_Stepper({
               configKey="unten"
               items={untenItems}
               substyle={substyle}
+              currentGroup={currentGroup}
               comesFirst={'Oberlicht'}
               setSubStyle={setSubStyle}
               setStep={setStep}
@@ -69,6 +73,7 @@ export default function Substyle_Stepper({
               items={untenItems}
               substyle={substyle}
               comesFirst={'Unterlicht'}
+              currentGroup={currentGroup}
               setSubStyle={setSubStyle}
             />
           )}
@@ -78,6 +83,7 @@ export default function Substyle_Stepper({
               configKey="oben"
               items={obenItems}
               substyle={substyle}
+              currentGroup={currentGroup}
               comesFirst={'Unterlicht'}
               setSubStyle={setSubStyle}
               setStep={setStep}

@@ -3,16 +3,14 @@ import style from '../.././styles/KonfiguratorPage.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface StepperProps {
-  id?: string;
   steps: Step[];
   currentStep: Step;
-  orderDetailsReady: boolean;
+  orderDetailsReady?: boolean;
   configuration: Config;
   setStep: React.Dispatch<React.SetStateAction<Step | null>>;
 }
 export default function Stepper({
   steps,
-  id,
   currentStep,
   configuration,
   orderDetailsReady,
@@ -57,9 +55,8 @@ export default function Stepper({
     return style.inactive;
   };
 
-
   return (
-    <div id={id ? style.orange : ''} className={style.config_steps}>
+    <div className={style.config_steps}>
       {steps.map((st, index) => (
         <button key={index} className={stepClass(st)} onClick={() => setStep(st)}>
           <FontAwesomeIcon icon={st.icon} color="black" beatFade={stepClass(st).includes('next')} />

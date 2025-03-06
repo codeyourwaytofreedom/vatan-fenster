@@ -1,23 +1,19 @@
-import { Config, Step } from '@/types/Configurator';
+import { Config, Step, SubStyle } from '@/types/Configurator';
 import style from '../.././styles/KonfiguratorPage.module.css';
 import { ReactNode, SetStateAction, useEffect, useState } from 'react';
-import { SubStyle } from '@/pages/konfigurator';
 import { scrollToElement } from '@/utils';
 import { steps } from '@/data/steps';
 
 interface SummaryProps {
   configuration: Config;
+  currentGroup: 'basis' | 'farben';
   sizer?: ReactNode;
   actions?: ReactNode;
   setStep: React.Dispatch<SetStateAction<Step | null>>;
+  setCurrentGroup: React.Dispatch<React.SetStateAction<'basis' | 'farben'>>;
 }
 
-export default function SummaryDisplayer({
-  configuration,
-  sizer,
-  actions,
-  setStep,
-}: SummaryProps) {
+export default function SummaryDisplayer({ configuration, currentGroup, sizer, actions, setStep, setCurrentGroup }: SummaryProps) {
   const [summaryItemsToDisplay, setSummaryItems] = useState<Partial<Config>>({});
   useEffect(() => {
     (() => {
@@ -39,7 +35,7 @@ export default function SummaryDisplayer({
 
   const handleShowStep = (key: string) => {
     if (['oben', 'unten'].includes(key)) {
-      setStep(steps.find((st) => st.key === 'type') || null);
+      setStep(steps[currentGroup].find((st) => st.key === 'type') || null);
       if (configuration.style === 'Oberlicht') {
         scrollToElement(key, 50);
       }
@@ -53,7 +49,12 @@ export default function SummaryDisplayer({
       }
       return;
     }
-    setStep(steps.find((st) => st.key === key) || null);
+    const parentKey = Object.entries(steps).find(([, value]) => 
+      Array.isArray(value) && value.some(item => item.key === key)
+    )?.[0] as 'basis' | 'farben';
+
+    setCurrentGroup(parentKey);
+    setStep(steps[parentKey].find((st) => st.key === key) || null);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -70,15 +71,6 @@ export default function SummaryDisplayer({
             </span>
           </div>
         ))}
-{/*         {extraConfig &&
-          Object.keys(extraConfig).map((key, index) => (
-            <div key={index} className={style.item}>
-              <span id={style.title}>&#x2022; {key.toUpperCase()}</span>
-              <div id={style.value}>
-                <span>{extraConfig[key as keyof ExtraConfig] as string}</span>
-              </div>
-            </div>
-          ))} */}
       </div>
       {actions}
     </div>

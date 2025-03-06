@@ -1,7 +1,6 @@
-import { Size } from '@/types/Configurator';
+import { Size, SubStyle } from '@/types/Configurator';
 import style from './Sizer.module.css';
 import Image, { StaticImageData } from 'next/image';
-import { SubStyle } from '@/pages/konfigurator';
 
 interface SizeHolderProps {
   size?: Size | null;

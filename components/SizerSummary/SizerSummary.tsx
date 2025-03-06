@@ -1,13 +1,11 @@
-import { Config, Size, Step } from '@/types/Configurator';
-import { StaticImageData } from 'next/image';
+import { Config, Size, Step, SubStyle } from '@/types/Configurator';
 import { useEffect } from 'react';
-import { SubStyle } from '@/pages/konfigurator';
 import Size_Holder from './Size_Holder';
+import { windowStyles } from '@/data/configuration_options';
 
 interface SizerProps {
   size: Size | null;
   configuration: Config;
-  sizeImage: StaticImageData;
   substyle?: SubStyle;
   currentStep: Step;
   setOrderDetailsReady: React.Dispatch<React.SetStateAction<boolean>>;
@@ -16,7 +14,6 @@ interface SizerProps {
 
 export default function SizerSummary({
   size,
-  sizeImage,
   configuration,
   substyle,
   setConfiguration,
@@ -54,13 +51,19 @@ export default function SizerSummary({
         ? ['unten', 'oben']
         : undefined;
 
+  const findSizeImage = () => {
+    const selectedStyle = windowStyles.find((sty) => sty.name === configuration['style']);
+    const typesForSelectedStyle = selectedStyle?.children?.type;
+    const selectedType = typesForSelectedStyle?.find((typ) => typ.name === configuration.type);
+    return selectedType?.image;
+  };
   return (
     <>
       <Size_Holder
         orderOfKeys={orderOfKeys}
         subStyle={substyle}
         size={size}
-        sizeImage={sizeImage!}
+        sizeImage={findSizeImage()!}
       />
     </>
   );

@@ -7,27 +7,15 @@ $shine-color: gold;
   align-items: center;
   button {
     border: none;
-    width: 50%;
+    width: 100%;
     color: whitesmoke;
     padding: 10px;
     font-size: medium;
     position: relative;
-    span {
-      margin-left: 10px;
-    }
-    &:hover {
-      filter: brightness(1.1);
-    }
+    background-color: var(--color-1);
   }
-  #must {
-    background: var(--color-1);
-    &:hover {
-      filter: brightness(1.5);
-    }
-  }
-  #may {
-    background: #ffa500;
-    color: black;
+  #active {
+    background-color: var(--color-2);
   }
 }
 .config {
@@ -35,6 +23,15 @@ $shine-color: gold;
   grid-template-columns: 1fr 350px;
   column-gap: 20px;
   padding-top: 10px;
+  min-height: 99vh;
+  .group{
+    display: grid;
+    grid-template-rows: 0fr;
+    animation: rise 0.5s ease-out forwards;
+    & > * {
+      overflow-x: hidden;
+    }
+  }
   &_steps {
     display: flex;
     margin-bottom: 30px;
@@ -107,37 +104,11 @@ $shine-color: gold;
       }
     }
   }
-  #orange {
-    .complete,
-    .next,
-    .inactive,
-    .selected_next,
-    .selected_complete {
-      background-color: #ffa500;
-      color: black;
-      svg {
-        filter: none;
-      }
-      #anchor {
-        color: #ffa500;
-      }
-    }
-    .selected_next,
-    .selected_complete {
-      background-color: #846429;
-      color: white;
-      svg {
-        filter: invert(100%);
-      }
-      #anchor {
-        color: #846429;
-      }
-    }
-  }
   &_wrapper {
     width: 100%;
     display: flex;
     column-gap: 40px;
+    padding: 5px;
     &_option_holders {
       width: 100%;
       display: grid;
@@ -288,5 +259,14 @@ $shine-color: gold;
         }
       }
     }
+  }
+}
+
+@keyframes rise {
+  from{
+  grid-template-rows: 0fr;
+  }
+  to{
+    grid-template-rows: 1fr;
   }
 }

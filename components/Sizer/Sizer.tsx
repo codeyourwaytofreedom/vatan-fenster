@@ -1,7 +1,6 @@
-import { Config, Size, Step } from '@/types/Configurator';
+import { Config, Size, Step, SubStyle } from '@/types/Configurator';
 import { StaticImageData } from 'next/image';
 import { useEffect } from 'react';
-import { SubStyle } from '@/pages/konfigurator';
 import Size_Holder from './Size_Holder';
 
 interface SizerProps {

@@ -207,6 +207,18 @@ export const initialConfiguration: Config = {
   style: '1. Flügel',
   type: 'Fest',
   size: true,
+  colorExt: 'white',
+  colorInt: 'white',
+  colorMid: 'white',
+  sealExt: 'white',
+  sealInt: 'white',
+  handle: 'H-83274',
+};
+
+export const initialSubstyle = {
+  option: null,
+  oben: null,
+  unten: null,
 };
 
 export const initialSize: Size = {
@@ -221,8 +233,8 @@ export const initialExtraConfig = {
   colorMid: 'white',
   sealExt: 'white',
   sealInt: 'white',
-  handle: 'H-83274'
-}
+  handle: 'H-83274',
+};
 
 export const extraOptionsMock = {
   colorExt: [
@@ -413,7 +425,6 @@ export const extraOptionsMock = {
     },
   ],
 };
-
 
 export const categoryItems = [
   { key: 'material', items: materials },

@@ -1,3 +1,4 @@
+import { SelectionItem } from '@/data/configuration_options';
 import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { StaticImageData } from 'next/image';
 
@@ -24,6 +25,12 @@ export interface DoubleSize {
   };
 }
 
+export interface SubStyle {
+  option: SelectionItem | null;
+  oben: SelectionItem | null;
+  unten: SelectionItem | null;
+}
+
 export interface Config {
   material: string;
   brand: string;
@@ -31,6 +38,12 @@ export interface Config {
   style: string;
   type: string | object | null;
   size: boolean;
+  colorExt: string;
+  colorInt: string;
+  colorMid: string;
+  sealExt: string;
+  sealInt: string;
+  handle: string;
 }
 
 export interface ExtraConfig {
