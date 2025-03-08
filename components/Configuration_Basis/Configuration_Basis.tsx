@@ -1,8 +1,8 @@
 import { steps } from '@/data/steps';
 import style from '../../styles/KonfiguratorPage.module.css';
-import { Config, GroupKey, Size, Step, SubStyle } from '@/types/Configurator';
+import { Config, SubStyle } from '@/types/Configurator';
 import Stepper from '../Stepper/Stepper';
-import { MouseEventHandler, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import OptionHolder from '../Product_Holder/Option_Holder';
 import Substyle_Stepper from '../Substyle_Stepper/Substyle_Stepper';
 import Sizer from '../Sizer/Sizer';
@@ -11,49 +11,40 @@ import {
   categoryItems,
   extraOptionsMock,
   SelectionItem,
-  SubStyleOptions,
+  subStyleOptions,
   windowStyles,
 } from '@/data/configuration_options';
+import { useConfiguration } from '@/context/ConfigurationContext';
+import { useOrderDetailsReady } from '@/context/OrderDetailsContext';
 
-interface BasisProps {
-  currentGroup: GroupKey;
-  currentStep: Step;
-  configuration: Config;
-  orderDetailsReady: boolean;
-  substyle: SubStyle;
-  subStyleOptions: SubStyleOptions;
-  size: Size | null;
-  setSize: React.Dispatch<React.SetStateAction<Size | null>>;
-  setSubStyle: React.Dispatch<React.SetStateAction<SubStyle>>;
-  setStep: React.Dispatch<React.SetStateAction<Step | null>>;
-  setOrderDetailsReady: React.Dispatch<React.SetStateAction<boolean>>;
-  setConfiguration: React.Dispatch<React.SetStateAction<Config>>;
-  handleSelectGroup: MouseEventHandler<HTMLButtonElement>;
-}
-export default function Basis_Configuration({
-  currentGroup,
-  currentStep,
-  configuration,
-  orderDetailsReady,
-  substyle,
-  subStyleOptions,
-  size,
-  setSize,
-  setSubStyle,
-  setStep,
-  setConfiguration,
-  setOrderDetailsReady,
-  handleSelectGroup,
-}: BasisProps) {
+export default function Basis_Configuration() {
   const [itemsToDisplay, setItemsToDisplay] = useState<SelectionItem[]>();
+
+  const {
+    configuration,
+    substyle,
+    setSubStyle,
+    currentStep,
+    currentGroup,
+    setConfiguration,
+    setCurrentGroup,
+    setCurrentStep,
+  } = useConfiguration();
+
+  const { size, setSize } = useOrderDetailsReady();
+
   const visibleSection = categoryItems.find((cat) => cat.key === currentStep?.key);
+
+  const handleSelectGroup = () => {
+    setCurrentGroup('basis');
+    setCurrentStep(steps.basis[0]);
+  };
 
   const showDefaultProductHolders =
     currentStep &&
     currentStep?.key !== 'size' &&
     !(
-      ['Oberlicht', 'Unterlicht'].includes(configuration.style.name) &&
-      currentStep?.key === 'type'
+      ['Oberlicht', 'Unterlicht'].includes(configuration.style.name) && currentStep?.key === 'type'
     );
   const isSelected = (name: string) => {
     if (currentStep) {
@@ -69,7 +60,9 @@ export default function Basis_Configuration({
   const findSizeImage = () => {
     const selectedStyle = windowStyles.find((sty) => sty.name === configuration['style'].name);
     const typesForSelectedStyle = selectedStyle?.children?.type;
-    const selectedType = typesForSelectedStyle?.find((typ) => typ.name === (configuration.type as SelectionItem).name);
+    const selectedType = typesForSelectedStyle?.find(
+      (typ) => typ.name === (configuration.type as SelectionItem).name
+    );
     return selectedType?.image;
   };
 
@@ -94,7 +87,9 @@ export default function Basis_Configuration({
           setItemsToDisplay(visibleSection?.items);
           break;
         case 'type':
-          const selectedStyle = windowStyles.find((sty) => sty.name === configuration['style'].name);
+          const selectedStyle = windowStyles.find(
+            (sty) => sty.name === configuration['style'].name
+          );
           const typesForSelectedStyle = selectedStyle?.children?.type;
           setItemsToDisplay(typesForSelectedStyle);
           break;
@@ -104,7 +99,7 @@ export default function Basis_Configuration({
 
   // select first step when page loads
   useEffect(() => {
-    setStep(steps.basis[0]);
+    setCurrentStep(steps.basis[0]);
   }, []);
 
   // when substyle option changes, autoselect oben and unten
@@ -162,7 +157,8 @@ export default function Basis_Configuration({
   const autoSelectProfile = () => {
     const selectedBrand = brands.find((sty) => sty.name === configuration['brand'].name);
     const profiles = selectedBrand?.children?.profile;
-    const profileForSelectedMaterial = profiles![configuration.material.name as keyof typeof profiles];
+    const profileForSelectedMaterial =
+      profiles![configuration.material.name as keyof typeof profiles];
     if (profileForSelectedMaterial && profileForSelectedMaterial[0]) {
       updateConfiguration(profileForSelectedMaterial[0], 'profile');
     }
@@ -186,7 +182,7 @@ export default function Basis_Configuration({
     if (nextStep && value) {
       setTimeout(() => {
         // have to handle this correctly
-        setStep(nextStep);
+        setCurrentStep(nextStep);
       }, 300);
     }
   };
@@ -202,29 +198,32 @@ export default function Basis_Configuration({
   };
 
   // if selected window type has handle, update configuration and vice-versa
-  useEffect(()=>{
+  useEffect(() => {
     let hasHandle = false;
-    if((configuration.type as SelectionItem).handleNumber){
+    if ((configuration.type as SelectionItem).handleNumber) {
       hasHandle = true;
     }
-    if((configuration.type as SubStyle).option){
-      if((configuration.type as SubStyle).oben?.handleNumber || (configuration.type as SubStyle).unten?.handleNumber ){
+    if ((configuration.type as SubStyle).option) {
+      if (
+        (configuration.type as SubStyle).oben?.handleNumber ||
+        (configuration.type as SubStyle).unten?.handleNumber
+      ) {
         hasHandle = true;
       }
     }
     ////////
-    if(hasHandle){
-      setConfiguration((pr)=>{
-        return {...pr, handle: extraOptionsMock.handle[0]}
-      })
-    }else{
-      setConfiguration((pr)=>{
+    if (hasHandle) {
+      setConfiguration((pr) => {
+        return { ...pr, handle: extraOptionsMock.handle[0] };
+      });
+    } else {
+      setConfiguration((pr) => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { handle, ...rest} = pr;
-        return {...rest}
-      })
+        const { handle, ...rest } = pr;
+        return { ...rest };
+      });
     }
-  },[configuration.type]);
+  }, [configuration.type]);
   return (
     <>
       <div className={style.layers}>
@@ -235,15 +234,7 @@ export default function Basis_Configuration({
           <span>BASISKONFIGURATION</span>
         </button>
       </div>
-      {currentGroup === 'basis' && (
-        <Stepper
-          steps={steps.basis}
-          currentStep={currentStep!}
-          setStep={setStep}
-          orderDetailsReady={orderDetailsReady}
-          configuration={configuration}
-        />
-      )}
+      {currentGroup === 'basis' && <Stepper steps={steps.basis} configuration={configuration} />}
       {currentGroup === 'basis' && (
         <div className={style.group}>
           <div className={style.config_wrapper}>
@@ -259,25 +250,12 @@ export default function Basis_Configuration({
                 ))}
               </div>
             )}
-            {showSubstyleStepper && (
-              <Substyle_Stepper
-                configuration={configuration}
-                currentGroup={currentGroup}
-                substyle={substyle}
-                subStyleOptions={subStyleOptions}
-                setSubStyle={setSubStyle}
-                setStep={setStep}
-              />
-            )}
+            {showSubstyleStepper && <Substyle_Stepper />}
 
             {currentStep?.key === 'size' && (
               <Sizer
                 size={size}
-                configuration={configuration}
-                currentStep={currentStep!}
-                setConfiguration={setConfiguration}
                 setSize={setSize}
-                setOrderDetailsReady={setOrderDetailsReady}
                 substyle={substyle}
                 sizeImage={findSizeImage()!}
               />

@@ -1,24 +1,10 @@
 import Substyle_Section from '../Substyle/Substyle_Section';
 import style from '../.././styles/KonfiguratorPage.module.css';
-import { SubStyleOptions } from '@/data/configuration_options';
-import { Config, Step, SubStyle } from '@/types/Configurator';
+import { subStyleOptions, SubStyleOptions } from '@/data/configuration_options';
+import { useConfiguration } from '@/context/ConfigurationContext';
 
-interface SubstyleStepperProps {
-  configuration: Config;
-  currentGroup: 'basis' | 'farben';
-  substyle: SubStyle;
-  subStyleOptions: SubStyleOptions;
-  setSubStyle: React.Dispatch<React.SetStateAction<SubStyle>>;
-  setStep: React.Dispatch<React.SetStateAction<Step | null>>;
-}
-export default function Substyle_Stepper({
-  substyle,
-  configuration,
-  currentGroup,
-  subStyleOptions,
-  setSubStyle,
-  setStep,
-}: SubstyleStepperProps) {
+export default function Substyle_Stepper() {
+  const { configuration, substyle } = useConfiguration();
   const obenItems = subStyleOptions[
     configuration.style.name.toLowerCase() as keyof SubStyleOptions
   ]?.find((it) => it.key === substyle.option?.key)?.children?.oben;
@@ -32,10 +18,7 @@ export default function Substyle_Stepper({
         title={configuration.style.name || ''}
         configKey="option"
         items={subStyleOptions[configuration.style.name.toLowerCase() as keyof SubStyleOptions]}
-        substyle={substyle}
         comesFirst={configuration.style.name as 'Oberlicht' | 'Unterlicht'}
-        setSubStyle={setSubStyle}
-        currentGroup={currentGroup}
       />
       {configuration.style.name === 'Oberlicht' && (
         <>
@@ -44,10 +27,7 @@ export default function Substyle_Stepper({
               title={'Oben'}
               configKey="oben"
               items={obenItems}
-              substyle={substyle}
               comesFirst={'Oberlicht'}
-              setSubStyle={setSubStyle}
-              currentGroup={currentGroup}
             />
           )}
           {substyle.oben && (
@@ -55,11 +35,7 @@ export default function Substyle_Stepper({
               title={'Unten'}
               configKey="unten"
               items={untenItems}
-              substyle={substyle}
-              currentGroup={currentGroup}
               comesFirst={'Oberlicht'}
-              setSubStyle={setSubStyle}
-              setStep={setStep}
             />
           )}
         </>
@@ -71,10 +47,7 @@ export default function Substyle_Stepper({
               title={'Oben'}
               configKey="unten"
               items={untenItems}
-              substyle={substyle}
               comesFirst={'Unterlicht'}
-              currentGroup={currentGroup}
-              setSubStyle={setSubStyle}
             />
           )}
           {substyle.unten && (
@@ -82,11 +55,7 @@ export default function Substyle_Stepper({
               title={'Unten'}
               configKey="oben"
               items={obenItems}
-              substyle={substyle}
-              currentGroup={currentGroup}
               comesFirst={'Unterlicht'}
-              setSubStyle={setSubStyle}
-              setStep={setStep}
             />
           )}
         </>

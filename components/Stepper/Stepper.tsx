@@ -1,21 +1,14 @@
 import { Config, Step } from '@/types/Configurator';
 import style from '../.././styles/KonfiguratorPage.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useConfiguration } from '@/context/ConfigurationContext';
 
 interface StepperProps {
   steps: Step[];
-  currentStep: Step;
   orderDetailsReady?: boolean;
   configuration: Config;
-  setStep: React.Dispatch<React.SetStateAction<Step | null>>;
 }
-export default function Stepper({
-  steps,
-  currentStep,
-  configuration,
-  orderDetailsReady,
-  setStep,
-}: StepperProps) {
+export default function Stepper({ steps, configuration, orderDetailsReady }: StepperProps) {
   const stepClass = (step: Step) => {
     const currentlySelected = step.key === currentStep?.key;
     const completed = Boolean(configuration[step.key as keyof Config]);
@@ -54,10 +47,11 @@ export default function Stepper({
     }
     return style.inactive;
   };
+  const { currentStep, setCurrentStep } = useConfiguration();
   return (
     <div className={style.config_steps}>
       {steps.map((st, index) => (
-        <button key={index} className={stepClass(st)} onClick={() => setStep(st)}>
+        <button key={index} className={stepClass(st)} onClick={() => setCurrentStep(st)}>
           <FontAwesomeIcon icon={st.icon} color="black" beatFade={stepClass(st).includes('next')} />
           <p>{st.name}</p>
           <span id={style.anchor}>&#9660;</span>

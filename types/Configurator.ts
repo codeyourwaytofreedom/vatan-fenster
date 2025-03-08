@@ -66,4 +66,4 @@ export interface Step {
   icon: IconDefinition;
 }
 
-export type GroupKey = 'basis' | 'farben' | 'verglasung' | 'sonnenschutz' | 'zusätze'
+export type GroupKey = 'basis' | 'farben' | 'verglasung' | 'sonnenschutz' | 'zusätze';

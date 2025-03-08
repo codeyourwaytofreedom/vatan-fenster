@@ -1,28 +1,21 @@
-import { Config, Size, Step, SubStyle } from '@/types/Configurator';
+import { Size, SubStyle } from '@/types/Configurator';
 import { StaticImageData } from 'next/image';
 import { useEffect } from 'react';
 import Size_Holder from './Size_Holder';
+import { useOrderDetailsReady } from '@/context/OrderDetailsContext';
+import { useConfiguration } from '@/context/ConfigurationContext';
 
 interface SizerProps {
   size: Size | null;
-  configuration: Config;
   sizeImage: StaticImageData;
   substyle?: SubStyle;
-  currentStep: Step;
   setSize: React.Dispatch<React.SetStateAction<Size | null>>;
-  setOrderDetailsReady: React.Dispatch<React.SetStateAction<boolean>>;
-  setConfiguration: React.Dispatch<React.SetStateAction<Config>>;
 }
 
-export default function Sizer({
-  size,
-  sizeImage,
-  configuration,
-  setSize,
-  substyle,
-  setConfiguration,
-  setOrderDetailsReady,
-}: SizerProps) {
+export default function Sizer({ size, sizeImage, setSize, substyle }: SizerProps) {
+  const { setOrderDetailsReady } = useOrderDetailsReady();
+  const { configuration, setConfiguration } = useConfiguration();
+
   const updateSize = (e: React.ChangeEvent<HTMLInputElement>, property: 'w' | 'h' | 'h_unten') => {
     const value = e.target.value ? Number(e.target.value) : undefined;
     setSize((prevSize) => ({

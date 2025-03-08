@@ -8,13 +8,9 @@ import { SelectionItem } from '@/data/configuration_options';
 type ProductHolderProps = {
   item: SelectionItem;
   selected: boolean;
-  action: MouseEventHandler<HTMLDivElement>; 
+  action: MouseEventHandler<HTMLDivElement>;
 };
-export default function OptionHolder({
-  item,
-  selected,
-  action,
-}: ProductHolderProps) {
+export default function OptionHolder({ item, selected, action }: ProductHolderProps) {
   const [showInfo, setShowInfo] = useState(false);
   const infoRef = useRef<HTMLDivElement | null>(null);
 

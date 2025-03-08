@@ -402,7 +402,7 @@ export const initialConfiguration: Config = {
   colorInt: extraOptionsMock.colorInt[0],
   colorMid: extraOptionsMock.colorMid[0],
   sealExt: extraOptionsMock.sealExt[0],
-  sealInt: extraOptionsMock.sealInt[0]
+  sealInt: extraOptionsMock.sealInt[0],
 };
 
 export const initialSubstyle = {

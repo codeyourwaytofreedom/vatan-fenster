@@ -20,7 +20,7 @@
   display: grid;
   grid-template-columns: 1fr 350px;
   -moz-column-gap: 20px;
-  column-gap: 20px;
+       column-gap: 20px;
   padding-top: 10px;
   min-height: 99vh;
 }
@@ -47,7 +47,7 @@
   align-items: center;
   justify-items: center;
   -moz-column-gap: 10px;
-  column-gap: 10px;
+       column-gap: 10px;
   font-size: calc(12px + 0.1vw);
   position: relative;
   padding: 5px 0;
@@ -117,7 +117,7 @@
   width: 100%;
   display: flex;
   -moz-column-gap: 40px;
-  column-gap: 40px;
+       column-gap: 40px;
   padding: 5px;
 }
 .config_wrapper_option_holders {
@@ -165,7 +165,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: greenyellow;
+  background-color: orange;
 }
 .config #summary h4 {
   font-size: 12px;
@@ -192,7 +192,7 @@
   display: flex;
   align-items: flex-end;
   -moz-column-gap: 15px;
-  column-gap: 15px;
+       column-gap: 15px;
 }
 .config #summary .item #value svg:hover {
   color: crimson;
@@ -210,7 +210,7 @@
   filter: brightness(1.1);
 }
 .config #summary #actions #add_to_chart {
-  background-color: greenyellow;
+  background-color: orange;
 }
 .config #summary #actions #additional {
   background-color: gold;
@@ -225,8 +225,7 @@
     flex-wrap: wrap;
     justify-content: center;
   }
-  .config_wrapper_option_holders,
-  .config_wrapper_subcategories {
+  .config_wrapper_option_holders, .config_wrapper_subcategories {
     order: 2;
   }
   .config_wrapper #summary {
@@ -270,4 +269,4 @@
   to {
     grid-template-rows: 1fr;
   }
-} /*# sourceMappingURL=KonfiguratorPage.module.css.map */
+}/*# sourceMappingURL=KonfiguratorPage.module.css.map */

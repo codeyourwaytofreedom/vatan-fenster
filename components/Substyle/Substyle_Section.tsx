@@ -2,29 +2,18 @@ import { SelectionItem } from '@/data/configuration_options';
 import OptionHolder from '../Product_Holder/Option_Holder';
 import style from '../.././styles/KonfiguratorPage.module.css';
 import { scrollToElement } from '@/utils';
-import { Step, SubStyle } from '@/types/Configurator';
 import { steps } from '@/data/steps';
+import { useConfiguration } from '@/context/ConfigurationContext';
 
 type SubStyleProps = {
   configKey: 'option' | 'oben' | 'unten';
   title: string;
-  currentGroup: 'basis' | 'farben';
   items?: SelectionItem[];
-  substyle: SubStyle;
   comesFirst?: 'Oberlicht' | 'Unterlicht';
-  setSubStyle: React.Dispatch<React.SetStateAction<SubStyle>>;
-  setStep?: React.Dispatch<React.SetStateAction<Step | null>>;
 };
-export default function Substyle_Section({
-  title,
-  items,
-  currentGroup,
-  configKey,
-  substyle,
-  comesFirst,
-  setSubStyle,
-  setStep,
-}: SubStyleProps) {
+export default function Substyle_Section({ title, items, configKey, comesFirst }: SubStyleProps) {
+  const { substyle, currentGroup, setSubStyle, setCurrentStep } = useConfiguration();
+
   const moveToSection = () => {
     switch (comesFirst) {
       case 'Oberlicht':
@@ -52,7 +41,7 @@ export default function Substyle_Section({
     }
     if (key === 'unten' && comesFirst === 'Oberlicht') {
       setTimeout(() => {
-        setStep!(steps[currentGroup].find((s) => s.key === 'size')!);
+        setCurrentStep!(steps[currentGroup].find((s) => s.key === 'size')!);
       }, 300);
     }
     if (key === 'unten' && comesFirst === 'Unterlicht') {
@@ -60,7 +49,7 @@ export default function Substyle_Section({
     }
     if (key === 'oben' && comesFirst === 'Unterlicht') {
       setTimeout(() => {
-        setStep!(steps[currentGroup].find((s) => s.key === 'size')!);
+        setCurrentStep!(steps[currentGroup].find((s) => s.key === 'size')!);
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }, 200);
     }

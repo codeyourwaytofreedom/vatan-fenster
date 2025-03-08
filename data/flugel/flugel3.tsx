@@ -24,38 +24,38 @@ export const flugel3_oben: SelectionItem[] = [
     name: 'Kipp + Kipp + Kipp',
     image: kipp_kipp_kipp_o,
     key: 'kipp_kipp_kipp_o',
-    handleNumber: 3
+    handleNumber: 3,
   },
   {
     name: 'Dreh-Kipp + Fest + Dreh Kipp',
     image: dreh_kipp_fest_dreh_kipp_o,
     key: 'dreh_kipp_fest_dreh_kipp_o',
-    handleNumber: 2
+    handleNumber: 2,
   },
   {
     name: 'Dreh-Kipp + Dreh links + Dreh Kipp (pfosten)',
     image: dreh_kipp_dreh_links_dreh_kipp_pfosten_o,
     key: 'dreh_kipp_dreh_links_dreh_kipp_pfosten_o',
-    handleNumber: 3
+    handleNumber: 3,
   },
   {
     name: 'Dreh-Kipp + Dreh rechts + Dreh Kipp (pfosten)',
     image: dreh_kipp_dreh_rechts_dreh_kipp_pfosten_o,
     key: 'dreh_kipp_dreh_rechts_dreh_kipp_pfosten_o',
-    handleNumber: 3
+    handleNumber: 3,
   },
   {
     name: 'Dreh-Kipp + Dreh links + Dreh Kipp (stulp)',
     image: dreh_kipp_dreh_links_dreh_kipp_stulp_o,
     key: 'dreh_kipp_dreh_links_dreh_kipp_stulp_o',
-    handleNumber: 3
+    handleNumber: 3,
   },
   {
     name: 'Dreh-Kipp + Dreh rechts + Dreh Kipp (stulp)',
     image: dreh_kipp_dreh_rechts_dreh_kipp_stulp_o,
     key: 'dreh_kipp_dreh_rechts_dreh_kipp_stulp_o',
-    handleNumber: 3
-  }
+    handleNumber: 3,
+  },
 ];
 
 import fest_fest_fest_u from '../../assets/configurator/style/flugel3/unten/001.Fest + Fest + Fest.webp';
@@ -86,60 +86,60 @@ export const flugel3_unten: SelectionItem[] = [
     name: 'Kipp + Kipp + Kipp',
     image: kipp_kipp_kipp_u,
     key: 'kipp_kipp_kipp_u',
-    handleNumber: 3
+    handleNumber: 3,
   },
   {
     name: 'Dreh-Kipp + Fest + Fest',
     image: dreh_kipp_fest_fest_u,
     key: 'dreh_kipp_fest_fest_u',
-    handleNumber: 1
+    handleNumber: 1,
   },
   {
     name: 'Fest + Fest + Dreh-Kipp',
     image: fest_fest_dreh_kipp_u,
     key: 'fest_fest_dreh_kipp_u',
-    handleNumber: 1
+    handleNumber: 1,
   },
   {
     name: 'Fest + Dreh-Kipp Links + Fest',
     image: fest_dreh_kipp_links_fest_u,
     key: 'fest_dreh_kipp_links_fest_u',
-    handleNumber: 1
+    handleNumber: 1,
   },
   {
     name: 'Fest + Dreh-Kipp Rechts + Fest',
     image: fest_dreh_kipp_rechts_fest_u,
     key: 'fest_dreh_kipp_rechts_fest_u',
-    handleNumber: 1
+    handleNumber: 1,
   },
   {
     name: 'Dreh-Kipp + Fest + Dreh-Kipp',
     image: dreh_kipp_fest_dreh_kipp_u,
     key: 'dreh_kipp_fest_dreh_kipp_u',
-    handleNumber: 2
+    handleNumber: 2,
   },
   {
     name: 'Dreh-Kipp + Dreh links + Dreh-Kipp (Pfosten)',
     image: dreh_kipp_dreh_links_dreh_kipp_pfosten_u,
     key: 'dreh_kipp_dreh_links_dreh_kipp_pfosten_u',
-    handleNumber: 3
+    handleNumber: 3,
   },
   {
     name: 'Dreh-Kipp + Dreh rechts + Dreh-Kipp (Pfosten)',
     image: dreh_kipp_dreh_rechts_dreh_kipp_pfosten_u,
     key: 'dreh_kipp_dreh_rechts_dreh_kipp_pfosten_u',
-    handleNumber: 3
+    handleNumber: 3,
   },
   {
     name: 'Dreh-Kipp + Dreh links + Dreh-Kipp (Stulp)',
     image: dreh_kipp_dreh_links_dreh_kipp_stulp_u,
     key: 'dreh_kipp_dreh_links_dreh_kipp_stulp_u',
-    handleNumber: 3
+    handleNumber: 3,
   },
   {
     name: 'Dreh-Kipp + Dreh rechts + Dreh-Kipp (Stulp)',
     image: dreh_kipp_dreh_rechts_dreh_kipp_stulp_u,
     key: 'dreh_kipp_dreh_rechts_dreh_kipp_stulp_u',
-    handleNumber: 3
+    handleNumber: 3,
   },
 ];

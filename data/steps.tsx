@@ -8,7 +8,7 @@ import {
 import { extraSteps } from './extra_steps';
 import { GroupKey, Step } from '@/types/Configurator';
 
-export const steps: Record<(GroupKey | string), Step[]> = {
+export const steps: Record<GroupKey | string, Step[]> = {
   basis: [
     {
       key: 'material',
