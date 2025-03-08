@@ -1,20 +1,17 @@
-import Image, { StaticImageData } from 'next/image';
+import Image from 'next/image';
 import { MouseEventHandler, useEffect, useRef, useState } from 'react';
 import style from './Option_Holder.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfo } from '@fortawesome/free-solid-svg-icons';
+import { SelectionItem } from '@/data/configuration_options';
 
 type ProductHolderProps = {
-  image: StaticImageData;
-  name: string;
-  imageAlt: string;
+  item: SelectionItem;
   selected: boolean;
-  action: MouseEventHandler<HTMLDivElement>; // Correct type
+  action: MouseEventHandler<HTMLDivElement>; 
 };
 export default function OptionHolder({
-  image,
-  name,
-  imageAlt,
+  item,
   selected,
   action,
 }: ProductHolderProps) {
@@ -52,14 +49,14 @@ export default function OptionHolder({
         <FontAwesomeIcon beat icon={faInfo} />
       </button>
       <label>
-        <Image src={image} alt={imageAlt} width={220} height={220} /> <br />
-        <p>{name}</p>
+        <Image src={item.image} alt={item.name} width={220} height={220} /> <br />
+        <p>{item.name}</p>
         <br />
         {selected && <p id={style.check}>&#10003;</p>}
       </label>
       {showInfo && (
         <div ref={infoRef} id={style.infobox}>
-          {name} details go here...
+          {item.name} details go here...
         </div>
       )}
     </div>

@@ -46,6 +46,7 @@ export type SelectionItem = {
   name: string;
   image: Image;
   isActive?: boolean;
+  handleNumber?: number;
   children?: {
     profile?: {
       'Kunststoff (PVC)': SelectionItem[];
@@ -57,183 +58,6 @@ export type SelectionItem = {
     oben?: SelectionItem[];
     unten?: SelectionItem[];
   };
-};
-
-type GenericItem = SelectionItem;
-
-export const materials: GenericItem[] = [
-  {
-    key: 'plastic',
-    name: 'Kunststoff (PVC)',
-    image: plastic,
-  },
-  {
-    key: 'aluminum',
-    name: 'Aluminium',
-    image: aluminum,
-  },
-];
-
-export const brands: GenericItem[] = [
-  {
-    key: 'drutex',
-    name: 'Drutex',
-    image: drutex,
-    isActive: true,
-    children: {
-      profile: {
-        'Kunststoff (PVC)': [
-          {
-            key: 'Iglo_5',
-            name: 'Iglo 5',
-            image: Iglo5,
-          },
-          {
-            key: 'Iglo_5_Classic',
-            name: 'Iglo 5 Classic',
-            image: Iglo5Classic,
-          },
-          {
-            key: 'Iglo_Energy',
-            name: 'Iglo Energy',
-            image: Iglo5Energy,
-          },
-          {
-            key: 'Iglo_Energy_Classic',
-            name: 'Iglo Energy Classic',
-            image: Iglo5EnergyClassic,
-          },
-          {
-            key: 'Iglo_Light',
-            name: 'Iglo Light',
-            image: IgloLight,
-          },
-        ],
-        Aluminium: [
-          {
-            key: 'MB45',
-            name: 'MB45',
-            image: MB45,
-          },
-          {
-            key: 'MB70',
-            name: 'MB70',
-            image: MB70,
-          },
-          {
-            key: 'MB70HI',
-            name: 'MB70HI',
-            image: MB70HI,
-          },
-          {
-            key: 'MB86NSI',
-            name: 'MB86NSI',
-            image: MB86NSI,
-          },
-        ],
-      },
-    },
-  },
-  /*     {
-        name: 'Schüco',
-        image: schuco,
-        isActive: false
-    },
-    {
-        name: 'Gealan',
-        image: gealan,
-        isActive: false
-    },
-    {
-        name: 'Veka',
-        image: veka,
-        isActive: false
-    },
-    {
-        name: 'Aluplast',
-        image: aluplast,
-        isActive: false
-    } */
-];
-
-export const windowStyles: GenericItem[] = [
-  {
-    name: '1. Flügel',
-    image: flugel1,
-    key: 'flugel1',
-    children: {
-      type: flugel1_unten,
-    },
-  },
-  {
-    name: '2. Flügel',
-    image: flugel2,
-    key: 'flugel2',
-    children: {
-      type: flugel2_unten,
-    },
-  },
-  {
-    name: '3. Flügel',
-    image: flugel3,
-    key: 'flugel3',
-    children: {
-      type: flugel3_unten,
-    },
-  },
-  {
-    key: 'oberlicht',
-    name: 'Oberlicht',
-    image: oberlicht,
-  },
-  {
-    key: 'unterlicht',
-    name: 'Unterlicht',
-    image: unterlicht,
-  },
-];
-
-export const subStyleOptions: SubStyleOptions = {
-  oberlicht: oberlicht_substyle,
-  unterlicht: unterlicht_substyle,
-};
-
-// initial deafult configuration
-
-export const initialConfiguration: Config = {
-  material: 'Kunststoff (PVC)',
-  brand: 'Drutex',
-  profile: 'Iglo 5',
-  style: '1. Flügel',
-  type: 'Fest',
-  size: true,
-  colorExt: 'white',
-  colorInt: 'white',
-  colorMid: 'white',
-  sealExt: 'white',
-  sealInt: 'white',
-  handle: 'H-83274',
-};
-
-export const initialSubstyle = {
-  option: null,
-  oben: null,
-  unten: null,
-};
-
-export const initialSize: Size = {
-  w: 1000,
-  h: 700,
-  h_unten: 800,
-};
-
-export const initialExtraConfig = {
-  colorExt: 'white',
-  colorInt: 'white',
-  colorMid: 'white',
-  sealExt: 'white',
-  sealInt: 'white',
-  handle: 'H-83274',
 };
 
 export const extraOptionsMock = {
@@ -424,6 +248,182 @@ export const extraOptionsMock = {
       key: 'H-36783',
     },
   ],
+};
+
+type GenericItem = SelectionItem;
+
+export const materials: GenericItem[] = [
+  {
+    key: 'plastic',
+    name: 'Kunststoff (PVC)',
+    image: plastic,
+  },
+  {
+    key: 'aluminum',
+    name: 'Aluminium',
+    image: aluminum,
+  },
+];
+
+export const brands: GenericItem[] = [
+  {
+    key: 'drutex',
+    name: 'Drutex',
+    image: drutex,
+    isActive: true,
+    children: {
+      profile: {
+        'Kunststoff (PVC)': [
+          {
+            key: 'Iglo_5',
+            name: 'Iglo 5',
+            image: Iglo5,
+          },
+          {
+            key: 'Iglo_5_Classic',
+            name: 'Iglo 5 Classic',
+            image: Iglo5Classic,
+          },
+          {
+            key: 'Iglo_Energy',
+            name: 'Iglo Energy',
+            image: Iglo5Energy,
+          },
+          {
+            key: 'Iglo_Energy_Classic',
+            name: 'Iglo Energy Classic',
+            image: Iglo5EnergyClassic,
+          },
+          {
+            key: 'Iglo_Light',
+            name: 'Iglo Light',
+            image: IgloLight,
+          },
+        ],
+        Aluminium: [
+          {
+            key: 'MB45',
+            name: 'MB45',
+            image: MB45,
+          },
+          {
+            key: 'MB70',
+            name: 'MB70',
+            image: MB70,
+          },
+          {
+            key: 'MB70HI',
+            name: 'MB70HI',
+            image: MB70HI,
+          },
+          {
+            key: 'MB86NSI',
+            name: 'MB86NSI',
+            image: MB86NSI,
+          },
+        ],
+      },
+    },
+  },
+  /*     {
+        name: 'Schüco',
+        image: schuco,
+        isActive: false
+    },
+    {
+        name: 'Gealan',
+        image: gealan,
+        isActive: false
+    },
+    {
+        name: 'Veka',
+        image: veka,
+        isActive: false
+    },
+    {
+        name: 'Aluplast',
+        image: aluplast,
+        isActive: false
+    } */
+];
+
+export const windowStyles: GenericItem[] = [
+  {
+    name: '1. Flügel',
+    image: flugel1,
+    key: 'flugel1',
+    children: {
+      type: flugel1_unten,
+    },
+  },
+  {
+    name: '2. Flügel',
+    image: flugel2,
+    key: 'flugel2',
+    children: {
+      type: flugel2_unten,
+    },
+  },
+  {
+    name: '3. Flügel',
+    image: flugel3,
+    key: 'flugel3',
+    children: {
+      type: flugel3_unten,
+    },
+  },
+  {
+    key: 'oberlicht',
+    name: 'Oberlicht',
+    image: oberlicht,
+  },
+  {
+    key: 'unterlicht',
+    name: 'Unterlicht',
+    image: unterlicht,
+  },
+];
+
+export const subStyleOptions: SubStyleOptions = {
+  oberlicht: oberlicht_substyle,
+  unterlicht: unterlicht_substyle,
+};
+
+// initial deafult configuration
+
+export const initialConfiguration: Config = {
+  material: materials[0],
+  brand: brands[0],
+  profile: brands[0].children!.profile!['Kunststoff (PVC)'][0],
+  style: windowStyles[0],
+  type: windowStyles[0].children!.type![0]!,
+  size: true,
+  colorExt: extraOptionsMock.colorExt[0],
+  colorInt: extraOptionsMock.colorInt[0],
+  colorMid: extraOptionsMock.colorMid[0],
+  sealExt: extraOptionsMock.sealExt[0],
+  sealInt: extraOptionsMock.sealInt[0]
+};
+
+export const initialSubstyle = {
+  option: null,
+  oben: null,
+  unten: null,
+};
+
+export const initialSize: Size = {
+  w: 1000,
+  h: 700,
+  h_unten: 800,
+};
+
+export const initialExtraConfig = {
+  colorExt: 'white',
+  colorInt: 'white',
+  colorMid: 'white',
+  sealExt: 'white',
+  sealInt: 'white',
+  handle: 'H-83274',
 };
 
 export const categoryItems = [

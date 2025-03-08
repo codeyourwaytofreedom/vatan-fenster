@@ -1,45 +1,35 @@
-import { Config, Step, SubStyle } from '@/types/Configurator';
+import { Config, GroupKey, Step } from '@/types/Configurator';
 import style from '../.././styles/KonfiguratorPage.module.css';
-import { ReactNode, SetStateAction, useEffect, useState } from 'react';
+import { ReactNode, SetStateAction } from 'react';
 import { scrollToElement } from '@/utils';
 import { steps } from '@/data/steps';
 
 interface SummaryProps {
   configuration: Config;
-  currentGroup: 'basis' | 'farben';
+  currentGroup: GroupKey;
   sizer?: ReactNode;
   actions?: ReactNode;
   setStep: React.Dispatch<SetStateAction<Step | null>>;
-  setCurrentGroup: React.Dispatch<React.SetStateAction<'basis' | 'farben'>>;
+  setCurrentGroup: React.Dispatch<React.SetStateAction<GroupKey>>;
 }
 
-export default function SummaryDisplayer({ configuration, currentGroup, sizer, actions, setStep, setCurrentGroup }: SummaryProps) {
-  const [summaryItemsToDisplay, setSummaryItems] = useState<Partial<Config>>({});
-  useEffect(() => {
-    (() => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { size, type, ...config } = configuration;
-      if (typeof type !== 'string' && type) {
-        const { oben, unten, option } = type as SubStyle;
-        const subStyleSummary = {
-          type: option?.name,
-          // have to adjust to oberlicht unterlicht switch
-          oben: configuration.style === 'Unterlicht' ? unten?.name : oben?.name,
-          unten: configuration.style === 'Unterlicht' ? oben?.name : unten?.name,
-        };
-        return setSummaryItems({ ...config, ...subStyleSummary });
-      }
-      return setSummaryItems({ ...config, type });
-    })();
-  }, [configuration]);
+
+export default function SummaryDisplayer({
+  configuration,
+  currentGroup,
+  sizer,
+  actions,
+  setStep,
+  setCurrentGroup,
+}: SummaryProps) {
 
   const handleShowStep = (key: string) => {
     if (['oben', 'unten'].includes(key)) {
       setStep(steps[currentGroup].find((st) => st.key === 'type') || null);
-      if (configuration.style === 'Oberlicht') {
+      if (configuration.style.name  === 'Oberlicht') {
         scrollToElement(key, 50);
       }
-      if (configuration.style === 'Unterlicht') {
+      if (configuration.style.name  === 'Unterlicht') {
         if (key === 'oben') {
           scrollToElement('unten', 50);
         }
@@ -49,8 +39,8 @@ export default function SummaryDisplayer({ configuration, currentGroup, sizer, a
       }
       return;
     }
-    const parentKey = Object.entries(steps).find(([, value]) => 
-      Array.isArray(value) && value.some(item => item.key === key)
+    const parentKey = Object.entries(steps).find(
+      ([, value]) => Array.isArray(value) && value.some((item) => item.key === key)
     )?.[0] as 'basis' | 'farben';
 
     setCurrentGroup(parentKey);
@@ -63,11 +53,11 @@ export default function SummaryDisplayer({ configuration, currentGroup, sizer, a
       <h3>Bestellübersicht</h3>
       {sizer}
       <div id={style.items}>
-        {Object.keys(summaryItemsToDisplay).map((key, index) => (
-          <div key={index} className={style.item} onClick={() => handleShowStep(key)} id={key}>
+        {Object.entries(configuration).map(([key, value]) => (
+          <div key={key} className={style.item} onClick={() => handleShowStep(key)} id={key}>
             <span id={style.title}>&#x2022; {key.toUpperCase()}</span>
             <span id={style.value}>
-              {summaryItemsToDisplay[key as keyof typeof summaryItemsToDisplay] as string}
+              {value.name}
             </span>
           </div>
         ))}

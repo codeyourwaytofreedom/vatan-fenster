@@ -1,35 +1,13 @@
 import { useState } from 'react';
-import { GetStaticProps } from 'next';
 import { steps } from '@/data/steps';
 import {
-  categoryItems,
-  brands,
-  windowStyles,
   subStyleOptions,
   initialConfiguration,
   initialSize,
   initialSubstyle,
 } from '@/data/configuration_options';
 import style from '.././styles/KonfiguratorPage.module.css';
-
-interface Props {
-  steps: typeof steps;
-  categoryItems: typeof categoryItems;
-  brands: typeof brands;
-  windowStyles: typeof windowStyles;
-  subStyleOptions: typeof subStyleOptions;
-}
-export const getStaticProps: GetStaticProps = async () => {
-  return {
-    props: {
-      steps,
-      brands,
-      windowStyles,
-      subStyleOptions,
-    },
-  };
-};
-import { Config, Size, Step, SubStyle } from '@/types/Configurator';
+import { Config, GroupKey, Size, Step, SubStyle } from '@/types/Configurator';
 
 import SummaryDisplayer from '@/components/Summary/Summary';
 import SizerSummary from '@/components/SizerSummary/SizerSummary';
@@ -38,11 +16,11 @@ import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import Configuration_Group from '@/components/Configuration_Group/Configuration_Group';
 import Basis_Configuration from '@/components/Configuration_Basis/Configuration_Basis';
 
-export default function Page({ steps, subStyleOptions }: Props) {
+export default function Page() {
   const [configuration, setConfiguration] = useState<Config>(initialConfiguration);
   const [orderDetailsReady, setOrderDetailsReady] = useState<boolean>(false);
   const [currentStep, setCurrentStep] = useState<Step | null>(null);
-  const [currentGroup, setCurrentGroup] = useState<'basis' | 'farben'>('basis');
+  const [currentGroup, setCurrentGroup] = useState<GroupKey>('basis');
   const [size, setSize] = useState<Size | null>(initialSize);
   const [substyle, setSubStyle] = useState<SubStyle>(initialSubstyle);
 
@@ -61,7 +39,11 @@ export default function Page({ steps, subStyleOptions }: Props) {
     <>
       <div className={style.config}>
         <div>
-          <Basis_Configuration
+
+          {Object.entries(steps).map(([stepKey, stepValues]) =>
+            stepKey === 'basis' ? 
+            <Basis_Configuration
+            key={stepKey}
             currentStep={currentStep!}
             orderDetailsReady={orderDetailsReady}
             configuration={configuration}
@@ -76,17 +58,20 @@ export default function Page({ steps, subStyleOptions }: Props) {
             setOrderDetailsReady={setOrderDetailsReady}
             setConfiguration={setConfiguration}
           />
-
-          <Configuration_Group
-            groupTitle="farben"
+            : 
+            <Configuration_Group
+            key={stepKey}
+            groupTitle={stepKey as GroupKey}
             currentGroup={currentGroup}
             setConfiguration={setConfiguration}
-            steps={steps.farben}
+            steps={stepValues}
             configuration={configuration}
             currentStep={currentStep!}
             setStep={setCurrentStep}
             setCurrentGroup={setCurrentGroup}
           />
+          )}
+
         </div>
         <SummaryDisplayer
           configuration={configuration}

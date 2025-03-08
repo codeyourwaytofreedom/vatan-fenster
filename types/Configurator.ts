@@ -32,18 +32,18 @@ export interface SubStyle {
 }
 
 export interface Config {
-  material: string;
-  brand: string;
-  profile: string;
-  style: string;
-  type: string | object | null;
+  material: SelectionItem;
+  brand: SelectionItem;
+  profile: SelectionItem;
+  style: SelectionItem;
+  type: SelectionItem | SubStyle;
   size: boolean;
-  colorExt: string;
-  colorInt: string;
-  colorMid: string;
-  sealExt: string;
-  sealInt: string;
-  handle: string;
+  colorExt: SelectionItem;
+  colorInt: SelectionItem;
+  colorMid: SelectionItem;
+  sealExt: SelectionItem;
+  sealInt: SelectionItem;
+  handle?: SelectionItem;
 }
 
 export interface ExtraConfig {
@@ -65,3 +65,5 @@ export interface Step {
   name: string;
   icon: IconDefinition;
 }
+
+export type GroupKey = 'basis' | 'farben' | 'verglasung' | 'sonnenschutz' | 'zusätze'

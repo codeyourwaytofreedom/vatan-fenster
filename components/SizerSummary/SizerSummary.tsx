@@ -1,7 +1,7 @@
 import { Config, Size, Step, SubStyle } from '@/types/Configurator';
 import { useEffect } from 'react';
 import Size_Holder from './Size_Holder';
-import { windowStyles } from '@/data/configuration_options';
+import { SelectionItem, windowStyles } from '@/data/configuration_options';
 
 interface SizerProps {
   size: Size | null;
@@ -23,7 +23,7 @@ export default function SizerSummary({
   // if so, it means steps are complete, so move to summary
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
-    const sizeComplete = ['Oberlicht', 'Unterlicht'].includes(configuration.style as string)
+    const sizeComplete = ['Oberlicht', 'Unterlicht'].includes(configuration.style.name)
       ? !!(size?.w && size?.h && size?.h_unten)
       : !!(size?.w && size?.h);
 
@@ -45,16 +45,16 @@ export default function SizerSummary({
   }, [size]);
 
   const orderOfKeys =
-    configuration.style === 'Oberlicht'
+    configuration.style.name === 'Oberlicht'
       ? ['oben', 'unten']
-      : configuration.style === 'Unterlicht'
+      : configuration.style.name === 'Unterlicht'
         ? ['unten', 'oben']
         : undefined;
 
   const findSizeImage = () => {
-    const selectedStyle = windowStyles.find((sty) => sty.name === configuration['style']);
+    const selectedStyle = windowStyles.find((sty) => sty.name === configuration['style'].name);
     const typesForSelectedStyle = selectedStyle?.children?.type;
-    const selectedType = typesForSelectedStyle?.find((typ) => typ.name === configuration.type);
+    const selectedType = typesForSelectedStyle?.find((typ) => typ.name === (configuration.type as SelectionItem).name);
     return selectedType?.image;
   };
   return (

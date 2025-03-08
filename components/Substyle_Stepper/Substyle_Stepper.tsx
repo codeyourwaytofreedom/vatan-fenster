@@ -20,24 +20,24 @@ export default function Substyle_Stepper({
   setStep,
 }: SubstyleStepperProps) {
   const obenItems = subStyleOptions[
-    configuration.style?.toLowerCase() as keyof SubStyleOptions
+    configuration.style.name.toLowerCase() as keyof SubStyleOptions
   ]?.find((it) => it.key === substyle.option?.key)?.children?.oben;
   const untenItems = subStyleOptions[
-    configuration.style?.toLowerCase() as keyof SubStyleOptions
+    configuration.style.name.toLowerCase() as keyof SubStyleOptions
   ]?.find((it) => it.key === substyle.option?.key)?.children?.unten;
 
   return (
     <div className={style.config_wrapper_subcategories}>
       <Substyle_Section
-        title={configuration.style || ''}
+        title={configuration.style.name || ''}
         configKey="option"
-        items={subStyleOptions[configuration.style?.toLowerCase() as keyof SubStyleOptions]}
+        items={subStyleOptions[configuration.style.name.toLowerCase() as keyof SubStyleOptions]}
         substyle={substyle}
-        comesFirst={configuration.style as 'Oberlicht' | 'Unterlicht'}
+        comesFirst={configuration.style.name as 'Oberlicht' | 'Unterlicht'}
         setSubStyle={setSubStyle}
         currentGroup={currentGroup}
       />
-      {configuration.style === 'Oberlicht' && (
+      {configuration.style.name === 'Oberlicht' && (
         <>
           {substyle.option && (
             <Substyle_Section
@@ -64,7 +64,7 @@ export default function Substyle_Stepper({
           )}
         </>
       )}
-      {configuration.style === 'Unterlicht' && (
+      {configuration.style.name === 'Unterlicht' && (
         <>
           {substyle.option && (
             <Substyle_Section

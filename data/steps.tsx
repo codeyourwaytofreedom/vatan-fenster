@@ -6,8 +6,9 @@ import {
   faSignsPost,
 } from '@fortawesome/free-solid-svg-icons';
 import { extraSteps } from './extra_steps';
+import { GroupKey, Step } from '@/types/Configurator';
 
-export const steps = {
+export const steps: Record<(GroupKey | string), Step[]> = {
   basis: [
     {
       key: 'material',
@@ -41,4 +42,7 @@ export const steps = {
     },
   ],
   farben: extraSteps,
+  verglasung: [],
+  sonnenschutz: [],
+  zusätze: [],
 };

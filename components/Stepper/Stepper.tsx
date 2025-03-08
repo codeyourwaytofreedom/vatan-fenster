@@ -54,7 +54,6 @@ export default function Stepper({
     }
     return style.inactive;
   };
-
   return (
     <div className={style.config_steps}>
       {steps.map((st, index) => (

@@ -26,41 +26,49 @@ export const flugel2_oben: SelectionItem[] = [
     name: 'Kipp + Kipp',
     image: kipp_kipp_o,
     key: 'kipp_kipp_o',
+    handleNumber: 2
   },
   {
     name: 'Dreh-Kipp + Fest',
     image: dreh_kip_fest_o,
     key: 'dreh_kip_fest_o',
+    handleNumber: 1
   },
   {
     name: 'Fest + Dreh-Kipp',
     image: fest_dreh_kipp_o,
     key: 'fest_dreh_kipp_o',
+    handleNumber: 1
   },
   {
     name: 'Dreh + Dreh-Kipp (pfosten)',
     image: dreh_dreh_kipp_pfosten_o,
     key: 'dreh_dreh_kipp_pfosten_o',
+    handleNumber: 2
   },
   {
     name: 'Dreh-Kipp + Dreh (Pfosten)',
     image: dreh_kipp_dreh_pfosten_o,
     key: 'dreh_kipp_dreh_pfosten_o',
+    handleNumber: 2
   },
   {
     name: 'Dreh-Kipp + Dreh-Kipp (pfosten)',
     image: dreh_kipp_dreh_kipp_pfosten_o,
     key: 'dreh_kipp_dreh_kipp_pfosten_o',
+    handleNumber: 2
   },
   {
     name: 'Dreh + Dreh-Kipp(Stulp)',
     image: dreh_dreh_kipp_stulp_o,
     key: 'dreh_dreh_kipp_stulp_o',
+    handleNumber: 2
   },
   {
     name: 'Dreh-Kipp + Dreh (Stulp)',
     image: dreh_kipp_dreh_stulp_o,
     key: 'dreh_kipp_dreh_stulp_o',
+    handleNumber: 2
   },
 ];
 
@@ -90,40 +98,48 @@ export const flugel2_unten: SelectionItem[] = [
     name: 'Kipp + Kipp',
     image: kipp_kipp_u,
     key: 'kipp_kipp_u',
+    handleNumber: 2
   },
   {
     name: 'Dreh-Kipp + Fest',
     image: dreh_kip_fest_u,
     key: 'dreh_kip_fest_u',
+    handleNumber: 1
   },
   {
     name: 'Fest + Dreh-Kipp',
     image: fest_dreh_kipp_u,
     key: 'fest_dreh_kipp_u',
+    handleNumber: 1
   },
   {
     name: 'Dreh + Dreh-Kipp (pfosten)',
     image: dreh_dreh_kipp_pfosten_u,
     key: 'dreh_dreh_kipp_pfosten_u',
+    handleNumber: 2
   },
   {
     name: 'Dreh-Kipp + Dreh (Pfosten)',
     image: dreh_kipp_dreh_pfosten_u,
     key: 'dreh_kipp_dreh_pfosten_u',
+    handleNumber: 2
   },
   {
     name: 'Dreh-Kipp + Dreh-Kipp (pfosten)',
     image: dreh_kipp_dreh_kipp_pfosten_u,
     key: 'dreh_kipp_dreh_kipp_pfosten_u',
+    handleNumber: 2
   },
   {
     name: 'Dreh + Dreh-Kipp(Stulp)',
     image: dreh_dreh_kipp_stulp_u,
     key: 'dreh_dreh_kipp_stulp_u',
+    handleNumber: 2
   },
   {
     name: 'Dreh-Kipp + Dreh (Stulp)',
     image: dreh_kipp_dreh_stulp_u,
     key: 'dreh_kipp_dreh_stulp_u',
+    handleNumber: 2
   },
 ];

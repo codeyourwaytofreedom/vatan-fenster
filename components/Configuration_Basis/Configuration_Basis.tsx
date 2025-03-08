@@ -1,6 +1,6 @@
 import { steps } from '@/data/steps';
 import style from '../../styles/KonfiguratorPage.module.css';
-import { Config, Size, Step, SubStyle } from '@/types/Configurator';
+import { Config, GroupKey, Size, Step, SubStyle } from '@/types/Configurator';
 import Stepper from '../Stepper/Stepper';
 import { MouseEventHandler, useEffect, useState } from 'react';
 import OptionHolder from '../Product_Holder/Option_Holder';
@@ -9,13 +9,14 @@ import Sizer from '../Sizer/Sizer';
 import {
   brands,
   categoryItems,
+  extraOptionsMock,
   SelectionItem,
   SubStyleOptions,
   windowStyles,
 } from '@/data/configuration_options';
 
 interface BasisProps {
-  currentGroup: 'basis' | 'farben';
+  currentGroup: GroupKey;
   currentStep: Step;
   configuration: Config;
   orderDetailsReady: boolean;
@@ -51,24 +52,24 @@ export default function Basis_Configuration({
     currentStep &&
     currentStep?.key !== 'size' &&
     !(
-      ['Oberlicht', 'Unterlicht'].includes(configuration.style as string) &&
+      ['Oberlicht', 'Unterlicht'].includes(configuration.style.name) &&
       currentStep?.key === 'type'
     );
   const isSelected = (name: string) => {
     if (currentStep) {
-      return configuration[currentStep?.key as keyof Config] === name;
+      return (configuration[currentStep?.key as keyof Config] as SelectionItem).name === name;
     }
     return false;
   };
   const showSubstyleStepper =
     configuration.style &&
-    ['Oberlicht', 'Unterlicht'].includes(configuration.style) &&
+    ['Oberlicht', 'Unterlicht'].includes(configuration.style.name) &&
     currentStep?.key === 'type';
 
   const findSizeImage = () => {
-    const selectedStyle = windowStyles.find((sty) => sty.name === configuration['style']);
+    const selectedStyle = windowStyles.find((sty) => sty.name === configuration['style'].name);
     const typesForSelectedStyle = selectedStyle?.children?.type;
-    const selectedType = typesForSelectedStyle?.find((typ) => typ.name === configuration.type);
+    const selectedType = typesForSelectedStyle?.find((typ) => typ.name === (configuration.type as SelectionItem).name);
     return selectedType?.image;
   };
 
@@ -81,10 +82,10 @@ export default function Basis_Configuration({
           setItemsToDisplay(visibleSection?.items);
           break;
         case 'profile':
-          const selectedBrand = brands.find((br) => br.name === configuration['brand']);
+          const selectedBrand = brands.find((br) => br.name === configuration['brand'].name);
           const profilesOfBrand =
             selectedBrand?.children?.profile?.[
-              configuration.material as keyof typeof selectedBrand.children.profile
+              configuration.material.name as keyof typeof selectedBrand.children.profile
             ];
           console.log('profilesOfBrand', profilesOfBrand);
           setItemsToDisplay(profilesOfBrand);
@@ -93,7 +94,7 @@ export default function Basis_Configuration({
           setItemsToDisplay(visibleSection?.items);
           break;
         case 'type':
-          const selectedStyle = windowStyles.find((sty) => sty.name === configuration['style']);
+          const selectedStyle = windowStyles.find((sty) => sty.name === configuration['style'].name);
           const typesForSelectedStyle = selectedStyle?.children?.type;
           setItemsToDisplay(typesForSelectedStyle);
           break;
@@ -132,10 +133,11 @@ export default function Basis_Configuration({
       });
     }
   }, [substyle]);
+
   const autoSelectFirstType = () => {
-    if (['Oberlicht', 'Unterlicht'].includes(configuration.style as string)) {
+    if (['Oberlicht', 'Unterlicht'].includes(configuration.style.name)) {
       const subStyles =
-        subStyleOptions[configuration.style?.toLowerCase() as keyof typeof subStyleOptions];
+        subStyleOptions[configuration.style?.name.toLowerCase() as keyof typeof subStyleOptions];
       const firstSubstyle = subStyles[0];
       if (firstSubstyle) {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -150,7 +152,7 @@ export default function Basis_Configuration({
         });
       }
     } else {
-      const selectedStyle = windowStyles.find((sty) => sty.name === configuration['style']);
+      const selectedStyle = windowStyles.find((sty) => sty.name === configuration['style'].name);
       const typesForSelectedStyle = selectedStyle?.children?.type;
       const firstTypeToSelect = typesForSelectedStyle![0];
       updateConfiguration(firstTypeToSelect, 'type');
@@ -158,9 +160,9 @@ export default function Basis_Configuration({
   };
 
   const autoSelectProfile = () => {
-    const selectedBrand = brands.find((sty) => sty.name === configuration['brand']);
+    const selectedBrand = brands.find((sty) => sty.name === configuration['brand'].name);
     const profiles = selectedBrand?.children?.profile;
-    const profileForSelectedMaterial = profiles![configuration.material as keyof typeof profiles];
+    const profileForSelectedMaterial = profiles![configuration.material.name as keyof typeof profiles];
     if (profileForSelectedMaterial && profileForSelectedMaterial[0]) {
       updateConfiguration(profileForSelectedMaterial[0], 'profile');
     }
@@ -193,11 +195,36 @@ export default function Basis_Configuration({
     if (currentStep) {
       setConfiguration((prevConfig) => ({
         ...prevConfig,
-        [key ?? (currentStep?.key as keyof Config)]: item.name,
+        [key ?? (currentStep?.key as keyof Config)]: item,
       }));
     }
     moveNextStep();
   };
+
+  // if selected window type has handle, update configuration and vice-versa
+  useEffect(()=>{
+    let hasHandle = false;
+    if((configuration.type as SelectionItem).handleNumber){
+      hasHandle = true;
+    }
+    if((configuration.type as SubStyle).option){
+      if((configuration.type as SubStyle).oben?.handleNumber || (configuration.type as SubStyle).unten?.handleNumber ){
+        hasHandle = true;
+      }
+    }
+    ////////
+    if(hasHandle){
+      setConfiguration((pr)=>{
+        return {...pr, handle: extraOptionsMock.handle[0]}
+      })
+    }else{
+      setConfiguration((pr)=>{
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { handle, ...rest} = pr;
+        return {...rest}
+      })
+    }
+  },[configuration.type]);
   return (
     <>
       <div className={style.layers}>
@@ -208,13 +235,15 @@ export default function Basis_Configuration({
           <span>BASISKONFIGURATION</span>
         </button>
       </div>
-{  currentGroup === 'basis' &&    <Stepper
-        steps={steps.basis}
-        currentStep={currentStep!}
-        setStep={setStep}
-        orderDetailsReady={orderDetailsReady}
-        configuration={configuration}
-      />}
+      {currentGroup === 'basis' && (
+        <Stepper
+          steps={steps.basis}
+          currentStep={currentStep!}
+          setStep={setStep}
+          orderDetailsReady={orderDetailsReady}
+          configuration={configuration}
+        />
+      )}
       {currentGroup === 'basis' && (
         <div className={style.group}>
           <div className={style.config_wrapper}>
@@ -222,9 +251,7 @@ export default function Basis_Configuration({
               <div className={style.config_wrapper_option_holders}>
                 {itemsToDisplay?.map((item, index) => (
                   <OptionHolder
-                    name={item.name}
-                    image={item.image}
-                    imageAlt={item.name}
+                    item={item}
                     selected={isSelected(item.name)}
                     action={() => updateConfiguration(item)}
                     key={index}

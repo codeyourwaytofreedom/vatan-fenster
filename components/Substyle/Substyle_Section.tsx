@@ -61,7 +61,7 @@ export default function Substyle_Section({
     if (key === 'oben' && comesFirst === 'Unterlicht') {
       setTimeout(() => {
         setStep!(steps[currentGroup].find((s) => s.key === 'size')!);
-        window.scrollTo({top: 0, behavior: 'smooth'});
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       }, 200);
     }
   };
@@ -74,9 +74,7 @@ export default function Substyle_Section({
         <div className={style.config_wrapper_option_holders}>
           {items?.map((item, index) => (
             <OptionHolder
-              name={item.name}
-              image={item.image}
-              imageAlt={item.name}
+              item={item}
               selected={substyle[configKey as keyof typeof substyle]?.name === item.name}
               action={() => updateSubStyle(configKey, item)}
               key={index}

@@ -1,4 +1,4 @@
-import { Config, Step } from '@/types/Configurator';
+import { Config, GroupKey, Step } from '@/types/Configurator';
 import style from '../../styles/KonfiguratorPage.module.css';
 import Stepper from '../Stepper/Stepper';
 import OptionHolder from '../Product_Holder/Option_Holder';
@@ -6,13 +6,13 @@ import { categoryItems, SelectionItem } from '@/data/configuration_options';
 import { useEffect, useState } from 'react';
 
 interface GroupProps {
-  groupTitle: string;
-  currentGroup: 'farben' | 'basis';
+  groupTitle: GroupKey;
+  currentGroup: GroupKey;
   steps: Step[];
   currentStep: Step;
   configuration: Config;
   setStep: React.Dispatch<React.SetStateAction<Step | null>>;
-  setCurrentGroup: React.Dispatch<React.SetStateAction<'basis' | 'farben'>>;
+  setCurrentGroup: React.Dispatch<React.SetStateAction<GroupKey>>;
   setConfiguration: React.Dispatch<React.SetStateAction<Config>>;
 }
 
@@ -28,7 +28,7 @@ export default function Configuration_Group({
 }: GroupProps) {
   const isSelected = (name: string) => {
     if (currentStep) {
-      return configuration[currentStep?.key as keyof Config] === name;
+      return (configuration[currentStep?.key as keyof Config] as SelectionItem)?.name === name;
     }
     return false;
   };
@@ -45,9 +45,10 @@ export default function Configuration_Group({
   }, [groupActive, visibleSection]);
 
   const handleSelectGroup = () => {
-    setCurrentGroup(groupTitle as 'basis' | 'farben');
+    setCurrentGroup(groupTitle);
     setStep(steps[0]);
   };
+  
   const moveNextStep = () => {
     // make currentGroup dynamic, thats why alwayes setting the ssame next step for basis
     const stepIndex = steps.findIndex((st) => st.key == currentStep?.key);
@@ -57,7 +58,6 @@ export default function Configuration_Group({
       setTimeout(() => {
         // have to handle this correctly
         setStep(nextStep);
-        console.log(value, nextStep);
       }, 300);
     }
   };
@@ -66,11 +66,30 @@ export default function Configuration_Group({
     if (currentStep) {
       setConfiguration((prevConfig) => ({
         ...prevConfig,
-        [key ?? (currentStep?.key as keyof Config)]: item.name,
+        [key ?? (currentStep?.key as keyof Config)]: item,
       }));
     }
     moveNextStep();
   };
+
+    const getValidSteps = () => {
+      if(currentGroup === 'farben'){
+            let handleExists;
+            if('option' in configuration.type){
+              handleExists = configuration.type.oben?.handleNumber && configuration.type.unten?.handleNumber;
+              if(!handleExists){
+                return steps.filter((st)=>st.key !== 'handle');
+              }
+              return steps;
+            }
+            handleExists = (configuration.type as SelectionItem).handleNumber;
+            if(!handleExists){
+              return steps.filter((st)=>st.key !== 'handle');
+            }
+            return steps
+      }
+      return steps;
+    }
 
   return (
     <div>
@@ -83,27 +102,25 @@ export default function Configuration_Group({
         <div>
           {
             <Stepper
-              steps={steps}
+              steps={getValidSteps()}
               setStep={setStep}
               currentStep={currentStep}
               configuration={configuration}
             />
           }
           <div className={style.group}>
-          <div className={style.config_wrapper}>
-            <div className={style.config_wrapper_option_holders}>
-              {itemsToDisplay?.map((item, index) => (
-                <OptionHolder
-                  name={item.name}
-                  image={item.image}
-                  imageAlt={item.name}
-                  selected={isSelected(item.name)}
-                  action={() => updateConfiguration(item)}
-                  key={index}
-                />
-              ))}
+            <div className={style.config_wrapper}>
+              <div className={style.config_wrapper_option_holders}>
+                {itemsToDisplay?.map((item, index) => (
+                  <OptionHolder
+                    key={index}
+                    item={item}
+                    selected={isSelected(item.name)}
+                    action={() => updateConfiguration(item)}
+                  />
+                ))}
+              </div>
             </div>
-          </div>
           </div>
         </div>
       )}

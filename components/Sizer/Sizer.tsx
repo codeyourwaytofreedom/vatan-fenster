@@ -35,7 +35,7 @@ export default function Sizer({
   // if so, it means steps are complete, so move to summary
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
-    const sizeComplete = ['Oberlicht', 'Unterlicht'].includes(configuration.style as string)
+    const sizeComplete = ['Oberlicht', 'Unterlicht'].includes(configuration.style.name)
       ? !!(size?.w && size?.h && size?.h_unten)
       : !!(size?.w && size?.h);
 
@@ -57,9 +57,9 @@ export default function Sizer({
   }, [size]);
 
   const orderOfKeys =
-    configuration.style === 'Oberlicht'
+    configuration.style.name === 'Oberlicht'
       ? ['oben', 'unten']
-      : configuration.style === 'Unterlicht'
+      : configuration.style.name === 'Unterlicht'
         ? ['unten', 'oben']
         : undefined;
 

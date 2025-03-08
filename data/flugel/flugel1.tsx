@@ -31,26 +31,31 @@ export const flugel1_oben: SelectionItem[] = [
     name: 'Dreh Links',
     image: dreh_links_o,
     key: 'dreh_links_o',
+    handleNumber: 1
   },
   {
     name: 'Dreh Rechts',
     image: dreh_rechts_o,
     key: 'dreh_rechts_o',
+    handleNumber: 1
   },
   {
     name: 'Kipp',
     image: kipp_o,
     key: 'kipp_o',
+    handleNumber: 1
   },
   {
     name: 'Dreh Kipp Links',
     image: dreh_kipp_links_o,
     key: 'dreh_kipp_links_o',
+    handleNumber: 1
   },
   {
     name: 'Dreh Kipp Rechts',
     image: dreh_kipp_rechts_o,
     key: 'dreh_kipp_rechts_o',
+    handleNumber: 1
   },
 ];
 
@@ -69,25 +74,30 @@ export const flugel1_unten: SelectionItem[] = [
     name: 'Dreh Links',
     image: dreh_links_u,
     key: 'dreh_links_u',
+    handleNumber: 1
   },
   {
     name: 'Dreh Rechts',
     image: dreh_rechts_u,
     key: 'dreh_rechts_u',
+    handleNumber: 1
   },
   {
     name: 'Kipp',
     image: kipp_u,
     key: 'kipp_u',
+    handleNumber: 1
   },
   {
     name: 'Dreh Kipp Links',
     image: dreh_kipp_links_u,
     key: 'dreh_kipp_links_u',
+    handleNumber: 1
   },
   {
     name: 'Dreh Kipp Rechts',
     image: dreh_kipp_rechts_u,
     key: 'dreh_kipp_rechts_u',
+    handleNumber: 1
   },
 ];

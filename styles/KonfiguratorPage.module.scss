@@ -24,7 +24,7 @@ $shine-color: gold;
   column-gap: 20px;
   padding-top: 10px;
   min-height: 99vh;
-  .group{
+  .group {
     display: grid;
     grid-template-rows: 0fr;
     animation: rise 0.5s ease-out forwards;
@@ -263,10 +263,10 @@ $shine-color: gold;
 }
 
 @keyframes rise {
-  from{
-  grid-template-rows: 0fr;
+  from {
+    grid-template-rows: 0fr;
   }
-  to{
+  to {
     grid-template-rows: 1fr;
   }
 }
