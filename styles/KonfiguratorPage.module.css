@@ -27,10 +27,43 @@
 .config .group {
   display: grid;
   grid-template-rows: 0fr;
-  animation: rise 0.5s ease-out forwards;
+  animation: rise 0.7s ease forwards;
 }
 .config .group > * {
   overflow-x: hidden;
+}
+.config #bottom_actions {
+  display: flex;
+  justify-content: flex-end;
+  -moz-column-gap: 10px;
+       column-gap: 10px;
+  padding: 20px 0;
+}
+.config #next_group,
+.config #show_more {
+  border: none;
+  background-color: silver;
+  color: whitesmoke;
+  width: 140px;
+  height: 30px;
+  border-radius: 10px;
+  display: flex;
+  justify-self: flex-end;
+  align-items: center;
+  justify-content: space-around;
+}
+.config #next_group:hover,
+.config #show_more:hover {
+  filter: brightness(1.2);
+}
+.config #next_group,
+.config #show_more {
+  color: black;
+}
+.config #next_group:hover,
+.config #show_more:hover {
+  background-color: var(--color-2);
+  color: white;
 }
 .config_steps {
   display: flex;
@@ -147,12 +180,12 @@
 }
 .config #summary {
   width: 350px;
-  background-color: whitesmoke;
   position: sticky !important;
   position: -webkit-sticky !important;
   top: 120px;
   height: -moz-fit-content;
   height: fit-content;
+  border: 1px solid var(--color-2);
 }
 .config #summary h2 {
   color: green;
@@ -165,7 +198,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: orange;
+  background-color: silver;
 }
 .config #summary h4 {
   font-size: 12px;
@@ -210,7 +243,7 @@
   filter: brightness(1.1);
 }
 .config #summary #actions #add_to_chart {
-  background-color: orange;
+  background-color: silver;
 }
 .config #summary #actions #additional {
   background-color: gold;

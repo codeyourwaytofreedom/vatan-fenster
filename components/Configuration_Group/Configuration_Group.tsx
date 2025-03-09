@@ -5,6 +5,8 @@ import OptionHolder from '../Product_Holder/Option_Holder';
 import { categoryItems, SelectionItem } from '@/data/configuration_options';
 import { useEffect, useState } from 'react';
 import { useConfiguration } from '@/context/ConfigurationContext';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronDown, faPlus } from '@fortawesome/free-solid-svg-icons';
 
 interface GroupProps {
   groupTitle: GroupKey;
@@ -31,6 +33,8 @@ export default function Configuration_Group({ groupTitle, steps }: GroupProps) {
 
   const [itemsToDisplay, setItemsToDisplay] = useState<SelectionItem[]>();
   const groupActive = currentGroup === groupTitle;
+  const coverNotAvailable = configuration.cover.key === 'nein' && groupTitle === 'sonnenschutz';
+  const [expandedSteps, setExpandedSteps] = useState<string[]>([]);
 
   // determine what items are to be displayed for current step
   useEffect(() => {
@@ -42,6 +46,7 @@ export default function Configuration_Group({ groupTitle, steps }: GroupProps) {
   const handleSelectGroup = () => {
     setCurrentGroup(groupTitle);
     setCurrentStep(steps[0]);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const moveNextStep = () => {
@@ -87,6 +92,38 @@ export default function Configuration_Group({ groupTitle, steps }: GroupProps) {
     return steps;
   };
 
+  const handleMoveNextGroup = () => {
+    const groups: GroupKey[] = ['basis', 'farben', 'verglasung', 'sonnenschutz', 'zusätze'];
+    const currentGroupIndex = groups.indexOf(currentGroup);
+    let nextGroup = groups[currentGroupIndex + 1];
+    const coverNotAvailable = configuration.cover.key === 'nein';
+    if (nextGroup === 'sonnenschutz' && coverNotAvailable) {
+      nextGroup = 'zusätze';
+    }
+    setCurrentGroup(nextGroup);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleExpand = () => {
+    setExpandedSteps([...expandedSteps, currentStep?.key || '']);
+  };
+
+  const expanded = currentStep && expandedSteps.includes(currentStep?.key);
+  const expandable =
+    itemsToDisplay &&
+    currentStep &&
+    itemsToDisplay.length > 5 &&
+    !expandedSteps.includes(currentStep?.key);
+  const isLastStepInGroup = currentStep?.key === getValidSteps()[getValidSteps().length - 1]?.key;
+
+  useEffect(() => {
+    if (currentGroup === groupTitle) {
+      setCurrentStep(steps[0]);
+    }
+  }, [currentGroup, groupTitle]);
+
+  if (coverNotAvailable) return null;
+
   return (
     <div>
       <div className={style.layers}>
@@ -100,17 +137,34 @@ export default function Configuration_Group({ groupTitle, steps }: GroupProps) {
           <div className={style.group}>
             <div className={style.config_wrapper}>
               <div className={style.config_wrapper_option_holders}>
-                {itemsToDisplay?.map((item, index) => (
-                  <OptionHolder
-                    key={index}
-                    item={item}
-                    selected={isSelected(item.name)}
-                    action={() => updateConfiguration(item)}
-                  />
-                ))}
+                {itemsToDisplay
+                  ?.slice(0, !expanded ? 5 : itemsToDisplay.length)
+                  .map((item, index) => (
+                    <OptionHolder
+                      key={index}
+                      item={item}
+                      selected={isSelected(item.name)}
+                      action={() => updateConfiguration(item)}
+                    />
+                  ))}
               </div>
             </div>
           </div>
+        </div>
+      )}
+      {currentGroup === groupTitle && (
+        <div id={style.bottom_actions}>
+          {expandable && (
+            <button id={style.show_more} onClick={handleExpand}>
+              <FontAwesomeIcon icon={faPlus} size={'1x'} beat />
+              Alle anzeigen
+            </button>
+          )}
+          {isLastStepInGroup && (
+            <button onClick={handleMoveNextGroup} id={style.next_group}>
+              <FontAwesomeIcon icon={faChevronDown} size={'1x'} beat /> Nächster Schritt
+            </button>
+          )}
         </div>
       )}
     </div>

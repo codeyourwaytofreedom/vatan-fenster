@@ -37,6 +37,7 @@ export interface Config {
   profile: SelectionItem;
   style: SelectionItem;
   type: SelectionItem | SubStyle;
+  cover: SelectionItem;
   size: boolean;
   colorExt: SelectionItem;
   colorInt: SelectionItem;

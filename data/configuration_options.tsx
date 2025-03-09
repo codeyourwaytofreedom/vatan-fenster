@@ -4,6 +4,8 @@ import color2 from '../assets/color2.png';
 import color3 from '../assets/color3.jpg';
 
 import handle from '../assets/handle.webp';
+import cover from '../assets/windowcover.jpg';
+import nein from '../assets/nein.jpg';
 
 import drutex from '../assets/configurator/brands/drutex.svg';
 
@@ -24,8 +26,8 @@ import MB70 from '../assets/configurator/profiles/drutex/aluminium/MB70.webp';
 import MB70HI from '../assets/configurator/profiles/drutex/aluminium/MB70HI.webp';
 import MB86NSI from '../assets/configurator/profiles/drutex/aluminium/MB86NSI.webp';
 
-import plastic from '../assets/configurator/materials/plastic.jpeg';
-import aluminum from '../assets/configurator/materials/aluminum.jpeg';
+import plastic from '../assets/configurator/materials/plastic.png';
+import aluminum from '../assets/configurator/materials/ali.webp';
 
 import { flugel1_unten } from './flugel/flugel1';
 import { flugel2_unten } from './flugel/flugel2';
@@ -236,17 +238,7 @@ export const extraOptionsMock = {
       name: 'H-12748',
       image: handle,
       key: 'H-12748',
-    },
-    {
-      name: 'H-94798',
-      image: handle,
-      key: 'H-94798',
-    },
-    {
-      name: 'H-36783',
-      image: handle,
-      key: 'H-36783',
-    },
+    }
   ],
 };
 
@@ -389,6 +381,19 @@ export const subStyleOptions: SubStyleOptions = {
   unterlicht: unterlicht_substyle,
 };
 
+export const covers: SelectionItem[] = [
+  {
+    key: 'nein',
+    name: 'Nein',
+    image: nein,
+  },
+  {
+    key: 'cover1',
+    name: 'Aufsatzrollladen',
+    image: cover,
+  },
+];
+
 // initial deafult configuration
 
 export const initialConfiguration: Config = {
@@ -397,6 +402,7 @@ export const initialConfiguration: Config = {
   profile: brands[0].children!.profile!['Kunststoff (PVC)'][0],
   style: windowStyles[0],
   type: windowStyles[0].children!.type![0]!,
+  cover: covers[0],
   size: true,
   colorExt: extraOptionsMock.colorExt[0],
   colorInt: extraOptionsMock.colorInt[0],
@@ -430,6 +436,7 @@ export const categoryItems = [
   { key: 'material', items: materials },
   { key: 'brand', items: brands },
   { key: 'style', items: windowStyles },
+  { key: 'cover', items: covers },
   { key: 'colorExt', items: extraOptionsMock.colorExt },
   { key: 'colorInt', items: extraOptionsMock.colorInt },
   { key: 'colorMid', items: extraOptionsMock.colorMid },

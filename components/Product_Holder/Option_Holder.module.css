@@ -1,21 +1,17 @@
 .option,
 .option_selected {
-  box-shadow: 0 0 1px 1px silver;
-  padding-top: 20px;
   max-width: 300px;
-  height: 400px;
-  display: grid;
-  justify-self: center;
+  height: 370px;
   border-radius: 10px;
   overflow: hidden;
   text-align: center;
-  border: 2px solid white;
+  border: 2px solid silver;
   position: relative;
   box-sizing: border-box;
 }
 .option:hover,
 .option_selected:hover {
-  border: 2px solid black;
+  border: 2px solid var(--color-2);
   font-weight: bold;
 }
 .option:hover button,
@@ -25,29 +21,33 @@
 .option label,
 .option_selected label {
   border-radius: 4px;
-  display: grid;
-  justify-items: center;
-  min-width: 100px;
-  aspect-ratio: 5/2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
   cursor: pointer;
   position: relative;
-  padding-bottom: 20px;
+  height: 100%;
 }
-.option label #check,
-.option_selected label #check {
-  color: var(--color-1);
-  font-size: 50px;
-  font-weight: bold;
-  justify-self: center;
-  align-self: flex-end;
-  z-index: 2;
+.option label img,
+.option_selected label img {
+  flex: 2;
+}
+.option label #details,
+.option_selected label #details {
+  width: 100%;
+  flex: 1;
 }
 .option label p,
 .option_selected label p {
-  height: 40px;
-  font-size: large;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
   padding: 0 5px;
+  width: 100%;
+  position: relative;
+  flex: 1;
 }
 .option button,
 .option_selected button {
@@ -79,6 +79,10 @@
 }
 
 .option_selected {
-  box-shadow: 0 0 2px 3px var(--color-1);
+  border: 2px solid var(--color-2);
   background-color: whitesmoke;
-}/*# sourceMappingURL=Option_Holder.module.css.map */
+}
+.option_selected p {
+  background-color: var(--color-2);
+  color: white;
+} /*# sourceMappingURL=Option_Holder.module.css.map */

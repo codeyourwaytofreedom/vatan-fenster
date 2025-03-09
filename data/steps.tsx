@@ -4,6 +4,7 @@ import {
   faFlask,
   faMaximize,
   faSignsPost,
+  faWindowMaximize,
 } from '@fortawesome/free-solid-svg-icons';
 import { extraSteps } from './extra_steps';
 import { GroupKey, Step } from '@/types/Configurator';
@@ -34,6 +35,11 @@ export const steps: Record<GroupKey | string, Step[]> = {
       key: 'type',
       name: 'Type',
       icon: faSignsPost,
+    },
+    {
+      key: 'cover',
+      name: 'Sonnenschutz',
+      icon: faWindowMaximize,
     },
     {
       key: 'size',

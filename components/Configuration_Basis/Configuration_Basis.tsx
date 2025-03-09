@@ -16,6 +16,8 @@ import {
 } from '@/data/configuration_options';
 import { useConfiguration } from '@/context/ConfigurationContext';
 import { useOrderDetailsReady } from '@/context/OrderDetailsContext';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
 export default function Basis_Configuration() {
   const [itemsToDisplay, setItemsToDisplay] = useState<SelectionItem[]>();
@@ -92,6 +94,9 @@ export default function Basis_Configuration() {
           );
           const typesForSelectedStyle = selectedStyle?.children?.type;
           setItemsToDisplay(typesForSelectedStyle);
+          break;
+        case 'cover':
+          setItemsToDisplay(visibleSection?.items);
           break;
       }
     }
@@ -224,6 +229,11 @@ export default function Basis_Configuration() {
       });
     }
   }, [configuration.type]);
+
+  const handleMoveNextGroup = () => {
+    setCurrentGroup('farben');
+  };
+
   return (
     <>
       <div className={style.layers}>
@@ -261,6 +271,11 @@ export default function Basis_Configuration() {
               />
             )}
           </div>
+          {currentStep?.key === 'size' && (
+            <button id={style.next_group} onClick={handleMoveNextGroup}>
+              <FontAwesomeIcon icon={faChevronDown} size={'1x'} beat /> Nächster Schritt
+            </button>
+          )}
         </div>
       )}
     </>

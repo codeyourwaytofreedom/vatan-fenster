@@ -45,10 +45,9 @@ export default function OptionHolder({ item, selected, action }: ProductHolderPr
         <FontAwesomeIcon beat icon={faInfo} />
       </button>
       <label>
-        <Image src={item.image} alt={item.name} width={220} height={220} /> <br />
+        <Image src={item.image} alt={item.name} width={250} height={220} /> <br />
+        <div id={style.details}></div>
         <p>{item.name}</p>
-        <br />
-        {selected && <p id={style.check}>&#10003;</p>}
       </label>
       {showInfo && (
         <div ref={infoRef} id={style.infobox}>
