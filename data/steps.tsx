@@ -1,9 +1,15 @@
 import {
+  faArrowsAltH,
+  faBorderAll,
   faCopyright,
   faCropSimple,
   faFlask,
+  faLayerGroup,
   faMaximize,
+  faShieldAlt,
   faSignsPost,
+  faSun,
+  faVolumeMute,
   faWindowMaximize,
 } from '@fortawesome/free-solid-svg-icons';
 import { extraSteps } from './extra_steps';
@@ -48,7 +54,41 @@ export const steps: Record<GroupKey | string, Step[]> = {
     },
   ],
   farben: extraSteps,
-  verglasung: [],
+  verglasung: [
+    {
+      key: 'glasspaket',
+      name: 'Glaspaket',
+      icon: faLayerGroup
+    },
+    {
+      key: 'ornament',
+      name: 'Ornament',
+      icon: faSun,
+      yesNo: true
+    },
+    {
+      key: 'sicherheitsverglasung',
+      name: 'Sicherheitsverglasung',
+      icon: faShieldAlt,
+      yesNo: true
+    },
+    {
+      key: 'schallschutz',
+      name: 'Schallschutz',
+      icon: faVolumeMute,
+      yesNo: true
+    },
+    {
+      key: 'sprossen',
+      name: 'Sprossen',
+      icon: faBorderAll
+    },
+    {
+      key: 'druckausgleichsventil',
+      name: 'Druckausgleichsventil',
+      icon: faArrowsAltH
+    },
+  ],
   sonnenschutz: [],
-  zusätze: [],
+  zusätze: []
 };

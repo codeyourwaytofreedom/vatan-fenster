@@ -45,6 +45,10 @@ export interface Config {
   sealExt: SelectionItem;
   sealInt: SelectionItem;
   handle?: SelectionItem;
+  glasspaket: SelectionItem;
+  ornament: SelectionItem | "nein";
+  sicherheitsverglasung: SelectionItem | "nein";
+  schallschutz: SelectionItem | "nein";
 }
 
 export interface ExtraConfig {
@@ -65,6 +69,7 @@ export interface Step {
   key: string;
   name: string;
   icon: IconDefinition;
+  yesNo?: boolean;
 }
 
 export type GroupKey = 'basis' | 'farben' | 'verglasung' | 'sonnenschutz' | 'zusätze';

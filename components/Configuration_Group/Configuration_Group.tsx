@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { useConfiguration } from '@/context/ConfigurationContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faPlus } from '@fortawesome/free-solid-svg-icons';
+import YesNoHolder from '../YesNoHolder/YesNoHolder';
 
 interface GroupProps {
   groupTitle: GroupKey;
@@ -36,12 +37,49 @@ export default function Configuration_Group({ groupTitle, steps }: GroupProps) {
   const coverNotAvailable = configuration.cover.key === 'nein' && groupTitle === 'sonnenschutz';
   const [expandedSteps, setExpandedSteps] = useState<string[]>([]);
 
+  const expanded = currentStep && expandedSteps.includes(currentStep?.key);
+
+  const expandable =
+    itemsToDisplay &&
+    currentStep &&
+    itemsToDisplay.length > 5 &&
+    !expandedSteps.includes(currentStep?.key);
+
+  const isLastStepInGroup = currentStep?.key === getValidSteps()[getValidSteps().length - 1]?.key;
+
+  const yesNoStep = currentStep?.yesNo;
+
+  const [yesS, setYesS] = useState<string[]>([]);
+
+  const showOptionHolders = !yesNoStep || yesS.includes(currentStep.key);
+
   // determine what items are to be displayed for current step
   useEffect(() => {
     if (groupActive) {
       setItemsToDisplay(visibleSection?.items);
     }
   }, [groupActive, visibleSection]);
+
+  useEffect(() => {
+    if (currentGroup === groupTitle) {
+      setCurrentStep(steps[0]);
+    }
+  }, [currentGroup, groupTitle]);
+
+  useEffect(()=>{
+    if( itemsToDisplay && currentStep && yesS.includes(currentStep?.key)){
+        setConfiguration((prevConfig) => ({
+          ...prevConfig,
+          [(currentStep?.key as keyof Config)]: itemsToDisplay![0],
+        }));
+    }
+    if(itemsToDisplay && currentStep && !yesS.includes(currentStep?.key)){
+      setConfiguration((prevConfig) => ({
+        ...prevConfig,
+        [currentStep.key]: 'nein'
+      }));      
+    }
+  },[yesS])
 
   const handleSelectGroup = () => {
     setCurrentGroup(groupTitle);
@@ -50,13 +88,12 @@ export default function Configuration_Group({ groupTitle, steps }: GroupProps) {
   };
 
   const moveNextStep = () => {
-    // make currentGroup dynamic, thats why alwayes setting the ssame next step for basis
     const stepIndex = steps.findIndex((st) => st.key == currentStep?.key);
     const nextStep = steps[stepIndex + 1];
     const value = configuration[currentStep?.key as keyof Config];
     if (nextStep && value) {
       setTimeout(() => {
-        // have to handle this correctly
+        // handle selection has to be corrected, auto select causes issues
         setCurrentStep(nextStep);
       }, 300);
     }
@@ -72,7 +109,7 @@ export default function Configuration_Group({ groupTitle, steps }: GroupProps) {
     moveNextStep();
   };
 
-  const getValidSteps = () => {
+  function getValidSteps() {
     if (currentGroup === 'farben') {
       let handleExists;
       if ('option' in configuration.type) {
@@ -108,19 +145,6 @@ export default function Configuration_Group({ groupTitle, steps }: GroupProps) {
     setExpandedSteps([...expandedSteps, currentStep?.key || '']);
   };
 
-  const expanded = currentStep && expandedSteps.includes(currentStep?.key);
-  const expandable =
-    itemsToDisplay &&
-    currentStep &&
-    itemsToDisplay.length > 5 &&
-    !expandedSteps.includes(currentStep?.key);
-  const isLastStepInGroup = currentStep?.key === getValidSteps()[getValidSteps().length - 1]?.key;
-
-  useEffect(() => {
-    if (currentGroup === groupTitle) {
-      setCurrentStep(steps[0]);
-    }
-  }, [currentGroup, groupTitle]);
 
   if (coverNotAvailable) return null;
 
@@ -135,26 +159,30 @@ export default function Configuration_Group({ groupTitle, steps }: GroupProps) {
         <div>
           {<Stepper steps={getValidSteps()} configuration={configuration} />}
           <div className={style.group}>
+          {yesNoStep && <YesNoHolder yesS={yesS} setYesS={setYesS} stepKey={currentStep.key} />}
             <div className={style.config_wrapper}>
-              <div className={style.config_wrapper_option_holders}>
-                {itemsToDisplay
-                  ?.slice(0, !expanded ? 5 : itemsToDisplay.length)
-                  .map((item, index) => (
-                    <OptionHolder
-                      key={index}
-                      item={item}
-                      selected={isSelected(item.name)}
-                      action={() => updateConfiguration(item)}
-                    />
-                  ))}
-              </div>
+              {
+                showOptionHolders &&
+                <div className={style.config_wrapper_option_holders}>
+                  {itemsToDisplay
+                    ?.slice(0, !expanded ? 5 : itemsToDisplay.length)
+                    .map((item, index) => (
+                      <OptionHolder
+                        key={index}
+                        item={item}
+                        selected={isSelected(item.name)}
+                        action={() => updateConfiguration(item)}
+                      />
+                    ))}
+                </div>
+              }
             </div>
           </div>
         </div>
       )}
       {currentGroup === groupTitle && (
         <div id={style.bottom_actions}>
-          {expandable && (
+          {expandable && showOptionHolders && (
             <button id={style.show_more} onClick={handleExpand}>
               <FontAwesomeIcon icon={faPlus} size={'1x'} beat />
               Alle anzeigen

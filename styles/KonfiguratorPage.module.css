@@ -34,7 +34,7 @@
 }
 .config #bottom_actions {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   -moz-column-gap: 10px;
        column-gap: 10px;
   padding: 20px 0;
@@ -44,9 +44,9 @@
   border: none;
   background-color: silver;
   color: whitesmoke;
-  width: 140px;
-  height: 30px;
-  border-radius: 10px;
+  width: 170px;
+  height: 40px;
+  border-radius: 15px;
   display: flex;
   justify-self: flex-end;
   align-items: center;
@@ -99,10 +99,10 @@
 .config_steps .inactive #anchor,
 .config_steps .selected_next #anchor,
 .config_steps .selected_complete #anchor {
-  font-size: 30px;
+  font-size: 20px;
   position: absolute;
-  bottom: -30px;
-  left: 42%;
+  bottom: -20px;
+  left: 46%;
   color: var(--color-1);
   display: none;
 }
@@ -185,7 +185,7 @@
   top: 120px;
   height: -moz-fit-content;
   height: fit-content;
-  border: 1px solid var(--color-2);
+  border: 2px solid var(--color-1);
 }
 .config #summary h2 {
   color: green;
@@ -198,7 +198,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: silver;
+  background-color: rgb(234, 230, 230);
 }
 .config #summary h4 {
   font-size: 12px;
@@ -240,10 +240,10 @@
   font-weight: bold;
 }
 .config #summary #actions button:hover {
-  filter: brightness(1.1);
+  filter: brightness(0.8);
 }
 .config #summary #actions #add_to_chart {
-  background-color: silver;
+  background-color: rgb(234, 230, 230);
 }
 .config #summary #actions #additional {
   background-color: gold;

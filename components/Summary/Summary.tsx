@@ -40,9 +40,10 @@ export default function SummaryDisplayer() {
       <SizerSummary />
       <div id={style.items}>
         {Object.entries(configuration).map(([key, value]) => (
+          value &&
           <div key={key} className={style.item} onClick={() => handleShowStep(key)} id={key}>
             <span id={style.title}>&#x2022; {key.toUpperCase()}</span>
-            <span id={style.value}>{value.name}</span>
+            <span id={style.value}>{value.name ?? value}</span>
           </div>
         ))}
       </div>
