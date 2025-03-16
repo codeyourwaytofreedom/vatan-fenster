@@ -154,16 +154,17 @@ $summary-shade: rgb(230, 227, 227);
         display: flex;
         align-items: center;
         justify-content: center;
-        height: 40px;
+        height: 30px;
         margin-bottom: 20px;
+        font-size: medium;
       }
-      #complete {
-        background-color: var(--color-1);
-        color: white;
-      }
-      #notcomplete {
-        background-color: gold;
-      }
+    }
+    #complete {
+      background-color: var(--color-1);
+      color: white;
+    }
+    #notcomplete {
+      background-color: gold;
     }
   }
   #summary {

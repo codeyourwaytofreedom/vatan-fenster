@@ -39,13 +39,17 @@ export default function SummaryDisplayer() {
       <h3>Bestellübersicht</h3>
       <SizerSummary />
       <div id={style.items}>
-        {Object.entries(configuration).map(([key, value]) => (
-          value &&
-          <div key={key} className={style.item} onClick={() => handleShowStep(key)} id={key}>
-            <span id={style.title}>&#x2022; {key.toUpperCase()}</span>
-            <span id={style.value}>{value.name ?? value}</span>
-          </div>
-        ))}
+        {Object.entries(configuration).map(
+          ([key, value]) =>
+            value && (
+              <div key={key} className={style.item} onClick={() => handleShowStep(key)} id={key}>
+                <span id={style.title}>&#x2022; {key.toUpperCase()}</span>
+                <span id={style.value}>
+                  {value.name ? value.name : typeof value === 'string' ? value : '--'}
+                </span>
+              </div>
+            )
+        )}
       </div>
       <div id={style.actions}>
         <button id={style.add_to_chart}>

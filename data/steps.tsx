@@ -14,6 +14,9 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { extraSteps } from './extra_steps';
 import { GroupKey, Step } from '@/types/Configurator';
+import StepGlassPaket from '@/components/StepGlassPaket/StepGlassPaket';
+import StepSprossen from '@/components/StepSprossen/StepSprossen';
+import StepDruckausgleichsventil from '@/components/StepGlassPaket/StepDruckausgleichsventil/StepDruckausgleichsventil';
 
 export const steps: Record<GroupKey | string, Step[]> = {
   basis: [
@@ -58,37 +61,40 @@ export const steps: Record<GroupKey | string, Step[]> = {
     {
       key: 'glasspaket',
       name: 'Glaspaket',
-      icon: faLayerGroup
+      icon: faLayerGroup,
+      component: StepGlassPaket,
     },
     {
       key: 'ornament',
       name: 'Ornament',
       icon: faSun,
-      yesNo: true
+      yesNo: true,
     },
     {
       key: 'sicherheitsverglasung',
       name: 'Sicherheitsverglasung',
       icon: faShieldAlt,
-      yesNo: true
+      yesNo: true,
     },
     {
       key: 'schallschutz',
       name: 'Schallschutz',
       icon: faVolumeMute,
-      yesNo: true
+      yesNo: true,
     },
     {
       key: 'sprossen',
       name: 'Sprossen',
-      icon: faBorderAll
+      icon: faBorderAll,
+      component: StepSprossen,
     },
     {
       key: 'druckausgleichsventil',
       name: 'Druckausgleichsventil',
-      icon: faArrowsAltH
+      icon: faArrowsAltH,
+      component: StepDruckausgleichsventil,
     },
   ],
   sonnenschutz: [],
-  zusätze: []
+  zusätze: [],
 };

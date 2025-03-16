@@ -1,6 +1,8 @@
+import { GlassPaketProps } from '@/components/StepGlassPaket/StepGlassPaket';
 import { SelectionItem } from '@/data/configuration_options';
 import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { StaticImageData } from 'next/image';
+import { ComponentType } from 'react';
 
 export interface Size {
   w: number | undefined;
@@ -46,9 +48,12 @@ export interface Config {
   sealInt: SelectionItem;
   handle?: SelectionItem;
   glasspaket: SelectionItem;
-  ornament: SelectionItem | "nein";
-  sicherheitsverglasung: SelectionItem | "nein";
-  schallschutz: SelectionItem | "nein";
+  glasspaketWarmeKante: SelectionItem | 'nein';
+  ornament: SelectionItem | 'nein';
+  sicherheitsverglasung: SelectionItem | 'nein';
+  schallschutz: SelectionItem | 'nein';
+  sprossen: string | 'nein';
+  druckausgleichsventil: 'ja' | 'nein';
 }
 
 export interface ExtraConfig {
@@ -65,11 +70,12 @@ export interface Summary {
   summaryItem: { name?: string; image?: StaticImageData; detail?: Size | null };
 }
 
-export interface Step {
+export interface Step<TProps = GlassPaketProps> {
   key: string;
   name: string;
   icon: IconDefinition;
   yesNo?: boolean;
+  component?: ComponentType<TProps>;
 }
 
 export type GroupKey = 'basis' | 'farben' | 'verglasung' | 'sonnenschutz' | 'zusätze';

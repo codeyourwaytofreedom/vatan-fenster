@@ -8,6 +8,9 @@ import { useConfiguration } from '@/context/ConfigurationContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faPlus } from '@fortawesome/free-solid-svg-icons';
 import YesNoHolder from '../YesNoHolder/YesNoHolder';
+import StepGlassPaket from '../StepGlassPaket/StepGlassPaket';
+import StepSprossen from '../StepSprossen/StepSprossen';
+import StepDruckausgleichsventil from '../StepGlassPaket/StepDruckausgleichsventil/StepDruckausgleichsventil';
 
 interface GroupProps {
   groupTitle: GroupKey;
@@ -66,20 +69,20 @@ export default function Configuration_Group({ groupTitle, steps }: GroupProps) {
     }
   }, [currentGroup, groupTitle]);
 
-  useEffect(()=>{
-    if( itemsToDisplay && currentStep && yesS.includes(currentStep?.key)){
-        setConfiguration((prevConfig) => ({
-          ...prevConfig,
-          [(currentStep?.key as keyof Config)]: itemsToDisplay![0],
-        }));
-    }
-    if(itemsToDisplay && currentStep && !yesS.includes(currentStep?.key)){
+  useEffect(() => {
+    if (itemsToDisplay && currentStep && yesS.includes(currentStep?.key)) {
       setConfiguration((prevConfig) => ({
         ...prevConfig,
-        [currentStep.key]: 'nein'
-      }));      
+        [currentStep?.key as keyof Config]: itemsToDisplay![0],
+      }));
     }
-  },[yesS])
+    if (itemsToDisplay && currentStep && !yesS.includes(currentStep?.key)) {
+      setConfiguration((prevConfig) => ({
+        ...prevConfig,
+        [currentStep.key]: 'nein',
+      }));
+    }
+  }, [yesS]);
 
   const handleSelectGroup = () => {
     setCurrentGroup(groupTitle);
@@ -127,7 +130,7 @@ export default function Configuration_Group({ groupTitle, steps }: GroupProps) {
       return steps;
     }
     return steps;
-  };
+  }
 
   const handleMoveNextGroup = () => {
     const groups: GroupKey[] = ['basis', 'farben', 'verglasung', 'sonnenschutz', 'zusätze'];
@@ -145,7 +148,6 @@ export default function Configuration_Group({ groupTitle, steps }: GroupProps) {
     setExpandedSteps([...expandedSteps, currentStep?.key || '']);
   };
 
-
   if (coverNotAvailable) return null;
 
   return (
@@ -159,24 +161,31 @@ export default function Configuration_Group({ groupTitle, steps }: GroupProps) {
         <div>
           {<Stepper steps={getValidSteps()} configuration={configuration} />}
           <div className={style.group}>
-          {yesNoStep && <YesNoHolder yesS={yesS} setYesS={setYesS} stepKey={currentStep.key} />}
-            <div className={style.config_wrapper}>
-              {
-                showOptionHolders &&
-                <div className={style.config_wrapper_option_holders}>
-                  {itemsToDisplay
-                    ?.slice(0, !expanded ? 5 : itemsToDisplay.length)
-                    .map((item, index) => (
-                      <OptionHolder
-                        key={index}
-                        item={item}
-                        selected={isSelected(item.name)}
-                        action={() => updateConfiguration(item)}
-                      />
-                    ))}
-                </div>
-              }
-            </div>
+            {yesNoStep && <YesNoHolder yesS={yesS} setYesS={setYesS} stepKey={currentStep.key} />}
+            {currentStep?.component === StepGlassPaket ? (
+              <StepGlassPaket items={itemsToDisplay || []} expanded={expanded!} />
+            ) : currentStep?.component === StepSprossen ? (
+              <StepSprossen />
+            ) : currentStep?.component === StepDruckausgleichsventil ? (
+              <StepDruckausgleichsventil />
+            ) : (
+              <div className={style.config_wrapper}>
+                {showOptionHolders ? (
+                  <div className={style.config_wrapper_option_holders}>
+                    {itemsToDisplay
+                      ?.slice(0, !expanded ? 5 : itemsToDisplay.length)
+                      .map((item, index) => (
+                        <OptionHolder
+                          key={index}
+                          item={item}
+                          selected={isSelected(item.name)}
+                          action={() => updateConfiguration(item)}
+                        />
+                      ))}
+                  </div>
+                ) : null}
+              </div>
+            )}
           </div>
         </div>
       )}

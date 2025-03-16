@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import { MouseEventHandler, useEffect, useRef, useState } from 'react';
 import style from './Option_Holder.module.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faInfo } from '@fortawesome/free-solid-svg-icons';
+/* import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faInfo } from '@fortawesome/free-solid-svg-icons'; */
 import { SelectionItem } from '@/data/configuration_options';
 
 type ProductHolderProps = {
@@ -14,10 +14,10 @@ export default function OptionHolder({ item, selected, action }: ProductHolderPr
   const [showInfo, setShowInfo] = useState(false);
   const infoRef = useRef<HTMLDivElement | null>(null);
 
-  const toggleInfo = (e: React.MouseEvent<HTMLButtonElement>) => {
+  /*   const toggleInfo = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation(); // Prevent div click
     setShowInfo((prev) => !prev);
-  };
+  }; */
 
   // Close the info box when clicking outside
   useEffect(() => {
@@ -41,9 +41,9 @@ export default function OptionHolder({ item, selected, action }: ProductHolderPr
       onClick={action}
       onBlur={() => setShowInfo(false)}
     >
-      <button onClick={toggleInfo}>
+      {/*       <button onClick={toggleInfo}>
         <FontAwesomeIcon beat icon={faInfo} />
-      </button>
+      </button> */}
       <label>
         <Image src={item.image} alt={item.name} width={250} height={220} /> <br />
         <div id={style.details}></div>
