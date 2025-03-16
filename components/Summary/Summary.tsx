@@ -5,6 +5,7 @@ import { useConfiguration } from '@/context/ConfigurationContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import SizerSummary from '../SizerSummary/SizerSummary';
+import { GroupKey } from '@/types/Configurator';
 
 export default function SummaryDisplayer() {
   const { configuration, currentGroup, setCurrentStep, setCurrentGroup } = useConfiguration();
@@ -25,9 +26,14 @@ export default function SummaryDisplayer() {
       }
       return;
     }
-    const parentKey = Object.entries(steps).find(
+    let parentKey = Object.entries(steps).find(
       ([, value]) => Array.isArray(value) && value.some((item) => item.key === key)
-    )?.[0] as 'basis' | 'farben';
+    )?.[0] as GroupKey;
+
+    if(key === 'glasspaketWarmeKante'){
+      key= 'glasspaket'
+      parentKey = 'verglasung';
+    };
 
     setCurrentGroup(parentKey);
     setCurrentStep(steps[parentKey].find((st) => st.key === key) || null);
