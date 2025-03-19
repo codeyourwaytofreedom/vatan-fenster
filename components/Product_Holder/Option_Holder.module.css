@@ -28,6 +28,7 @@
   cursor: pointer;
   position: relative;
   height: 100%;
+  overflow: visible;
 }
 .option label img,
 .option_selected label img {
@@ -48,6 +49,11 @@
   width: 100%;
   position: relative;
   flex: 1;
+}
+.option label #zoomed,
+.option_selected label #zoomed {
+  position: absolute;
+  top: 0;
 }
 .option button,
 .option_selected button {
@@ -85,4 +91,4 @@
 .option_selected p {
   background-color: var(--color-2);
   color: white;
-} /*# sourceMappingURL=Option_Holder.module.css.map */
+}/*# sourceMappingURL=Option_Holder.module.css.map */

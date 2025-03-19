@@ -14,11 +14,6 @@ export default function OptionHolder({ item, selected, action }: ProductHolderPr
   const [showInfo, setShowInfo] = useState(false);
   const infoRef = useRef<HTMLDivElement | null>(null);
 
-  /*   const toggleInfo = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation(); // Prevent div click
-    setShowInfo((prev) => !prev);
-  }; */
-
   // Close the info box when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -35,17 +30,30 @@ export default function OptionHolder({ item, selected, action }: ProductHolderPr
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [showInfo]);
+
+  const [zoomedImage, setZoomededImage] = useState<string | null>(null);
+  const handleZoomPhoto = (item: SelectionItem) => {
+    if(item.zoomable){
+      setTimeout(() => {
+        setZoomededImage(item.name);
+      }, 300);
+    }
+  }
+  const handleBlur = () => {
+    setZoomededImage(null);
+  }
   return (
     <div
       className={selected ? style.option_selected : style.option}
       onClick={action}
       onBlur={() => setShowInfo(false)}
     >
-      {/*       <button onClick={toggleInfo}>
-        <FontAwesomeIcon beat icon={faInfo} />
-      </button> */}
       <label>
-        <Image src={item.image} alt={item.name} width={250} height={220} /> <br />
+        <Image onMouseEnter={()=>handleZoomPhoto(item)} src={item.image} alt={item.name} width={250} height={220} /> <br />
+        {
+          item.zoomable && item.name === zoomedImage &&
+          <Image onMouseLeave={handleBlur} id={style.zoomed} src={item.image} alt={item.name} width={250*1.3} height={220*1.3} /> 
+        }
         <div id={style.details}></div>
         <p>{item.name}</p>
       </label>

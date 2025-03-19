@@ -1,12 +1,14 @@
-export const scrollToElement = (elementId: string, delay: number = 0) => {
+export const scrollToElement = (elementId: string, delay: number = 0, offset: number = 150) => {
   setTimeout(() => {
     const targetElement = document.getElementById(elementId);
     if (targetElement) {
-      targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const elementPosition = targetElement.getBoundingClientRect().top + window.scrollY;
+      const offsetPosition = elementPosition - offset;
 
-      setTimeout(() => {
-        window.scrollBy({ top: -50, behavior: 'smooth' });
-      }, 500);
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      });
     }
   }, delay);
 };

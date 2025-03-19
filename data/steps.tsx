@@ -16,7 +16,6 @@ import { extraSteps } from './extra_steps';
 import { GroupKey, Step } from '@/types/Configurator';
 import StepGlassPaket from '@/components/StepGlassPaket/StepGlassPaket';
 import StepSprossen from '@/components/StepSprossen/StepSprossen';
-import StepDruckausgleichsventil from '@/components/StepGlassPaket/StepDruckausgleichsventil/StepDruckausgleichsventil';
 
 export const steps: Record<GroupKey | string, Step[]> = {
   basis: [
@@ -68,19 +67,16 @@ export const steps: Record<GroupKey | string, Step[]> = {
       key: 'ornament',
       name: 'Ornament',
       icon: faSun,
-      yesNo: true,
     },
     {
       key: 'sicherheitsverglasung',
       name: 'Sicherheitsverglasung',
       icon: faShieldAlt,
-      yesNo: true,
     },
     {
       key: 'schallschutz',
       name: 'Schallschutz',
       icon: faVolumeMute,
-      yesNo: true,
     },
     {
       key: 'sprossen',
@@ -92,7 +88,6 @@ export const steps: Record<GroupKey | string, Step[]> = {
       key: 'druckausgleichsventil',
       name: 'Druckausgleichsventil',
       icon: faArrowsAltH,
-      component: StepDruckausgleichsventil,
     },
   ],
   sonnenschutz: [],

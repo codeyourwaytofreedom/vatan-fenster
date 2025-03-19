@@ -1,113 +1,151 @@
 import { useEffect, useState } from 'react';
 import style from './StepSprossen.module.css';
-import { sprossenItems, sprossenPatterns } from '@/data/configuration_options';
+import { SelectionItem, sprossenCards, sprossenPatterns } from '@/data/configuration_options';
 import OptionHolder from '../Product_Holder/Option_Holder';
 import { useConfiguration } from '@/context/ConfigurationContext';
-import { steps } from '@/data/steps';
+import { scrollToElement } from '@/utils';
 
 export default function StepSprossen() {
-  const { configuration, setConfiguration, setCurrentStep } = useConfiguration();
+  const { configuration, setConfiguration, moveToNextStep } = useConfiguration();
   const [selectedSprossen, setSelectedSprossen] = useState<string>(
     configuration.sprossen.split('-')[0]
   );
 
   const [sprossen, setSprossen] = useState<{
     width: string | undefined;
+    color: string | undefined;
     pattern: string | undefined;
   } | null>({
     width: configuration.sprossen.split('-')[1],
-    pattern: configuration.sprossen.split('-')[2],
+    color: configuration.sprossen.split('-')[2],
+    pattern: configuration.sprossen.split('-')[3],
   });
 
-  const handleSprossenStep = (value: string) => {
-    setSelectedSprossen(value);
-    if (value === 'nein') {
-      setConfiguration((pr) => {
-        return { ...pr, sprossen: 'nein' };
-      });
-      setSprossen(null);
+  const sprossenWidthItems = sprossenCards.find((sp) => sp.name === selectedSprossen)?.items;
+  const colors = sprossenWidthItems?.find((it) => it.name === sprossen?.width)?.colors;
+
+  const handleSelectSprossen = (itemName: string) => {
+    setSelectedSprossen(itemName);
+    if (itemName === 'Nein') {
+      return moveToNextStep();
+    }
+    scrollToElement('bereite');
+    const newItems = sprossenCards.find((sp) => sp.name === itemName)?.items;
+    // handle color and width trasnfer to the new selection
+    if (itemName !== 'Nein') {
+      const widthTransferable = newItems?.some((it) => it.name === sprossen?.width);
+      const width = widthTransferable ? sprossen?.width : newItems![0].name;
+
+      const itemToSelect = widthTransferable
+        ? newItems?.find((it) => it.name === sprossen?.width)
+        : newItems![0];
+      const colorItem =
+        itemToSelect?.colors?.find((clr) => clr.name === sprossen?.color) ??
+        itemToSelect!.colors![0];
+
+      setSprossen({ width: width, color: colorItem.name, pattern: sprossen?.pattern });
+    }
+    if (selectedSprossen === 'Nein') {
+      if (itemName !== 'Nein') {
+        setSprossen({
+          width: newItems![0].name,
+          color: newItems![0].colors![0].name,
+          pattern: sprossenPatterns[0].name,
+        });
+      }
     }
   };
 
-  const handleSprossenWidth = (width: string) => {
-    setSprossen({ width: width, pattern: sprossen?.pattern });
+  const handleSelectBereite = (item: SelectionItem) => {
+    setSprossen({ width: item.name, color: item.colors![0].name, pattern: sprossen?.pattern });
+    scrollToElement('colors');
   };
 
-  const handleSprossenPattern = (pattern: string) => {
-    setSprossen({ width: sprossen?.width, pattern: pattern });
-    setTimeout(() => {
-      setCurrentStep(steps.verglasung[5]);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }, 300);
+  const handleSelectColor = (item: SelectionItem) => {
+    const color = item.name;
+    setSprossen({ width: sprossen?.width, color: color, pattern: sprossen?.pattern });
+    scrollToElement('type');
   };
 
-  const itemsToDisplay = selectedSprossen
-    ? sprossenItems[selectedSprossen as keyof typeof sprossenItems]
-    : null;
+  const handleSelectPattern = (pattern: string) => {
+    setSprossen({ width: sprossen?.width, color: sprossen?.color, pattern: pattern });
+    moveToNextStep();
+  };
 
   useEffect(() => {
-    if (sprossen?.width && sprossen.pattern && selectedSprossen) {
+    if (selectedSprossen === 'Nein') {
       setConfiguration((pr) => {
-        return { ...pr, sprossen: `${selectedSprossen}-${sprossen.width}-${sprossen.pattern}` };
+        return { ...pr, sprossen: 'Nein' };
+      });
+    } else {
+      setConfiguration((pr) => {
+        return {
+          ...pr,
+          sprossen: `${selectedSprossen}-${sprossen?.width}-${sprossen?.color}-${sprossen?.pattern}`,
+        };
       });
     }
-  }, [sprossen]);
-
-  // when Sprossen step changes
-  useEffect(()=>{
-    if(['innenliegende', 'aufgesetzte'].includes(selectedSprossen)){
-      const widthTransferable = itemsToDisplay?.some((it)=>it.value === configuration.sprossen.split('-')[1] );
-      const width = widthTransferable ?  configuration.sprossen.split('-')[1] : itemsToDisplay![0].value;
-      const pattern = configuration.sprossen.split('-')[2] ?? sprossenPatterns[0].name;
-      setSprossen({ width: width, pattern: pattern});      
-    }
-  },[selectedSprossen, itemsToDisplay]);
+  }, [selectedSprossen, sprossen]);
 
   return (
     <>
-      <div className={style.yesno}>
-        <button
-          className={selectedSprossen === 'nein' ? style.selected : ''}
-          onClick={() => handleSprossenStep('nein')}
-        >
-          NEIN
-        </button>
-        <button
-          className={selectedSprossen === 'innenliegende' ? style.selected : ''}
-          onClick={() => handleSprossenStep('innenliegende')}
-        >
-          Innenliegende Sprossen
-        </button>
-        <button
-          className={selectedSprossen === 'aufgesetzte' ? style.selected : ''}
-          onClick={() => handleSprossenStep('aufgesetzte')}
-        >
-          Aufgesetzte Sprossen
-        </button>
-      </div>
-      <div className={style.width_options}>
-        {itemsToDisplay &&
-          itemsToDisplay.map((item, key) => (
-            <button
-              className={sprossen?.width === item.value ? style.selected : ''}
-              key={key}
-              onClick={() => handleSprossenWidth(item.value)}
-            >
-              {item.value}
-            </button>
-          ))}
-      </div>
       <div className={style.option_holders}>
-        {itemsToDisplay &&
-          sprossenPatterns.map((item, key) => (
+        {sprossenCards &&
+          sprossenCards.map((item, key) => (
             <OptionHolder
               key={key}
-              selected={sprossen?.pattern === item.name}
-              action={() => handleSprossenPattern(item.name)}
+              selected={selectedSprossen === item.name}
+              action={() => handleSelectSprossen(item.name)}
               item={item}
             />
           ))}
       </div>
+
+      {sprossenWidthItems && (
+        <>
+          <br />
+          <h3 className={style.title}>Bereite</h3>
+          <br />
+          <div className={style.option_holders} id={'bereite'}>
+            {sprossenWidthItems.map((item, key) => (
+              <OptionHolder
+                key={key}
+                selected={sprossen?.width === item.name}
+                action={() => handleSelectBereite(item)}
+                item={item}
+              />
+            ))}
+          </div>
+
+          <br />
+          <h3 className={style.title}>Colors</h3>
+          <br />
+          <div className={style.option_holders} id={'colors'}>
+            {colors?.map((item, key) => (
+              <OptionHolder
+                key={key}
+                selected={sprossen?.color === item.name}
+                action={() => handleSelectColor(item)}
+                item={item}
+              />
+            ))}
+          </div>
+
+          <br />
+          <h3 className={style.title}>Type</h3>
+          <br />
+          <div className={style.option_holders} id={'type'}>
+            {sprossenPatterns.map((item, key) => (
+              <OptionHolder
+                key={key}
+                selected={sprossen?.pattern === item.name}
+                action={() => handleSelectPattern(item.name)}
+                item={item}
+              />
+            ))}
+          </div>
+        </>
+      )}
     </>
   );
 }

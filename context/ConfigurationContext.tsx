@@ -1,4 +1,5 @@
 import { initialConfiguration, initialSubstyle } from '@/data/configuration_options';
+import { steps } from '@/data/steps';
 import { Config, GroupKey, Step, SubStyle } from '@/types/Configurator';
 import { createContext, useState, ReactNode, useContext } from 'react';
 
@@ -12,6 +13,7 @@ interface ConfigurationContextType {
   setCurrentGroup: React.Dispatch<React.SetStateAction<GroupKey>>;
   setCurrentStep: React.Dispatch<React.SetStateAction<Step | null>>;
   setSubStyle: React.Dispatch<React.SetStateAction<SubStyle>>;
+  moveToNextStep: () => void;
 }
 
 // Create the context with a default value
@@ -24,6 +26,18 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
   const [currentStep, setCurrentStep] = useState<Step | null>(null);
   const [substyle, setSubStyle] = useState<SubStyle>(initialSubstyle);
 
+  const moveToNextStep = () => {
+    const currentGroupSteps = steps[currentGroup];
+    const currentStepIndex = currentGroupSteps.indexOf(currentStep!);
+    const nextStep = currentGroupSteps[currentStepIndex + 1];
+    if (nextStep) {
+      setTimeout(() => {
+        setCurrentStep(nextStep);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 300);
+    }
+  };
+
   return (
     <ConfiurationContext.Provider
       value={{
@@ -35,6 +49,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
         setCurrentStep,
         setCurrentGroup,
         setSubStyle,
+        moveToNextStep,
       }}
     >
       {children}

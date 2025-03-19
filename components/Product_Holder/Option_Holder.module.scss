@@ -27,6 +27,7 @@ $shine-color: #00ff36;
     cursor: pointer;
     position: relative;
     height: 100%;
+    overflow: visible;
     img {
       flex: 2;
     }
@@ -43,6 +44,10 @@ $shine-color: #00ff36;
       width: 100%;
       position: relative;
       flex: 1;
+    }
+    #zoomed{
+      position: absolute;
+      top: 0;
     }
   }
   button {

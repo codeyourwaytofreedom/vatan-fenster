@@ -207,6 +207,41 @@
 .config #summary #items {
   padding: 0 10px;
 }
+.config #summary #items,
+.config #summary .expanded,
+.config #summary .collapsed {
+  overflow: hidden;
+  margin-bottom: 5px;
+}
+.config #summary #items button,
+.config #summary .expanded button,
+.config #summary .collapsed button {
+  background-color: rgb(230, 227, 227);
+  width: 100%;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  font-size: 11px;
+  justify-content: center;
+  border: none;
+  padding-right: 30px;
+  position: relative;
+}
+.config #summary #items button svg,
+.config #summary .expanded button svg,
+.config #summary .collapsed button svg {
+  position: absolute;
+  right: 10px;
+}
+.config #summary #items button:hover,
+.config #summary .expanded button:hover,
+.config #summary .collapsed button:hover {
+  filter: brightness(0.9);
+}
+.config #summary .collapsed {
+  height: 25px;
+}
 .config #summary .item {
   display: flex;
   justify-content: space-between;
@@ -231,9 +266,22 @@
 .config #summary .item #value svg:hover {
   color: crimson;
 }
+.config #summary #note {
+  padding: 5px 10px;
+  height: auto;
+  margin-top: 10px;
+}
+.config #summary #note textarea {
+  background-color: rgb(248, 240, 227);
+  padding: 3px;
+  padding-left: 5px;
+  border: none;
+  resize: none;
+  font-size: small;
+  width: 100%;
+}
 .config #summary #actions {
   display: grid;
-  margin-top: 10px;
 }
 .config #summary #actions button {
   border: none;

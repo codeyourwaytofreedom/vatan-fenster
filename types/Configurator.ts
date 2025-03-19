@@ -48,12 +48,12 @@ export interface Config {
   sealInt: SelectionItem;
   handle?: SelectionItem;
   glasspaket: SelectionItem;
-  glasspaketWarmeKante: SelectionItem | 'nein';
-  ornament: SelectionItem | 'nein';
-  sicherheitsverglasung: SelectionItem | 'nein';
-  schallschutz: SelectionItem | 'nein';
-  sprossen: string | 'nein';
-  druckausgleichsventil: 'ja' | 'nein';
+  glasspaketWarmeKante: SelectionItem | 'Nein';
+  ornament: SelectionItem;
+  sicherheitsverglasung: SelectionItem;
+  schallschutz: SelectionItem;
+  sprossen: string | 'Nein';
+  druckausgleichsventil: SelectionItem;
 }
 
 export interface ExtraConfig {

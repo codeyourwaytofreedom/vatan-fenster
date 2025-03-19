@@ -4,10 +4,13 @@ import color2 from '../assets/color2.png';
 import color3 from '../assets/color3.jpg';
 
 import placeholder from '../assets/placeholder.png';
+import no from '../assets/no.jpeg';
+import yes from '../assets/yes.png';
+
+import width from '../assets/width.avif';
 
 import handle from '../assets/handle.webp';
 import cover from '../assets/windowcover.jpg';
-import nein from '../assets/nein.jpg';
 
 import drutex from '../assets/configurator/brands/drutex.svg';
 
@@ -75,7 +78,10 @@ export type SelectionItem = {
   image: Image;
   isActive?: boolean;
   handleNumber?: number;
+  colors?: SelectionItem[];
+  zoomable?: boolean;
   component?: ReactNode;
+  items?: SelectionItem[];
   children?: {
     profile?: {
       'Kunststoff (PVC)': SelectionItem[];
@@ -412,7 +418,7 @@ export const covers: SelectionItem[] = [
   {
     key: 'nein',
     name: 'Nein',
-    image: nein,
+    image: no,
   },
   {
     key: 'cover1',
@@ -466,6 +472,11 @@ const verglasung = {
     },
   ],
   ornament: [
+    {
+      key: 'nein',
+      name: 'Nein',
+      image: no,
+    },
     {
       key: 'rb6',
       name: 'Reflektofloat: Braun 6',
@@ -524,6 +535,11 @@ const verglasung = {
   ],
   sicherheitsverglasung: [
     {
+      key: 'nein',
+      name: 'Nein',
+      image: no,
+    },
+    {
       key: 'sver1',
       name: 'Außen: VSG 6mm (Verbundsicherheitsglas)',
       image: placeholder,
@@ -566,6 +582,11 @@ const verglasung = {
   ],
   schallschutz: [
     {
+      key: 'nein',
+      name: 'Nein',
+      image: no,
+    },
+    {
       key: '36',
       name: '36db',
       image: _36,
@@ -577,7 +598,18 @@ const verglasung = {
     },
   ],
   sprossen: [],
-  druckausgleichsventil: [],
+  druckausgleichsventil: [
+    {
+      key: 'nein',
+      name: 'Nein',
+      image: no,
+    },
+    {
+      key: 'ja',
+      name: 'Ja',
+      image: yes,
+    },
+  ],
 };
 
 export const categoryItems = [
@@ -596,7 +628,7 @@ export const categoryItems = [
   { key: 'sicherheitsverglasung', items: verglasung.sicherheitsverglasung },
   { key: 'schallschutz', items: verglasung.schallschutz },
   { key: 'sprossen', items: verglasung.sprossen },
-  { key: 'druckausgleichsventil', items: [] },
+  { key: 'druckausgleichsventil', items: verglasung.druckausgleichsventil },
 ];
 
 // initial deafult configuration
@@ -615,12 +647,12 @@ export const initialConfiguration: Config = {
   sealExt: extraOptionsMock.sealExt[0],
   sealInt: extraOptionsMock.sealInt[0],
   glasspaket: verglasung.glasspaket[0],
-  glasspaketWarmeKante: 'nein',
-  ornament: 'nein',
-  sicherheitsverglasung: 'nein',
-  schallschutz: 'nein',
-  sprossen: 'nein',
-  druckausgleichsventil: 'nein',
+  glasspaketWarmeKante: 'Nein',
+  ornament: verglasung.ornament[0],
+  sicherheitsverglasung: verglasung.sicherheitsverglasung[0],
+  schallschutz: verglasung.schallschutz[0],
+  sprossen: 'Nein',
+  druckausgleichsventil: verglasung.druckausgleichsventil[0],
 };
 
 import wk1 from '../assets/configurator/verglasung/schallschutz/warmenkante/wk1.webp';
@@ -787,5 +819,97 @@ export const sprossenPatterns = [
     key: 'type14',
     name: 'Type 14',
     image: type14,
+  },
+];
+
+export const sprossenCards: SelectionItem[] = [
+  {
+    key: 'nein',
+    name: 'Nein',
+    image: no,
+  },
+  {
+    key: 'is',
+    name: 'Innenliegen Sprossen',
+    image: yes,
+    items: [
+      {
+        key: '8',
+        name: '8',
+        image: width,
+        colors: [
+          { key: 'white', name: 'Weiß', image: color2 },
+          { key: 'silver-matt', name: 'Silber matt', image: color2 },
+          { key: 'gold', name: 'Gold', image: color2 },
+        ],
+      },
+      {
+        key: '18',
+        name: '18',
+        image: width,
+        colors: [
+          { key: 'white', name: 'Weiß', image: color2 },
+          { key: 'gold', name: 'Gold', image: color2 },
+          { key: 'golden-oak', name: 'Golden oak', image: color2 },
+          { key: 'eiche-dunkel', name: 'Eiche Dunkel', image: color2 },
+          { key: 'mahagoni', name: 'Mahagoni', image: color2 },
+          { key: 'nussbaum', name: 'Nussbaum', image: color2 },
+          { key: 'schwarzbraun', name: 'Schwarzbraun', image: color2 },
+          { key: 'schokobraun', name: 'Schokobraun', image: color2 },
+          { key: 'macore', name: 'Macore', image: color2 },
+          { key: 'winchester', name: 'Winchester', image: color2 },
+          { key: 'anthrazitgrau', name: 'Anthrazitgrau', image: color2 },
+        ],
+      },
+      {
+        key: '26',
+        name: '26',
+        image: width,
+        colors: [
+          { key: 'white', name: 'Weiß', image: color2 },
+          { key: 'gold', name: 'Gold', image: color2 },
+          { key: 'golden-oak', name: 'Golden oak', image: color2 },
+          { key: 'eiche-dunkel', name: 'Eiche Dunkel', image: color2 },
+          { key: 'mahagoni', name: 'Mahagoni', image: color2 },
+          { key: 'nussbaum', name: 'Nussbaum', image: color2 },
+          { key: 'schwarzbraun', name: 'Schwarzbraun', image: color2 },
+          { key: 'schokobraun', name: 'Schokobraun', image: color2 },
+          { key: 'macore', name: 'Macore', image: color2 },
+          { key: 'winchester', name: 'Winchester', image: color2 },
+          { key: 'anthrazitgrau', name: 'Anthrazitgrau', image: color2 },
+        ],
+      },
+      {
+        key: '45',
+        name: '45',
+        image: width,
+        colors: [{ key: 'white', name: 'Weiß', image: color2 }],
+      },
+    ],
+  },
+  {
+    key: 'as',
+    name: 'Aufgesetzte Sprossen',
+    image: yes,
+    items: [
+      {
+        key: '27',
+        name: '27',
+        image: width,
+        colors: [{ key: 'white', name: 'Weiß', image: color2 }],
+      },
+      {
+        key: '45',
+        name: '45',
+        image: width,
+        colors: [{ key: 'white', name: 'Weiß', image: color2 }],
+      },
+      {
+        key: '65',
+        name: '65',
+        image: width,
+        colors: [{ key: 'white', name: 'Weiß', image: color2 }],
+      },
+    ],
   },
 ];

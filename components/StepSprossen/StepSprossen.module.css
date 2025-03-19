@@ -1,11 +1,9 @@
-.yesno,
 .width_options {
   margin-bottom: 10px;
   margin-top: 10px;
   display: flex;
   justify-content: center;
 }
-.yesno button,
 .width_options button {
   width: 50vw;
   max-width: 250px;
@@ -13,7 +11,6 @@
   background: rgba(100, 100, 100, 0.2);
   border: none;
 }
-.yesno .selected,
 .width_options .selected {
   background-color: var(--color-2);
   color: whitesmoke;
@@ -37,4 +34,15 @@
   height: 40px;
   background: rgba(100, 100, 100, 0.2);
   border: none;
+}
+
+.title {
+  height: 30px;
+  background-color: var(--color-1);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 100;
+  font-size: medium;
 } /*# sourceMappingURL=StepSprossen.module.css.map */

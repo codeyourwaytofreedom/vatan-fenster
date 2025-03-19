@@ -31,6 +31,7 @@ export default function Basis_Configuration() {
     setConfiguration,
     setCurrentGroup,
     setCurrentStep,
+    moveToNextStep,
   } = useConfiguration();
 
   const { size, setSize } = useOrderDetailsReady();
@@ -179,19 +180,6 @@ export default function Basis_Configuration() {
     autoSelectProfile();
   }, [configuration.material]);
 
-  const moveNextStep = () => {
-    // make currentGroup dynamic, thats why alwayes setting the ssame next step for basis
-    const stepIndex = steps[currentGroup].findIndex((st) => st.key == currentStep?.key);
-    const nextStep = steps[currentGroup][stepIndex + 1];
-    const value = configuration[currentStep?.key as keyof Config];
-    if (nextStep && value) {
-      setTimeout(() => {
-        // have to handle this correctly
-        setCurrentStep(nextStep);
-      }, 300);
-    }
-  };
-
   const updateConfiguration = (item: SelectionItem, key?: string) => {
     if (currentStep) {
       setConfiguration((prevConfig) => ({
@@ -199,7 +187,7 @@ export default function Basis_Configuration() {
         [key ?? (currentStep?.key as keyof Config)]: item,
       }));
     }
-    moveNextStep();
+    moveToNextStep();
   };
 
   // if selected window type has handle, update configuration and vice-versa

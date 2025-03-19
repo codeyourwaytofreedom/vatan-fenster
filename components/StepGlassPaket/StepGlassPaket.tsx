@@ -21,7 +21,7 @@ export default function StepGlassPaket({ items, expanded }: GlassPaketProps) {
         ...prevConfig,
         [key ?? (currentStep?.key as keyof Config)]: item,
       }));
-      if(!item.name.includes('warme')){
+      if (!item.name.includes('warme')) {
         setTimeout(() => {
           setCurrentStep(steps.verglasung[1]);
           window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -36,7 +36,7 @@ export default function StepGlassPaket({ items, expanded }: GlassPaketProps) {
     }
   };
 
-  const updateWarmeKante = (item: SelectionItem | 'nein') => {
+  const updateWarmeKante = (item: SelectionItem | 'Nein') => {
     setConfiguration((prevConfig) => ({
       ...prevConfig,
       glasspaketWarmeKante: item,
@@ -61,7 +61,8 @@ export default function StepGlassPaket({ items, expanded }: GlassPaketProps) {
   const showColorOptions = configuration.glasspaket.name.includes('warme');
   useEffect(() => {
     if (showColorOptions) {
-      const existingWarmeKante = configuration.glasspaketWarmeKante !== 'nein' ? configuration.glasspaketWarmeKante : null;
+      const existingWarmeKante =
+        configuration.glasspaketWarmeKante !== 'Nein' ? configuration.glasspaketWarmeKante : null;
       setConfiguration((prevConfig) => ({
         ...prevConfig,
         glasspaketWarmeKante: existingWarmeKante ?? warmenKante[0],
@@ -70,7 +71,7 @@ export default function StepGlassPaket({ items, expanded }: GlassPaketProps) {
     if (!showColorOptions) {
       setConfiguration((prevConfig) => ({
         ...prevConfig,
-        glasspaketWarmeKante: 'nein',
+        glasspaketWarmeKante: 'Nein',
       }));
     }
   }, [showColorOptions]);
