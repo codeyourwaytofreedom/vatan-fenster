@@ -52,7 +52,8 @@ export default function Configuration_Group({ groupTitle, steps }: GroupProps) {
 
   // determine what items are to be displayed for current step
   useEffect(() => {
-    if (groupActive) {
+    // additional check prevents flicker in steps with custom compoent
+    if (groupActive && visibleSection && visibleSection.items.length > 0) {
       setItemsToDisplay(visibleSection?.items);
     }
   }, [groupActive, visibleSection]);

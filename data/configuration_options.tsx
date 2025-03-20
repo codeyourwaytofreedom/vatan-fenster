@@ -95,37 +95,43 @@ export type SelectionItem = {
   };
 };
 
-export const extraOptionsMock = {
+export const extraOptionsMock: Record<string, SelectionItem[]> = {
   colorExt: [
     {
       name: 'white',
       image: color2,
       key: 'white',
+      zoomable: true
     },
     {
       name: 'Dark Brown',
       image: color2,
       key: 'dark-brown',
+      zoomable: true
     },
     {
       name: 'Whitesmoke',
       image: color2,
       key: 'whitesmoke',
+      zoomable: true
     },
     {
       name: 'Antrasite',
       image: color2,
       key: 'antrasite',
+      zoomable: true
     },
     {
       name: 'Gold',
       image: color2,
       key: 'gold',
+      zoomable: true
     },
     {
       name: 'pink',
       image: color2,
       key: 'pink',
+      zoomable: true
     },
   ],
   colorInt: [
@@ -627,7 +633,7 @@ export const categoryItems = [
   { key: 'ornament', items: verglasung.ornament },
   { key: 'sicherheitsverglasung', items: verglasung.sicherheitsverglasung },
   { key: 'schallschutz', items: verglasung.schallschutz },
-  { key: 'sprossen', items: verglasung.sprossen },
+  { key: 'sprossen', items: [] },
   { key: 'druckausgleichsventil', items: verglasung.druckausgleichsventil },
 ];
 

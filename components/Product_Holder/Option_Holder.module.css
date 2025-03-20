@@ -3,7 +3,6 @@
   max-width: 300px;
   height: 370px;
   border-radius: 10px;
-  overflow: hidden;
   text-align: center;
   border: 2px solid silver;
   position: relative;
@@ -33,6 +32,8 @@
 .option label img,
 .option_selected label img {
   flex: 2;
+  width: 100%;
+  border-radius: 10px;
 }
 .option label #details,
 .option_selected label #details {
@@ -53,7 +54,8 @@
 .option label #zoomed,
 .option_selected label #zoomed {
   position: absolute;
-  top: 0;
+  top: -10%;
+  width: unset !important;
 }
 .option button,
 .option_selected button {

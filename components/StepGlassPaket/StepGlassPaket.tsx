@@ -68,7 +68,7 @@ export default function StepGlassPaket({ items, expanded }: GlassPaketProps) {
         glasspaketWarmeKante: existingWarmeKante ?? warmenKante[0],
       }));
     }
-    if (!showColorOptions) {
+    if (!showColorOptions && configuration.glasspaketWarmeKante !== 'Nein') {
       setConfiguration((prevConfig) => ({
         ...prevConfig,
         glasspaketWarmeKante: 'Nein',

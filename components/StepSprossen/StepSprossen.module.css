@@ -27,6 +27,7 @@
   justify-content: center;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 20px;
+  padding: 5px;
 }
 .option_holders button {
   width: 50vw;
@@ -45,4 +46,4 @@
   align-items: center;
   font-weight: 100;
   font-size: medium;
-} /*# sourceMappingURL=StepSprossen.module.css.map */
+}/*# sourceMappingURL=StepSprossen.module.css.map */

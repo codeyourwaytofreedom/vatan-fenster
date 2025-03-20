@@ -11,35 +11,38 @@ import { useEffect, useState } from 'react';
 export default function SummaryDisplayer() {
   const { configuration, currentGroup, setCurrentStep, setCurrentGroup } = useConfiguration();
   const [expandeddGroup, setExpandedGroup] = useState<string | null>(null);
+  const slowAction = 100;
 
   const handleShowStep = (key: string) => {
-    if (['oben', 'unten'].includes(key)) {
-      setCurrentStep(steps[currentGroup].find((st) => st.key === 'type') || null);
-      if (configuration.style.name === 'Oberlicht') {
-        scrollToElement(key, 50);
-      }
-      if (configuration.style.name === 'Unterlicht') {
-        if (key === 'oben') {
-          scrollToElement('unten', 50);
+    setTimeout(() => {
+      if (['oben', 'unten'].includes(key)) {
+        setCurrentStep(steps[currentGroup].find((st) => st.key === 'type') || null);
+        if (configuration.style.name === 'Oberlicht') {
+          scrollToElement(key, 50);
         }
-        if (key === 'unten') {
-          scrollToElement('oben', 50);
+        if (configuration.style.name === 'Unterlicht') {
+          if (key === 'oben') {
+            scrollToElement('unten', 50);
+          }
+          if (key === 'unten') {
+            scrollToElement('oben', 50);
+          }
         }
+        return;
       }
-      return;
-    }
-    let parentKey = Object.entries(steps).find(
-      ([, value]) => Array.isArray(value) && value.some((item) => item.key === key)
-    )?.[0] as GroupKey;
-
-    if (key === 'glasspaketWarmeKante') {
-      key = 'glasspaket';
-      parentKey = 'verglasung';
-    }
-
-    setCurrentGroup(parentKey);
-    setCurrentStep(steps[parentKey].find((st) => st.key === key) || null);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+      let parentKey = Object.entries(steps).find(
+        ([, value]) => Array.isArray(value) && value.some((item) => item.key === key)
+      )?.[0] as GroupKey;
+  
+      if (key === 'glasspaketWarmeKante') {
+        key = 'glasspaket';
+        parentKey = 'verglasung';
+      }
+  
+      setCurrentGroup(parentKey);
+      setCurrentStep(steps[parentKey].find((st) => st.key === key) || null);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, slowAction);
   };
 
   // groupBasis
@@ -110,18 +113,22 @@ export default function SummaryDisplayer() {
 
   const selectBasisGroup = () => {
     if (currentGroup !== 'basis') {
-      setCurrentGroup('basis');
+      setTimeout(() => {
+        setCurrentGroup('basis');
+      }, slowAction);
     }
   };
 
   const handleExpandGroup = (groupKey: GroupKey) => {
-    if(currentGroup !== groupKey){
-      setCurrentGroup(groupKey);
-    }
-    if (groupKey === expandeddGroup) {
-      return setExpandedGroup(null);
-    }
-    setExpandedGroup(groupKey);
+    setTimeout(() => {
+      if(currentGroup !== groupKey){
+        setCurrentGroup(groupKey);
+      }
+      if (groupKey === expandeddGroup) {
+        return setExpandedGroup(null);
+      }
+      setExpandedGroup(groupKey);
+    }, slowAction);
   };
 
   const groupIsExpanded = (groupKey: string) => {
@@ -130,7 +137,9 @@ export default function SummaryDisplayer() {
 
   useEffect(()=>{
     if(currentGroup && currentGroup !== expandeddGroup){
-      setExpandedGroup(currentGroup);
+      setTimeout(() => {
+        setExpandedGroup(currentGroup);
+      }, slowAction);
     }
   },[currentGroup])
 

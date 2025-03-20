@@ -48,10 +48,15 @@ export default function Stepper({ steps, configuration, orderDetailsReady }: Ste
     return style.inactive;
   };
   const { currentStep, setCurrentStep } = useConfiguration();
+  const handleSetStep = (step: Step) => {
+    setTimeout(() => {
+      setCurrentStep(step)
+    }, 100);
+  }
   return (
     <div className={style.config_steps}>
       {steps.map((st, index) => (
-        <button key={index} className={stepClass(st)} onClick={() => setCurrentStep(st)}>
+        <button key={index} className={stepClass(st)} onClick={() => handleSetStep(st)}>
           <FontAwesomeIcon icon={st.icon} color="black" beatFade={stepClass(st).includes('next')} />
           <p>{st.name}</p>
           <span id={style.anchor}>&#9660;</span>
