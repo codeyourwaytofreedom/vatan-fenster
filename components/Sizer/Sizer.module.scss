@@ -1,6 +1,6 @@
 .config_wrapper_sizer {
   display: grid;
-  justify-content: center;
+  justify-items: center;
   flex-wrap: wrap;
   row-gap: 10px;
   height: fit-content;
@@ -10,6 +10,7 @@
     width: 100%;
     display: flex;
     flex-direction: column;
+    width: 270px;
     &_small {
       height: 60px;
       z-index: 3;
@@ -42,7 +43,7 @@
         align-items: center;
         span {
           font-size: 12px;
-          color: crimson;
+          color: var(--color-1);
           font-weight: 600;
           position: relative;
           left: -30px;
@@ -71,18 +72,40 @@
     }
     #bottom_line {
       border: 1px solid black;
+      height: 1px;
       width: 60%;
       position: relative;
-      left: 18%;
-      margin-top: 7px;
+      left: 17%;
+      margin-top: 17px;
+      margin-bottom: 5px;
       display: flex;
       justify-content: center;
-      span {
+      #width {
         position: absolute;
         top: 5px;
         font-size: 12px;
-        color: crimson;
+        color: var(--color-1);
         font-weight: 600;
+      }
+      #sections {
+        position: relative;
+        display: flex;
+        width: 100%;
+        top: -15px;
+        color: var(--color-2);
+        column-gap: 5px;
+        margin-top: 5px;
+        .section {
+          border: 1px solid black;
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          .value {
+            position: absolute;
+            font-size: 11px !important;
+            top: -13px;
+          }
+        }
       }
     }
 
@@ -130,7 +153,6 @@
     column-gap: 20px;
     padding: 5px;
     position: relative;
-    width: fit-content;
     margin-top: 30px;
     font-weight: 15px;
     line-height: 1.1 !important;
@@ -138,11 +160,12 @@
     top: -4%;
     #input_line {
       display: flex;
-      justify-content: space-between;
-      width: 200px;
+      align-items: flex-start;
       font-size: small;
+      column-gap: 5px;
       h5 {
         display: grid;
+        width: 80px;
         #range {
           font-size: 11px !important;
           color: gray;
@@ -154,13 +177,18 @@
         padding-left: 10px;
         border: 1px solid silver;
         border-radius: 10px;
-        width: 90px;
+        width: 70px;
+        height: 20px;
         font-size: 12px !important;
         &::after {
           content: 'mm';
         }
       }
     }
+  }
+  .errors{
+    transition: height 0.6s ease;
+    line-height: 20px;
   }
 }
 

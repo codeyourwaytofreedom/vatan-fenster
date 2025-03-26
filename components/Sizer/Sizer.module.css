@@ -1,6 +1,6 @@
 .config_wrapper_sizer {
   display: grid;
-  justify-content: center;
+  justify-items: center;
   flex-wrap: wrap;
   row-gap: 10px;
   height: -moz-fit-content;
@@ -12,6 +12,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
+  width: 270px;
 }
 .config_wrapper_sizer .container_small {
   height: 60px;
@@ -46,7 +47,7 @@
 }
 .config_wrapper_sizer .container_small #right_line span, .config_wrapper_sizer .container_big #right_line span {
   font-size: 12px;
-  color: crimson;
+  color: var(--color-1);
   font-weight: 600;
   position: relative;
   left: -30px;
@@ -73,19 +74,42 @@
 }
 .config_wrapper_sizer .container #bottom_line {
   border: 1px solid black;
+  height: 1px;
   width: 60%;
   position: relative;
-  left: 18%;
-  margin-top: 7px;
+  left: 17%;
+  margin-top: 17px;
+  margin-bottom: 5px;
   display: flex;
   justify-content: center;
 }
-.config_wrapper_sizer .container #bottom_line span {
+.config_wrapper_sizer .container #bottom_line #width {
   position: absolute;
   top: 5px;
   font-size: 12px;
-  color: crimson;
+  color: var(--color-1);
   font-weight: 600;
+}
+.config_wrapper_sizer .container #bottom_line #sections {
+  position: relative;
+  display: flex;
+  width: 100%;
+  top: -15px;
+  color: var(--color-2);
+  -moz-column-gap: 5px;
+       column-gap: 5px;
+  margin-top: 5px;
+}
+.config_wrapper_sizer .container #bottom_line #sections .section {
+  border: 1px solid black;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.config_wrapper_sizer .container #bottom_line #sections .section .value {
+  position: absolute;
+  font-size: 11px !important;
+  top: -13px;
 }
 .config_wrapper_sizer .container #bottom_line::before,
 .config_wrapper_sizer .container #bottom_line::after {
@@ -125,8 +149,6 @@
        column-gap: 20px;
   padding: 5px;
   position: relative;
-  width: -moz-fit-content;
-  width: fit-content;
   margin-top: 30px;
   font-weight: 15px;
   line-height: 1.1 !important;
@@ -135,12 +157,14 @@
 }
 .config_wrapper_sizer #inputs #input_line {
   display: flex;
-  justify-content: space-between;
-  width: 200px;
+  align-items: flex-start;
   font-size: small;
+  -moz-column-gap: 5px;
+       column-gap: 5px;
 }
 .config_wrapper_sizer #inputs #input_line h5 {
   display: grid;
+  width: 80px;
 }
 .config_wrapper_sizer #inputs #input_line h5 #range {
   font-size: 11px !important;
@@ -152,11 +176,16 @@
   padding-left: 10px;
   border: 1px solid silver;
   border-radius: 10px;
-  width: 90px;
+  width: 70px;
+  height: 20px;
   font-size: 12px !important;
 }
 .config_wrapper_sizer #inputs #input_line input::after {
   content: "mm";
+}
+.config_wrapper_sizer .errors {
+  transition: height 0.6s ease;
+  line-height: 20px;
 }
 
 @media (max-width: 767.98px) {

@@ -2,13 +2,14 @@ import { Config, Step } from '@/types/Configurator';
 import style from '../.././styles/KonfiguratorPage.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useConfiguration } from '@/context/ConfigurationContext';
+import { useOrderDetailsReady } from '@/context/OrderDetailsContext';
 
 interface StepperProps {
   steps: Step[];
-  orderDetailsReady?: boolean;
   configuration: Config;
 }
-export default function Stepper({ steps, configuration, orderDetailsReady }: StepperProps) {
+export default function Stepper({ steps, configuration }: StepperProps) {
+  const {orderDetailsReady} = useOrderDetailsReady();
   const stepClass = (step: Step) => {
     const currentlySelected = step.key === currentStep?.key;
     const completed = Boolean(configuration[step.key as keyof Config]);
@@ -50,9 +51,9 @@ export default function Stepper({ steps, configuration, orderDetailsReady }: Ste
   const { currentStep, setCurrentStep } = useConfiguration();
   const handleSetStep = (step: Step) => {
     setTimeout(() => {
-      setCurrentStep(step)
+      setCurrentStep(step);
     }, 100);
-  }
+  };
   return (
     <div className={style.config_steps}>
       {steps.map((st, index) => (

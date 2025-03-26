@@ -5,8 +5,8 @@ import { StaticImageData } from 'next/image';
 import { ComponentType } from 'react';
 
 export interface Size {
-  w: number | undefined;
-  h: number | undefined;
+  w: number | string | undefined;
+  h: number | string | undefined;
   h_unten?: number | undefined;
 }
 
@@ -54,6 +54,7 @@ export interface Config {
   schallschutz: SelectionItem;
   sprossen: string | 'Nein';
   druckausgleichsventil: SelectionItem;
+  multiWidth?: Record<string, number>;
 }
 
 export interface ExtraConfig {

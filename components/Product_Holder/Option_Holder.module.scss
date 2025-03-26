@@ -46,10 +46,12 @@ $shine-color: #00ff36;
       position: relative;
       flex: 1;
     }
-    #zoomed{
+    .zoomedContainer {
       position: absolute;
-      top: -10%;
-      width: unset !important;
+      top: -5%;
+      left: -25%;
+      width: 150%;
+      z-index: 9;
     }
   }
   button {

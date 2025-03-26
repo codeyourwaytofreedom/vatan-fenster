@@ -31,8 +31,10 @@ import MB70 from '../assets/configurator/profiles/drutex/aluminium/MB70.webp';
 import MB70HI from '../assets/configurator/profiles/drutex/aluminium/MB70HI.webp';
 import MB86NSI from '../assets/configurator/profiles/drutex/aluminium/MB86NSI.webp';
 
-import plastic from '../assets/configurator/materials/plastic.png';
-import aluminum from '../assets/configurator/materials/ali.webp';
+import plastic from '../assets/configurator/materials/KunststoffFenster.png';
+import aluminum from '../assets/configurator/materials/AluminiumFenster.png';
+/* import holz from '../assets/configurator/materials/HolzFenster.png';
+import holzAlu from '../assets/configurator/materials/HolzAluFenster.png'; */
 
 // Verglasun Glasspaket
 import _2fv from '../assets/configurator/verglasung/glasspaket/2-f-v.webp';
@@ -80,6 +82,7 @@ export type SelectionItem = {
   handleNumber?: number;
   colors?: SelectionItem[];
   zoomable?: boolean;
+  sectionNumber?: number;
   component?: ReactNode;
   items?: SelectionItem[];
   children?: {
@@ -101,37 +104,37 @@ export const extraOptionsMock: Record<string, SelectionItem[]> = {
       name: 'white',
       image: color2,
       key: 'white',
-      zoomable: true
+      zoomable: true,
     },
     {
       name: 'Dark Brown',
       image: color2,
       key: 'dark-brown',
-      zoomable: true
+      zoomable: true,
     },
     {
       name: 'Whitesmoke',
       image: color2,
       key: 'whitesmoke',
-      zoomable: true
+      zoomable: true,
     },
     {
       name: 'Antrasite',
       image: color2,
       key: 'antrasite',
-      zoomable: true
+      zoomable: true,
     },
     {
       name: 'Gold',
       image: color2,
       key: 'gold',
-      zoomable: true
+      zoomable: true,
     },
     {
       name: 'pink',
       image: color2,
       key: 'pink',
-      zoomable: true
+      zoomable: true,
     },
   ],
   colorInt: [
@@ -294,6 +297,16 @@ export const materials: GenericItem[] = [
     name: 'Aluminium',
     image: aluminum,
   },
+  /*   {
+    key: 'holz',
+    name: 'Holz',
+    image: holz,
+  },
+  {
+    key: 'holzalu',
+    name: 'Holz-Aluminium',
+    image: holzAlu,
+  }, */
 ];
 
 export const brands: GenericItem[] = [

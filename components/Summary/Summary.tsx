@@ -6,11 +6,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import SizerSummary from '../SizerSummary/SizerSummary';
 import { GroupKey, SubStyle } from '@/types/Configurator';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 export default function SummaryDisplayer() {
   const { configuration, currentGroup, setCurrentStep, setCurrentGroup } = useConfiguration();
-  const [expandeddGroup, setExpandedGroup] = useState<string | null>(null);
+  const [expandedGroups, setExpandedGroups] = useState<string[]>([]);
   const slowAction = 100;
 
   const handleShowStep = (key: string) => {
@@ -33,12 +33,12 @@ export default function SummaryDisplayer() {
       let parentKey = Object.entries(steps).find(
         ([, value]) => Array.isArray(value) && value.some((item) => item.key === key)
       )?.[0] as GroupKey;
-  
+
       if (key === 'glasspaketWarmeKante') {
         key = 'glasspaket';
         parentKey = 'verglasung';
       }
-  
+
       setCurrentGroup(parentKey);
       setCurrentStep(steps[parentKey].find((st) => st.key === key) || null);
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -87,14 +87,14 @@ export default function SummaryDisplayer() {
     druckausgleichsventil,
   };
 
-  const expandableGroups: {key: GroupKey, content: object}[] = [
+  const expandableGroups: { key: GroupKey; content: object }[] = [
     { key: 'farben', content: groupFarben },
     { key: 'verglasung', content: groupVerglasung },
   ];
 
   const valueExtractor = (value: object | boolean | string) => {
     if (typeof value === 'boolean') {
-      return 'boolean';
+      return value;
     }
     if (typeof value === 'string') {
       return value;
@@ -111,6 +111,13 @@ export default function SummaryDisplayer() {
     return '--';
   };
 
+  const keyExtractor = (key: string) => {
+    if (key === 'glasspaketWarmeKante') {
+      return 'warme kante';
+    }
+    return key;
+  };
+
   const selectBasisGroup = () => {
     if (currentGroup !== 'basis') {
       setTimeout(() => {
@@ -121,27 +128,19 @@ export default function SummaryDisplayer() {
 
   const handleExpandGroup = (groupKey: GroupKey) => {
     setTimeout(() => {
-      if(currentGroup !== groupKey){
+      if (currentGroup !== groupKey) {
         setCurrentGroup(groupKey);
       }
-      if (groupKey === expandeddGroup) {
-        return setExpandedGroup(null);
+      if (expandedGroups?.includes(groupKey)) {
+        return setExpandedGroups(expandedGroups.filter((gr) => gr !== groupKey));
       }
-      setExpandedGroup(groupKey);
+      setExpandedGroups([...expandedGroups, groupKey]);
     }, slowAction);
   };
 
   const groupIsExpanded = (groupKey: string) => {
-    return expandeddGroup === groupKey;
+    return expandedGroups.includes(groupKey);
   };
-
-  useEffect(()=>{
-    if(currentGroup && currentGroup !== expandeddGroup){
-      setTimeout(() => {
-        setExpandedGroup(currentGroup);
-      }, slowAction);
-    }
-  },[currentGroup])
 
   return (
     <div id={styles.summary}>
@@ -164,18 +163,25 @@ export default function SummaryDisplayer() {
         <div
           key={group.key}
           id={styles.items}
-          className={expandeddGroup === group.key ? styles.expanded : styles.collapsed}
+          className={expandedGroups.includes(group.key) ? styles.expanded : styles.collapsed}
         >
           <button onClick={() => handleExpandGroup(group.key)}>
-            {group.key.toUpperCase()}{' '}
+            {group.key.toUpperCase()}
             <FontAwesomeIcon icon={groupIsExpanded(group.key) ? faChevronUp : faChevronDown} />
           </button>
           {Object.entries(group.content).map(
             ([key, value]) =>
               value && (
-                <div key={key} className={styles.item} onClick={() => handleShowStep(key)} id={key}>
-                  <span id={styles.title}>&#x2022; {key.toUpperCase()}</span>
-                  <span id={styles.value}>{valueExtractor(value) as string}</span>
+                <div
+                  key={key}
+                  className={
+                    (valueExtractor(value) as string).length < 25 ? styles.item : styles.itemGrid
+                  }
+                  onClick={() => handleShowStep(key)}
+                  id={key}
+                >
+                  <span id={styles.title}>&#x2022; {keyExtractor(key).toUpperCase()}</span>
+                  <div id={styles.value}>{valueExtractor(value) as string}</div>
                 </div>
               )
           )}

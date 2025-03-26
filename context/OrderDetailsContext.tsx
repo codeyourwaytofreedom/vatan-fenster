@@ -5,8 +5,8 @@ import { createContext, useState, ReactNode, useContext } from 'react';
 // Define the context type
 interface OrderDetailsContextType {
   size: Size | null;
-  orderDetailsReady: boolean;
-  setOrderDetailsReady: React.Dispatch<React.SetStateAction<boolean>>;
+  orderDetailsReady: boolean | undefined;
+  setOrderDetailsReady: React.Dispatch<React.SetStateAction<boolean | undefined>>;
   setSize: React.Dispatch<React.SetStateAction<Size | null>>;
 }
 
@@ -15,7 +15,7 @@ const OrderDetailsContext = createContext<OrderDetailsContextType | undefined>(u
 
 // Provider component
 export const OrderDetailsProvider = ({ children }: { children: ReactNode }) => {
-  const [orderDetailsReady, setOrderDetailsReady] = useState<boolean>(false);
+  const [orderDetailsReady, setOrderDetailsReady] = useState<boolean>();
   const [size, setSize] = useState<Size | null>(initialSize);
 
   return (

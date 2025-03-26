@@ -9,6 +9,7 @@ interface ConfigurationContextType {
   currentGroup: GroupKey;
   currentStep: Step | null;
   substyle: SubStyle;
+  orderOfKeys: string[] | undefined;
   setConfiguration: React.Dispatch<React.SetStateAction<Config>>;
   setCurrentGroup: React.Dispatch<React.SetStateAction<GroupKey>>;
   setCurrentStep: React.Dispatch<React.SetStateAction<Step | null>>;
@@ -25,6 +26,13 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
   const [currentGroup, setCurrentGroup] = useState<GroupKey>('basis');
   const [currentStep, setCurrentStep] = useState<Step | null>(null);
   const [substyle, setSubStyle] = useState<SubStyle>(initialSubstyle);
+
+  const orderOfKeys =
+    configuration.style.name === 'Oberlicht'
+      ? ['oben', 'unten']
+      : configuration.style.name === 'Unterlicht'
+        ? ['unten', 'oben']
+        : undefined;
 
   const moveToNextStep = () => {
     const currentGroupSteps = steps[currentGroup];
@@ -45,6 +53,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
         currentStep,
         currentGroup,
         substyle,
+        orderOfKeys,
         setConfiguration,
         setCurrentStep,
         setCurrentGroup,

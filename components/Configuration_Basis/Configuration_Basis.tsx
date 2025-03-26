@@ -15,9 +15,9 @@ import {
   windowStyles,
 } from '@/data/configuration_options';
 import { useConfiguration } from '@/context/ConfigurationContext';
-import { useOrderDetailsReady } from '@/context/OrderDetailsContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { useOrderDetailsReady } from '@/context/OrderDetailsContext';
 
 export default function Basis_Configuration() {
   const [itemsToDisplay, setItemsToDisplay] = useState<SelectionItem[]>();
@@ -34,8 +34,7 @@ export default function Basis_Configuration() {
     moveToNextStep,
   } = useConfiguration();
 
-  const { size, setSize } = useOrderDetailsReady();
-
+  const {setSize} = useOrderDetailsReady();
   const visibleSection = categoryItems.find((cat) => cat.key === currentStep?.key);
 
   const handleSelectGroup = () => {
@@ -83,7 +82,6 @@ export default function Basis_Configuration() {
             selectedBrand?.children?.profile?.[
               configuration.material.name as keyof typeof selectedBrand.children.profile
             ];
-          console.log('profilesOfBrand', profilesOfBrand);
           setItemsToDisplay(profilesOfBrand);
           break;
         case 'style':
@@ -173,6 +171,10 @@ export default function Basis_Configuration() {
   // remove substyle selection if style changes from oberlicht/unterlicht
   useEffect(() => {
     autoSelectFirstType();
+    setSize({w: 1000, h: 1000});
+    setConfiguration((pr)=>{
+      return {...pr, multiWidth: undefined}
+    });
   }, [configuration.style]);
 
   // autoselect for profiles
@@ -251,12 +253,7 @@ export default function Basis_Configuration() {
             {showSubstyleStepper && <Substyle_Stepper />}
 
             {currentStep?.key === 'size' && (
-              <Sizer
-                size={size}
-                setSize={setSize}
-                substyle={substyle}
-                sizeImage={findSizeImage()!}
-              />
+              <Sizer substyle={substyle} sizeImage={findSizeImage()!} />
             )}
           </div>
           {currentStep?.key === 'size' && (
@@ -269,3 +266,4 @@ export default function Basis_Configuration() {
     </>
   );
 }
+

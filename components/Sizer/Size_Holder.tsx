@@ -1,22 +1,21 @@
 import { Size, SubStyle } from '@/types/Configurator';
 import style from './Sizer.module.css';
-import Image, { StaticImageData } from 'next/image';
+import { StaticImageData } from 'next/image';
+import ObenSizer from './ObenSizeHolder';
+import UntenSizer from './UntenSizeHolder';
+import SingleSizer from './SingleSizeHolder';
+import { useConfiguration } from '@/context/ConfigurationContext';
+import { useState } from 'react';
 
 interface SizeHolderProps {
   size?: Size | null;
   sizeImage: StaticImageData;
-  orderOfKeys?: string[];
   subStyle?: SubStyle;
   updateSize: (e: React.ChangeEvent<HTMLInputElement>, property: 'w' | 'h' | 'h_unten') => void;
 }
 
-export default function Size_Holder({
-  size,
-  sizeImage,
-  orderOfKeys,
-  subStyle,
-  updateSize,
-}: SizeHolderProps) {
+export default function Size_Holder({ size, sizeImage, subStyle, updateSize }: SizeHolderProps) {
+  const { orderOfKeys } = useConfiguration();
   const image1 =
     orderOfKeys && subStyle ? subStyle[orderOfKeys[0] as keyof SubStyle]?.image : sizeImage;
   const image2 = orderOfKeys && subStyle ? subStyle[orderOfKeys[1] as keyof SubStyle]?.image : null;
@@ -34,6 +33,9 @@ export default function Size_Holder({
         ? image1
         : sizeImage;
 
+  const [sizeFeedback, setSizeFeedback] = useState<string[] | null>(null);
+  
+
   return (
     <div className={style.config_wrapper_sizer}>
       <div
@@ -46,167 +48,32 @@ export default function Size_Holder({
               : style.default
         }
       >
-        {!orderOfKeys && (
-          <>
-            <div className={style.container_big}>
-              <div className={style.container_big_shell}>
-                <Image src={displayedImageTwo!} alt="brand" width={230} height={230} />
-              </div>
-              <div id={style.right_line}>
-                <span>{size?.h}</span>
-              </div>
-            </div>
-            <div id={style.bottom_line}>
-              <span>{size?.w}</span>
-            </div>
-            <div id={style.inputs}>
-              <div id={style.input_line}>
-                <h5>
-                  <span>Width</span> <span id={style.range}>(1000-1700)</span>
-                </h5>
-                <input
-                  type="number"
-                  onChange={(e) => updateSize(e, 'w')}
-                  value={size?.w}
-                  min={1000}
-                  max={1700}
-                  placeholder="breite"
-                />
-              </div>
-              <div id={style.input_line}>
-                <h5>
-                  <span>Height Oben</span> <span id={style.range}>(500-800)</span>
-                </h5>
-                <input
-                  type="number"
-                  onChange={(e) => updateSize(e, 'h')}
-                  value={size?.h}
-                  min={500}
-                  max={800}
-                  placeholder="höhe"
-                />
-              </div>
-            </div>
-          </>
-        )}
+        {!orderOfKeys && <SingleSizer displayedImageTwo={displayedImageTwo!} setSizeFeedback={setSizeFeedback} />}
         {orderOfKeys && orderOfKeys[0] === 'oben' && (
-          <>
-            <div className={style.container_small}>
-              <div className={style.container_small_shell}>
-                <Image src={displayedImageOne!} alt="brand" width={230} height={230} />
-              </div>
-              <div id={style.right_line}>
-                <span>{size?.h}</span>
-              </div>
-            </div>
-            <div className={style.container_big}>
-              <div className={style.container_big_shell}>
-                <Image src={displayedImageTwo!} alt="brand" width={230} height={230} />
-              </div>
-              <div id={style.right_line}>
-                <span>{size?.h_unten}</span>
-              </div>
-            </div>
-            <div id={style.bottom_line}>
-              <span>{size?.w} </span>
-            </div>
-            <div id={style.inputs}>
-              <div id={style.input_line}>
-                <h5>
-                  <span>Width</span> <span id={style.range}>(1000-1700)</span>
-                </h5>
-                <input
-                  type="number"
-                  onChange={(e) => updateSize(e, 'w')}
-                  value={size?.w}
-                  placeholder="breite"
-                />
-              </div>
-              <div id={style.input_line}>
-                <h5>
-                  <span>Height Unten</span> <span id={style.range}>(1000-1700)</span>
-                </h5>
-                <input
-                  type="number"
-                  onChange={(e) => updateSize(e, 'h_unten')}
-                  value={size?.h_unten}
-                  placeholder="höhe"
-                />
-              </div>
-              <div id={style.input_line}>
-                <h5>
-                  <span>Height Oben</span> <span id={style.range}>(500-800)</span>
-                </h5>
-                <input
-                  type="number"
-                  onChange={(e) => updateSize(e, 'h')}
-                  value={size?.h}
-                  placeholder="höhe"
-                />
-              </div>
-            </div>
-          </>
+          <ObenSizer
+            displayedImageOne={displayedImageOne!}
+            displayedImageTwo={displayedImageTwo!}
+            size={size}
+            updateSize={updateSize}
+          />
         )}
-        {orderOfKeys && orderOfKeys[0] === 'unten' && (
-          <>
-            <div className={style.container_small}>
-              <div className={style.container_small_shell}>
-                <Image src={displayedImageOne!} alt="brand" width={230} height={230} />
-              </div>
-              <div id={style.right_line}>
-                <span>{size?.h_unten}</span>
-              </div>
-            </div>
-            <div className={style.container_big}>
-              <div className={style.container_big_shell}>
-                <Image src={displayedImageTwo!} alt="brand" width={230} height={230} />
-              </div>
-              <div id={style.right_line}>
-                <span>{size?.h}</span>
-              </div>
-            </div>
-            <div id={style.bottom_line}>
-              <span>{size?.w}</span>
-            </div>
-            <div id={style.inputs}>
-              <div id={style.input_line}>
-                <h5>
-                  <span>Width</span> <span id={style.range}>(1000-1700)</span>
-                </h5>
-                <input
-                  type="number"
-                  onChange={(e) => updateSize(e, 'w')}
-                  value={size?.w}
-                  placeholder="breite"
-                />
-              </div>
-              <div id={style.input_line}>
-                <h5>
-                  <span>Height Unten</span> <span id={style.range}>(500-800)</span>
-                </h5>
-                <input
-                  type="number"
-                  onChange={(e) => updateSize(e, 'h_unten')}
-                  value={size?.h_unten}
-                  placeholder="höhe"
-                />
-              </div>
-              <div id={style.input_line}>
-                <h5>
-                  <span>Height Oben</span> <span id={style.range}>(1000-1700)</span>
-                </h5>
-                <input
-                  type="number"
-                  onChange={(e) => updateSize(e, 'h')}
-                  value={size?.h}
-                  placeholder="höhe"
-                />
-              </div>
-            </div>
-          </>
+                {orderOfKeys && orderOfKeys[0] === 'unten' && (
+        <UntenSizer
+        displayedImageOne={displayedImageOne!}
+        displayedImageTwo={displayedImageTwo!}
+        size={size}
+        updateSize={updateSize}
+      />
         )}
       </div>
-      <span style={{ color: 'crimson' }}>Fotolar yenilenince Sizer büyütülecek!</span>
+      <div className={style.errors} style={{height: (sizeFeedback || []).length*20}}>
+      {
+          sizeFeedback &&
+          sizeFeedback.map((m,i) =>
+          <p key={i} style={{ color: 'crimson', fontWeight: 'bold', fontSize: 'small' }}>&#x26A0; {m}</p>
+        )
+      }
+      </div>
     </div>
   );
 }
