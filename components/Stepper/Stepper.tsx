@@ -9,7 +9,7 @@ interface StepperProps {
   configuration: Config;
 }
 export default function Stepper({ steps, configuration }: StepperProps) {
-  const {orderDetailsReady} = useOrderDetailsReady();
+  const { orderDetailsReady } = useOrderDetailsReady();
   const stepClass = (step: Step) => {
     const currentlySelected = step.key === currentStep?.key;
     const completed = Boolean(configuration[step.key as keyof Config]);

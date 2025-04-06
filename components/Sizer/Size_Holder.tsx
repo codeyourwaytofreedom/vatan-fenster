@@ -14,6 +14,10 @@ interface SizeHolderProps {
   updateSize: (e: React.ChangeEvent<HTMLInputElement>, property: 'w' | 'h' | 'h_unten') => void;
 }
 
+type SizeFeedback = {
+  [key: number]: string[];
+  height?: string[];
+};
 export default function Size_Holder({ size, sizeImage, subStyle, updateSize }: SizeHolderProps) {
   const { orderOfKeys } = useConfiguration();
   const image1 =
@@ -33,8 +37,7 @@ export default function Size_Holder({ size, sizeImage, subStyle, updateSize }: S
         ? image1
         : sizeImage;
 
-  const [sizeFeedback, setSizeFeedback] = useState<string[] | null>(null);
-  
+  const [sizeFeedback, setSizeFeedback] = useState<SizeFeedback>({});
 
   return (
     <div className={style.config_wrapper_sizer}>
@@ -48,7 +51,9 @@ export default function Size_Holder({ size, sizeImage, subStyle, updateSize }: S
               : style.default
         }
       >
-        {!orderOfKeys && <SingleSizer displayedImageTwo={displayedImageTwo!} setSizeFeedback={setSizeFeedback} />}
+        {!orderOfKeys && (
+          <SingleSizer displayedImageTwo={displayedImageTwo!} setSizeFeedback={setSizeFeedback} />
+        )}
         {orderOfKeys && orderOfKeys[0] === 'oben' && (
           <ObenSizer
             displayedImageOne={displayedImageOne!}
@@ -57,22 +62,33 @@ export default function Size_Holder({ size, sizeImage, subStyle, updateSize }: S
             updateSize={updateSize}
           />
         )}
-                {orderOfKeys && orderOfKeys[0] === 'unten' && (
-        <UntenSizer
-        displayedImageOne={displayedImageOne!}
-        displayedImageTwo={displayedImageTwo!}
-        size={size}
-        updateSize={updateSize}
-      />
+        {orderOfKeys && orderOfKeys[0] === 'unten' && (
+          <UntenSizer
+            displayedImageOne={displayedImageOne!}
+            displayedImageTwo={displayedImageTwo!}
+            size={size}
+            updateSize={updateSize}
+          />
         )}
       </div>
-      <div className={style.errors} style={{height: (sizeFeedback || []).length*20}}>
-      {
-          sizeFeedback &&
-          sizeFeedback.map((m,i) =>
-          <p key={i} style={{ color: 'crimson', fontWeight: 'bold', fontSize: 'small' }}>&#x26A0; {m}</p>
-        )
-      }
+      <div
+        className={style.errors}
+        style={{ height: Object.values(sizeFeedback).flat().length * 20 }}
+      >
+        {Object.values(sizeFeedback)
+          .flat()
+          .map((m, i) => (
+            <p
+              key={i}
+              style={{
+                color: 'crimson',
+                fontWeight: 'bold',
+                fontSize: 'small',
+              }}
+            >
+              &#x26A0; {m}
+            </p>
+          ))}
       </div>
     </div>
   );

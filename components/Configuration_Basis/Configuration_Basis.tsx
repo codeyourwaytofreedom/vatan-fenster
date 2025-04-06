@@ -10,6 +10,7 @@ import {
   brands,
   categoryItems,
   extraOptionsMock,
+  initialSize,
   SelectionItem,
   subStyleOptions,
   windowStyles,
@@ -34,7 +35,7 @@ export default function Basis_Configuration() {
     moveToNextStep,
   } = useConfiguration();
 
-  const {setSize} = useOrderDetailsReady();
+  const { setSize } = useOrderDetailsReady();
   const visibleSection = categoryItems.find((cat) => cat.key === currentStep?.key);
 
   const handleSelectGroup = () => {
@@ -171,9 +172,9 @@ export default function Basis_Configuration() {
   // remove substyle selection if style changes from oberlicht/unterlicht
   useEffect(() => {
     autoSelectFirstType();
-    setSize({w: 1000, h: 1000});
-    setConfiguration((pr)=>{
-      return {...pr, multiWidth: undefined}
+    setSize(initialSize);
+    setConfiguration((pr) => {
+      return { ...pr, multiWidth: undefined };
     });
   }, [configuration.style]);
 
@@ -266,4 +267,3 @@ export default function Basis_Configuration() {
     </>
   );
 }
-

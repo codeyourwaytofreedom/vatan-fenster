@@ -659,7 +659,7 @@ export const initialConfiguration: Config = {
   style: windowStyles[0],
   type: windowStyles[0].children!.type![0]!,
   cover: covers[0],
-  size: true,
+  size: initialSize,
   colorExt: extraOptionsMock.colorExt[0],
   colorInt: extraOptionsMock.colorInt[0],
   colorMid: extraOptionsMock.colorMid[0],

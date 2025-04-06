@@ -40,7 +40,7 @@ export interface Config {
   style: SelectionItem;
   type: SelectionItem | SubStyle;
   cover: SelectionItem;
-  size: boolean;
+  size: boolean | Size;
   colorExt: SelectionItem;
   colorInt: SelectionItem;
   colorMid: SelectionItem;
