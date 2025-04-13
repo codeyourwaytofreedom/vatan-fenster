@@ -14,9 +14,11 @@ interface SizeHolderProps {
   updateSize: (e: React.ChangeEvent<HTMLInputElement>, property: 'w' | 'h' | 'h_unten') => void;
 }
 
-type SizeFeedback = {
+export type SizeFeedback = {
   [key: number]: string[];
   height?: string[];
+  oben?: string[];
+  unten?: string[];
 };
 export default function Size_Holder({ size, sizeImage, subStyle, updateSize }: SizeHolderProps) {
   const { orderOfKeys } = useConfiguration();
@@ -58,8 +60,7 @@ export default function Size_Holder({ size, sizeImage, subStyle, updateSize }: S
           <ObenSizer
             displayedImageOne={displayedImageOne!}
             displayedImageTwo={displayedImageTwo!}
-            size={size}
-            updateSize={updateSize}
+            setSizeFeedback={setSizeFeedback}
           />
         )}
         {orderOfKeys && orderOfKeys[0] === 'unten' && (

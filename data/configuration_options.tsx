@@ -454,8 +454,7 @@ export const initialSubstyle = {
 
 export const initialSize: Size = {
   w: 1000,
-  h: 700,
-  h_unten: 800,
+  h: 1000,
 };
 
 export const initialExtraConfig = {

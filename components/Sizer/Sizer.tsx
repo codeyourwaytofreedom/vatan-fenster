@@ -12,7 +12,7 @@ interface SizerProps {
 
 export default function Sizer({ sizeImage, substyle }: SizerProps) {
   const { setOrderDetailsReady } = useOrderDetailsReady();
-  const { configuration, setConfiguration } = useConfiguration();
+  const { setConfiguration } = useConfiguration();
   const { size, setSize } = useOrderDetailsReady();
 
   const updateSize = (e: React.ChangeEvent<HTMLInputElement>, property: 'w' | 'h' | 'h_unten') => {
@@ -27,9 +27,7 @@ export default function Sizer({ sizeImage, substyle }: SizerProps) {
   // if so, it means steps are complete, so move to summary
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
-    const sizeComplete = ['Oberlicht', 'Unterlicht'].includes(configuration.style.name)
-      ? !!(size?.w && size?.h && size?.h_unten)
-      : !!(size?.w && size?.h);
+    const sizeComplete = !!(size?.w && size?.h);
 
     if (sizeComplete) {
       timeoutId = setTimeout(() => {

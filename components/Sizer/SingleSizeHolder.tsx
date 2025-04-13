@@ -4,15 +4,24 @@ import { useConfiguration } from '@/context/ConfigurationContext';
 import { SelectionItem } from '@/data/configuration_options';
 import { useOrderDetailsReady } from '@/context/OrderDetailsContext';
 import React, { useEffect, useState } from 'react';
+import { SizeFeedback } from './Size_Holder';
 
-type SizeFeedback = {
-  [key: number]: string[];
-  height?: string[];
-};
 interface SingleSizeRProps {
   displayedImageTwo: StaticImageData;
   setSizeFeedback: React.Dispatch<React.SetStateAction<SizeFeedback>>;
 }
+
+export const smartDivider = (total: number, divisionNumber: number): Record<number, number> => {
+  const baseSize = Math.floor(total / divisionNumber);
+  const remainder = total % divisionNumber;
+  return [...Array(divisionNumber)].reduce(
+    (acc, _, index) => {
+      acc[index] = baseSize + (index < remainder ? 1 : 0);
+      return acc;
+    },
+    {} as Record<number, number>
+  );
+};
 
 export default function SingleSizer({ displayedImageTwo, setSizeFeedback }: SingleSizeRProps) {
   const { orderOfKeys, configuration, setConfiguration } = useConfiguration();
@@ -59,18 +68,6 @@ export default function SingleSizer({ displayedImageTwo, setSizeFeedback }: Sing
   const maxHeightViolated = `Die Höhe darf ${maxHeight} mm nicht überschreiten.`;
   const minHeightViolated = `Die Höhe darf nicht kleiner als ${minHeight} mm sein.`;
 
-  const initialSmartDivider = (total: number, divisionNumber: number): Record<number, number> => {
-    const baseSize = Math.floor(total / divisionNumber);
-    const remainder = total % divisionNumber;
-    return [...Array(divisionNumber)].reduce(
-      (acc, _, index) => {
-        acc[index] = baseSize + (index < remainder ? 1 : 0);
-        return acc;
-      },
-      {} as Record<number, number>
-    );
-  };
-
   const updateWidth = (e: React.ChangeEvent<HTMLInputElement>, property: 'w') => {
     const value = e.target.value ? Number(e.target.value.replace(/^0+(?=\d)/, '')) : 0;
     e.target.value = value === 0 ? '' : value.toString();
@@ -87,7 +84,7 @@ export default function SingleSizer({ displayedImageTwo, setSizeFeedback }: Sing
       const { height } = prev;
       return {
         ...(height !== undefined ? { height } : {}),
-        [99]: problems,
+        width: problems,
       };
     });
 
@@ -102,7 +99,7 @@ export default function SingleSizer({ displayedImageTwo, setSizeFeedback }: Sing
         ...(prevSize || { w: undefined, h: undefined }),
         [property]: value,
       }));
-      const dividedWidthItems = initialSmartDivider(value, numberOfSections);
+      const dividedWidthItems = smartDivider(value, numberOfSections);
       setMultiWidth(dividedWidthItems);
     }
   };
@@ -137,7 +134,7 @@ export default function SingleSizer({ displayedImageTwo, setSizeFeedback }: Sing
     if (index === 0) {
       const slotsToRight = numberOfSections - 1;
       const remainingWidth = width - value;
-      const partition = initialSmartDivider(remainingWidth, slotsToRight);
+      const partition = smartDivider(remainingWidth, slotsToRight);
 
       // Shift keys to the right
       updatedMultiWidth = Object.entries(partition).reduce(
@@ -158,6 +155,7 @@ export default function SingleSizer({ displayedImageTwo, setSizeFeedback }: Sing
       };
     }
 
+    // default minus values to zero
     updatedMultiWidth = Object.fromEntries(
       Object.entries(updatedMultiWidth).map(([key, val]) => [key, val < 1 ? 0 : val])
     );
@@ -194,7 +192,7 @@ export default function SingleSizer({ displayedImageTwo, setSizeFeedback }: Sing
       if (typeof size?.w === 'string' && typeof size.w !== 'undefined') {
         return;
       }
-      const dividedWidthItems = initialSmartDivider(size?.w || 0, numberOfSections);
+      const dividedWidthItems = smartDivider(size?.w || 0, numberOfSections);
       setMultiWidth(dividedWidthItems);
     }
   }, [numberOfSections, size?.w]);
@@ -210,12 +208,6 @@ export default function SingleSizer({ displayedImageTwo, setSizeFeedback }: Sing
       });
     }
   }, [multiWidth, numberOfSections]);
-
-  useEffect(() => {
-    if (configuration.multiWidth) {
-      setMultiWidth(configuration.multiWidth);
-    }
-  }, []);
 
   useEffect(() => {
     const newHeightFeedback: string[] = [];
@@ -250,40 +242,35 @@ export default function SingleSizer({ displayedImageTwo, setSizeFeedback }: Sing
             <div className={style.container_big_shell}>
               <Image src={displayedImageTwo!} alt="brand" width={230} height={230} />
             </div>
-            <div id={style.right_line}>
-              <span>{size?.h}</span>
-            </div>
-            <div id={style.height_line}>
-              <h5>
-                <span>Height</span>
-                <span id={style.range}>
-                  {minHeight}-{maxHeight}
-                </span>
-              </h5>
-              <input
-                type="number"
-                onChange={(e) => updateHeight(e)}
-                value={height}
-                min={minHeight}
-                max={maxHeight}
-                placeholder="höhe"
-                style={{
-                  border: heightInputHasProblems() ? '2px solid crimson' : '1px solid silver',
-                }}
-              />
+            <div className={style.heightHolder} style={{ paddingLeft: size?.h ? '30px' : '0' }}>
+              <p style={{ width: size?.h ? '30px' : '0' }}>{size?.h}</p>
+              <div id={style.right_line}></div>
+              <div id={style.height_line}>
+                <h5>
+                  <span>Height</span>
+                  <span id={style.range}>
+                    {minHeight}-{maxHeight}
+                  </span>
+                </h5>
+                <input
+                  type="number"
+                  onChange={(e) => updateHeight(e)}
+                  value={height}
+                  min={minHeight}
+                  max={maxHeight}
+                  placeholder="höhe"
+                  className={heightInputHasProblems() ? style.warn : ''}
+                />
+              </div>
             </div>
           </div>
-          {numberOfSections > 1 && (
-            <div className={style.multi_widths}>
+          <div className={style.multi_widths} style={{ height: size?.w ? '25px' : '0px' }}>
+            {numberOfSections > 1 && (
               <div className={style.multi_widths_inputs}>
                 {Object.keys(multiWidth).map((i) => (
                   <input
                     key={i}
-                    style={{
-                      border: sectionHasProblems(multiWidth[i])
-                        ? '2px solid crimson'
-                        : '1px solid silver',
-                    }}
+                    className={sectionHasProblems(multiWidth[i]) ? style.warn : ''}
                     type="number"
                     onChange={(e) => updateIndividualWidth(e, parseInt(i))}
                     value={multiWidth ? multiWidth[i] : 0}
@@ -296,8 +283,8 @@ export default function SingleSizer({ displayedImageTwo, setSizeFeedback }: Sing
                   />
                 ))}
               </div>
-            </div>
-          )}
+            )}
+          </div>
           <div id={style.bottom_line}>
             <span id={style.width}>{size?.w}</span>
           </div>
@@ -316,9 +303,7 @@ export default function SingleSizer({ displayedImageTwo, setSizeFeedback }: Sing
                 min={minWidth}
                 max={minHeight}
                 placeholder="breite"
-                style={{
-                  border: widthInputHasProblems() ? '2px solid crimson' : '1px solid silver',
-                }}
+                className={widthInputHasProblems() ? style.warn : ''}
               />
             </div>
           </div>

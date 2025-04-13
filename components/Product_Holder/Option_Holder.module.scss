@@ -3,15 +3,15 @@ $shine-color: #00ff36;
 
 .option,
 .option_selected {
-  max-width: 300px;
+  max-width: 270px;
   height: 370px;
-  border-radius: 10px;
   text-align: center;
-  border: 2px solid silver;
+  border: 1px solid silver;
   position: relative;
   box-sizing: border-box;
+  overflow: hidden;
   &:hover {
-    border: 2px solid var(--color-2);
+    border: 1px solid var(--color-2);
     font-weight: bold;
     button {
       display: block;
@@ -21,16 +21,12 @@ $shine-color: #00ff36;
     border-radius: 4px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
     cursor: pointer;
     position: relative;
     height: 100%;
-    overflow: visible;
     img {
       flex: 2;
-      width: 100%;
-      border-radius: 10px;
+      width: 95%;
     }
     #details {
       width: 100%;
@@ -82,7 +78,7 @@ $shine-color: #00ff36;
   }
 }
 .option_selected {
-  border: 2px solid var(--color-2);
+  border: 1px solid var(--color-2);
   background-color: whitesmoke;
   p {
     background-color: var(--color-2);

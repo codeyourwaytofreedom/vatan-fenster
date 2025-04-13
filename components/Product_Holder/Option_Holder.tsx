@@ -43,8 +43,8 @@ export default function OptionHolder({ item, selected, action }: ProductHolderPr
               <Image
                 src={item.image}
                 alt={`${item.name} zoomed`}
-                width={250 * 1.7}
-                height={220 * 1.7}
+                width={250 * 2}
+                height={220 * 2}
                 className={style.zoomedImage}
               />
             </div>

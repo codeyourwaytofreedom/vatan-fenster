@@ -55,6 +55,9 @@ export interface Config {
   sprossen: string | 'Nein';
   druckausgleichsventil: SelectionItem;
   multiWidth?: Record<string, number>;
+  multiHeight?: Record<string, number>;
+  obenMultiWidth?: Record<string, number>;
+  untenMultiWidth?: Record<string, number>;
 }
 
 export interface ExtraConfig {
