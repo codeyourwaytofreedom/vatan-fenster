@@ -49,12 +49,14 @@ export default function Basis_Configuration() {
     !(
       ['Oberlicht', 'Unterlicht'].includes(configuration.style.name) && currentStep?.key === 'type'
     );
+
   const isSelected = (name: string) => {
     if (currentStep) {
       return (configuration[currentStep?.key as keyof Config] as SelectionItem).name === name;
     }
     return false;
   };
+
   const showSubstyleStepper =
     configuration.style &&
     ['Oberlicht', 'Unterlicht'].includes(configuration.style.name) &&

@@ -1,12 +1,12 @@
 import { SelectionItem } from '../configuration_options';
 
-import fest_o from '../../assets/configurator/style/flugel1/oben/001.Fest.webp';
-import fester_flugel_o from '../../assets/configurator/style/flugel1/oben/002.Fester Flügel.webp';
-import dreh_links_o from '../../assets/configurator/style/flugel1/oben/003.Dreh links.webp';
-import dreh_rechts_o from '../../assets/configurator/style/flugel1/oben/004.Dreh rechts.webp';
-import kipp_o from '../../assets/configurator/style/flugel1/oben/005.Kipp.webp';
-import dreh_kipp_links_o from '../../assets/configurator/style/flugel1/oben/006.Dreh-Kipp links.webp';
-import dreh_kipp_rechts_o from '../../assets/configurator/style/flugel1/oben/006.Dreh-Kipp links.webp';
+import fest_o from '../../assets/configurator/style/flugel1/oben/F.png';
+import fester_flugel_o from '../../assets/configurator/style/flugel1/oben/FF.png';
+import dreh_links_o from '../../assets/configurator/style/flugel1/oben/DL.png';
+import dreh_rechts_o from '../../assets/configurator/style/flugel1/oben/DR.png';
+import kipp_o from '../../assets/configurator/style/flugel1/oben/K.png';
+import dreh_kipp_links_o from '../../assets/configurator/style/flugel1/oben/DKL.png';
+import dreh_kipp_rechts_o from '../../assets/configurator/style/flugel1/oben/DKR.png';
 
 import fest_u from '../../assets/configurator/style/flugel1/unten/F.png';
 import fester_flugel_u from '../../assets/configurator/style/flugel1/unten/FF.png';

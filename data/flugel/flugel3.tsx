@@ -1,13 +1,13 @@
 import { SelectionItem } from '../configuration_options';
 
-import fest_fest_fest_o from '../../assets/configurator/style/flugel3/oben/001.Fest + Fest + Fest.webp';
-import ff_ff_ff_o from '../../assets/configurator/style/flugel3/oben/002.ff_ff_ffl.webp';
-import kipp_kipp_kipp_o from '../../assets/configurator/style/flugel3/oben/003.Kipp + Kipp + Kipp.webp';
-import dreh_kipp_fest_dreh_kipp_o from '../../assets/configurator/style/flugel3/oben/004.Dreh-Kipp + Fest + Dreh Kipp.webp';
-import dreh_kipp_dreh_links_dreh_kipp_pfosten_o from '../../assets/configurator/style/flugel3/oben/005.Dreh-Kipp + Dreh links + Dreh Kipp (pfosten).webp';
-import dreh_kipp_dreh_rechts_dreh_kipp_pfosten_o from '../../assets/configurator/style/flugel3/oben/006.Dreh-Kipp + Dreh rechts + Dreh Kipp (pfosten).webp';
-import dreh_kipp_dreh_links_dreh_kipp_stulp_o from '../../assets/configurator/style/flugel3/oben/007.Dreh-Kipp + Dreh links + Dreh Kipp (stulp).webp';
-import dreh_kipp_dreh_rechts_dreh_kipp_stulp_o from '../../assets/configurator/style/flugel3/oben/008.Dreh-Kipp + Dreh rechts + Dreh Kipp (stulp).webp';
+import fest_fest_fest_o from '../../assets/configurator/style/flugel3/oben/F+F+F.png';
+import ff_ff_ff_o from '../../assets/configurator/style/flugel3/oben/FF+FF+FF.png';
+import kipp_kipp_kipp_o from '../../assets/configurator/style/flugel3/oben/K+K+K.png';
+import dreh_kipp_fest_dreh_kipp_o from '../../assets/configurator/style/flugel3/oben/DKL+F+DKR.png';
+import dreh_kipp_dreh_links_dreh_kipp_pfosten_o from '../../assets/configurator/style/flugel3/oben/DKL+DL+DKR(Pfosten).png';
+import dreh_kipp_dreh_rechts_dreh_kipp_pfosten_o from '../../assets/configurator/style/flugel3/oben/DKL+DR+DKR(Pfosten).png';
+import dreh_kipp_dreh_links_dreh_kipp_stulp_o from '../../assets/configurator/style/flugel3/oben/DKL+DL+DKR(Stulp).png';
+import dreh_kipp_dreh_rechts_dreh_kipp_stulp_o from '../../assets/configurator/style/flugel3/oben/DKL+DR+DKR(Stulp).png';
 
 export const flugel3_oben: SelectionItem[] = [
   {
@@ -66,18 +66,18 @@ export const flugel3_oben: SelectionItem[] = [
   },
 ];
 
-import fest_fest_fest_u from '../../assets/configurator/style/flugel3/unten/001.Fest + Fest + Fest.webp';
-import ff_ff_ff_u from '../../assets/configurator/style/flugel3/unten/002_ff_ff_ff.webp';
-import kipp_kipp_kipp_u from '../../assets/configurator/style/flugel3/unten/003.Kipp + Kipp + Kipp.webp';
-import dreh_kipp_fest_fest_u from '../../assets/configurator/style/flugel3/unten/004.Dreh-Kipp + Fest + Fest.webp';
-import fest_fest_dreh_kipp_u from '../../assets/configurator/style/flugel3/unten/005.Fest + Fest + Dreh-Kipp.webp';
-import fest_dreh_kipp_links_fest_u from '../../assets/configurator/style/flugel3/unten/006.Fest + Dreh-Kipp Links + Fest.webp';
-import fest_dreh_kipp_rechts_fest_u from '../../assets/configurator/style/flugel3/unten/007.Fest + Dreh-Kipp Rechts + Fest.webp';
-import dreh_kipp_fest_dreh_kipp_u from '../../assets/configurator/style/flugel3/unten/008.Dreh-Kipp + Fest + Dreh-Kipp.webp';
-import dreh_kipp_dreh_links_dreh_kipp_pfosten_u from '../../assets/configurator/style/flugel3/unten/009.Dreh-Kipp + Dreh links + Dreh-Kipp (Pfosten).webp';
-import dreh_kipp_dreh_rechts_dreh_kipp_pfosten_u from '../../assets/configurator/style/flugel3/unten/010.Dreh-Kipp + Dreh rechts + Dreh-Kipp (Pfosten).webp';
-import dreh_kipp_dreh_links_dreh_kipp_stulp_u from '../../assets/configurator/style/flugel3/unten/011.Dreh-Kipp + Dreh links + Dreh-Kipp (Stulp).webp';
-import dreh_kipp_dreh_rechts_dreh_kipp_stulp_u from '../../assets/configurator/style/flugel3/unten/012.Dreh-Kipp + Dreh rechts + Dreh-Kipp (Stulp).webp';
+import fest_fest_fest_u from '../../assets/configurator/style/flugel3/unten/F+F+F.png';
+import ff_ff_ff_u from '../../assets/configurator/style/flugel3/unten/FF+FF+FF.png';
+import kipp_kipp_kipp_u from '../../assets/configurator/style/flugel3/unten/K+K+K.png';
+import dreh_kipp_fest_fest_u from '../../assets/configurator/style/flugel3/unten/DKL+F+F.png';
+import fest_fest_dreh_kipp_u from '../../assets/configurator/style/flugel3/unten/F+F+DKR.png';
+import fest_dreh_kipp_links_fest_u from '../../assets/configurator/style/flugel3/unten/F+DKL+F.png';
+import fest_dreh_kipp_rechts_fest_u from '../../assets/configurator/style/flugel3/unten/F+DKR+F.png';
+import dreh_kipp_fest_dreh_kipp_u from '../../assets/configurator/style/flugel3/unten/DKL+F+DKR.png';
+import dreh_kipp_dreh_links_dreh_kipp_pfosten_u from '../../assets/configurator/style/flugel3/unten/DKL+DL+DKR(Pfosten).png';
+import dreh_kipp_dreh_rechts_dreh_kipp_pfosten_u from '../../assets/configurator/style/flugel3/unten/DKL+DR+DKR(Pfosten).png';
+import dreh_kipp_dreh_links_dreh_kipp_stulp_u from '../../assets/configurator/style/flugel3/unten/DKL+DL+DKR(Stulp).png';
+import dreh_kipp_dreh_rechts_dreh_kipp_stulp_u from '../../assets/configurator/style/flugel3/unten/DKL+DR+DKR(Stulp).png';
 
 export const flugel3_unten: SelectionItem[] = [
   {

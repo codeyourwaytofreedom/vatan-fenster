@@ -1,0 +1,208 @@
+#unterlicht {
+  display: grid;
+  width: 200px;
+  position: relative;
+}
+#unterlicht #central_holder {
+  position: relative;
+}
+#unterlicht #central_holder #heights {
+  position: absolute;
+  top: 0;
+  left: 220px;
+  height: 100%;
+  z-index: 9;
+  transition: width 0.5s ease;
+}
+#unterlicht #central_holder #heights #height_oben,
+#unterlicht #central_holder #heights #height_unten,
+#unterlicht #central_holder #heights #height_total {
+  display: grid;
+  font-size: small;
+  position: relative;
+  top: 50px;
+}
+#unterlicht #central_holder #heights #height_oben input,
+#unterlicht #central_holder #heights #height_unten input,
+#unterlicht #central_holder #heights #height_total input {
+  padding: 2px !important;
+}
+#unterlicht #central_holder #heights #height_oben #range,
+#unterlicht #central_holder #heights #height_unten #range,
+#unterlicht #central_holder #heights #height_total #range {
+  font-size: 11px !important;
+  color: gray;
+  font-weight: 100;
+  margin-top: 5px;
+}
+#unterlicht #central_holder #heights #height_unten {
+  top: 145px;
+}
+#unterlicht #central_holder #heights #height_total {
+  position: absolute;
+  top: 30%;
+  right: -100px;
+}
+#unterlicht .small {
+  z-index: 3;
+  position: relative;
+  margin-bottom: 10px;
+}
+#unterlicht .small img {
+  width: 200px;
+  height: auto;
+}
+#unterlicht .big {
+  margin-bottom: 5px;
+  margin-top: 10px;
+}
+#unterlicht .big img {
+  width: 200px;
+  height: auto;
+}
+#unterlicht .small,
+#unterlicht .big {
+  padding-right: 20px;
+  position: relative;
+  display: grid;
+  align-items: center;
+}
+#unterlicht .small_shell,
+#unterlicht .big_shell {
+  height: 100%;
+  display: grid;
+  justify-content: center;
+  align-content: center;
+}
+#unterlicht #right_line {
+  position: absolute;
+  border: 1px solid black;
+  width: 1px;
+  display: flex;
+  align-items: center;
+}
+#unterlicht #right_line span {
+  font-size: 12px;
+  color: var(--color-1);
+  font-weight: 600;
+  position: relative;
+  left: -30px;
+}
+#unterlicht #right_line::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%) rotate(0deg);
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-bottom: 6px solid var(--color-1);
+}
+#unterlicht #right_line::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%) rotate(180deg);
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-bottom: 6px solid var(--color-1);
+}
+#unterlicht #bottom_line {
+  border: 1px solid black;
+  height: 1px;
+  width: 60%;
+  position: relative;
+  left: 17%;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: center;
+}
+#unterlicht #bottom_line #width,
+#unterlicht #bottom_line #bottom_width {
+  position: absolute;
+  top: 5px;
+  font-size: 12px;
+  color: var(--color-1);
+  font-weight: 600;
+}
+#unterlicht .obenunten_rightline {
+  right: -15% !important;
+  top: 5%;
+  height: 90% !important;
+}
+#unterlicht #bottom_line::before,
+#unterlicht #bottom_line::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 5px solid transparent;
+}
+#unterlicht #bottom_line::before {
+  left: -10px;
+  border-right-color: black;
+}
+#unterlicht #bottom_line::after {
+  right: -10px;
+  border-left-color: black;
+}
+
+.multi_widths {
+  transition: height 0.4s ease;
+  overflow: hidden;
+  width: -moz-fit-content;
+  width: fit-content;
+  display: flex;
+  justify-self: center;
+}
+.multi_widths_inputs {
+  display: flex;
+  -moz-column-gap: 3px;
+       column-gap: 3px;
+  width: 200px;
+  margin-right: 20px;
+}
+
+#inputs {
+  display: grid;
+  align-items: center;
+  justify-self: center;
+  -moz-column-gap: 20px;
+       column-gap: 20px;
+  font-weight: 15px;
+  line-height: 1.1 !important;
+  margin-right: 20px;
+  margin-top: 20px;
+}
+#inputs #input_line {
+  display: flex;
+  align-items: flex-start;
+  font-size: small;
+  -moz-column-gap: 5px;
+       column-gap: 5px;
+}
+#inputs #input_line h5 {
+  display: grid;
+  width: 80px;
+}
+#inputs #input_line h5 #range {
+  font-size: 11px !important;
+  color: gray;
+  font-weight: 100;
+}
+
+.warn {
+  border: 1px dashed crimson;
+  animation: attention 0.7s infinite;
+}
+
+@keyframes attention {
+  from {
+    border: 1px dashed crimson;
+  }
+  to {
+    border: 1px solid crimson;
+  }
+}/*# sourceMappingURL=UntenSizer.module.css.map */

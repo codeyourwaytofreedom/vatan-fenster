@@ -4,12 +4,13 @@ import { steps } from '@/data/steps';
 import { useConfiguration } from '@/context/ConfigurationContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
-import SizerSummary from '../SizerSummary/SizerSummary';
 import { GroupKey, SubStyle } from '@/types/Configurator';
 import { useState } from 'react';
+import Sizer from '../Sizer/Sizer';
+import { SelectionItem, windowStyles } from '@/data/configuration_options';
 
 export default function SummaryDisplayer() {
-  const { configuration, currentGroup, setCurrentStep, setCurrentGroup } = useConfiguration();
+  const { configuration, substyle, currentGroup, setCurrentStep, setCurrentGroup } = useConfiguration();
   const [expandedGroups, setExpandedGroups] = useState<string[]>([]);
   const slowAction = 100;
 
@@ -142,10 +143,20 @@ export default function SummaryDisplayer() {
     return expandedGroups.includes(groupKey);
   };
 
+  const findSizeImage = () => {
+    const selectedStyle = windowStyles.find((sty) => sty.name === configuration['style'].name);
+    const typesForSelectedStyle = selectedStyle?.children?.type;
+    const selectedType = typesForSelectedStyle?.find(
+      (typ) => typ.name === (configuration.type as SelectionItem).name
+    );
+    return selectedType?.image;
+  };
+
   return (
     <div id={styles.summary}>
       <h3>Bestellübersicht</h3>
-      <SizerSummary />
+      <Sizer substyle={substyle} sizeImage={findSizeImage()!} summary={true} />
+      <br />
       <div id={styles.items}>
         <button onClick={selectBasisGroup}>BASIS</button>
         {Object.entries(groupBasis).map(

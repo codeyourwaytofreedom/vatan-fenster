@@ -16,11 +16,25 @@
   background-color: var(--color-2);
 }
 
+.previousStep {
+  margin-left: 5px;
+  position: relative;
+  top: -10px;
+  border: none;
+  height: 25px;
+  border-radius: 15px;
+  width: 170px;
+}
+.previousStep:hover {
+  background-color: var(--color-2);
+  color: white;
+}
+
 .config {
   display: grid;
   grid-template-columns: 1fr 350px;
   -moz-column-gap: 20px;
-  column-gap: 20px;
+       column-gap: 20px;
   padding-top: 10px;
   min-height: 99vh;
   align-items: start;
@@ -31,24 +45,24 @@
   grid-template-rows: 0fr;
   animation: rise 0.7s ease forwards;
   padding-bottom: 10px;
+  position: relative;
 }
 .config .group > * {
   overflow-x: hidden;
 }
 .config #bottom_actions {
   display: flex;
-  justify-content: center;
   -moz-column-gap: 10px;
-  column-gap: 10px;
+       column-gap: 10px;
   padding: 20px 0;
+  justify-content: space-between;
+  position: relative;
 }
 .config #next_group,
 .config #show_more {
   border: none;
-  background-color: silver;
-  color: whitesmoke;
   width: 170px;
-  height: 40px;
+  height: 25px;
   border-radius: 15px;
   display: flex;
   justify-self: flex-end;
@@ -58,15 +72,14 @@
 .config #next_group:hover,
 .config #show_more:hover {
   filter: brightness(1.2);
-}
-.config #next_group,
-.config #show_more {
-  color: black;
-}
-.config #next_group:hover,
-.config #show_more:hover {
   background-color: var(--color-2);
   color: white;
+}
+.config #next_group {
+  justify-self: flex-end !important;
+  position: absolute;
+  right: 0;
+  bottom: 20px;
 }
 .config_steps {
   display: flex;
@@ -83,7 +96,7 @@
   align-items: center;
   justify-items: center;
   -moz-column-gap: 10px;
-  column-gap: 10px;
+       column-gap: 10px;
   font-size: calc(12px + 0.1vw);
   position: relative;
   padding: 5px 0;
@@ -153,7 +166,7 @@
   width: 100%;
   display: flex;
   -moz-column-gap: 40px;
-  column-gap: 40px;
+       column-gap: 40px;
   padding: 5px;
 }
 .config_wrapper_option_holders {
@@ -313,8 +326,7 @@
     flex-wrap: wrap;
     justify-content: center;
   }
-  .config_wrapper_option_holders,
-  .config_wrapper_subcategories {
+  .config_wrapper_option_holders, .config_wrapper_subcategories {
     order: 2;
   }
   .config_wrapper #summary {
@@ -358,4 +370,4 @@
   to {
     grid-template-rows: 1fr;
   }
-} /*# sourceMappingURL=KonfiguratorPage.module.css.map */
+}/*# sourceMappingURL=KonfiguratorPage.module.css.map */

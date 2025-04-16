@@ -156,13 +156,17 @@ export default function Configuration_Group({ groupTitle, steps }: GroupProps) {
         <div id={style.bottom_actions}>
           {expandable && (
             <button id={style.show_more} onClick={handleExpand}>
-              <FontAwesomeIcon icon={faPlus} size={'1x'} beat />
-              Alle anzeigen
+              <span>
+                {' '}
+                <FontAwesomeIcon icon={faPlus} size={'1x'} beat /> &nbsp; Alle anzeigen
+              </span>
             </button>
           )}
           {isLastStepInGroup && (
             <button onClick={handleMoveNextGroup} id={style.next_group}>
-              <FontAwesomeIcon icon={faChevronDown} size={'1x'} beat /> Nächster Schritt
+              <span>
+                <FontAwesomeIcon icon={faChevronDown} size={'1x'} beat /> &nbsp; Nächster Schritt
+              </span>
             </button>
           )}
         </div>

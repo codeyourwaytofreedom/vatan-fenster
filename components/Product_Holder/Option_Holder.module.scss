@@ -27,6 +27,8 @@ $shine-color: #00ff36;
     img {
       flex: 2;
       width: 95%;
+      margin-top: 5%;
+      height: auto;
     }
     #details {
       width: 100%;
@@ -41,6 +43,7 @@ $shine-color: #00ff36;
       width: 100%;
       position: relative;
       flex: 1;
+      max-height: 80px !important;
     }
     .zoomedContainer {
       position: absolute;

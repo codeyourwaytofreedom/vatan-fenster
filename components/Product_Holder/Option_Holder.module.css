@@ -30,6 +30,8 @@
 .option_selected label img {
   flex: 2;
   width: 95%;
+  margin-top: 5%;
+  height: auto;
 }
 .option label #details,
 .option_selected label #details {
@@ -46,6 +48,7 @@
   width: 100%;
   position: relative;
   flex: 1;
+  max-height: 80px !important;
 }
 .option label .zoomedContainer,
 .option_selected label .zoomedContainer {
@@ -91,4 +94,4 @@
 .option_selected p {
   background-color: var(--color-2);
   color: white;
-} /*# sourceMappingURL=Option_Holder.module.css.map */
+}/*# sourceMappingURL=Option_Holder.module.css.map */

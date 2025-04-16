@@ -1,20 +1,20 @@
 import { SelectionItem } from '../configuration_options';
 
-import fest__fest_o from '../../assets/configurator/style/flugel2/oben/001.Fest + Fest.webp';
-import fester_flugel_fester_flugel_o from '../../assets/configurator/style/flugel2/oben/002.Fester Flügel + Fester Flügel.webp';
-import kipp_kipp_o from '../../assets/configurator/style/flugel2/oben/003.Kipp + Kipp.webp';
-import dreh_kip_fest_o from '../../assets/configurator/style/flugel2/oben/004.Dreh-Kipp + Fest.webp';
-import fest_dreh_kipp_o from '../../assets/configurator/style/flugel2/oben/005.Fest + Dreh-Kipp.webp';
-import dreh_dreh_kipp_pfosten_o from '../../assets/configurator/style/flugel2/oben/006.Dreh + Dreh-Kipp (pfosten).webp';
-import dreh_kipp_dreh_pfosten_o from '../../assets/configurator/style/flugel2/oben/007.Dreh-Kipp + Dreh (Pfosten).webp';
-import dreh_kipp_dreh_kipp_pfosten_o from '../../assets/configurator/style/flugel2/oben/008.Dreh-Kipp + Dreh-Kipp (pfosten).webp';
-import dreh_dreh_kipp_stulp_o from '../../assets/configurator/style/flugel2/oben/009.Dreh + Dreh-Kipp(Stulp).webp';
-import dreh_kipp_dreh_stulp_o from '../../assets/configurator/style/flugel2/oben/010.Dreh-Kipp + Dreh (Stulp).webp';
+import fest_fest_o from '../../assets/configurator/style/flugel2/oben/F+F.png';
+import fester_flugel_fester_flugel_o from '../../assets/configurator/style/flugel2/oben/FF+FF.png';
+import kipp_kipp_o from '../../assets/configurator/style/flugel2/oben/K+K.png';
+import dreh_kip_fest_o from '../../assets/configurator/style/flugel2/oben/DKL+F.png';
+import fest_dreh_kipp_o from '../../assets/configurator/style/flugel2/oben/F+DKR.png';
+import dreh_dreh_kipp_pfosten_o from '../../assets/configurator/style/flugel2/oben/DL+DKR(Pfosten).png';
+import dreh_kipp_dreh_pfosten_o from '../../assets/configurator/style/flugel2/oben/DKL+DR(Pfosten).png';
+import dreh_kipp_dreh_kipp_pfosten_o from '../../assets/configurator/style/flugel2/oben/DKL+DR(Pfosten).png';
+import dreh_dreh_kipp_stulp_o from '../../assets/configurator/style/flugel2/oben/DL+DKR(Stulp).png';
+import dreh_kipp_dreh_stulp_o from '../../assets/configurator/style/flugel2/oben/DKL+DR(Stulp).png';
 
 export const flugel2_oben: SelectionItem[] = [
   {
     name: 'Fest + Fest',
-    image: fest__fest_o,
+    image: fest_fest_o,
     key: 'fest__fest_o',
     sectionNumber: 2,
   },
@@ -82,16 +82,17 @@ export const flugel2_oben: SelectionItem[] = [
   },
 ];
 
-import fest__fest_u from '../../assets/configurator/style/flugel2/unten/001.Fest + Fest .webp';
-import fester_flugel_fester_flugel_u from '../../assets/configurator/style/flugel2/unten/002.Fester Flügel + Fester Flügel.webp';
-import kipp_kipp_u from '../../assets/configurator/style/flugel2/unten/003.Kipp + Kipp.webp';
-import dreh_kip_fest_u from '../../assets/configurator/style/flugel2/unten/004.Dreh-Kipp + Fest.webp';
-import fest_dreh_kipp_u from '../../assets/configurator/style/flugel2/unten/005.Fest + Dreh-Kipp.webp';
-import dreh_kipp_dreh_pfosten_u from '../../assets/configurator/style/flugel2/unten/006.Dreh-Kipp + Dreh (Pfosten).webp';
-import dreh_dreh_kipp_pfosten_u from '../../assets/configurator/style/flugel2/unten/007.Dreh + Dreh-Kipp (Pfosten).webp';
-import dreh_kipp_dreh_kipp_pfosten_u from '../../assets/configurator/style/flugel2/unten/008.Dreh-Kipp + Dreh-Kipp (Pfosten).webp';
-import dreh_kipp_dreh_stulp_u from '../../assets/configurator/style/flugel2/unten/009.Dreh-Kipp + Dreh (Stulp).webp';
-import dreh_dreh_kipp_stulp_u from '../../assets/configurator/style/flugel2/unten/010.Dreh + Dreh-Kipp (Stulp).webp';
+import fest__fest_u from '../../assets/configurator/style/flugel2/unten/F+F.png';
+import fester_flugel_fester_flugel_u from '../../assets/configurator/style/flugel2/unten/FF+FF.png';
+import kipp_kipp_u from '../../assets/configurator/style/flugel2/unten/K+K.png';
+import dreh_kip_fest_u from '../../assets/configurator/style/flugel2/unten/DKL+F.png';
+import fest_dreh_kipp_u from '../../assets/configurator/style/flugel2/unten/F+DKR.png';
+import dreh_dreh_kipp_pfosten_u from '../../assets/configurator/style/flugel2/unten/DL+DKR (Pfosten).png';
+import dreh_kipp_dreh_pfosten_u from '../../assets/configurator/style/flugel2/unten/DKL+DR (Pfosten).png';
+
+import dreh_kipp_dreh_kipp_pfosten_u from '../../assets/configurator/style/flugel2/unten/DKL+DKR (Pfosten).png';
+import dreh_kipp_dreh_stulp_u from '../../assets/configurator/style/flugel2/unten/DKL+DR (Stulp).png';
+import dreh_dreh_kipp_stulp_u from '../../assets/configurator/style/flugel2/unten/DL+DKR (Stulp).png';
 
 export const flugel2_unten: SelectionItem[] = [
   {

@@ -1,17 +1,16 @@
-import { Size, SubStyle } from '@/types/Configurator';
+import { SubStyle } from '@/types/Configurator';
 import style from './Sizer.module.css';
 import { StaticImageData } from 'next/image';
-import ObenSizer from './ObenSizeHolder';
-import UntenSizer from './UntenSizeHolder';
-import SingleSizer from './SingleSizeHolder';
+import ObenSizer from './oben/ObenSizeHolder';
+import SingleSizer from './single/SingleSizeHolder';
 import { useConfiguration } from '@/context/ConfigurationContext';
 import { useState } from 'react';
+import UntenSizer from './unten/UntenSizeHolder';
 
 interface SizeHolderProps {
-  size?: Size | null;
   sizeImage: StaticImageData;
   subStyle?: SubStyle;
-  updateSize: (e: React.ChangeEvent<HTMLInputElement>, property: 'w' | 'h' | 'h_unten') => void;
+  summary?: boolean;
 }
 
 export type SizeFeedback = {
@@ -20,7 +19,7 @@ export type SizeFeedback = {
   oben?: string[];
   unten?: string[];
 };
-export default function Size_Holder({ size, sizeImage, subStyle, updateSize }: SizeHolderProps) {
+export default function Size_Holder({ sizeImage, subStyle, summary }: SizeHolderProps) {
   const { orderOfKeys } = useConfiguration();
   const image1 =
     orderOfKeys && subStyle ? subStyle[orderOfKeys[0] as keyof SubStyle]?.image : sizeImage;
@@ -42,36 +41,27 @@ export default function Size_Holder({ size, sizeImage, subStyle, updateSize }: S
   const [sizeFeedback, setSizeFeedback] = useState<SizeFeedback>({});
 
   return (
-    <div className={style.config_wrapper_sizer}>
-      <div
-        className={style.container}
-        id={
-          orderOfKeys && orderOfKeys[0] === 'unten'
-            ? style.untenoben
-            : orderOfKeys && orderOfKeys[0] === 'oben'
-              ? style.obenunten
-              : style.default
-        }
-      >
-        {!orderOfKeys && (
-          <SingleSizer displayedImageTwo={displayedImageTwo!} setSizeFeedback={setSizeFeedback} />
-        )}
-        {orderOfKeys && orderOfKeys[0] === 'oben' && (
-          <ObenSizer
-            displayedImageOne={displayedImageOne!}
-            displayedImageTwo={displayedImageTwo!}
-            setSizeFeedback={setSizeFeedback}
-          />
-        )}
-        {orderOfKeys && orderOfKeys[0] === 'unten' && (
-          <UntenSizer
-            displayedImageOne={displayedImageOne!}
-            displayedImageTwo={displayedImageTwo!}
-            size={size}
-            updateSize={updateSize}
-          />
-        )}
-      </div>
+    <div className={style.sizer}>
+      {!orderOfKeys && (
+        <SingleSizer displayedImageTwo={displayedImageTwo!} setSizeFeedback={setSizeFeedback} summary={summary} />
+      )}
+      {orderOfKeys && orderOfKeys[0] === 'oben' && (
+        <ObenSizer
+          displayedImageOne={displayedImageOne!}
+          displayedImageTwo={displayedImageTwo!}
+          setSizeFeedback={setSizeFeedback}
+          summary={summary}
+        />
+      )}
+      {orderOfKeys && orderOfKeys[0] === 'unten' && (
+        <UntenSizer
+          displayedImageOne={displayedImageOne!}
+          displayedImageTwo={displayedImageTwo!}
+          setSizeFeedback={setSizeFeedback}
+          summary={summary}
+        />
+      )}
+
       <div
         className={style.errors}
         style={{ height: Object.values(sizeFeedback).flat().length * 20 }}

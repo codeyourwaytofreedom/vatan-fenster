@@ -1,14 +1,14 @@
-import _1_1 from '../../assets/configurator/style/oberlicht/substyles/1 Fluegel oben - 1 Fluegel unten.webp';
-import _1_2 from '../../assets/configurator/style/oberlicht/substyles/1 Fluegel oben - 2 Fluegel unten.webp';
-import _1_3 from '../../assets/configurator/style/oberlicht/substyles/1 Fluegel oben - 3 Fluegel unten.webp';
+import _1_1 from '../../assets/configurator/style/oberlicht/substyles/1 Flügel oben - 1 Flügel unten.png';
+import _1_2 from '../../assets/configurator/style/oberlicht/substyles/1 Flügel oben - 2 Flügel unten.png';
+import _1_3 from '../../assets/configurator/style/oberlicht/substyles/1 Flügel oben - 3 Flügel unten.png';
 
-import _2_1 from '../../assets/configurator/style/oberlicht/substyles/2 Fluegel oben - 1 Fluegel unten.webp';
-import _2_2 from '../../assets/configurator/style/oberlicht/substyles/2 Fluegel oben - 2 Fluegel unten.webp';
-import _2_3 from '../../assets/configurator/style/oberlicht/substyles/2 Fluegel oben - 3 Fluegel unten.webp';
+import _2_1 from '../../assets/configurator/style/oberlicht/substyles/2 Flügel oben - 1 Flügel unten.png';
+import _2_2 from '../../assets/configurator/style/oberlicht/substyles/2 Flügel oben - 2 Flügel unten.png';
+import _2_3 from '../../assets/configurator/style/oberlicht/substyles/2 Flügel oben - 3 Flügel unten.png';
 
-import _3_1 from '../../assets/configurator/style/oberlicht/substyles/3 Fluegel oben - 1 Fluegel unten.webp';
-import _3_2 from '../../assets/configurator/style/oberlicht/substyles/3 Fluegel oben - 2 Fluegel unten.webp';
-import _3_3 from '../../assets/configurator/style/oberlicht/substyles/3 Fluegel oben - 3 Fluegel unten.webp';
+import _3_1 from '../../assets/configurator/style/oberlicht/substyles/3 Flügel oben - 1 Flügel unten.png';
+import _3_2 from '../../assets/configurator/style/oberlicht/substyles/3 Flügel oben - 2 Flügel unten.png';
+import _3_3 from '../../assets/configurator/style/oberlicht/substyles/3 Flügel oben - 3 Flügel unten.png';
 
 import { flugel1_oben, flugel1_unten } from './flugel1';
 import { flugel2_oben, flugel2_unten } from './flugel2';

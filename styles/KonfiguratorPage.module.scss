@@ -19,6 +19,20 @@ $summary-shade: rgb(230, 227, 227);
     background-color: var(--color-2);
   }
 }
+.previousStep {
+  margin-left: 5px;
+  position: relative;
+  top: -10px;
+  border: none;
+  height: 25px;
+  border-radius: 15px;
+  width: 170px;
+  &:hover {
+    background-color: var(--color-2);
+    color: white;
+  }
+}
+
 .config {
   display: grid;
   grid-template-columns: 1fr 350px;
@@ -32,23 +46,23 @@ $summary-shade: rgb(230, 227, 227);
     grid-template-rows: 0fr;
     animation: rise 0.7s ease forwards;
     padding-bottom: 10px;
+    position: relative;
     & > * {
       overflow-x: hidden;
     }
   }
   #bottom_actions {
     display: flex;
-    justify-content: center;
     column-gap: 10px;
     padding: 20px 0;
+    justify-content: space-between;
+    position: relative;
   }
   #next_group,
   #show_more {
     border: none;
-    background-color: silver;
-    color: whitesmoke;
     width: 170px;
-    height: 40px;
+    height: 25px;
     border-radius: 15px;
     display: flex;
     justify-self: flex-end;
@@ -56,16 +70,17 @@ $summary-shade: rgb(230, 227, 227);
     justify-content: space-around;
     &:hover {
       filter: brightness(1.2);
-    }
-  }
-  #next_group,
-  #show_more {
-    color: black;
-    &:hover {
       background-color: var(--color-2);
       color: white;
     }
   }
+  #next_group{
+    justify-self: flex-end !important;
+    position: absolute;
+    right: 0;
+    bottom: 20px;
+  }  
+
   &_steps {
     display: flex;
     margin-bottom: 30px;

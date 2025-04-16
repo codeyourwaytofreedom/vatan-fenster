@@ -1,4 +1,4 @@
-.config_wrapper_sizer {
+.sizer {
   display: grid;
   justify-items: center;
   flex-wrap: wrap;
@@ -31,7 +31,8 @@
     border: 1px dashed crimson;
     animation: attention 0.7s infinite;
   }
-  .container {
+  #single,
+  #oberlicht {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -72,17 +73,17 @@
         }
       }
     }
-    &_small {
+    .small {
       height: 60px;
       z-index: 3;
       position: relative;
       top: 8px;
     }
-    &_big {
+    .big {
       height: 160px;
     }
-    &_small,
-    &_big {
+    .small,
+    .big {
       padding-right: 20px;
       position: relative;
       display: grid;

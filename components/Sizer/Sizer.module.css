@@ -1,4 +1,4 @@
-.config_wrapper_sizer {
+.sizer {
   display: grid;
   justify-items: center;
   flex-wrap: wrap;
@@ -8,7 +8,7 @@
   padding-top: 20px;
   width: 100%;
 }
-.config_wrapper_sizer input {
+.sizer input {
   padding: 1px 5px;
   border: 1px solid silver;
   width: 70px;
@@ -19,31 +19,34 @@
   min-width: 0;
   transition: border 0.4s ease;
 }
-.config_wrapper_sizer input:focus {
+.sizer input:focus {
   outline: none;
 }
-.config_wrapper_sizer input[type=number]::-webkit-inner-spin-button,
-.config_wrapper_sizer input[type=number]::-webkit-outer-spin-button {
+.sizer input[type=number]::-webkit-inner-spin-button,
+.sizer input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
   margin: 0;
 }
-.config_wrapper_sizer .warn {
+.sizer .warn {
   border: 1px dashed crimson;
   animation: attention 0.7s infinite;
 }
-.config_wrapper_sizer .container {
+.sizer #single,
+.sizer #oberlicht {
   width: 100%;
   display: flex;
   flex-direction: column;
   width: 270px;
   position: relative;
 }
-.config_wrapper_sizer .container #central_holder {
+.sizer #single #central_holder,
+.sizer #oberlicht #central_holder {
   position: relative;
 }
-.config_wrapper_sizer .container #central_holder #heights {
+.sizer #single #central_holder #heights,
+.sizer #oberlicht #central_holder #heights {
   position: absolute;
   top: 0;
   left: 220px;
@@ -51,57 +54,79 @@
   z-index: 9;
   transition: width 0.5s ease;
 }
-.config_wrapper_sizer .container #central_holder #heights #height_oben,
-.config_wrapper_sizer .container #central_holder #heights #height_unten,
-.config_wrapper_sizer .container #central_holder #heights #height_total {
+.sizer #single #central_holder #heights #height_oben,
+.sizer #single #central_holder #heights #height_unten,
+.sizer #single #central_holder #heights #height_total,
+.sizer #oberlicht #central_holder #heights #height_oben,
+.sizer #oberlicht #central_holder #heights #height_unten,
+.sizer #oberlicht #central_holder #heights #height_total {
   display: grid;
   font-size: small;
   position: relative;
   top: 15px;
 }
-.config_wrapper_sizer .container #central_holder #heights #height_oben h5,
-.config_wrapper_sizer .container #central_holder #heights #height_unten h5,
-.config_wrapper_sizer .container #central_holder #heights #height_total h5 {
+.sizer #single #central_holder #heights #height_oben h5,
+.sizer #single #central_holder #heights #height_unten h5,
+.sizer #single #central_holder #heights #height_total h5,
+.sizer #oberlicht #central_holder #heights #height_oben h5,
+.sizer #oberlicht #central_holder #heights #height_unten h5,
+.sizer #oberlicht #central_holder #heights #height_total h5 {
   display: grid;
 }
-.config_wrapper_sizer .container #central_holder #heights #height_oben h5 #range,
-.config_wrapper_sizer .container #central_holder #heights #height_unten h5 #range,
-.config_wrapper_sizer .container #central_holder #heights #height_total h5 #range {
+.sizer #single #central_holder #heights #height_oben h5 #range,
+.sizer #single #central_holder #heights #height_unten h5 #range,
+.sizer #single #central_holder #heights #height_total h5 #range,
+.sizer #oberlicht #central_holder #heights #height_oben h5 #range,
+.sizer #oberlicht #central_holder #heights #height_unten h5 #range,
+.sizer #oberlicht #central_holder #heights #height_total h5 #range {
   font-size: 11px !important;
   color: gray;
   font-weight: 100;
 }
-.config_wrapper_sizer .container #central_holder #heights #height_unten {
+.sizer #single #central_holder #heights #height_unten,
+.sizer #oberlicht #central_holder #heights #height_unten {
   top: 70px;
 }
-.config_wrapper_sizer .container #central_holder #heights #height_total {
+.sizer #single #central_holder #heights #height_total,
+.sizer #oberlicht #central_holder #heights #height_total {
   position: absolute;
   top: 30%;
   right: -100px;
 }
-.config_wrapper_sizer .container_small {
+.sizer #single .small,
+.sizer #oberlicht .small {
   height: 60px;
   z-index: 3;
   position: relative;
   top: 8px;
 }
-.config_wrapper_sizer .container_big {
+.sizer #single .big,
+.sizer #oberlicht .big {
   height: 160px;
 }
-.config_wrapper_sizer .container_small, .config_wrapper_sizer .container_big {
+.sizer #single .small,
+.sizer #single .big,
+.sizer #oberlicht .small,
+.sizer #oberlicht .big {
   padding-right: 20px;
   position: relative;
   display: grid;
   align-items: center;
 }
-.config_wrapper_sizer .container_small_shell, .config_wrapper_sizer .container_big_shell {
+.sizer #single .small_shell,
+.sizer #single .big_shell,
+.sizer #oberlicht .small_shell,
+.sizer #oberlicht .big_shell {
   height: 100%;
   display: grid;
   justify-content: center;
   align-content: center;
   overflow: hidden;
 }
-.config_wrapper_sizer .container_small .heightHolder, .config_wrapper_sizer .container_big .heightHolder {
+.sizer #single .small .heightHolder,
+.sizer #single .big .heightHolder,
+.sizer #oberlicht .small .heightHolder,
+.sizer #oberlicht .big .heightHolder {
   position: absolute;
   left: 83%;
   height: 100%;
@@ -109,7 +134,10 @@
   align-items: center;
   transition: padding 0.3s ease;
 }
-.config_wrapper_sizer .container_small .heightHolder p, .config_wrapper_sizer .container_big .heightHolder p {
+.sizer #single .small .heightHolder p,
+.sizer #single .big .heightHolder p,
+.sizer #oberlicht .small .heightHolder p,
+.sizer #oberlicht .big .heightHolder p {
   position: absolute;
   left: -5px;
   font-size: 12px;
@@ -117,20 +145,30 @@
   overflow: hidden;
   transition: width 0.3s ease;
 }
-.config_wrapper_sizer .container_small .heightHolder #height_line, .config_wrapper_sizer .container_big .heightHolder #height_line {
+.sizer #single .small .heightHolder #height_line,
+.sizer #single .big .heightHolder #height_line,
+.sizer #oberlicht .small .heightHolder #height_line,
+.sizer #oberlicht .big .heightHolder #height_line {
   display: grid;
   font-size: small;
   margin-left: 15px;
 }
-.config_wrapper_sizer .container_small .heightHolder #height_line h5, .config_wrapper_sizer .container_big .heightHolder #height_line h5 {
+.sizer #single .small .heightHolder #height_line h5,
+.sizer #single .big .heightHolder #height_line h5,
+.sizer #oberlicht .small .heightHolder #height_line h5,
+.sizer #oberlicht .big .heightHolder #height_line h5 {
   display: grid;
 }
-.config_wrapper_sizer .container_small .heightHolder #height_line h5 #range, .config_wrapper_sizer .container_big .heightHolder #height_line h5 #range {
+.sizer #single .small .heightHolder #height_line h5 #range,
+.sizer #single .big .heightHolder #height_line h5 #range,
+.sizer #oberlicht .small .heightHolder #height_line h5 #range,
+.sizer #oberlicht .big .heightHolder #height_line h5 #range {
   font-size: 11px !important;
   color: gray;
   font-weight: 100;
 }
-.config_wrapper_sizer .container #right_line {
+.sizer #single #right_line,
+.sizer #oberlicht #right_line {
   position: absolute;
   height: 80%;
   border: 1px solid black;
@@ -138,14 +176,16 @@
   display: flex;
   align-items: center;
 }
-.config_wrapper_sizer .container #right_line span {
+.sizer #single #right_line span,
+.sizer #oberlicht #right_line span {
   font-size: 12px;
   color: var(--color-1);
   font-weight: 600;
   position: relative;
   left: -30px;
 }
-.config_wrapper_sizer .container #right_line::before {
+.sizer #single #right_line::before,
+.sizer #oberlicht #right_line::before {
   content: "";
   position: absolute;
   top: -5px;
@@ -155,7 +195,8 @@
   border-right: 4px solid transparent;
   border-bottom: 6px solid var(--color-1);
 }
-.config_wrapper_sizer .container #right_line::after {
+.sizer #single #right_line::after,
+.sizer #oberlicht #right_line::after {
   content: "";
   position: absolute;
   bottom: -5px;
@@ -165,7 +206,8 @@
   border-right: 4px solid transparent;
   border-bottom: 6px solid var(--color-1);
 }
-.config_wrapper_sizer .container #bottom_line {
+.sizer #single #bottom_line,
+.sizer #oberlicht #bottom_line {
   border: 1px solid black;
   height: 1px;
   width: 60%;
@@ -176,60 +218,67 @@
   display: flex;
   justify-content: center;
 }
-.config_wrapper_sizer .container #bottom_line #width,
-.config_wrapper_sizer .container #bottom_line #bottom_width {
+.sizer #single #bottom_line #width,
+.sizer #single #bottom_line #bottom_width,
+.sizer #oberlicht #bottom_line #width,
+.sizer #oberlicht #bottom_line #bottom_width {
   position: absolute;
   top: 5px;
   font-size: 12px;
   color: var(--color-1);
   font-weight: 600;
 }
-.config_wrapper_sizer .container .obenunten_rightline {
+.sizer #single .obenunten_rightline,
+.sizer #oberlicht .obenunten_rightline {
   right: -15% !important;
   top: 5%;
   height: 90% !important;
 }
-.config_wrapper_sizer .container #bottom_line::before,
-.config_wrapper_sizer .container #bottom_line::after {
+.sizer #single #bottom_line::before,
+.sizer #single #bottom_line::after,
+.sizer #oberlicht #bottom_line::before,
+.sizer #oberlicht #bottom_line::after {
   content: "";
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   border: 5px solid transparent;
 }
-.config_wrapper_sizer .container #bottom_line::before {
+.sizer #single #bottom_line::before,
+.sizer #oberlicht #bottom_line::before {
   left: -10px;
   border-right-color: black;
 }
-.config_wrapper_sizer .container #bottom_line::after {
+.sizer #single #bottom_line::after,
+.sizer #oberlicht #bottom_line::after {
   right: -10px;
   border-left-color: black;
 }
-.config_wrapper_sizer .multi_widths {
+.sizer .multi_widths {
   padding: 0 40px;
   padding-right: 60px;
   transition: height 0.4s ease;
   overflow: hidden;
 }
-.config_wrapper_sizer .multi_widths_inputs {
+.sizer .multi_widths_inputs {
   display: flex;
   -moz-column-gap: 3px;
        column-gap: 3px;
 }
-.config_wrapper_sizer #untenoben .container_big {
+.sizer #untenoben .container_big {
   order: 1;
 }
-.config_wrapper_sizer #untenoben .container_small {
+.sizer #untenoben .container_small {
   order: 2;
   top: -7px;
 }
-.config_wrapper_sizer #untenoben #bottom_line {
+.sizer #untenoben #bottom_line {
   order: 3;
 }
-.config_wrapper_sizer #untenoben #inputs {
+.sizer #untenoben #inputs {
   order: 4;
 }
-.config_wrapper_sizer #inputs {
+.sizer #inputs {
   display: grid;
   row-gap: 5px;
   align-items: center;
@@ -246,23 +295,23 @@
   width: fit-content;
   margin-left: 30px;
 }
-.config_wrapper_sizer #inputs #input_line {
+.sizer #inputs #input_line {
   display: flex;
   align-items: flex-start;
   font-size: small;
   -moz-column-gap: 5px;
        column-gap: 5px;
 }
-.config_wrapper_sizer #inputs #input_line h5 {
+.sizer #inputs #input_line h5 {
   display: grid;
   width: 80px;
 }
-.config_wrapper_sizer #inputs #input_line h5 #range {
+.sizer #inputs #input_line h5 #range {
   font-size: 11px !important;
   color: gray;
   font-weight: 100;
 }
-.config_wrapper_sizer .errors {
+.sizer .errors {
   transition: height 0.6s ease;
   line-height: 20px;
 }
