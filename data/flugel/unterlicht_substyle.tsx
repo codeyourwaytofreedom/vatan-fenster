@@ -1,13 +1,13 @@
 import _1_1 from '../../assets/configurator/style/unterlicht/substyles/1 Flügel unten - 1 Flügel oben.png';
-import _1_2 from '../../assets/configurator/style/unterlicht/substyles/1 Flügel unten -  2 Flügel oben.png';
-import _1_3 from '../../assets/configurator/style/unterlicht/substyles/1 Flügel unten -  3 Flügel oben.png';
+import _1_2 from '../../assets/configurator/style/unterlicht/substyles/2 Flügel unten -  1 Flügel oben.png';
+import _1_3 from '../../assets/configurator/style/unterlicht/substyles/3 Flügel unten -  1 Flügel oben.png';
 
-import _2_1 from '../../assets/configurator/style/unterlicht/substyles/2 Flügel unten -  1 Flügel oben.png';
+import _2_1 from '../../assets/configurator/style/unterlicht/substyles/1 Flügel unten -  2 Flügel oben.png';
 import _2_2 from '../../assets/configurator/style/unterlicht/substyles/2 Flügel unten -  2 Flügel oben.png';
-import _2_3 from '../../assets/configurator/style/unterlicht/substyles/2 Flügel unten -  3 Flügel oben.png';
+import _2_3 from '../../assets/configurator/style/unterlicht/substyles/3 Flügel unten -  2 Flügel oben.png';
 
-import _3_1 from '../../assets/configurator/style/unterlicht/substyles/3 Flügel unten -  1 Flügel oben.png';
-import _3_2 from '../../assets/configurator/style/unterlicht/substyles/3 Flügel unten -  2 Flügel oben.png';
+import _3_1 from '../../assets/configurator/style/unterlicht/substyles/1 Flügel unten -  3 Flügel oben.png';
+import _3_2 from '../../assets/configurator/style/unterlicht/substyles/2 Flügel unten -  3 Flügel oben.png';
 import _3_3 from '../../assets/configurator/style/unterlicht/substyles/3 Flügel unten -  3 Flügel oben.png';
 
 import { flugel1_oben, flugel1_unten } from './flugel1';

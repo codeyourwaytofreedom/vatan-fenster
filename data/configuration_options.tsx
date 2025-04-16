@@ -14,11 +14,11 @@ import cover from '../assets/windowcover.jpg';
 
 import drutex from '../assets/configurator/brands/drutex.svg';
 
-import flugel1 from '../assets/configurator/style/flugel1/1-Flügel.webp';
-import flugel2 from '../assets/configurator/style/flugel2/2-Flügel.webp';
-import flugel3 from '../assets/configurator/style/flugel3/3-Flügel.webp';
-import oberlicht from '../assets/configurator/style/oberlicht/oberlicht.webp';
-import unterlicht from '../assets/configurator/style/unterlicht/unterlicht.webp';
+import flugel1 from '../assets/configurator/style/flugel1/1-Flügel.png';
+import flugel2 from '../assets/configurator/style/flugel2/2-Flügel.png';
+import flugel3 from '../assets/configurator/style/flugel3/3-Flügel.png';
+import oberlicht from '../assets/configurator/style/oberlicht/oberlicht.png';
+import unterlicht from '../assets/configurator/style/unterlicht/unterlicht.png';
 
 import Iglo5 from '../assets/configurator/profiles/drutex/plastic/Iglo5.webp';
 import Iglo5Classic from '../assets/configurator/profiles/drutex/plastic/Iglo5Classic.webp';
