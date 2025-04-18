@@ -10,7 +10,8 @@ import Sizer from '../Sizer/Sizer';
 import { SelectionItem, windowStyles } from '@/data/configuration_options';
 
 export default function SummaryDisplayer() {
-  const { configuration, substyle, currentGroup, setCurrentStep, setCurrentGroup } = useConfiguration();
+  const { configuration, substyle, currentGroup, setCurrentStep, setCurrentGroup } =
+    useConfiguration();
   const [expandedGroups, setExpandedGroups] = useState<string[]>([]);
   const slowAction = 100;
 
@@ -48,7 +49,7 @@ export default function SummaryDisplayer() {
 
   // groupBasis
   const { material, brand, profile, style, type, cover, size } = configuration;
-  const { colorExt, colorInt, colorMid, sealExt, sealInt, handle } = configuration;
+  const { colorExt, colorInt, colorMid, sealExt, sealInt, fenstergriffe } = configuration;
   const {
     glasspaket,
     glasspaketWarmeKante,
@@ -75,7 +76,7 @@ export default function SummaryDisplayer() {
     colorMid,
     sealExt,
     sealInt,
-    handle,
+    fenstergriffe,
   };
 
   const groupVerglasung = {

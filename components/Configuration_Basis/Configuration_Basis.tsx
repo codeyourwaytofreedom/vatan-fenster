@@ -9,7 +9,8 @@ import Sizer from '../Sizer/Sizer';
 import {
   brands,
   categoryItems,
-  extraOptionsMock,
+  farbenOptions,
+  fenstergriffeOptions,
   initialSize,
   SelectionItem,
   subStyleOptions,
@@ -212,12 +213,18 @@ export default function Basis_Configuration() {
     ////////
     if (hasHandle) {
       setConfiguration((pr) => {
-        return { ...pr, handle: extraOptionsMock.handle[0] };
+        return {
+          ...pr,
+          fenstergriffe: {
+            type: farbenOptions.fenstergriffe[0],
+            choice: fenstergriffeOptions[farbenOptions.fenstergriffe[0].key][0],
+          },
+        };
       });
     } else {
       setConfiguration((pr) => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { handle, ...rest } = pr;
+        const { fenstergriffe, ...rest } = pr;
         return { ...rest };
       });
     }

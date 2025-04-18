@@ -46,7 +46,7 @@ export interface Config {
   colorMid: SelectionItem;
   sealExt: SelectionItem;
   sealInt: SelectionItem;
-  handle?: SelectionItem;
+  fenstergriffe?: { type: SelectionItem; choice: SelectionItem };
   glasspaket: SelectionItem;
   glasspaketWarmeKante: SelectionItem | 'Nein';
   ornament: SelectionItem;

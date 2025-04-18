@@ -43,7 +43,11 @@ export default function Size_Holder({ sizeImage, subStyle, summary }: SizeHolder
   return (
     <div className={style.sizer}>
       {!orderOfKeys && (
-        <SingleSizer displayedImageTwo={displayedImageTwo!} setSizeFeedback={setSizeFeedback} summary={summary} />
+        <SingleSizer
+          displayedImageTwo={displayedImageTwo!}
+          setSizeFeedback={setSizeFeedback}
+          summary={summary}
+        />
       )}
       {orderOfKeys && orderOfKeys[0] === 'oben' && (
         <ObenSizer

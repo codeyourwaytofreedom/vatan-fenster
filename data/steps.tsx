@@ -4,18 +4,24 @@ import {
   faCopyright,
   faCropSimple,
   faFlask,
+  faHandHolding,
   faLayerGroup,
   faMaximize,
+  faPaintBrush,
+  faPaintRoller,
+  faPalette,
   faShieldAlt,
   faSignsPost,
   faSun,
+  faToolbox,
+  faTools,
   faVolumeMute,
   faWindowMaximize,
 } from '@fortawesome/free-solid-svg-icons';
-import { extraSteps } from './extra_steps';
 import { GroupKey, Step } from '@/types/Configurator';
 import StepGlassPaket from '@/components/StepGlassPaket/StepGlassPaket';
 import StepSprossen from '@/components/StepSprossen/StepSprossen';
+import Fenstergriffe from '@/components/StepFenstergriffe/Fenstergriffe';
 
 export const steps: Record<GroupKey | string, Step[]> = {
   basis: [
@@ -55,7 +61,39 @@ export const steps: Record<GroupKey | string, Step[]> = {
       icon: faMaximize,
     },
   ],
-  farben: extraSteps,
+  farben: [
+    {
+      key: 'colorExt',
+      name: 'Color Ext',
+      icon: faPaintBrush,
+    },
+    {
+      key: 'colorInt',
+      name: 'Color-int',
+      icon: faPaintRoller,
+    },
+    {
+      key: 'colorMid',
+      name: 'Color Mid',
+      icon: faPalette,
+    },
+    {
+      key: 'sealExt',
+      name: 'Seal Ext',
+      icon: faTools,
+    },
+    {
+      key: 'sealInt',
+      name: 'Seal Int',
+      icon: faToolbox,
+    },
+    {
+      key: 'fenstergriffe',
+      name: 'Fenstergriffe',
+      icon: faHandHolding,
+      component: Fenstergriffe,
+    },
+  ],
   verglasung: [
     {
       key: 'glasspaket',

@@ -55,7 +55,7 @@ $summary-shade: rgb(230, 227, 227);
     display: flex;
     column-gap: 10px;
     padding: 20px 0;
-    justify-content: space-between;
+    justify-content: center;
     position: relative;
   }
   #next_group,
@@ -74,12 +74,12 @@ $summary-shade: rgb(230, 227, 227);
       color: white;
     }
   }
-  #next_group{
+  #next_group {
     justify-self: flex-end !important;
     position: absolute;
     right: 0;
     bottom: 20px;
-  }  
+  }
 
   &_steps {
     display: flex;

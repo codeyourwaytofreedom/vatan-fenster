@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faPlus } from '@fortawesome/free-solid-svg-icons';
 import StepGlassPaket from '../StepGlassPaket/StepGlassPaket';
 import StepSprossen from '../StepSprossen/StepSprossen';
+import Fenstergriffe from '../StepFenstergriffe/Fenstergriffe';
 
 interface GroupProps {
   groupTitle: GroupKey;
@@ -87,13 +88,13 @@ export default function Configuration_Group({ groupTitle, steps }: GroupProps) {
         handleExists =
           configuration.type.oben?.handleNumber && configuration.type.unten?.handleNumber;
         if (!handleExists) {
-          return steps.filter((st) => st.key !== 'handle');
+          return steps.filter((st) => st.key !== 'fenstergriffe');
         }
         return steps;
       }
       handleExists = (configuration.type as SelectionItem).handleNumber;
       if (!handleExists) {
-        return steps.filter((st) => st.key !== 'handle');
+        return steps.filter((st) => st.key !== 'fenstergriffe');
       }
       return steps;
     }
@@ -133,6 +134,8 @@ export default function Configuration_Group({ groupTitle, steps }: GroupProps) {
               <StepGlassPaket items={itemsToDisplay || []} expanded={expanded!} />
             ) : currentStep?.component === StepSprossen ? (
               <StepSprossen />
+            ) : currentStep?.component === Fenstergriffe ? (
+              <Fenstergriffe />
             ) : (
               <div className={style.config_wrapper}>
                 <div className={style.config_wrapper_option_holders}>

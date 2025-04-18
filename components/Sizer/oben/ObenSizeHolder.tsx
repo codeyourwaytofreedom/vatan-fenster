@@ -344,7 +344,10 @@ export default function ObenSizer({
   return (
     <>
       <div id={style.oberlicht}>
-        <div className={style.multi_widths} style={{ height: size?.w && !summary ? '25px' : '0px' }}>
+        <div
+          className={style.multi_widths}
+          style={{ height: size?.w && !summary && obenSectionNumber > 1 ? '25px' : '0px' }}
+        >
           {obenSectionNumber > 1 && size?.w && (
             <div className={style.multi_widths_inputs}>
               {Object.keys(obenMultiWidth).map((it, index) => (
@@ -415,27 +418,29 @@ export default function ObenSizer({
                 </div>
               </>
             )}
-            {
-              !summary &&
+            {!summary && (
               <div id={style.height_total}>
-              <h5>
-                <span>Height Gesamt</span>
-              </h5>
-              <input
-                type="number"
-                onChange={(e) => updateTotalHeight(e)}
-                onKeyDown={(event) => suppressArrows(event)}
-                value={totalHeight}
-                placeholder="höhe"
-                className={heightInputHasProblems() ? style.warn : ''}
-                ref={tHeight}
-              />
-              <span id={style.range}>(1000-1700)</span>
-            </div>
-            }
+                <h5>
+                  <span>Height Gesamt</span>
+                </h5>
+                <input
+                  type="number"
+                  onChange={(e) => updateTotalHeight(e)}
+                  onKeyDown={(event) => suppressArrows(event)}
+                  value={totalHeight}
+                  placeholder="höhe"
+                  className={heightInputHasProblems() ? style.warn : ''}
+                  ref={tHeight}
+                />
+                <span id={style.range}>(1000-1700)</span>
+              </div>
+            )}
           </div>
         </div>
-        <div className={style.multi_widths} style={{ height: size?.w && !summary ? '25px' : '0px' }}>
+        <div
+          className={style.multi_widths}
+          style={{ height: size?.w && !summary && untenSectionNumber > 1 ? '25px' : '0px' }}
+        >
           {untenSectionNumber > 1 && size?.w && (
             <div className={style.multi_widths_inputs}>
               {Object.keys(untenMultiWidth).map((item, index) => (
@@ -460,25 +465,24 @@ export default function ObenSizer({
         <div id={style.bottom_line}>
           <span id={style.bottom_width}>{size?.w} </span>
         </div>
-        {
-          !summary &&
+        {!summary && (
           <div id={style.inputs}>
-          <div id={style.input_line}>
-            <h5>
-              <span>Width</span> <span id={style.range}>(1000-1700)</span>
-            </h5>
-            <input
-              type="number"
-              onChange={(e) => updateWidth(e)}
-              onKeyDown={(event) => suppressArrows(event)}
-              value={size?.w}
-              placeholder="breite"
-              className={widthInputHasProblems() ? style.warn : ''}
-              autoFocus
-            />
+            <div id={style.input_line}>
+              <h5>
+                <span>Width</span> <span id={style.range}>(1000-1700)</span>
+              </h5>
+              <input
+                type="number"
+                onChange={(e) => updateWidth(e)}
+                onKeyDown={(event) => suppressArrows(event)}
+                value={size?.w}
+                placeholder="breite"
+                className={widthInputHasProblems() ? style.warn : ''}
+                autoFocus
+              />
+            </div>
           </div>
-        </div>
-        }
+        )}
       </div>
     </>
   );

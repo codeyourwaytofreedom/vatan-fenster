@@ -24,7 +24,11 @@ export const smartDivider = (total: number, divisionNumber: number): Record<numb
   );
 };
 
-export default function SingleSizer({ displayedImageTwo,summary, setSizeFeedback }: SingleSizeRProps) {
+export default function SingleSizer({
+  displayedImageTwo,
+  summary,
+  setSizeFeedback,
+}: SingleSizeRProps) {
   const { orderOfKeys, configuration, setConfiguration } = useConfiguration();
   const numberOfSections = (configuration.type as SelectionItem).sectionNumber || 1;
   const { size, setSize } = useOrderDetailsReady();
@@ -249,28 +253,26 @@ export default function SingleSizer({ displayedImageTwo,summary, setSizeFeedback
               <div className={style.heightHolder} style={{ paddingLeft: size?.h ? '30px' : '0' }}>
                 <p style={{ width: size?.h ? '30px' : '0' }}>{size?.h}</p>
                 <div id={style.right_line}></div>
-                {
-                  !summary &&
+                {!summary && (
                   <div id={style.height_line}>
-                  <h5>
-                    <span>Height</span>
-                  </h5>
-                  <input
-                    type="number"
-                    onChange={(e) => updateHeight(e)}
-                    value={height}
-                    min={minHeight}
-                    max={maxHeight}
-                    placeholder="höhe"
-                    className={heightInputHasProblems() ? style.warn : ''}
-                    ref={totalHeight}
-                  />
-                  <span id={style.range}>
-                    {minHeight}-{maxHeight}
-                  </span>
-                </div>
-
-                }
+                    <h5>
+                      <span>Height</span>
+                    </h5>
+                    <input
+                      type="number"
+                      onChange={(e) => updateHeight(e)}
+                      value={height}
+                      min={minHeight}
+                      max={maxHeight}
+                      placeholder="höhe"
+                      className={heightInputHasProblems() ? style.warn : ''}
+                      ref={totalHeight}
+                    />
+                    <span id={style.range}>
+                      {minHeight}-{maxHeight}
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
             <div
@@ -300,35 +302,33 @@ export default function SingleSizer({ displayedImageTwo,summary, setSizeFeedback
             <div id={style.bottom_line}>
               <span id={style.width}>{size?.w}</span>
             </div>
-            {
-              !summary &&
+            {!summary && (
               <div id={style.inputs}>
-              <div id={style.input_line}>
-                <h5>
-                  <span>Width</span>
-                  <span id={style.range}>
-                    {minWidth}-{maxWidth}
-                  </span>
-                </h5>
-                <input
-                  type="number"
-                  onChange={(e) => updateWidth(e, 'w')}
-                  value={size?.w}
-                  min={minWidth}
-                  max={minHeight}
-                  placeholder="breite"
-                  className={widthInputHasProblems() ? style.warn : ''}
-                  autoFocus
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      totalHeight.current?.focus();
-                    }
-                  }}
-                />
+                <div id={style.input_line}>
+                  <h5>
+                    <span>Width</span>
+                    <span id={style.range}>
+                      {minWidth}-{maxWidth}
+                    </span>
+                  </h5>
+                  <input
+                    type="number"
+                    onChange={(e) => updateWidth(e, 'w')}
+                    value={size?.w}
+                    min={minWidth}
+                    max={minHeight}
+                    placeholder="breite"
+                    className={widthInputHasProblems() ? style.warn : ''}
+                    autoFocus
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        totalHeight.current?.focus();
+                      }
+                    }}
+                  />
+                </div>
               </div>
-            </div>
-
-            }
+            )}
           </div>
         </>
       )}
