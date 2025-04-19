@@ -1,5 +1,4 @@
 import { StaticImageData } from 'next/image';
-import color from '../assets/color.jpg';
 import color2 from '../assets/color2.png';
 import color3 from '../assets/color3.jpg';
 
@@ -75,47 +74,66 @@ export type SubStyleOptions = {
 };
 
 // standart handle images
+// standart handle images
 import s_weis from '../assets/configurator/fenstergriffe/standart/001.Standart weiß.webp';
 import s_silber from '../assets/configurator/fenstergriffe/standart/002.Standart silber.webp';
-import s_schwartz from '../assets/configurator/fenstergriffe/standart/003.Standart schwarz.webp';
+import s_schwarz from '../assets/configurator/fenstergriffe/standart/003.Standart schwarz.webp';
 import s_braun from '../assets/configurator/fenstergriffe/standart/004.Standart braun.webp';
 import s_oliv from '../assets/configurator/fenstergriffe/standart/005.Standart oliv.webp';
+
 import sec_weis from '../assets/configurator/fenstergriffe/standart/006.Secustik weiß.webp';
 import sec_silber from '../assets/configurator/fenstergriffe/standart/007.Secustik silber.webp';
-import sec_braun from '../assets/configurator/fenstergriffe/standart/008.Secustik braun.webp';
-import sec_champ from '../assets/configurator/fenstergriffe/standart/009.Secustik champagner.webp';
-import sec_titan from '../assets/configurator/fenstergriffe/standart/010.Secustik titan.webp';
-import el_weis from '../assets/configurator/fenstergriffe/standart/011.Eleganz weiß.webp';
-import el_silber from '../assets/configurator/fenstergriffe/standart/012.Eleganz silber.webp';
-import el_braun from '../assets/configurator/fenstergriffe/standart/013.Eleganz braun.webp';
-import el_oliv from '../assets/configurator/fenstergriffe/standart/014.Eleganz olive.webp';
-import d_weis from '../assets/configurator/fenstergriffe/standart/015.Dublin weiß.webp';
-import d_silber from '../assets/configurator/fenstergriffe/standart/016.Dublin silber.webp';
-import d_schwartz from '../assets/configurator/fenstergriffe/standart/017.Dublin schwarz.webp';
-import d_braun from '../assets/configurator/fenstergriffe/standart/018.Dublin braun.webp';
-import d_ant from '../assets/configurator/fenstergriffe/standart/019.Dublin anthrazitgrau.webp';
+import sec_schwarz from '../assets/configurator/fenstergriffe/standart/008.Secustik schwarz.webp';
+import sec_braun from '../assets/configurator/fenstergriffe/standart/009.Secustik braun.webp';
+import sec_oliv from '../assets/configurator/fenstergriffe/standart/010.Secustik oliv.webp';
+import sec_champ from '../assets/configurator/fenstergriffe/standart/011.Secustik champagner.webp';
+import sec_titan from '../assets/configurator/fenstergriffe/standart/012.Secustik titan.webp';
 
-const standartFestergriffeOptions = [
+import el_weis from '../assets/configurator/fenstergriffe/standart/013.Eleganz weiß.webp';
+import el_silber from '../assets/configurator/fenstergriffe/standart/015.Eleganz silber.webp';
+import el_braun from '../assets/configurator/fenstergriffe/standart/014.Eleganz braun.webp';
+import el_oliv from '../assets/configurator/fenstergriffe/standart/016.Eleganz olive.webp';
+
+import d_weis from '../assets/configurator/fenstergriffe/standart/017.Dublin weiß.webp';
+import d_silber from '../assets/configurator/fenstergriffe/standart/018.Dublin silber.webp';
+import d_schwarz from '../assets/configurator/fenstergriffe/standart/019.Dublin schwarz.webp';
+import d_braun from '../assets/configurator/fenstergriffe/standart/020.Dublin braun.webp';
+import d_ant from '../assets/configurator/fenstergriffe/standart/021.Dublin anthrazitgrau.webp';
+
+import m_poliert from '../assets/configurator/fenstergriffe/standart/022.Messing poliert.webp';
+import edelstahl from '../assets/configurator/fenstergriffe/standart/023.Edelstahl.webp';
+
+
+const standartFenstergriffeOptions = [
   { key: 's_weis', image: s_weis, name: 'Standart weiß' },
   { key: 's_silber', image: s_silber, name: 'Standart silber' },
-  { key: 's_schwartz', image: s_schwartz, name: 'Standart schwarz' },
+  { key: 's_schwarz', image: s_schwarz, name: 'Standart schwarz' },
   { key: 's_braun', image: s_braun, name: 'Standart braun' },
   { key: 's_oliv', image: s_oliv, name: 'Standart oliv' },
+
   { key: 'sec_weis', image: sec_weis, name: 'Secustik weiß' },
   { key: 'sec_silber', image: sec_silber, name: 'Secustik silber' },
+  { key: 'sec_schwarz', image: sec_schwarz, name: 'Secustik schwarz' },
   { key: 'sec_braun', image: sec_braun, name: 'Secustik braun' },
+  { key: 'sec_oliv', image: sec_oliv, name: 'Secustik oliv' },
   { key: 'sec_champ', image: sec_champ, name: 'Secustik champagner' },
   { key: 'sec_titan', image: sec_titan, name: 'Secustik titan' },
+
   { key: 'el_weis', image: el_weis, name: 'Eleganz weiß' },
   { key: 'el_silber', image: el_silber, name: 'Eleganz silber' },
   { key: 'el_braun', image: el_braun, name: 'Eleganz braun' },
   { key: 'el_oliv', image: el_oliv, name: 'Eleganz olive' },
+
   { key: 'd_weis', image: d_weis, name: 'Dublin weiß' },
   { key: 'd_silber', image: d_silber, name: 'Dublin silber' },
-  { key: 'd_schwartz', image: d_schwartz, name: 'Dublin schwarz' },
+  { key: 'd_schwarz', image: d_schwarz, name: 'Dublin schwarz' },
   { key: 'd_braun', image: d_braun, name: 'Dublin braun' },
   { key: 'd_ant', image: d_ant, name: 'Dublin anthrazitgrau' },
+
+  { key: 'm_poliert', image: m_poliert, name: 'Messing poliert' },
+  { key: 'edelstahl', image: edelstahl, name: 'Edelstahl' },
 ];
+
 
 // schlüssel handle images
 import schl_weis from '../assets/configurator/fenstergriffe/schlüssel/001.Standart weiß.webp';
@@ -221,6 +239,11 @@ export type SelectionItem = {
   };
 };
 
+// dichtung_aussen images
+
+import lichtgrau from '../assets/configurator/farben/dichtung_aussen/lichtgrau.webp';
+import schwarz from '../assets/configurator/farben/dichtung_aussen/schwarz.webp';
+
 export const farbenOptions: Record<string, SelectionItem[]> = {
   colorExt: [
     {
@@ -292,69 +315,29 @@ export const farbenOptions: Record<string, SelectionItem[]> = {
       key: 'pink',
     },
   ],
-  colorMid: [
+  dichtungAussen: [
     {
-      name: 'white',
-      image: color,
-      key: 'white',
+      name: 'Lichtgrau',
+      image: lichtgrau,
+      key: 'lichtgrau',
     },
     {
-      name: 'Dark Brown',
-      image: color,
-      key: 'dark-brown',
-    },
-    {
-      name: 'Whitesmoke',
-      image: color,
-      key: 'whitesmoke',
-    },
-    {
-      name: 'Antrasite',
-      image: color,
-      key: 'antrasite',
-    },
-    {
-      name: 'Gold',
-      image: color,
-      key: 'gold',
-    },
-    {
-      name: 'pink',
-      image: color,
-      key: 'pink',
-    },
+      name: 'Schwarz',
+      image: schwarz,
+      key: 'schwarz',
+    }
   ],
-  sealExt: [
+  dichtungInnen: [
     {
-      name: 'white',
-      image: color2,
-      key: 'white',
+      name: 'Lichtgrau',
+      image: lichtgrau,
+      key: 'lichtgrau',
     },
     {
-      name: 'Dark Brown',
-      image: color2,
-      key: 'dark-brown',
-    },
-    {
-      name: 'Whitesmoke',
-      image: color2,
-      key: 'whitesmoke',
-    },
-    {
-      name: 'Antrasite',
-      image: color2,
-      key: 'antrasite',
-    },
-    {
-      name: 'Gold',
-      image: color2,
-      key: 'gold',
-    },
-    {
-      name: 'pink',
-      image: color2,
-      key: 'pink',
-    },
+      name: 'Schwarz',
+      image: schwarz,
+      key: 'schwarz',
+    }
   ],
   sealInt: [
     {
@@ -408,7 +391,7 @@ export const farbenOptions: Record<string, SelectionItem[]> = {
 };
 
 export const fenstergriffeOptions: Record<string, SelectionItem[]> = {
-  standart: standartFestergriffeOptions,
+  standart: standartFenstergriffeOptions,
   druckknopf: druckknopfFestergriffeOptions,
   schlüssel: schluesselFestergriffeOptions,
 };
@@ -591,8 +574,8 @@ export const initialSize: Size = {
 export const initialExtraConfig = {
   colorExt: 'white',
   colorInt: 'white',
-  colorMid: 'white',
-  sealExt: 'white',
+  dichtungAussen: 'white',
+  dichtungInnen: 'white',
   sealInt: 'white',
   fenstergriffe: 'standart',
 };
@@ -768,8 +751,8 @@ export const categoryItems = [
   { key: 'cover', items: covers },
   { key: 'colorExt', items: farbenOptions.colorExt },
   { key: 'colorInt', items: farbenOptions.colorInt },
-  { key: 'colorMid', items: farbenOptions.colorMid },
-  { key: 'sealExt', items: farbenOptions.sealExt },
+  { key: 'dichtungAussen', items: farbenOptions.dichtungAussen },
+  { key: 'dichtungInnen', items: farbenOptions.dichtungInnen },
   { key: 'sealInt', items: farbenOptions.sealInt },
   { key: 'fenstergriffe', items: farbenOptions.fenstergriffe },
   { key: 'glasspaket', items: verglasung.glasspaket },
@@ -792,8 +775,8 @@ export const initialConfiguration: Config = {
   size: initialSize,
   colorExt: farbenOptions.colorExt[0],
   colorInt: farbenOptions.colorInt[0],
-  colorMid: farbenOptions.colorMid[0],
-  sealExt: farbenOptions.sealExt[0],
+  dichtungAussen: farbenOptions.dichtungAussen[0],
+  dichtungInnen: farbenOptions.dichtungInnen[0],
   sealInt: farbenOptions.sealInt[0],
   glasspaket: verglasung.glasspaket[0],
   glasspaketWarmeKante: 'Nein',
@@ -804,46 +787,46 @@ export const initialConfiguration: Config = {
   druckausgleichsventil: verglasung.druckausgleichsventil[0],
 };
 
-import wk1 from '../assets/configurator/verglasung/schallschutz/warmenkante/wk1.webp';
-import wk2 from '../assets/configurator/verglasung/schallschutz/warmenkante/wk2.webp';
-import wk3 from '../assets/configurator/verglasung/schallschutz/warmenkante/wk3.webp';
-import wk4 from '../assets/configurator/verglasung/schallschutz/warmenkante/wk4.webp';
-import wk5 from '../assets/configurator/verglasung/schallschutz/warmenkante/wk5.webp';
-import wk6 from '../assets/configurator/verglasung/schallschutz/warmenkante/wk6.webp';
+import wk1 from '../assets/configurator/verglasung/schallschutz/warmenkante/001.Weiß RAL9016.webp';
+import wk2 from '../assets/configurator/verglasung/schallschutz/warmenkante/002.Lichtgrau RAL7035.webp';
+import wk3 from '../assets/configurator/verglasung/schallschutz/warmenkante/003.Grau RAL9023.webp';
+import wk4 from '../assets/configurator/verglasung/schallschutz/warmenkante/004.Schwarz RAL 9005.webp';
+import wk5 from '../assets/configurator/verglasung/schallschutz/warmenkante/005.Hellbraun RAL8003.webp';
+import wk6 from '../assets/configurator/verglasung/schallschutz/warmenkante/006.Braun RAL8014.webp';
 
 export const warmenKante = [
   {
     key: 'wk1',
-    name: 'Swisspacer Ultimate Schwarz',
+    name: 'Weiß RAL9016',
     image: wk1,
   },
   {
     key: 'wk2',
-    name: 'Swisspacer Ultimate Grau',
+    name: 'Lichtgrau RAL7035',
     image: wk2,
   },
   {
     key: 'wk3',
-    name: 'Swisspacer Ultimate Braun',
+    name: 'Grau RAL9023',
     image: wk3,
   },
-
   {
     key: 'wk4',
-    name: 'Schwarz RAL 9005',
+    name: 'Schwarz RAL9005',
     image: wk4,
   },
   {
     key: 'wk5',
-    name: 'Swisspacer Ultimate Dunkelgrau RAL 9023',
+    name: 'Hellbraun RAL8003',
     image: wk5,
   },
   {
     key: 'wk6',
-    name: 'Swisspacer Ultimate Dunkelbraun RAL 8014',
+    name: 'Braun RAL8014',
     image: wk6,
   },
 ];
+
 
 export const sprossenItems: Record<
   'innenliegende' | 'aufgesetzte',

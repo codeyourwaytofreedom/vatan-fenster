@@ -160,7 +160,6 @@ export default function Configuration_Group({ groupTitle, steps }: GroupProps) {
           {expandable && (
             <button id={style.show_more} onClick={handleExpand}>
               <span>
-                {' '}
                 <FontAwesomeIcon icon={faPlus} size={'1x'} beat /> &nbsp; Alle anzeigen
               </span>
             </button>

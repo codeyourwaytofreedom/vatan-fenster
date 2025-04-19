@@ -99,6 +99,7 @@
 
 .huge {
   position: absolute;
+  top: -50%;
   height: auto;
   width: 300px;
   display: flex;

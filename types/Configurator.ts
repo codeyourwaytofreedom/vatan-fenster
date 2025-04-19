@@ -43,8 +43,8 @@ export interface Config {
   size: boolean | Size;
   colorExt: SelectionItem;
   colorInt: SelectionItem;
-  colorMid: SelectionItem;
-  sealExt: SelectionItem;
+  dichtungAussen: SelectionItem;
+  dichtungInnen: SelectionItem;
   sealInt: SelectionItem;
   fenstergriffe?: { type: SelectionItem; choice: SelectionItem };
   glasspaket: SelectionItem;
@@ -63,8 +63,8 @@ export interface Config {
 export interface ExtraConfig {
   colorExt: string;
   colorInt: string;
-  colorMid: string;
-  sealExt: string;
+  dichtungAussen: string;
+  dichtungInnen: string;
   sealInt: string;
   handle: string;
 }

@@ -49,7 +49,7 @@ export default function SummaryDisplayer() {
 
   // groupBasis
   const { material, brand, profile, style, type, cover, size } = configuration;
-  const { colorExt, colorInt, colorMid, sealExt, sealInt, fenstergriffe } = configuration;
+  const { colorExt, colorInt, dichtungAussen, dichtungInnen, sealInt, fenstergriffe } = configuration;
   const {
     glasspaket,
     glasspaketWarmeKante,
@@ -73,8 +73,8 @@ export default function SummaryDisplayer() {
   const groupFarben = {
     colorExt,
     colorInt,
-    colorMid,
-    sealExt,
+    dichtungAussen,
+    dichtungInnen,
     sealInt,
     fenstergriffe,
   };

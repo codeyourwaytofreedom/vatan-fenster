@@ -73,13 +73,13 @@ export const steps: Record<GroupKey | string, Step[]> = {
       icon: faPaintRoller,
     },
     {
-      key: 'colorMid',
-      name: 'Color Mid',
+      key: 'dichtungAussen',
+      name: 'Dichtung Aussen',
       icon: faPalette,
     },
     {
-      key: 'sealExt',
-      name: 'Seal Ext',
+      key: 'dichtungInnen',
+      name: 'Dichtung Innen',
       icon: faTools,
     },
     {
