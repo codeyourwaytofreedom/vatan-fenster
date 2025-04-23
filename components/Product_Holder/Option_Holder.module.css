@@ -1,5 +1,6 @@
 .outer {
   display: grid;
+  position: relative;
 }
 
 .option,
@@ -11,20 +12,22 @@
   position: relative;
   box-sizing: border-box;
   overflow: hidden;
+  transition: all 0.4s ease;
 }
 .option:hover,
 .option_selected:hover {
   border: 1px solid var(--color-2);
-  font-weight: bold;
 }
 .option:hover button,
 .option_selected:hover button {
   display: block;
 }
-.option:hover img,
-.option_selected:hover img {
-  width: 95%;
-  margin-top: 2.5%;
+.option:hover p,
+.option_selected:hover p {
+  background-color: var(--color-1);
+  color: whitesmoke;
+  transition: all 0.4s ease;
+  transition-delay: 0.1s;
 }
 .option label,
 .option_selected label {
@@ -37,8 +40,7 @@
 .option label img,
 .option_selected label img {
   flex: 2;
-  width: 90%;
-  margin-top: 5%;
+  width: 100%;
   height: auto;
   transition: all 0.2s ease;
 }
@@ -46,6 +48,7 @@
 .option_selected label #details {
   width: 100%;
   flex: 1;
+  background-color: white;
 }
 .option label p,
 .option_selected label p {
@@ -56,6 +59,7 @@
   padding: 0 5px;
   width: 100%;
   position: relative;
+  font-size: medium;
   flex: 1;
   max-height: 80px !important;
 }
@@ -97,27 +101,21 @@
   color: white;
 }
 
+.option p {
+  background-color: ButtonFace;
+}
+
 .huge {
   position: absolute;
-  top: -50%;
+  right: -300px;
   height: auto;
   width: 300px;
   display: flex;
   justify-self: center;
   z-index: 99;
-  animation: enlarge 0.3s forwards;
   background-color: silver;
 }
 .huge img {
   width: 100%;
   height: auto;
-}
-
-@keyframes enlarge {
-  from {
-    width: 100px;
-  }
-  to {
-    width: 300px;
-  }
-}/*# sourceMappingURL=Option_Holder.module.css.map */
+} /*# sourceMappingURL=Option_Holder.module.css.map */

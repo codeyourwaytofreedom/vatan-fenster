@@ -54,6 +54,14 @@ export interface Config {
   schallschutz: SelectionItem;
   sprossen: string | 'Nein';
   druckausgleichsventil: SelectionItem;
+  adapter?: SelectionItem;
+  revisionsöffnung?: SelectionItem;
+  lamellenart?: SelectionItem;
+  farbeRollladenkasten?: SelectionItem;
+  farbeRollladenPanzer?: SelectionItem;
+  farbeEndschiene?: SelectionItem;
+  putzträger?: SelectionItem;
+  schrägschnitt?: SelectionItem;
   multiWidth?: Record<string, number>;
   multiHeight?: Record<string, number>;
   obenMultiWidth?: Record<string, number>;

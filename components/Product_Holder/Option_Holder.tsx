@@ -30,26 +30,25 @@ export default function OptionHolder({ item, selected, action }: ProductHolderPr
   const isZoomed = item.zoomable && item.name === zoomedImage;
 
   return (
-    <div className={style.outer}           onMouseLeave={handleBlur}
->
-      {
-        isZoomed &&
+    <div className={style.outer} onMouseLeave={handleBlur}>
+      {isZoomed && (
         <div className={style.huge}>
-            <Image src={item.image} alt={item.name} width={250} height={220} />
-        </div>
-      }
-    <div style={{pointerEvents: item.disabled ? 'none' : 'all'}} className={selected ? style.option_selected : style.option} onClick={action}>
-      <label>
-        <div
-          className={style.imageWrapper}
-          onMouseEnter={handleZoomPhoto}
-        >
           <Image src={item.image} alt={item.name} width={250} height={220} />
         </div>
-        <div id={style.details}></div>
-        <p>{item.name}</p>
-      </label>
-    </div>
+      )}
+      <div
+        style={{ pointerEvents: item.disabled ? 'none' : 'all' }}
+        className={selected ? style.option_selected : style.option}
+        onClick={action}
+      >
+        <label>
+          <div className={style.imageWrapper} onMouseEnter={handleZoomPhoto}>
+            <Image src={item.image} alt={item.name} width={250} height={220} />
+          </div>
+          <div id={style.details}></div>
+          <p>{item.name}</p>
+        </label>
+      </div>
     </div>
   );
 }

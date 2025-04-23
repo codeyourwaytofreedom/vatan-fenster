@@ -16,25 +16,11 @@
   background-color: var(--color-2);
 }
 
-.previousStep {
-  margin-left: 5px;
-  position: relative;
-  top: -10px;
-  border: none;
-  height: 25px;
-  border-radius: 15px;
-  width: 170px;
-}
-.previousStep:hover {
-  background-color: var(--color-2);
-  color: white;
-}
-
 .config {
   display: grid;
-  grid-template-columns: 1fr 350px;
+  grid-template-columns: calc(100% - 370px) 350px;
   -moz-column-gap: 20px;
-       column-gap: 20px;
+  column-gap: 20px;
   padding-top: 10px;
   min-height: 99vh;
   align-items: start;
@@ -47,126 +33,11 @@
   padding-bottom: 10px;
   position: relative;
 }
-.config .group > * {
-  overflow-x: hidden;
-}
-.config #bottom_actions {
-  display: flex;
-  -moz-column-gap: 10px;
-       column-gap: 10px;
-  padding: 20px 0;
-  justify-content: center;
-  position: relative;
-}
-.config #next_group,
-.config #show_more {
-  border: none;
-  width: 170px;
-  height: 25px;
-  border-radius: 15px;
-  display: flex;
-  justify-self: flex-end;
-  align-items: center;
-  justify-content: space-around;
-}
-.config #next_group:hover,
-.config #show_more:hover {
-  filter: brightness(1.2);
-  background-color: var(--color-2);
-  color: white;
-}
-.config #next_group {
-  justify-self: flex-end !important;
-  position: absolute;
-  right: 0;
-  bottom: 20px;
-}
-.config_steps {
-  display: flex;
-  margin-bottom: 30px;
-  height: 40px;
-}
-.config_steps .complete,
-.config_steps .next,
-.config_steps .inactive,
-.config_steps .selected_next,
-.config_steps .selected_complete {
-  border: none;
-  display: grid;
-  align-items: center;
-  justify-items: center;
-  -moz-column-gap: 10px;
-       column-gap: 10px;
-  font-size: calc(12px + 0.1vw);
-  position: relative;
-  padding: 5px 0;
-  color: whitesmoke;
-  flex: 1;
-}
-.config_steps .complete svg,
-.config_steps .next svg,
-.config_steps .inactive svg,
-.config_steps .selected_next svg,
-.config_steps .selected_complete svg {
-  filter: invert(100%);
-}
-.config_steps .complete #anchor,
-.config_steps .next #anchor,
-.config_steps .inactive #anchor,
-.config_steps .selected_next #anchor,
-.config_steps .selected_complete #anchor {
-  font-size: 20px;
-  position: absolute;
-  bottom: -20px;
-  left: 46%;
-  color: var(--color-1);
-  display: none;
-}
-.config_steps .selected_next {
-  font-weight: bold;
-  background: gold;
-  color: black;
-}
-.config_steps .selected_next #anchor {
-  display: inline-block;
-  color: gold;
-}
-.config_steps .selected_next svg {
-  filter: none;
-}
-.config_steps .next {
-  font-weight: bold;
-  background: gold;
-  color: black;
-}
-.config_steps .next span {
-  display: inline-block;
-}
-.config_steps .next svg {
-  filter: none;
-}
-.config_steps .selected_complete {
-  background: var(--color-2);
-}
-.config_steps .selected_complete #anchor {
-  display: inline-block;
-  color: var(--color-2);
-}
-.config_steps .complete {
-  background: var(--color-1);
-}
-.config_steps .inactive {
-  background: rgba(100, 100, 100, 0.2);
-  color: black;
-}
-.config_steps .inactive svg {
-  filter: none;
-}
 .config_wrapper {
   width: 100%;
   display: flex;
   -moz-column-gap: 40px;
-       column-gap: 40px;
+  column-gap: 40px;
   padding: 5px;
 }
 .config_wrapper_option_holders {
@@ -326,7 +197,8 @@
     flex-wrap: wrap;
     justify-content: center;
   }
-  .config_wrapper_option_holders, .config_wrapper_subcategories {
+  .config_wrapper_option_holders,
+  .config_wrapper_subcategories {
     order: 2;
   }
   .config_wrapper #summary {
@@ -370,4 +242,4 @@
   to {
     grid-template-rows: 1fr;
   }
-}/*# sourceMappingURL=KonfiguratorPage.module.css.map */
+} /*# sourceMappingURL=KonfiguratorPage.module.css.map */

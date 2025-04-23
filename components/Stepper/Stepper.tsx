@@ -1,5 +1,5 @@
 import { Config, Step } from '@/types/Configurator';
-import style from '../.././styles/KonfiguratorPage.module.css';
+import style from './Stepper.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useConfiguration } from '@/context/ConfigurationContext';
 import { useOrderDetailsReady } from '@/context/OrderDetailsContext';
@@ -65,27 +65,33 @@ export default function Stepper({ steps, configuration }: StepperProps) {
 
   return (
     <>
-      <div className={style.config_steps}>
-        {steps.map((st, index) => (
-          <button key={index} className={stepClass(st)} onClick={() => handleSetStep(st)}>
-            <FontAwesomeIcon
-              icon={st.icon}
-              color="black"
-              beatFade={stepClass(st).includes('next')}
-            />
-            <p>{st.name}</p>
-            <span id={style.anchor}>&#9660;</span>
-          </button>
-        ))}
-      </div>
-      {!isFirstStep && (
-        <button className={style.previousStep} onClick={goToPreviousStep}>
+      <div className={style.stepWrapper}>
+        <div className={style.config_steps}>
+          {steps.map((st, index) => (
+            <button key={index} className={stepClass(st)} onClick={() => handleSetStep(st)}>
+              <FontAwesomeIcon
+                icon={st.icon}
+                color="black"
+                beatFade={stepClass(st).includes('next')}
+              />
+              <p>{st.name}</p>
+              <span id={style.anchor}>&#9660;</span>
+            </button>
+          ))}
+          <span id={style.end}>||</span>
+        </div>
+        <button id={style.test}>Test</button>
+        <button
+          style={{ visibility: !isFirstStep ? 'visible' : 'hidden' }}
+          className={style.previousStep}
+          onClick={goToPreviousStep}
+        >
           <FontAwesomeIcon icon={faChevronLeft} />
           <FontAwesomeIcon icon={faChevronLeft} />
           <FontAwesomeIcon icon={faChevronLeft} />
           &nbsp; Vorheriger Schritt
         </button>
-      )}
+      </div>
     </>
   );
 }

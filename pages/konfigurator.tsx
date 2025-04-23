@@ -6,6 +6,7 @@ import Configuration_Group from '@/components/Configuration_Group/Configuration_
 import Basis_Configuration from '@/components/Configuration_Basis/Configuration_Basis';
 import { OrderDetailsProvider } from '@/context/OrderDetailsContext';
 import { ConfigurationProvider } from '@/context/ConfigurationContext';
+import Sonnenschutz_Group from '@/components/Configuration_Sonnenschutz/SonnensschutzGroup';
 
 export default function Page() {
   return (
@@ -25,6 +26,8 @@ function PageContent() {
           {Object.entries(steps).map(([stepKey, stepValues]) =>
             stepKey === 'basis' ? (
               <Basis_Configuration key={stepKey} />
+            ) : stepKey === 'sonnenschutz' ? (
+              <Sonnenschutz_Group key={stepKey} />
             ) : (
               <Configuration_Group
                 key={stepKey}

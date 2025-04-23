@@ -1,0 +1,112 @@
+$secondary-color: gold;
+$shine-color: gold;
+$summary-shade: rgb(230, 227, 227);
+
+.stepWrapper {
+  //border: 2px solid blue;
+  overflow: hidden;
+  position: relative;
+  #test {
+    background-color: crimson;
+    color: wheat;
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: none;
+  }
+}
+.config_steps {
+  display: flex;
+  margin-bottom: 30px;
+  height: 40px;
+  position: relative;
+  //border: 3px solid green;
+  overflow: scroll;
+  width: 100%;
+  .complete,
+  .next,
+  .inactive,
+  .selected_next,
+  .selected_complete {
+    border: none;
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    column-gap: 10px;
+    font-size: calc(11px + 0.1vw);
+    position: relative;
+    padding: 5px 0;
+    color: whitesmoke;
+    min-width: 150px;
+    max-width: 270px;
+    svg {
+      filter: invert(100%);
+    }
+    #anchor {
+      font-size: 20px;
+      position: absolute;
+      bottom: -20px;
+      left: 46%;
+      color: var(--color-1);
+      display: none;
+    }
+    #end {
+      position: absolute;
+      right: 0;
+    }
+  }
+  .selected_next {
+    font-weight: bold;
+    background: $secondary-color;
+    color: black;
+    #anchor {
+      display: inline-block;
+      color: $secondary-color;
+    }
+    svg {
+      filter: none;
+    }
+  }
+  .next {
+    font-weight: bold;
+    background: $secondary-color;
+    span {
+      display: inline-block;
+    }
+    color: black;
+    svg {
+      filter: none;
+    }
+  }
+  .selected_complete {
+    background: var(--color-2);
+    #anchor {
+      display: inline-block;
+      color: var(--color-2);
+    }
+  }
+  .complete {
+    background: var(--color-1);
+  }
+  .inactive {
+    background: rgba(100, 100, 100, 0.2);
+    color: black;
+    svg {
+      filter: none;
+    }
+  }
+}
+
+.previousStep {
+  margin-left: 5px;
+  position: relative;
+  top: -10px;
+  border: none;
+  height: 25px;
+  border-radius: 15px;
+  width: 170px;
+  &:hover {
+    background-color: var(--color-2);
+    color: white;
+  }
+}

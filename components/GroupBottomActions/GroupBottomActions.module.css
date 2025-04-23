@@ -1,0 +1,34 @@
+.bottom_actions {
+  display: flex;
+  align-items: center;
+  -moz-column-gap: 10px;
+  column-gap: 10px;
+  height: 50px;
+  justify-content: center;
+  position: relative;
+}
+
+.next_group,
+.show_more {
+  border: none;
+  width: 170px;
+  height: 25px;
+  border-radius: 15px;
+  display: flex;
+  justify-self: flex-end;
+  align-items: center;
+  justify-content: space-around;
+}
+.next_group:hover,
+.show_more:hover {
+  filter: brightness(1.2);
+  background-color: var(--color-2);
+  color: white;
+}
+
+.next_group {
+  justify-self: flex-end !important;
+  position: absolute;
+  align-self: center;
+  right: 10px;
+} /*# sourceMappingURL=GroupBottomActions.module.css.map */

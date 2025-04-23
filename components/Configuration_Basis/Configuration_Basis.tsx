@@ -17,9 +17,8 @@ import {
   windowStyles,
 } from '@/data/configuration_options';
 import { useConfiguration } from '@/context/ConfigurationContext';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { useOrderDetailsReady } from '@/context/OrderDetailsContext';
+import GroupBottomActions from '../GroupBottomActions/GroupBottomActions';
 
 export default function Basis_Configuration() {
   const [itemsToDisplay, setItemsToDisplay] = useState<SelectionItem[]>();
@@ -232,6 +231,7 @@ export default function Basis_Configuration() {
 
   const handleMoveNextGroup = () => {
     setCurrentGroup('farben');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
@@ -266,11 +266,12 @@ export default function Basis_Configuration() {
               <Sizer substyle={substyle} sizeImage={findSizeImage()!} />
             )}
           </div>
-          {currentStep?.key === 'size' && (
-            <button id={style.next_group} onClick={handleMoveNextGroup}>
-              <FontAwesomeIcon icon={faChevronDown} size={'1x'} beat /> Nächster Schritt
-            </button>
-          )}
+          <GroupBottomActions
+            expandable={false}
+            isLastStep={currentStep?.key === 'size'}
+            nextGroupAction={handleMoveNextGroup}
+            expandAction={() => {}}
+          />
         </div>
       )}
     </>

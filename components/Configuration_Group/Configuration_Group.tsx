@@ -5,11 +5,10 @@ import OptionHolder from '../Product_Holder/Option_Holder';
 import { categoryItems, SelectionItem } from '@/data/configuration_options';
 import { useEffect, useState } from 'react';
 import { useConfiguration } from '@/context/ConfigurationContext';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown, faPlus } from '@fortawesome/free-solid-svg-icons';
 import StepGlassPaket from '../StepGlassPaket/StepGlassPaket';
 import StepSprossen from '../StepSprossen/StepSprossen';
 import Fenstergriffe from '../StepFenstergriffe/Fenstergriffe';
+import GroupBottomActions from '../GroupBottomActions/GroupBottomActions';
 
 interface GroupProps {
   groupTitle: GroupKey;
@@ -102,13 +101,12 @@ export default function Configuration_Group({ groupTitle, steps }: GroupProps) {
   }
 
   const handleMoveNextGroup = () => {
-    const groups: GroupKey[] = ['basis', 'farben', 'verglasung', 'sonnenschutz', 'zusätze'];
-    const currentGroupIndex = groups.indexOf(currentGroup);
-    let nextGroup = groups[currentGroupIndex + 1];
     const coverNotAvailable = configuration.cover.key === 'nein';
-    if (nextGroup === 'sonnenschutz' && coverNotAvailable) {
-      nextGroup = 'zusätze';
-    }
+    const groups: GroupKey[] = coverNotAvailable
+      ? ['basis', 'farben', 'verglasung', 'zusätze']
+      : ['basis', 'farben', 'verglasung','zusätze','sonnenschutz',];
+    const currentGroupIndex = groups.indexOf(currentGroup);
+    const nextGroup = groups[currentGroupIndex + 1];
     setCurrentGroup(nextGroup);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -137,40 +135,32 @@ export default function Configuration_Group({ groupTitle, steps }: GroupProps) {
             ) : currentStep?.component === Fenstergriffe ? (
               <Fenstergriffe />
             ) : (
-              <div className={style.config_wrapper}>
-                <div className={style.config_wrapper_option_holders}>
-                  {itemsToDisplay
-                    ?.slice(0, !expanded ? 5 : itemsToDisplay.length)
-                    .map((item, index) => (
-                      <OptionHolder
-                        key={index}
-                        item={item}
-                        selected={isSelected(item.name)}
-                        action={() => updateConfiguration(item)}
-                      />
-                    ))}
+              <>
+                <div className={style.config_wrapper}>
+                  <div className={style.config_wrapper_option_holders}>
+                    {itemsToDisplay
+                      ?.slice(0, !expanded ? 5 : itemsToDisplay.length)
+                      .map((item, index) => (
+                        <OptionHolder
+                          key={index}
+                          item={item}
+                          selected={isSelected(item.name)}
+                          action={() => updateConfiguration(item)}
+                        />
+                      ))}
+                  </div>
                 </div>
-              </div>
+                {currentGroup === groupTitle && (
+                  <GroupBottomActions
+                    expandable={Boolean(expandable)}
+                    expandAction={handleExpand}
+                    isLastStep={isLastStepInGroup}
+                    nextGroupAction={handleMoveNextGroup}
+                  />
+                )}
+              </>
             )}
           </div>
-        </div>
-      )}
-      {currentGroup === groupTitle && (
-        <div id={style.bottom_actions}>
-          {expandable && (
-            <button id={style.show_more} onClick={handleExpand}>
-              <span>
-                <FontAwesomeIcon icon={faPlus} size={'1x'} beat /> &nbsp; Alle anzeigen
-              </span>
-            </button>
-          )}
-          {isLastStepInGroup && (
-            <button onClick={handleMoveNextGroup} id={style.next_group}>
-              <span>
-                <FontAwesomeIcon icon={faChevronDown} size={'1x'} beat /> &nbsp; Nächster Schritt
-              </span>
-            </button>
-          )}
         </div>
       )}
     </div>

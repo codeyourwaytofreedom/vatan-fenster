@@ -49,7 +49,8 @@ export default function SummaryDisplayer() {
 
   // groupBasis
   const { material, brand, profile, style, type, cover, size } = configuration;
-  const { colorExt, colorInt, dichtungAussen, dichtungInnen, sealInt, fenstergriffe } = configuration;
+  const { colorExt, colorInt, dichtungAussen, dichtungInnen, sealInt, fenstergriffe } =
+    configuration;
   const {
     glasspaket,
     glasspaketWarmeKante,
@@ -124,6 +125,7 @@ export default function SummaryDisplayer() {
     if (currentGroup !== 'basis') {
       setTimeout(() => {
         setCurrentGroup('basis');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       }, slowAction);
     }
   };
@@ -132,6 +134,7 @@ export default function SummaryDisplayer() {
     setTimeout(() => {
       if (currentGroup !== groupKey) {
         setCurrentGroup(groupKey);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       }
       if (expandedGroups?.includes(groupKey)) {
         return setExpandedGroups(expandedGroups.filter((gr) => gr !== groupKey));

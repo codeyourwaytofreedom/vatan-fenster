@@ -1,0 +1,120 @@
+.stepWrapper {
+  overflow: hidden;
+  position: relative;
+}
+.stepWrapper #test {
+  background-color: crimson;
+  color: wheat;
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: none;
+}
+
+.config_steps {
+  display: flex;
+  margin-bottom: 30px;
+  height: 40px;
+  position: relative;
+  overflow: scroll;
+  width: 100%;
+}
+.config_steps .complete,
+.config_steps .next,
+.config_steps .inactive,
+.config_steps .selected_next,
+.config_steps .selected_complete {
+  border: none;
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  -moz-column-gap: 10px;
+  column-gap: 10px;
+  font-size: calc(11px + 0.1vw);
+  position: relative;
+  padding: 5px 0;
+  color: whitesmoke;
+  min-width: 150px;
+  max-width: 270px;
+}
+.config_steps .complete svg,
+.config_steps .next svg,
+.config_steps .inactive svg,
+.config_steps .selected_next svg,
+.config_steps .selected_complete svg {
+  filter: invert(100%);
+}
+.config_steps .complete #anchor,
+.config_steps .next #anchor,
+.config_steps .inactive #anchor,
+.config_steps .selected_next #anchor,
+.config_steps .selected_complete #anchor {
+  font-size: 20px;
+  position: absolute;
+  bottom: -20px;
+  left: 46%;
+  color: var(--color-1);
+  display: none;
+}
+.config_steps .complete #end,
+.config_steps .next #end,
+.config_steps .inactive #end,
+.config_steps .selected_next #end,
+.config_steps .selected_complete #end {
+  position: absolute;
+  right: 0;
+}
+.config_steps .selected_next {
+  font-weight: bold;
+  background: gold;
+  color: black;
+}
+.config_steps .selected_next #anchor {
+  display: inline-block;
+  color: gold;
+}
+.config_steps .selected_next svg {
+  filter: none;
+}
+.config_steps .next {
+  font-weight: bold;
+  background: gold;
+  color: black;
+}
+.config_steps .next span {
+  display: inline-block;
+}
+.config_steps .next svg {
+  filter: none;
+}
+.config_steps .selected_complete {
+  background: var(--color-2);
+}
+.config_steps .selected_complete #anchor {
+  display: inline-block;
+  color: var(--color-2);
+}
+.config_steps .complete {
+  background: var(--color-1);
+}
+.config_steps .inactive {
+  background: rgba(100, 100, 100, 0.2);
+  color: black;
+}
+.config_steps .inactive svg {
+  filter: none;
+}
+
+.previousStep {
+  margin-left: 5px;
+  position: relative;
+  top: -10px;
+  border: none;
+  height: 25px;
+  border-radius: 15px;
+  width: 170px;
+}
+.previousStep:hover {
+  background-color: var(--color-2);
+  color: white;
+} /*# sourceMappingURL=Stepper.module.css.map */

@@ -89,7 +89,6 @@ import dreh_kip_fest_u from '../../assets/configurator/style/flugel2/unten/DKL+F
 import fest_dreh_kipp_u from '../../assets/configurator/style/flugel2/unten/F+DKR.png';
 import dreh_dreh_kipp_pfosten_u from '../../assets/configurator/style/flugel2/unten/DL+DKR (Pfosten).png';
 import dreh_kipp_dreh_pfosten_u from '../../assets/configurator/style/flugel2/unten/DKL+DR (Pfosten).png';
-
 import dreh_kipp_dreh_kipp_pfosten_u from '../../assets/configurator/style/flugel2/unten/DKL+DKR (Pfosten).png';
 import dreh_kipp_dreh_stulp_u from '../../assets/configurator/style/flugel2/unten/DKL+DR (Stulp).png';
 import dreh_dreh_kipp_stulp_u from '../../assets/configurator/style/flugel2/unten/DL+DKR (Stulp).png';

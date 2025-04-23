@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import styles from './PageBanner.module.css';
-import logo from '../../assets/logo.webp';
+import logo from '../../assets/common/logo.webp';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faContactCard, faImage, faQuestion } from '@fortawesome/free-solid-svg-icons';

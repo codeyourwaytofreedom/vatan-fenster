@@ -1,15 +1,14 @@
 import { StaticImageData } from 'next/image';
-import color2 from '../assets/color2.png';
-import color3 from '../assets/color3.jpg';
 
-import placeholder from '../assets/placeholder.png';
-import no from '../assets/no.jpeg';
-import yes from '../assets/yes.png';
-
-import width from '../assets/width.avif';
-
-import handle from '../assets/empty.jpg';
-import cover from '../assets/windowcover.jpg';
+//common images
+import color2 from '../assets/common/color2.png';
+import color3 from '../assets/common/color3.jpg';
+import placeholder from '../assets/common/placeholder.png';
+import no from '../assets/common/no.jpeg';
+import yes from '../assets/common/yes.png';
+import soon from '../assets/common/soon.jpg';
+import width from '../assets/common/width.avif';
+import handle from '../assets/common/empty.jpg';
 
 import drutex from '../assets/configurator/brands/drutex.svg';
 
@@ -103,7 +102,6 @@ import d_ant from '../assets/configurator/fenstergriffe/standart/021.Dublin anth
 import m_poliert from '../assets/configurator/fenstergriffe/standart/022.Messing poliert.webp';
 import edelstahl from '../assets/configurator/fenstergriffe/standart/023.Edelstahl.webp';
 
-
 const standartFenstergriffeOptions = [
   { key: 's_weis', image: s_weis, name: 'Standart weiß' },
   { key: 's_silber', image: s_silber, name: 'Standart silber' },
@@ -133,7 +131,6 @@ const standartFenstergriffeOptions = [
   { key: 'm_poliert', image: m_poliert, name: 'Messing poliert' },
   { key: 'edelstahl', image: edelstahl, name: 'Edelstahl' },
 ];
-
 
 // schlüssel handle images
 import schl_weis from '../assets/configurator/fenstergriffe/schlüssel/001.Standart weiß.webp';
@@ -325,7 +322,7 @@ export const farbenOptions: Record<string, SelectionItem[]> = {
       name: 'Schwarz',
       image: schwarz,
       key: 'schwarz',
-    }
+    },
   ],
   dichtungInnen: [
     {
@@ -337,7 +334,7 @@ export const farbenOptions: Record<string, SelectionItem[]> = {
       name: 'Schwarz',
       image: schwarz,
       key: 'schwarz',
-    }
+    },
   ],
   sealInt: [
     {
@@ -554,9 +551,34 @@ export const covers: SelectionItem[] = [
     image: no,
   },
   {
-    key: 'cover1',
-    name: 'Aufsatzrollladen',
-    image: cover,
+    key: 'auf215',
+    name: 'Aufsatzrollladen\n215mm (PVC Kasten)',
+    image: soon,
+  },
+  {
+    key: 'auf175',
+    name: 'Aufsatzrollladen\n175mm (PVC Kasten)',
+    image: soon,
+  },
+  {
+    key: 'styroporkasten',
+    name: 'Aufsatzrollladen\n(Styroporkasten)',
+    image: soon,
+  },
+  {
+    key: 'vorsatzrollladen',
+    name: 'Vorsatzrollladen',
+    image: soon,
+  },
+  {
+    key: 'aufStyroporkasten',
+    name: 'Aufsatzraffstore\n(Styroporkasten)',
+    image: soon,
+  },
+  {
+    key: 'vorsatzraffstore',
+    name: 'Vorsatzraffstore',
+    image: soon,
   },
 ];
 
@@ -744,49 +766,6 @@ const verglasung = {
   ],
 };
 
-export const categoryItems = [
-  { key: 'material', items: materials },
-  { key: 'brand', items: brands },
-  { key: 'style', items: windowStyles },
-  { key: 'cover', items: covers },
-  { key: 'colorExt', items: farbenOptions.colorExt },
-  { key: 'colorInt', items: farbenOptions.colorInt },
-  { key: 'dichtungAussen', items: farbenOptions.dichtungAussen },
-  { key: 'dichtungInnen', items: farbenOptions.dichtungInnen },
-  { key: 'sealInt', items: farbenOptions.sealInt },
-  { key: 'fenstergriffe', items: farbenOptions.fenstergriffe },
-  { key: 'glasspaket', items: verglasung.glasspaket },
-  { key: 'ornament', items: verglasung.ornament },
-  { key: 'sicherheitsverglasung', items: verglasung.sicherheitsverglasung },
-  { key: 'schallschutz', items: verglasung.schallschutz },
-  { key: 'sprossen', items: [] },
-  { key: 'druckausgleichsventil', items: verglasung.druckausgleichsventil },
-];
-
-// initial deafult configuration
-
-export const initialConfiguration: Config = {
-  material: materials[0],
-  brand: brands[0],
-  profile: brands[0].children!.profile!['Kunststoff (PVC)'][0],
-  style: windowStyles[0],
-  type: windowStyles[0].children!.type![0]!,
-  cover: covers[0],
-  size: initialSize,
-  colorExt: farbenOptions.colorExt[0],
-  colorInt: farbenOptions.colorInt[0],
-  dichtungAussen: farbenOptions.dichtungAussen[0],
-  dichtungInnen: farbenOptions.dichtungInnen[0],
-  sealInt: farbenOptions.sealInt[0],
-  glasspaket: verglasung.glasspaket[0],
-  glasspaketWarmeKante: 'Nein',
-  ornament: verglasung.ornament[0],
-  sicherheitsverglasung: verglasung.sicherheitsverglasung[0],
-  schallschutz: verglasung.schallschutz[0],
-  sprossen: 'Nein',
-  druckausgleichsventil: verglasung.druckausgleichsventil[0],
-};
-
 import wk1 from '../assets/configurator/verglasung/schallschutz/warmenkante/001.Weiß RAL9016.webp';
 import wk2 from '../assets/configurator/verglasung/schallschutz/warmenkante/002.Lichtgrau RAL7035.webp';
 import wk3 from '../assets/configurator/verglasung/schallschutz/warmenkante/003.Grau RAL9023.webp';
@@ -826,7 +805,6 @@ export const warmenKante = [
     image: wk6,
   },
 ];
-
 
 export const sprossenItems: Record<
   'innenliegende' | 'aufgesetzte',
@@ -1045,3 +1023,243 @@ export const sprossenCards: SelectionItem[] = [
     ],
   },
 ];
+
+// sonnenschutz items
+
+export const sonnenschutzItems: Record<
+  | 'adapter'
+  | 'revisionsöffnung'
+  | 'lamellenart'
+  | 'farbeRollladenkasten'
+  | 'farbeRollladenPanzer'
+  | 'farbeEndschiene'
+  | 'putzträger'
+  | 'schrägschnitt'
+  | 'antriebsart'
+  | 'antriebsseite'
+  | 'schallschutzmatte'
+  | 'verlängerung'
+  | 'rollladen'
+  | 'montageartRollladen'
+  | 'stahlkonsole'
+  | 'kastentiefe',
+  SelectionItem[]
+> = {
+  adapter: [
+    {
+      key: 'adapt1',
+      name: 'Adapter für Profil: Iglo 5,Iglo 5 Classic, Iglo Light',
+      image: soon,
+    },
+    {
+      key: 'adapt2',
+      name: 'Adapter für Profil: Iglo Energy,Iglo Energy Classic, Iglo EDGE',
+      image: soon,
+    },
+    {
+      key: 'adapt3',
+      name: 'Adapter universal für sonstige Syteme: Aluminium und diverse weitere Hersteller',
+      image: soon,
+    },
+  ],
+  revisionsöffnung: [
+    {
+      key: 'rvu',
+      name: 'Revision von unten',
+      image: soon,
+    },
+    {
+      key: 'rvdsi',
+      name: 'Revision von der Seite (innen)',
+      image: soon,
+    },
+    {
+      key: 'rvu_i',
+      name: 'Revision von unten + Insektenschutz',
+      image: soon,
+    },
+    {
+      key: 'rvdsi_i',
+      name: 'Revision von der Seite (innen) + Insektenschutz',
+      image: soon,
+    },
+    {
+      key: 'p_ms',
+      name: 'Pflicht (mecburi secenek)',
+      image: soon,
+    },
+  ],
+  lamellenart: [
+    {
+      key: 'l37',
+      name: 'Lamelle: 37mm ALU',
+      image: soon,
+    },
+    {
+      key: 'ot',
+      name: 'Ohne Teilung',
+      image: soon,
+    },
+    {
+      key: '2t',
+      name: '2 Teilung',
+      image: soon,
+    },
+    {
+      key: '2tlkrl',
+      name: '2 Teilung links kurz rechts lang',
+      image: soon,
+    },
+    {
+      key: '2tllrk',
+      name: '2 Teilung links lang rechts kurz',
+      image: soon,
+    },
+    {
+      key: '3t',
+      name: '3 Teilung',
+      image: soon,
+    },
+  ],
+  farbeRollladenkasten: [
+    {
+      key: 'default',
+      name: 'Nein = Weiß',
+      image: soon,
+    },
+  ],
+  farbeRollladenPanzer: [
+    { key: 'silber', name: 'Silber', image: soon },
+    { key: 'weiss', name: 'Weiß', image: soon },
+    { key: 'grau', name: 'Grau', image: soon },
+    { key: 'braun', name: 'Braun', image: soon },
+    { key: 'dunkelbraun', name: 'Dunkelbraun', image: soon },
+    { key: 'golden_oak', name: 'Golden Oak', image: soon },
+    { key: 'nussbaum', name: 'Nussbaum', image: soon },
+    { key: 'anthrazit', name: 'Anthrazit', image: soon },
+    { key: 'moosgruen', name: 'Moosgrün', image: soon },
+    { key: 'braun_metallic', name: 'Braun Metallic', image: soon },
+    { key: 'grau_aluminium', name: 'Grau Aluminium', image: soon },
+    { key: 'reine', name: 'Reine', image: soon },
+  ],
+  farbeEndschiene: [
+    { key: 'silber', name: 'Silber', image: soon },
+    { key: 'weiss', name: 'Weiß', image: soon },
+    { key: 'grau', name: 'Grau', image: soon },
+    { key: 'braun', name: 'Braun', image: soon },
+    { key: 'dunkelbraun', name: 'Dunkelbraun', image: soon },
+    { key: 'golden_oak', name: 'Golden Oak', image: soon },
+    { key: 'nussbaum', name: 'Nussbaum', image: soon },
+    { key: 'anthrazit', name: 'Anthrazit', image: soon },
+    { key: 'moosgruen', name: 'Moosgrün', image: soon },
+    { key: 'braun_metallic', name: 'Braun Metallic', image: soon },
+    { key: 'grau_aluminium', name: 'Grau Aluminium', image: soon },
+    { key: 'reine', name: 'Reine', image: soon },
+  ],
+  putzträger: [
+    { key: 'nein', name: 'Nein', image: soon },
+    { key: 'innen', name: 'Innen', image: soon },
+    { key: 'aussen', name: 'Außen', image: soon },
+    { key: 'beidseitig', name: 'Beidseitig', image: soon },
+  ],
+  schrägschnitt: [
+    { key: 'nein', name: 'Nein', image: soon },
+    { key: '5grad', name: '5°', image: soon },
+    { key: '7grad', name: '7°', image: soon },
+  ],
+  antriebsart: [
+    { key: 'gurt', name: 'Gurt', image: soon },
+    { key: 'motor', name: 'Motor', image: soon },
+    { key: 'kurbel', name: 'Kurbel', image: soon },
+    { key: 'pflicht', name: 'Pflicht', image: soon },
+  ],
+  antriebsseite: [
+    { key: 'links', name: 'Links', image: soon },
+    { key: 'rechts', name: 'Rechts', image: soon },
+  ],
+  schallschutzmatte: [
+    { key: 'nein', name: 'Nein', image: no },
+    { key: 'ja', name: 'Ja', image: yes },
+  ],
+  verlängerung: [],
+  rollladen: [
+    { key: 'nein', name: 'Nein', image: no },
+    { key: 'ja', name: 'Ja', image: yes },
+  ],
+  montageartRollladen: [
+    { key: 'mrf', name: 'Montage des Rollladenkastens auf dem Fenster', image: soon },
+    { key: 'mrv', name: 'Montage des Rollladenkastens bündig mit der Verbreiterung', image: soon }
+  ],
+  stahlkonsole: [
+    { key: 'nein', name: 'Nein', image: no },
+    { key: 'ja', name: 'Ja', image: yes },
+  ],
+  kastentiefe: [
+    { key: '300', name: '300mm', image: soon },
+    { key: '365', name: '365mm', image: soon },
+  ]
+};
+
+//
+// all items
+//
+export const categoryItems = [
+  { key: 'material', items: materials },
+  { key: 'brand', items: brands },
+  { key: 'style', items: windowStyles },
+  { key: 'cover', items: covers },
+  { key: 'colorExt', items: farbenOptions.colorExt },
+  { key: 'colorInt', items: farbenOptions.colorInt },
+  { key: 'dichtungAussen', items: farbenOptions.dichtungAussen },
+  { key: 'dichtungInnen', items: farbenOptions.dichtungInnen },
+  { key: 'sealInt', items: farbenOptions.sealInt },
+  { key: 'fenstergriffe', items: farbenOptions.fenstergriffe },
+  { key: 'glasspaket', items: verglasung.glasspaket },
+  { key: 'ornament', items: verglasung.ornament },
+  { key: 'sicherheitsverglasung', items: verglasung.sicherheitsverglasung },
+  { key: 'schallschutz', items: verglasung.schallschutz },
+  { key: 'sprossen', items: [] },
+  { key: 'druckausgleichsventil', items: verglasung.druckausgleichsventil },
+  { key: 'adapter', items: sonnenschutzItems.adapter },
+  { key: 'revisionsöffnung', items: sonnenschutzItems.revisionsöffnung },
+  { key: 'lamellenart', items: sonnenschutzItems.lamellenart },
+  { key: 'farbeRollladenkasten', items: sonnenschutzItems.farbeRollladenkasten },
+  { key: 'farbeRollladenPanzer', items: sonnenschutzItems.farbeRollladenPanzer },
+  { key: 'farbeEndschiene', items: sonnenschutzItems.farbeEndschiene },
+  { key: 'putzträger', items: sonnenschutzItems.putzträger },
+  { key: 'schrägschnitt', items: sonnenschutzItems.schrägschnitt },
+  { key: 'antriebsart', items: sonnenschutzItems.antriebsart },
+  { key: 'antriebsseite', items: sonnenschutzItems.antriebsseite },
+  { key: 'schallschutzmatte', items: sonnenschutzItems.schallschutzmatte },
+  { key: 'verlängerung', items: sonnenschutzItems.verlängerung },
+  { key: 'rollladen', items: sonnenschutzItems.rollladen },
+  { key: 'montageartRollladen', items: sonnenschutzItems.montageartRollladen },
+  { key: 'stahlkonsole', items: sonnenschutzItems.stahlkonsole },
+  { key: 'kastentiefe', items: sonnenschutzItems.kastentiefe }
+
+];
+
+//
+// initial deafult configuration
+//
+export const initialConfiguration: Config = {
+  material: materials[0],
+  brand: brands[0],
+  profile: brands[0].children!.profile!['Kunststoff (PVC)'][0],
+  style: windowStyles[0],
+  type: windowStyles[0].children!.type![0]!,
+  cover: covers[0],
+  size: initialSize,
+  colorExt: farbenOptions.colorExt[0],
+  colorInt: farbenOptions.colorInt[0],
+  dichtungAussen: farbenOptions.dichtungAussen[0],
+  dichtungInnen: farbenOptions.dichtungInnen[0],
+  sealInt: farbenOptions.sealInt[0],
+  glasspaket: verglasung.glasspaket[0],
+  glasspaketWarmeKante: 'Nein',
+  ornament: verglasung.ornament[0],
+  sicherheitsverglasung: verglasung.sicherheitsverglasung[0],
+  schallschutz: verglasung.schallschutz[0],
+  sprossen: 'Nein',
+  druckausgleichsventil: verglasung.druckausgleichsventil[0],
+};

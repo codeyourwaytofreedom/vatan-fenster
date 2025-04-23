@@ -1,22 +1,37 @@
 import {
+  faAngleDown,
   faArrowsAltH,
+  faArrowsLeftRight,
+  faBars,
   faBorderAll,
+  faBrush,
+  faColonSign,
   faCopyright,
   faCropSimple,
+  faDrawPolygon,
+  faEarDeaf,
+  faExpandAlt,
   faFlask,
+  faGear,
   faHandHolding,
   faLayerGroup,
   faMaximize,
   faPaintBrush,
   faPaintRoller,
   faPalette,
+  faRuler,
+  faScrewdriver,
+  faShapes,
   faShieldAlt,
+  faShieldHalved,
   faSignsPost,
+  faSmile,
   faSun,
   faToolbox,
   faTools,
   faVolumeMute,
   faWindowMaximize,
+  faWrench,
 } from '@fortawesome/free-solid-svg-icons';
 import { GroupKey, Step } from '@/types/Configurator';
 import StepGlassPaket from '@/components/StepGlassPaket/StepGlassPaket';
@@ -128,6 +143,182 @@ export const steps: Record<GroupKey | string, Step[]> = {
       icon: faArrowsAltH,
     },
   ],
-  sonnenschutz: [],
   zusätze: [],
+  sonnenschutz: [],
+};
+
+
+const _215_175 = [
+  {
+    key: 'adapter',
+    name: 'Adapter',
+    icon: faTools,
+  },
+  {
+    key: 'revisionsöffnung',
+    name: 'Revisionsöffnung',
+    icon: faWrench,
+  },
+  {
+    key: 'lamellenart',
+    name: 'Lamellenart',
+    icon: faBars,
+  },
+  {
+    key: 'farbeRollladenkasten',
+    name: 'Farbe Rollladenkasten',
+    icon: faColonSign,
+  },
+  {
+    key: 'farbeRollladenPanzer',
+    name: 'Farbe Rollladenpanzer',
+    icon: faColonSign,
+  },
+  {
+    key: 'farbeEndschiene',
+    name: 'Farbe Endschiene',
+    icon: faColonSign,
+  },
+  {
+    key: 'putzträger',
+    name: 'Putzträger',
+    icon: faBrush,
+  },
+  {
+    key: 'schrägschnitt',
+    name: 'Schrägschnitt',
+    icon: faAngleDown,
+  },
+  {
+    key: 'antriebsart',
+    name: 'Antriebsart',
+    icon: faGear,
+  },
+  {
+    key: 'antriebsseite',
+    name: 'Antriebsseite',
+    icon: faArrowsLeftRight,
+  },
+  {
+    key: 'schallschutzmatte',
+    name: 'Schallschutzmatte',
+    icon: faEarDeaf,
+  },
+  {
+    key: 'verlängerung',
+    name: 'Verlängerung',
+    icon: faExpandAlt,
+  },
+  {
+    key: 'rollladen',
+    name: 'Rollladen',
+    icon: faWindowMaximize,
+  },
+  {
+    key: 'montageartRollladen',
+    name: 'Montageart Rollladen',
+    icon: faScrewdriver,
+  },
+  {
+    key: 'stahlkonsole',
+    name: 'Montageart Stahlkonsole',
+    icon: faShieldHalved,
+  }
+];
+
+
+export const sonnenschutzStepPacks: Record<
+  | 'auf215'
+  | 'auf175'
+  | 'styroporkasten'
+  | 'vorsatzrollladen'
+  | 'aufStyroporkasten'
+  | 'vorsatzraffstore',
+  Step[]
+> = {
+  auf215: _215_175,
+  auf175: _215_175,
+  styroporkasten: [
+    {
+      key: 'kastentiefe',
+      name: 'Kastentiefe',
+      icon: faRuler,
+    },
+    {
+      key: 'revisionsöffnung',
+      name: 'Revisionsöffnung',
+      icon: faWrench,
+    },
+    {
+      key: 'lamellenart',
+      name: 'Lamellenart',
+      icon: faBars,
+    },
+    {
+      key: 'farbeFührungsschiene',
+      name: 'Farbe Führungsschiene',
+      icon: faColonSign,
+    },
+    {
+      key: 'farbeRollladenPanzer',
+      name: 'Farbe Rollladenpanzer',
+      icon: faColonSign,
+    },
+    {
+      key: 'farbeEndschiene',
+      name: 'Farbe Endschiene',
+      icon: faColonSign,
+    },
+    {
+      key: 'putzträger',
+      name: 'Putzträger',
+      icon: faBrush,
+    },
+    {
+      key: 'schrägschnitt',
+      name: 'Schrägschnitt',
+      icon: faAngleDown,
+    },
+    {
+      key: 'antriebsart',
+      name: 'Antriebsart',
+      icon: faGear,
+    },
+    {
+      key: 'antriebsseite',
+      name: 'Antriebsseite',
+      icon: faArrowsLeftRight,
+    },
+    {
+      key: 'verlängerung',
+      name: 'Verlängerung',
+      icon: faExpandAlt,
+    }
+  ],
+  vorsatzrollladen: [
+    {
+      key: 'ki',
+      name: 'Kastenform und Insektenschutz',
+      icon: faShapes,
+    },
+    {
+      key: 'mk',
+      name: 'Maße und Kastenart',
+      icon: faDrawPolygon,
+    },
+  ],
+  aufStyroporkasten: [
+    {
+      key: 'aufStyroporkasten',
+      name: 'AufStyroporkasten',
+      icon: faSmile,
+    },
+  ],
+  vorsatzraffstore: [
+    {
+      key: 'vorsatzraffstore',
+      name: 'Vorsatzraffstore',
+      icon: faSmile,
+    },
+  ],
 };
