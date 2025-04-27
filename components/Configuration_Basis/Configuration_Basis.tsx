@@ -244,7 +244,7 @@ export default function Basis_Configuration() {
           <span>BASISKONFIGURATION</span>
         </button>
       </div>
-      {currentGroup === 'basis' && <Stepper steps={steps.basis} configuration={configuration} />}
+      {currentGroup === 'basis' && <Stepper />}
       {currentGroup === 'basis' && (
         <div className={style.group}>
           <div className={style.config_wrapper}>

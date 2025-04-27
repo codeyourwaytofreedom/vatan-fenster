@@ -1,0 +1,103 @@
+import { useEffect, useRef, useState } from 'react';
+import OptionHolder from '../Product_Holder/Option_Holder';
+import style from './DoubleStepper.module.css';
+import { DobuleSelection, DoubleStepperProps } from '@/types/Configurator';
+import GroupBottomActions from '../GroupBottomActions/GroupBottomActions';
+import { useConfiguration } from '@/context/ConfigurationContext';
+import { SelectionItem } from '@/data/configuration_options';
+
+export default function DoubleStepper({
+  categoryItems,
+  subCategoryItems,
+  configurationKey,
+}: DoubleStepperProps) {
+  const { configuration, moveToNextStep, setConfiguration } = useConfiguration();
+  //const [expanded, setExpanded] = useState(false);
+
+  const [selection, setSelection] = useState<DobuleSelection>(
+    configuration[configurationKey] as DobuleSelection
+  );
+  const items = useRef<HTMLDivElement>(null);
+
+  const categorySelected = (item: SelectionItem) => selection?.category?.key === item.key;
+  const subCategorySelected = (item: SelectionItem) => selection?.subCategory?.key === item.key;
+
+  const itemsToDisplay = subCategoryItems[selection?.category?.key];
+  const expandable = itemsToDisplay?.length > 5;
+
+  const [expanded, setExpanded] = useState(false);
+
+  const handleSelectCategory = (item: SelectionItem) => {
+    setSelection(() => {
+      return {
+        category: item,
+        subCategory: subCategoryItems[item.key][0],
+      };
+    });
+    setTimeout(() => {
+      items?.current?.scrollIntoView({ behavior: 'smooth' });
+    }, 300);
+  };
+
+  const handleSelectSubCategory = (item: SelectionItem) => {
+    setSelection(() => {
+      return {
+        category: selection.category,
+        subCategory: item,
+      };
+    });
+    moveToNextStep();
+  };
+
+  useEffect(() => {
+    if (!Boolean(selection)) {
+      setSelection(() => {
+        return {
+          category: categoryItems[0],
+          subCategory: subCategoryItems[categoryItems[0].key][0],
+        };
+      });
+    } else {
+      setConfiguration((pr) => {
+        return {
+          ...pr,
+          [configurationKey]: selection,
+        };
+      });
+    }
+  }, [selection]);
+
+  return (
+    <>
+      <div className={style.config_wrapper_option_holders}>
+        {categoryItems
+          ?.slice(0, !expanded ? 5 : categoryItems.length)
+          .map((item, index) => (
+            <OptionHolder
+              key={index}
+              item={item}
+              selected={categorySelected(item)}
+              action={() => handleSelectCategory(item)}
+            />
+          ))}
+      </div>
+      <br />
+      <div className={style.config_wrapper_option_holders} ref={items}>
+        {itemsToDisplay
+          ?.slice(0, !expanded ? 5 : itemsToDisplay.length)
+          .map((item, index) => (
+            <OptionHolder
+              key={index}
+              item={item}
+              selected={subCategorySelected(item)}
+              action={() => handleSelectSubCategory(item)}
+            />
+          ))}
+      </div>
+      <GroupBottomActions
+        expandAction={setExpanded ? () => setExpanded(true) : () => {}}
+        expandable={expandable}
+      />
+    </>
+  );
+}

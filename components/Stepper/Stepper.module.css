@@ -2,13 +2,18 @@
   overflow: hidden;
   position: relative;
 }
-.stepWrapper #test {
+.stepWrapper #leftArrow,
+.stepWrapper #rightArrow {
   background-color: crimson;
   color: wheat;
   position: absolute;
   right: 0;
-  top: 0;
-  display: none;
+  top: 10%;
+}
+.stepWrapper #leftArrow {
+  right: unset;
+  left: 0;
+  background-color: orange;
 }
 
 .config_steps {
@@ -16,6 +21,7 @@
   margin-bottom: 30px;
   height: 40px;
   position: relative;
+  border-right: 3px solid green;
   overflow: scroll;
   width: 100%;
 }
@@ -55,14 +61,6 @@
   left: 46%;
   color: var(--color-1);
   display: none;
-}
-.config_steps .complete #end,
-.config_steps .next #end,
-.config_steps .inactive #end,
-.config_steps .selected_next #end,
-.config_steps .selected_complete #end {
-  position: absolute;
-  right: 0;
 }
 .config_steps .selected_next {
   font-weight: bold;

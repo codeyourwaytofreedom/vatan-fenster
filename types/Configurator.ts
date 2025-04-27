@@ -1,4 +1,3 @@
-import { GlassPaketProps } from '@/components/StepGlassPaket/StepGlassPaket';
 import { SelectionItem } from '@/data/configuration_options';
 import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { StaticImageData } from 'next/image';
@@ -56,10 +55,16 @@ export interface Config {
   druckausgleichsventil: SelectionItem;
   adapter?: SelectionItem;
   revisionsöffnung?: SelectionItem;
-  lamellenart?: SelectionItem;
+  lamellenart?: {
+    category: SelectionItem;
+    subCategory: SelectionItem;
+  };
+  verlangerung?: number;
+  antriebsart?: SelectionItem;
   farbeRollladenkasten?: SelectionItem;
   farbeRollladenPanzer?: SelectionItem;
   farbeEndschiene?: SelectionItem;
+  farbeFührungsschiene?: SelectionItem;
   putzträger?: SelectionItem;
   schrägschnitt?: SelectionItem;
   multiWidth?: Record<string, number>;
@@ -67,6 +72,11 @@ export interface Config {
   obenMultiWidth?: Record<string, number>;
   untenMultiWidth?: Record<string, number>;
 }
+
+export type DobuleSelection = {
+  category: SelectionItem;
+  subCategory: SelectionItem;
+};
 
 export interface ExtraConfig {
   colorExt: string;
@@ -82,12 +92,28 @@ export interface Summary {
   summaryItem: { name?: string; image?: StaticImageData; detail?: Size | null };
 }
 
-export interface Step<TProps = GlassPaketProps> {
+export interface DoubleStepperProps {
+  categoryItems: SelectionItem[];
+  subCategoryItems: Record<string, SelectionItem[]>;
+  configurationKey: keyof Config;
+}
+
+export interface StepWithoutProps {
+  key: string;
+  name: string;
+  icon: IconDefinition;
+  yesNo?: boolean;
+}
+
+export interface StepWithProps<TProps = unknown> {
   key: string;
   name: string;
   icon: IconDefinition;
   yesNo?: boolean;
   component?: ComponentType<TProps>;
+  props?: TProps;
 }
+
+export type Step = StepWithoutProps | StepWithProps<DoubleStepperProps>;
 
 export type GroupKey = 'basis' | 'farben' | 'verglasung' | 'sonnenschutz' | 'zusätze';

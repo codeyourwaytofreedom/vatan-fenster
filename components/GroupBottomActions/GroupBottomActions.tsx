@@ -4,9 +4,9 @@ import style from './GroupBottomActions.module.css';
 
 interface ActionsProps {
   expandable: boolean;
-  isLastStep: boolean;
+  isLastStep?: boolean;
   expandAction: () => void;
-  nextGroupAction: () => void;
+  nextGroupAction?: () => void;
 }
 export default function GroupBottomActions({
   expandable,

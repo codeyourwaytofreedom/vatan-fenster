@@ -1,4 +1,4 @@
-import { Config, Step } from '@/types/Configurator';
+import { Config, Step, StepWithProps } from '@/types/Configurator';
 import style from '../../styles/KonfiguratorPage.module.css';
 import Stepper from '../Stepper/Stepper';
 import OptionHolder from '../Product_Holder/Option_Holder';
@@ -6,7 +6,6 @@ import { categoryItems, SelectionItem } from '@/data/configuration_options';
 import { useEffect, useState } from 'react';
 import { useConfiguration } from '@/context/ConfigurationContext';
 import GroupBottomActions from '../GroupBottomActions/GroupBottomActions';
-import { sonnenschutzStepPacks } from '@/data/steps';
 
 export default function Sonnenschutz_Group() {
   const isSelected = (name: string) => {
@@ -20,13 +19,13 @@ export default function Sonnenschutz_Group() {
     currentStep,
     currentGroup,
     configuration,
+    currentStepGroup,
     setCurrentStep,
     setCurrentGroup,
     setConfiguration,
     moveToNextStep,
   } = useConfiguration();
 
-  const [dynamicSonnenschutzSteps, setDynamicSonnenschutzSteps] = useState<Step[]>([]);
   const visibleSection = categoryItems.find((cat) => cat.key === currentStep?.key);
 
   const [itemsToDisplay, setItemsToDisplay] = useState<SelectionItem[]>();
@@ -44,10 +43,7 @@ export default function Sonnenschutz_Group() {
 
   useEffect(() => {
     if (groupActive) {
-      console.log(configuration.cover.key);
-      const validSteps = getValidSteps(configuration.cover.key);
-      setDynamicSonnenschutzSteps(validSteps);
-      setCurrentStep(validSteps[0]);
+      setCurrentStep(currentStepGroup[0]);
     }
   }, [groupActive]);
 
@@ -74,18 +70,13 @@ export default function Sonnenschutz_Group() {
     moveToNextStep();
   };
 
-  function getValidSteps(key: string) {
-    const validSteps = sonnenschutzStepPacks[key as keyof typeof sonnenschutzStepPacks] || [];
-    return validSteps;
-  }
-
-  const handleMoveNextGroup = () => {
-    alert('no next group for now');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
   const handleExpand = () => {
     setExpandedSteps([...expandedSteps, currentStep?.key || '']);
+  };
+
+  const Component = (currentStep as StepWithProps)?.component;
+  const stepHasCustomComponent = (step: Step): step is StepWithProps => {
+    return step && 'component' in step && step.component !== undefined;
   };
 
   if (coverNotAvailable) return null;
@@ -99,30 +90,31 @@ export default function Sonnenschutz_Group() {
       </div>
       {groupActive && (
         <div>
-          {<Stepper steps={dynamicSonnenschutzSteps} configuration={configuration} />}
+          {<Stepper />}
           <div className={style.group}>
-            <>
-              <div className={style.config_wrapper}>
-                <div className={style.config_wrapper_option_holders}>
-                  {itemsToDisplay
-                    ?.slice(0, !expanded ? 5 : itemsToDisplay.length)
-                    .map((item, index) => (
-                      <OptionHolder
-                        key={index}
-                        item={item}
-                        selected={isSelected(item.name)}
-                        action={() => updateConfiguration(item)}
-                      />
-                    ))}
+            {Component && stepHasCustomComponent(currentStep!) && currentStep?.props ? (
+              <Component {...currentStep?.props} />
+            ) : Component ? (
+              <Component />
+            ) : (
+              <>
+                <div className={style.config_wrapper}>
+                  <div className={style.config_wrapper_option_holders}>
+                    {itemsToDisplay
+                      ?.slice(0, !expanded ? 5 : itemsToDisplay.length)
+                      .map((item, index) => (
+                        <OptionHolder
+                          key={index}
+                          item={item}
+                          selected={isSelected(item.name)}
+                          action={() => updateConfiguration(item)}
+                        />
+                      ))}
+                  </div>
                 </div>
-              </div>
-              <GroupBottomActions
-                expandable={Boolean(expandable)}
-                expandAction={handleExpand}
-                isLastStep={true}
-                nextGroupAction={handleMoveNextGroup}
-              />
-            </>
+                <GroupBottomActions expandable={Boolean(expandable)} expandAction={handleExpand} />
+              </>
+            )}
           </div>
         </div>
       )}

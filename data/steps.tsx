@@ -8,6 +8,7 @@ import {
   faColonSign,
   faCopyright,
   faCropSimple,
+  faCubes,
   faDrawPolygon,
   faEarDeaf,
   faExpandAlt,
@@ -26,6 +27,7 @@ import {
   faShieldHalved,
   faSignsPost,
   faSmile,
+  faSnowflake,
   faSun,
   faToolbox,
   faTools,
@@ -34,9 +36,20 @@ import {
   faWrench,
 } from '@fortawesome/free-solid-svg-icons';
 import { GroupKey, Step } from '@/types/Configurator';
-import StepGlassPaket from '@/components/StepGlassPaket/StepGlassPaket';
 import StepSprossen from '@/components/StepSprossen/StepSprossen';
 import Fenstergriffe from '@/components/StepFenstergriffe/Fenstergriffe';
+import PlaceHolder from '@/components/PlaceHolder/PlaceHolder';
+import DoubleStepper from '@/components/DoubleStepper/DoubleStepper';
+import {
+  _215_175_antriebsartProps,
+  _215_175_LamelleatProps,
+  _215_175_putzträgerProps,
+  aufStyroporkasten_farbeFührungsschieneProps,
+  styroporkasten_antriebsartProps,
+  styroporkasten_LamelleatProps,
+  vorsatzrollladen_putzträgerProps,
+} from './configuration_options';
+import StepVerlängerung from '@/components/StepVerlängerung/StepVerlängerung';
 
 export const steps: Record<GroupKey | string, Step[]> = {
   basis: [
@@ -114,7 +127,7 @@ export const steps: Record<GroupKey | string, Step[]> = {
       key: 'glasspaket',
       name: 'Glaspaket',
       icon: faLayerGroup,
-      component: StepGlassPaket,
+      //component: StepGlassPaket,
     },
     {
       key: 'ornament',
@@ -147,8 +160,7 @@ export const steps: Record<GroupKey | string, Step[]> = {
   sonnenschutz: [],
 };
 
-
-const _215_175 = [
+const _215_175: Step[] = [
   {
     key: 'adapter',
     name: 'Adapter',
@@ -163,11 +175,14 @@ const _215_175 = [
     key: 'lamellenart',
     name: 'Lamellenart',
     icon: faBars,
+    component: DoubleStepper,
+    props: { ..._215_175_LamelleatProps, configurationKey: 'lamellenart' },
   },
   {
     key: 'farbeRollladenkasten',
     name: 'Farbe Rollladenkasten',
     icon: faColonSign,
+    component: PlaceHolder,
   },
   {
     key: 'farbeRollladenPanzer',
@@ -181,8 +196,13 @@ const _215_175 = [
   },
   {
     key: 'putzträger',
-    name: 'Putzträger',
+    name: 'Putzträger & Putzschiene',
     icon: faBrush,
+    component: DoubleStepper,
+    props: {
+      ..._215_175_putzträgerProps,
+      configurationKey: 'putzträger',
+    },
   },
   {
     key: 'schrägschnitt',
@@ -193,6 +213,11 @@ const _215_175 = [
     key: 'antriebsart',
     name: 'Antriebsart',
     icon: faGear,
+    component: DoubleStepper,
+    props: {
+      configurationKey: 'antriebsart',
+      ..._215_175_antriebsartProps,
+    },
   },
   {
     key: 'antriebsseite',
@@ -208,6 +233,7 @@ const _215_175 = [
     key: 'verlängerung',
     name: 'Verlängerung',
     icon: faExpandAlt,
+    component: StepVerlängerung,
   },
   {
     key: 'rollladen',
@@ -223,9 +249,8 @@ const _215_175 = [
     key: 'stahlkonsole',
     name: 'Montageart Stahlkonsole',
     icon: faShieldHalved,
-  }
+  },
 ];
-
 
 export const sonnenschutzStepPacks: Record<
   | 'auf215'
@@ -240,7 +265,7 @@ export const sonnenschutzStepPacks: Record<
   auf175: _215_175,
   styroporkasten: [
     {
-      key: 'kastentiefe',
+      key: 'kastentiefeStyroporkasten',
       name: 'Kastentiefe',
       icon: faRuler,
     },
@@ -253,11 +278,82 @@ export const sonnenschutzStepPacks: Record<
       key: 'lamellenart',
       name: 'Lamellenart',
       icon: faBars,
+      component: DoubleStepper,
+      props: {
+        ...styroporkasten_LamelleatProps,
+        configurationKey: 'lamellenart',
+      },
     },
     {
       key: 'farbeFührungsschiene',
       name: 'Farbe Führungsschiene',
       icon: faColonSign,
+      component: PlaceHolder,
+    },
+    {
+      key: 'farbeRollladenPanzer',
+      name: 'Farbe Rollladenpanzer',
+      icon: faColonSign,
+    },
+    {
+      key: 'farbeEndschiene',
+      name: 'Farbe Endschiene',
+      icon: faColonSign,
+    },
+    {
+      key: 'putzträgerStyroporkasten',
+      name: 'Putzträger',
+      icon: faBrush,
+    },
+    {
+      key: 'schrägschnitt',
+      name: 'Schrägschnitt',
+      icon: faAngleDown,
+    },
+    {
+      key: 'antriebsart',
+      name: 'Antriebsart',
+      icon: faGear,
+      component: DoubleStepper,
+      props: {
+        ...styroporkasten_antriebsartProps,
+        configurationKey: 'antriebsart',
+      },
+    },
+    {
+      key: 'antriebsseite',
+      name: 'Antriebsseite',
+      icon: faArrowsLeftRight,
+    },
+    {
+      key: 'verlängerung',
+      name: 'Verlängerung',
+      icon: faExpandAlt,
+      component: StepVerlängerung,
+    },
+  ],
+  vorsatzrollladen: [
+    {
+      key: 'kastenform',
+      name: 'Kastenform und Insektenschutz',
+      icon: faShapes,
+    },
+    {
+      key: 'mk',
+      name: 'Maße und Kastenart',
+      icon: faDrawPolygon,
+      component: PlaceHolder,
+    },
+    {
+      key: 'lamellenartVorsatzrollladen',
+      name: 'Lamellenart',
+      icon: faBars,
+    },
+    {
+      key: 'farbeRollladenkasten',
+      name: 'Farbe Rollladenkasten',
+      icon: faColonSign,
+      component: PlaceHolder,
     },
     {
       key: 'farbeRollladenPanzer',
@@ -273,14 +369,66 @@ export const sonnenschutzStepPacks: Record<
       key: 'putzträger',
       name: 'Putzträger',
       icon: faBrush,
+      component: DoubleStepper,
+      props: {
+        configurationKey: 'putzträger',
+        ...vorsatzrollladen_putzträgerProps,
+      },
     },
     {
-      key: 'schrägschnitt',
-      name: 'Schrägschnitt',
-      icon: faAngleDown,
+      key: 'montageartVorsatzrollladen',
+      name: 'Montageart',
+      icon: faScrewdriver,
     },
     {
       key: 'antriebsart',
+      name: 'Antriebsart',
+      icon: faGear,
+      component: DoubleStepper,
+      props: {
+        configurationKey: 'antriebsart',
+        ...vorsatzrollladen_putzträgerProps,
+      },
+    },
+    {
+      key: 'antriebsseite',
+      name: 'Antriebsseite',
+      icon: faArrowsLeftRight,
+    },
+  ],
+  aufStyroporkasten: [
+    {
+      key: 'kastentiefeAufStyroporkasten',
+      name: 'Kastentiefe',
+      icon: faRuler,
+    },
+    {
+      key: 'lamellenartAufStyroporkasten',
+      name: 'Lamellenart',
+      icon: faBars,
+    },
+    {
+      key: 'farbeRaffstorelamelleAufStyroporkasten',
+      name: 'Farbe Raffstorelamelle',
+      icon: faBars,
+    },
+    {
+      key: 'farbeEndschieneAufStyroporkasten',
+      name: 'Farbe Endschiene',
+      icon: faColonSign,
+    },
+    {
+      key: 'farbeFührungsschiene',
+      name: 'Farbe Führungsschiene',
+      icon: faColonSign,
+      component: DoubleStepper,
+      props: {
+        configurationKey: 'farbeFührungsschiene',
+        ...aufStyroporkasten_farbeFührungsschieneProps,
+      },
+    },
+    {
+      key: 'antriebsartAufStyroporkasten',
       name: 'Antriebsart',
       icon: faGear,
     },
@@ -290,34 +438,25 @@ export const sonnenschutzStepPacks: Record<
       icon: faArrowsLeftRight,
     },
     {
-      key: 'verlängerung',
-      name: 'Verlängerung',
-      icon: faExpandAlt,
-    }
-  ],
-  vorsatzrollladen: [
-    {
-      key: 'ki',
-      name: 'Kastenform und Insektenschutz',
-      icon: faShapes,
+      key: 'kastendämmungAufStyroporkasten',
+      name: 'Kastendämmung',
+      icon: faSnowflake,
     },
     {
-      key: 'mk',
-      name: 'Maße und Kastenart',
-      icon: faDrawPolygon,
+      key: 'putzschieneAufStyroporkasten',
+      name: 'Putzschiene',
+      icon: faCubes,
     },
-  ],
-  aufStyroporkasten: [
     {
-      key: 'aufStyroporkasten',
-      name: 'AufStyroporkasten',
-      icon: faSmile,
+      key: 'führungsschieneAufStyroporkasten',
+      name: 'Führungsschiene',
+      icon: faColonSign,
     },
   ],
   vorsatzraffstore: [
     {
-      key: 'vorsatzraffstore',
-      name: 'Vorsatzraffstore',
+      key: 'empty',
+      name: 'Empty',
       icon: faSmile,
     },
   ],

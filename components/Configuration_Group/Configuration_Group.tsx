@@ -1,4 +1,4 @@
-import { Config, GroupKey, Step } from '@/types/Configurator';
+import { Config, GroupKey, Step, StepWithProps } from '@/types/Configurator';
 import style from '../../styles/KonfiguratorPage.module.css';
 import Stepper from '../Stepper/Stepper';
 import OptionHolder from '../Product_Holder/Option_Holder';
@@ -27,6 +27,7 @@ export default function Configuration_Group({ groupTitle, steps }: GroupProps) {
     currentStep,
     currentGroup,
     configuration,
+    isLastStepInGroup,
     setCurrentStep,
     setCurrentGroup,
     setConfiguration,
@@ -47,8 +48,6 @@ export default function Configuration_Group({ groupTitle, steps }: GroupProps) {
     currentStep &&
     itemsToDisplay.length > 5 &&
     !expandedSteps.includes(currentStep?.key);
-
-  const isLastStepInGroup = currentStep?.key === getValidSteps()[getValidSteps().length - 1]?.key;
 
   // determine what items are to be displayed for current step
   useEffect(() => {
@@ -80,31 +79,11 @@ export default function Configuration_Group({ groupTitle, steps }: GroupProps) {
     moveToNextStep();
   };
 
-  function getValidSteps() {
-    if (currentGroup === 'farben') {
-      let handleExists;
-      if ('option' in configuration.type) {
-        handleExists =
-          configuration.type.oben?.handleNumber && configuration.type.unten?.handleNumber;
-        if (!handleExists) {
-          return steps.filter((st) => st.key !== 'fenstergriffe');
-        }
-        return steps;
-      }
-      handleExists = (configuration.type as SelectionItem).handleNumber;
-      if (!handleExists) {
-        return steps.filter((st) => st.key !== 'fenstergriffe');
-      }
-      return steps;
-    }
-    return steps;
-  }
-
   const handleMoveNextGroup = () => {
     const coverNotAvailable = configuration.cover.key === 'nein';
     const groups: GroupKey[] = coverNotAvailable
       ? ['basis', 'farben', 'verglasung', 'zusätze']
-      : ['basis', 'farben', 'verglasung','zusätze','sonnenschutz',];
+      : ['basis', 'farben', 'verglasung', 'zusätze', 'sonnenschutz'];
     const currentGroupIndex = groups.indexOf(currentGroup);
     const nextGroup = groups[currentGroupIndex + 1];
     setCurrentGroup(nextGroup);
@@ -113,6 +92,10 @@ export default function Configuration_Group({ groupTitle, steps }: GroupProps) {
 
   const handleExpand = () => {
     setExpandedSteps([...expandedSteps, currentStep?.key || '']);
+  };
+
+  const stepHasCustomComponent = (step: Step): step is StepWithProps => {
+    return step && 'component' in step && step.component !== undefined;
   };
 
   if (coverNotAvailable) return null;
@@ -126,13 +109,13 @@ export default function Configuration_Group({ groupTitle, steps }: GroupProps) {
       </div>
       {groupActive && (
         <div>
-          {<Stepper steps={getValidSteps()} configuration={configuration} />}
+          {<Stepper />}
           <div className={style.group}>
-            {currentStep?.component === StepGlassPaket ? (
+            {currentStep?.key === 'glasspaket' ? (
               <StepGlassPaket items={itemsToDisplay || []} expanded={expanded!} />
-            ) : currentStep?.component === StepSprossen ? (
+            ) : stepHasCustomComponent(currentStep!) && currentStep?.component === StepSprossen ? (
               <StepSprossen />
-            ) : currentStep?.component === Fenstergriffe ? (
+            ) : stepHasCustomComponent(currentStep!) && currentStep?.component === Fenstergriffe ? (
               <Fenstergriffe />
             ) : (
               <>

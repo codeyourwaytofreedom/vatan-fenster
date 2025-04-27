@@ -1,0 +1,18 @@
+.container {
+  padding: 50px 30px;
+}
+.container h3 {
+  background-color: #ffa500;
+  color: white;
+  max-width: 1000px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.container input {
+  margin-top: 30px;
+  width: 100%;
+  max-width: 1000px;
+  cursor: pointer;
+} /*# sourceMappingURL=StepVerlängerung.module.css.map */
