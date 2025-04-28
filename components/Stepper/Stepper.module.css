@@ -1,19 +1,47 @@
 .stepWrapper {
   overflow: hidden;
   position: relative;
+  transition: all 0.1s ease-out;
 }
 .stepWrapper #leftArrow,
 .stepWrapper #rightArrow {
-  background-color: crimson;
   color: wheat;
   position: absolute;
   right: 0;
-  top: 10%;
+  top: 5%;
+  display: flex;
+  align-items: center;
+}
+.stepWrapper #leftArrow span,
+.stepWrapper #rightArrow span {
+  display: inline-block;
+  width: 10px;
+  height: 21px;
+  border-radius: 50%;
+  position: absolute;
+  right: 10px;
+  box-shadow: -9px 0 1px 10px white;
+  opacity: 0.95;
+  display: none;
+}
+.stepWrapper #leftArrow button,
+.stepWrapper #rightArrow button {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid var(--color-1);
+  background-color: white;
+  z-index: 4;
+  box-shadow: 0 0 1px 10px white;
 }
 .stepWrapper #leftArrow {
   right: unset;
   left: 0;
-  background-color: orange;
+}
+.stepWrapper #leftArrow span {
+  right: unset;
+  left: 10px;
+  box-shadow: 9px 0 1px 10px white;
 }
 
 .config_steps {
@@ -21,8 +49,7 @@
   margin-bottom: 30px;
   height: 40px;
   position: relative;
-  border-right: 3px solid green;
-  overflow: scroll;
+  overflow: hidden;
   width: 100%;
 }
 .config_steps .complete,
@@ -35,13 +62,12 @@
   align-items: center;
   justify-items: center;
   -moz-column-gap: 10px;
-  column-gap: 10px;
+       column-gap: 10px;
   font-size: calc(11px + 0.1vw);
   position: relative;
   padding: 5px 0;
   color: whitesmoke;
-  min-width: 150px;
-  max-width: 270px;
+  min-width: 170px;
 }
 .config_steps .complete svg,
 .config_steps .next svg,
@@ -115,4 +141,4 @@
 .previousStep:hover {
   background-color: var(--color-2);
   color: white;
-} /*# sourceMappingURL=Stepper.module.css.map */
+}/*# sourceMappingURL=Stepper.module.css.map */

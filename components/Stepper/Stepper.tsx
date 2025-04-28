@@ -3,7 +3,7 @@ import style from './Stepper.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useConfiguration } from '@/context/ConfigurationContext';
 import { useOrderDetailsReady } from '@/context/OrderDetailsContext';
-import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useRef, useState } from 'react';
 
 export default function Stepper() {
@@ -64,7 +64,8 @@ export default function Stepper() {
   const [showRightArrow, setShowRightArrow] = useState<boolean>(false);
   const [showLeftArrow, setShowLeftArrow] = useState<boolean>(false);
 
-  //const [scrollableDepth, setScrollableDepth] = useState<number>(0);
+  // scroll step size
+  const stepSize = 200;
 
   const stepsHolder = useRef<HTMLDivElement>(null);
 
@@ -135,7 +136,6 @@ export default function Stepper() {
   }, []);
 
   const handleRightArrowClick = () => {
-    const stepSize = 100;
     const scrollWidth = stepsHolder?.current?.scrollWidth;
     const actualWidth = stepsHolder?.current?.clientWidth;
     const currentScrollLeft = stepsHolder.current!.scrollLeft;
@@ -173,9 +173,43 @@ export default function Stepper() {
     }
   };
 
+  const handleLeftArrowClick = () => {
+    const scrollWidth = stepsHolder?.current?.scrollWidth;
+    const actualWidth = stepsHolder?.current?.clientWidth;
+    const currentScrollLeft = stepsHolder.current!.scrollLeft;
+  
+    let newScrollLeft;
+    // if already at the start
+    if (currentScrollLeft <= 0) {
+      newScrollLeft = 0;
+      setShowLeftArrow(false);
+      return;
+    }
+  
+    // if remaining scroll space to the left is less than stepSize
+    if (currentScrollLeft < stepSize) {
+      newScrollLeft = 0;
+      stepsHolder!.current!.scrollTo({ left: 0, behavior: 'smooth' });
+    } else {
+      newScrollLeft = currentScrollLeft - stepSize;
+      stepsHolder!.current!.scrollTo({ left: newScrollLeft, behavior: 'smooth' });
+    }
+  
+    // If after scrolling we're at the start, hide left arrow
+    if (newScrollLeft <= 0) {
+      setShowLeftArrow(false);
+    }
+  
+    // If we move away from the end, show right arrow
+    if (Number(newScrollLeft) + Number(actualWidth) < Number(scrollWidth)) {
+      setShowRightArrow(true);
+    }
+  };
+  
+
   return (
     <>
-      <div className={style.stepWrapper}>
+      <div className={style.stepWrapper} /* style={{paddingRight: showRightArrow ? 30 : 0, paddingLeft: showLeftArrow ? 30 : 0}} */>
         <div className={style.config_steps} ref={stepsHolder}>
           {steps.map((st, index) => (
             <button key={index} className={stepClass(st)} onClick={() => handleSetStep(st)}>
@@ -190,14 +224,26 @@ export default function Stepper() {
           ))}
         </div>
         {showRightArrow && (
-          <button id={style.rightArrow} onClick={handleRightArrowClick}>
-            Test
+          <div id={style.rightArrow}>
+            <span></span>
+            <button onClick={handleRightArrowClick}>
+            <FontAwesomeIcon
+                icon={faChevronRight}
+                color="black"
+              />
           </button>
+          </div>
         )}
         {showLeftArrow && (
-          <button id={style.leftArrow} onClick={() => alert('will implement logic')}>
-            Test
+          <div id={style.leftArrow}>
+                        <span></span>
+          <button onClick={handleLeftArrowClick}>
+                        <FontAwesomeIcon
+                icon={faChevronLeft}
+                color="black"
+              />
           </button>
+          </div>
         )}
         <button
           style={{ visibility: !isFirstStep ? 'visible' : 'hidden' }}

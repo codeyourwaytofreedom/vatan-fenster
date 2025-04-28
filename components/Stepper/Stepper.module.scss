@@ -6,18 +6,44 @@ $summary-shade: rgb(230, 227, 227);
   //border: 2px solid blue;
   overflow: hidden;
   position: relative;
+  transition: all 0.1s ease-out;
   #leftArrow,
   #rightArrow {
-    background-color: crimson;
     color: wheat;
     position: absolute;
     right: 0;
-    top: 10%;
+    top: 5%;
+    display: flex;
+    align-items: center;
+    span{
+      display: inline-block;
+      width: 10px;
+      height: 21px;
+      border-radius: 50%;
+      position: absolute;
+      right: 10px;
+      box-shadow: -9px 0 1px 10px white;
+      opacity: 0.95;
+      display: none;
+    }
+    button{
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 1px solid var(--color-1);
+      background-color: white;
+      z-index: 4;
+      box-shadow: 0 0 1px 10px white;
+    }
   }
   #leftArrow {
     right: unset;
     left: 0;
-    background-color: orange;
+    span{
+      right: unset;
+      left: 10px;
+      box-shadow: 9px 0 1px 10px white;
+    }
   }
 }
 .config_steps {
@@ -25,8 +51,7 @@ $summary-shade: rgb(230, 227, 227);
   margin-bottom: 30px;
   height: 40px;
   position: relative;
-  border-right: 3px solid green;
-  overflow: scroll;
+  overflow: hidden;
   width: 100%;
   .complete,
   .next,
@@ -42,8 +67,7 @@ $summary-shade: rgb(230, 227, 227);
     position: relative;
     padding: 5px 0;
     color: whitesmoke;
-    min-width: 150px;
-    max-width: 270px;
+    min-width: 170px;
     svg {
       filter: invert(100%);
     }
