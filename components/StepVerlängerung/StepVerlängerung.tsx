@@ -8,7 +8,9 @@ export default function StepVerlängerung() {
   const debounceTimeout = useRef<NodeJS.Timeout>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newLength = Number(e.target.value);
+    const value = e.target.value ? Number(e.target.value.replace(/^0+(?=\d)/, '')) : 0;
+    const newLength = value > 500 ? 500 : value;
+    e.target.value = value === 0 ? '' : value.toString();
     setLength(newLength);
 
     if (debounceTimeout.current) clearTimeout(debounceTimeout.current);
@@ -30,7 +32,10 @@ export default function StepVerlängerung() {
         <span>Rollladenführungsschienen ab 30 Lose Lieferung keine Montage möglichen</span>{' '}
       </h3>
       <input type="range" value={length} step={1} onChange={(e) => handleChange(e)} max={500} />
-      <h2>{length} mm</h2>
+      <div className={style.container_manual}>
+        <input type="number" value={length} onChange={(e) => handleChange(e)} max={500} />
+        <h4>mm</h4>
+      </div>
     </div>
   );
 }

@@ -6,7 +6,7 @@ import GroupBottomActions from '../GroupBottomActions/GroupBottomActions';
 import { useRef, useState } from 'react';
 
 export default function Fenstergriffe() {
-  const { configuration, setConfiguration, setCurrentGroup } = useConfiguration();
+  const { configuration, setConfiguration, setCurrentGroup, moveToNextStep } = useConfiguration();
   const handleOptions = farbenOptions.fenstergriffe;
   const subHandleOptions =
     fenstergriffeOptions[configuration.fenstergriffe?.type.key as keyof SelectionItem];
@@ -25,6 +25,10 @@ export default function Fenstergriffe() {
     setConfiguration((pr) => {
       return { ...pr, fenstergriffe: { type: configuration.fenstergriffe!.type, choice: item } };
     });
+    moveToNextStep();
+    setTimeout(() => {
+      window.scrollTo({top:0, behavior: 'smooth'});
+    }, 300);
   };
 
   const expandable = !expandedCategories.includes(configuration.fenstergriffe?.type.name as string);
@@ -43,7 +47,7 @@ export default function Fenstergriffe() {
       </div>
       <br />
       <div className={style.option_holders} ref={core}>
-        {subHandleOptions.slice(0, !expandable ? subHandleOptions.length : 5).map((item, key) => (
+        {subHandleOptions.slice(0, !expandable ? subHandleOptions.length : 10).map((item, key) => (
           <OptionHolder
             key={key}
             selected={configuration.fenstergriffe?.choice.key === item.key}

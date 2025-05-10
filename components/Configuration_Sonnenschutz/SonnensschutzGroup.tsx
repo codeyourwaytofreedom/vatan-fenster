@@ -101,7 +101,7 @@ export default function Sonnenschutz_Group() {
                 <div className={style.config_wrapper}>
                   <div className={style.config_wrapper_option_holders}>
                     {itemsToDisplay
-                      ?.slice(0, !expanded ? 5 : itemsToDisplay.length)
+                      ?.slice(0, !expanded ? 10 : itemsToDisplay.length)
                       .map((item, index) => (
                         <OptionHolder
                           key={index}

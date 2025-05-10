@@ -82,7 +82,7 @@ export default function StepGlassPaket({ items, expanded }: GlassPaketProps) {
         <div className={style.config_wrapper_subcategories}>
           <div className={style.config_wrapper_option_holders}>
             {items
-              ?.slice(0, !expanded ? 5 : items.length)
+              ?.slice(0, !expanded ? 10 : items.length)
               .map((item, index) => (
                 <OptionHolder
                   key={index}
@@ -99,7 +99,7 @@ export default function StepGlassPaket({ items, expanded }: GlassPaketProps) {
               <h2 id={style.complete}>Warmen Kante</h2>
               <div className={style.config_wrapper_option_holders} id={'warmeKante'}>
                 {warmenKante
-                  ?.slice(0, !expanded ? 5 : items.length)
+                  ?.slice(0, !expanded ? 10 : items.length)
                   .map((item, index) => (
                     <OptionHolder
                       key={index}

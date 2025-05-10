@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   -moz-column-gap: 10px;
-       column-gap: 10px;
+  column-gap: 10px;
   height: 50px;
   justify-content: center;
   position: relative;
@@ -31,4 +31,4 @@
   position: absolute;
   align-self: center;
   right: 10px;
-}/*# sourceMappingURL=GroupBottomActions.module.css.map */
+} /*# sourceMappingURL=GroupBottomActions.module.css.map */

@@ -10,9 +10,19 @@
   align-items: center;
   justify-content: center;
 }
-.container input {
+.container input[type='range'] {
   margin-top: 30px;
   width: 100%;
   max-width: 1000px;
   cursor: pointer;
-}/*# sourceMappingURL=StepVerlängerung.module.css.map */
+}
+.container_manual {
+  display: flex;
+  justify-content: center;
+  -moz-column-gap: 5px;
+  column-gap: 5px;
+  max-width: 1000px;
+}
+.container_manual input {
+  width: 50px;
+} /*# sourceMappingURL=StepVerlängerung.module.css.map */

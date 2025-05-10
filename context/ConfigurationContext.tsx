@@ -11,12 +11,16 @@ interface ConfigurationContextType {
   currentStepGroup: Step[];
   isLastStepInGroup: boolean;
   substyle: SubStyle;
+  previousStep: Step;
+  previousGroup: GroupKey;
   orderOfKeys: string[] | undefined;
   setConfiguration: React.Dispatch<React.SetStateAction<Config>>;
   setCurrentGroup: React.Dispatch<React.SetStateAction<GroupKey>>;
   setCurrentStep: React.Dispatch<React.SetStateAction<Step | null>>;
   setSubStyle: React.Dispatch<React.SetStateAction<SubStyle>>;
   moveToNextStep: () => void;
+  movePreviousGroup: () => void;
+  getStepsForGroup: (key: GroupKey) => Step[]
 }
 
 // Create the context with a default value
@@ -25,7 +29,7 @@ const ConfiurationContext = createContext<ConfigurationContextType | undefined>(
 // Provider component
 export const ConfigurationProvider = ({ children }: { children: ReactNode }) => {
   const [configuration, setConfiguration] = useState<Config>(initialConfiguration);
-  const [currentGroup, setCurrentGroup] = useState<GroupKey>('basis');
+  const [group, setCurrentGroup] = useState<GroupKey>('basis');
   const [currentStep, setCurrentStep] = useState<Step | null>(null);
   const [substyle, setSubStyle] = useState<SubStyle>(initialSubstyle);
 
@@ -36,42 +40,81 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
         ? ['unten', 'oben']
         : undefined;
 
-  const currentStepGroup = (() => {
+
+  const getStepsForGroup = (group:GroupKey ) => {
     // for sonnenschutz group, steps are built dynamically according to cover selection in Basis
-    if (currentGroup === 'sonnenschutz') {
+    if (group === 'sonnenschutz') {
       return (
         sonnenschutzStepPacks[configuration.cover.key as keyof typeof sonnenschutzStepPacks] || []
       );
     }
     // farben steps changge if the window type has no handle
-    if (currentGroup === 'farben') {
+    if (group === 'farben') {
       let handleExists;
       if ('option' in configuration.type) {
         handleExists =
           configuration.type.oben?.handleNumber && configuration.type.unten?.handleNumber;
         if (!handleExists) {
-          return steps[currentGroup].filter((st) => st.key !== 'fenstergriffe');
+          return steps[group].filter((st) => st.key !== 'fenstergriffe');
         }
       }
-      handleExists = (configuration.type as SelectionItem).handleNumber;
+      if(!Boolean('option' in configuration.type)){
+        handleExists = (configuration.type as SelectionItem).handleNumber;
+      }
       if (!handleExists) {
-        return steps[currentGroup].filter((st) => st.key !== 'fenstergriffe');
+        return steps[group].filter((st) => st.key !== 'fenstergriffe');
       }
     }
     // default steps for static groups
-    return steps[currentGroup];
-  })();
+    return steps[group];
+  };
 
-  const isLastStepInGroup = currentStep?.key === currentStepGroup[currentStepGroup.length - 1]?.key;
+  const currentStepPack = getStepsForGroup(group);
+
+
+  const isLastStepInGroup = currentStep?.key === currentStepPack[currentStepPack.length - 1]?.key;
+
+  const allGroups: GroupKey[] = ['basis', 'farben', 'verglasung', 'zusätze', 'sonnenschutz'];
+  const visibleGroups: GroupKey[] =
+    configuration.cover.key === 'nein' ? allGroups.filter((g) => g !== 'sonnenschutz') : allGroups;
+
+  const currentGroupIndex = visibleGroups.indexOf(group);
+  const previousGroup = visibleGroups[currentGroupIndex - 1];
+
+  const currentStepIndex = currentStepPack.indexOf(currentStep!);
+  const nextStep = currentStepPack[currentStepIndex + 1];
+  const previousStep = currentStepPack[currentStepIndex - 1];
+
+  const moveNextGroup = () => {
+    const currentGroupIndex = visibleGroups.indexOf(group);
+    const nextGroup = visibleGroups[currentGroupIndex + 1];
+    const nextGroupSteps = getStepsForGroup(nextGroup);
+    const firstStepInGroup = nextGroupSteps[0];
+    if (nextGroup) {
+      setTimeout(() => {
+        setCurrentGroup(nextGroup);
+        setCurrentStep(firstStepInGroup);
+      }, 300);
+    }
+  };
+
+  const movePreviousGroup = () => {
+    if (previousGroup) {
+      setTimeout(() => {
+        setCurrentGroup(previousGroup);
+      }, 300);
+    }
+  };
 
   const moveToNextStep = () => {
-    const currentStepIndex = currentStepGroup.indexOf(currentStep!);
-    const nextStep = currentStepGroup[currentStepIndex + 1];
     if (nextStep) {
       setTimeout(() => {
         setCurrentStep(nextStep);
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }, 300);
+    }
+    if (!nextStep) {
+      moveNextGroup();
     }
   };
 
@@ -80,16 +123,20 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
       value={{
         configuration,
         currentStep,
-        currentStepGroup,
+        currentStepGroup: currentStepPack,
         isLastStepInGroup,
-        currentGroup,
+        currentGroup: group,
         substyle,
         orderOfKeys,
+        previousStep,
+        previousGroup,
+        getStepsForGroup,
         setConfiguration,
         setCurrentStep,
         setCurrentGroup,
         setSubStyle,
         moveToNextStep,
+        movePreviousGroup,
       }}
     >
       {children}

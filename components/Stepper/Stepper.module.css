@@ -62,7 +62,7 @@
   align-items: center;
   justify-items: center;
   -moz-column-gap: 10px;
-       column-gap: 10px;
+  column-gap: 10px;
   font-size: calc(11px + 0.1vw);
   position: relative;
   padding: 5px 0;
@@ -141,4 +141,4 @@
 .previousStep:hover {
   background-color: var(--color-2);
   color: white;
-}/*# sourceMappingURL=Stepper.module.css.map */
+} /*# sourceMappingURL=Stepper.module.css.map */

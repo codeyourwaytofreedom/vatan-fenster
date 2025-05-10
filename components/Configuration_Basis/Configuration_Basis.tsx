@@ -33,6 +33,7 @@ export default function Basis_Configuration() {
     setCurrentGroup,
     setCurrentStep,
     moveToNextStep,
+    getStepsForGroup
   } = useConfiguration();
 
   const { setSize } = useOrderDetailsReady();
@@ -231,6 +232,8 @@ export default function Basis_Configuration() {
 
   const handleMoveNextGroup = () => {
     setCurrentGroup('farben');
+    const nextGroupSteps = getStepsForGroup('farben');
+    setCurrentStep(nextGroupSteps[0]);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 

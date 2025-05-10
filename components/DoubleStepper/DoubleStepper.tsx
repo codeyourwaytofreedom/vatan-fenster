@@ -23,7 +23,7 @@ export default function DoubleStepper({
   const subCategorySelected = (item: SelectionItem) => selection?.subCategory?.key === item.key;
 
   const itemsToDisplay = subCategoryItems[selection?.category?.key];
-  const expandable = itemsToDisplay?.length > 5;
+  const expandable = itemsToDisplay?.length > 10;
 
   const [expanded, setExpanded] = useState(false);
 
@@ -71,7 +71,7 @@ export default function DoubleStepper({
     <>
       <div className={style.config_wrapper_option_holders}>
         {categoryItems
-          ?.slice(0, !expanded ? 5 : categoryItems.length)
+          ?.slice(0, !expanded ? 10 : categoryItems.length)
           .map((item, index) => (
             <OptionHolder
               key={index}
@@ -84,7 +84,7 @@ export default function DoubleStepper({
       <br />
       <div className={style.config_wrapper_option_holders} ref={items}>
         {itemsToDisplay
-          ?.slice(0, !expanded ? 5 : itemsToDisplay.length)
+          ?.slice(0, !expanded ? 10 : itemsToDisplay.length)
           .map((item, index) => (
             <OptionHolder
               key={index}

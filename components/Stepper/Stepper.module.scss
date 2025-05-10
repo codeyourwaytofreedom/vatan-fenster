@@ -15,7 +15,7 @@ $summary-shade: rgb(230, 227, 227);
     top: 5%;
     display: flex;
     align-items: center;
-    span{
+    span {
       display: inline-block;
       width: 10px;
       height: 21px;
@@ -26,7 +26,7 @@ $summary-shade: rgb(230, 227, 227);
       opacity: 0.95;
       display: none;
     }
-    button{
+    button {
       width: 30px;
       height: 30px;
       border-radius: 50%;
@@ -39,7 +39,7 @@ $summary-shade: rgb(230, 227, 227);
   #leftArrow {
     right: unset;
     left: 0;
-    span{
+    span {
       right: unset;
       left: 10px;
       box-shadow: 9px 0 1px 10px white;

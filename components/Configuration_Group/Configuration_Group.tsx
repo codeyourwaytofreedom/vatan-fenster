@@ -32,6 +32,7 @@ export default function Configuration_Group({ groupTitle, steps }: GroupProps) {
     setCurrentGroup,
     setConfiguration,
     moveToNextStep,
+    getStepsForGroup
   } = useConfiguration();
 
   const visibleSection = categoryItems.find((cat) => cat.key === currentStep?.key);
@@ -46,7 +47,7 @@ export default function Configuration_Group({ groupTitle, steps }: GroupProps) {
   const expandable =
     itemsToDisplay &&
     currentStep &&
-    itemsToDisplay.length > 5 &&
+    itemsToDisplay.length > 10 &&
     !expandedSteps.includes(currentStep?.key);
 
   // determine what items are to be displayed for current step
@@ -57,11 +58,11 @@ export default function Configuration_Group({ groupTitle, steps }: GroupProps) {
     }
   }, [groupActive, visibleSection]);
 
-  useEffect(() => {
+/*   useEffect(() => {
     if (currentGroup === groupTitle) {
       setCurrentStep(steps[0]);
     }
-  }, [currentGroup, groupTitle]);
+  }, [currentGroup, groupTitle]); */
 
   const handleSelectGroup = () => {
     setCurrentGroup(groupTitle);
@@ -87,6 +88,8 @@ export default function Configuration_Group({ groupTitle, steps }: GroupProps) {
     const currentGroupIndex = groups.indexOf(currentGroup);
     const nextGroup = groups[currentGroupIndex + 1];
     setCurrentGroup(nextGroup);
+    const nextGroupSteps = getStepsForGroup(nextGroup);
+    setCurrentStep(nextGroupSteps[0]);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -122,7 +125,7 @@ export default function Configuration_Group({ groupTitle, steps }: GroupProps) {
                 <div className={style.config_wrapper}>
                   <div className={style.config_wrapper_option_holders}>
                     {itemsToDisplay
-                      ?.slice(0, !expanded ? 5 : itemsToDisplay.length)
+                      ?.slice(0, !expanded ? 10 : itemsToDisplay.length)
                       .map((item, index) => (
                         <OptionHolder
                           key={index}

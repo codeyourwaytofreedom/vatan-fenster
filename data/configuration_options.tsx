@@ -241,45 +241,47 @@ export type SelectionItem = {
 import lichtgrau from '../assets/configurator/farben/dichtung_aussen/lichtgrau.webp';
 import schwarz from '../assets/configurator/farben/dichtung_aussen/schwarz.webp';
 
+
+const farbenColorExtOptions = [
+  {
+    name: 'white',
+    image: color2,
+    key: 'white',
+    zoomable: true,
+  },
+  {
+    name: 'Dark Brown',
+    image: color2,
+    key: 'dark-brown',
+    zoomable: true,
+  },
+  {
+    name: 'Whitesmoke',
+    image: color2,
+    key: 'whitesmoke',
+    zoomable: true,
+  },
+  {
+    name: 'Antrasite',
+    image: color2,
+    key: 'antrasite',
+    zoomable: true,
+  },
+  {
+    name: 'Gold',
+    image: color2,
+    key: 'gold',
+    zoomable: true,
+  },
+  {
+    name: 'pink',
+    image: color2,
+    key: 'pink',
+    zoomable: true,
+  },
+];
 export const farbenOptions: Record<string, SelectionItem[]> = {
-  colorExt: [
-    {
-      name: 'white',
-      image: color2,
-      key: 'white',
-      zoomable: true,
-    },
-    {
-      name: 'Dark Brown',
-      image: color2,
-      key: 'dark-brown',
-      zoomable: true,
-    },
-    {
-      name: 'Whitesmoke',
-      image: color2,
-      key: 'whitesmoke',
-      zoomable: true,
-    },
-    {
-      name: 'Antrasite',
-      image: color2,
-      key: 'antrasite',
-      zoomable: true,
-    },
-    {
-      name: 'Gold',
-      image: color2,
-      key: 'gold',
-      zoomable: true,
-    },
-    {
-      name: 'pink',
-      image: color2,
-      key: 'pink',
-      zoomable: true,
-    },
-  ],
+  colorExt: farbenColorExtOptions,
   colorInt: [
     {
       name: 'white',
@@ -1594,6 +1596,32 @@ export const _215_175_antriebsartProps = {
     ],
   },
 };
+
+export const _215_175_farbeRollladenkasten = {
+  categoryItems: [
+    {
+      key: 'ffa',
+      name: 'Farbe der Führungsschiene anpassen',
+      image: soon,
+    },
+    {
+      key: 'ffkaa',
+      name: 'Farbe der Führungsschienen und Kastenfarbe (außen) anpassen',
+      image: soon,
+    },
+    {
+      key: 'ffkba',
+      name: 'Farbe der Führungsschienen und Kastenfarbe (beidseitig) anpassen',
+      image: soon,
+    }
+  ],
+  subCategoryItems: {
+    ffa: farbenColorExtOptions,
+    ffkaa:farbenColorExtOptions,
+    ffkba: farbenColorExtOptions
+  }
+
+}
 
 export const styroporkasten_LamelleatProps = {
   categoryItems: [

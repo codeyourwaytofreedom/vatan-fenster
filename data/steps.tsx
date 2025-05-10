@@ -42,6 +42,7 @@ import PlaceHolder from '@/components/PlaceHolder/PlaceHolder';
 import DoubleStepper from '@/components/DoubleStepper/DoubleStepper';
 import {
   _215_175_antriebsartProps,
+  _215_175_farbeRollladenkasten,
   _215_175_LamelleatProps,
   _215_175_putzträgerProps,
   aufStyroporkasten_farbeFührungsschieneProps,
@@ -182,7 +183,11 @@ const _215_175: Step[] = [
     key: 'farbeRollladenkasten',
     name: 'Farbe Rollladenkasten',
     icon: faColonSign,
-    component: PlaceHolder,
+    component: DoubleStepper,
+    props: {
+      ..._215_175_farbeRollladenkasten,
+      configurationKey: 'farbeRollladenkasten',
+    },
   },
   {
     key: 'farbeRollladenPanzer',

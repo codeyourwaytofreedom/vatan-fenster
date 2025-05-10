@@ -10,7 +10,7 @@ import Sizer from '../Sizer/Sizer';
 import { SelectionItem, windowStyles } from '@/data/configuration_options';
 
 export default function SummaryDisplayer() {
-  const { configuration, substyle, currentGroup, setCurrentStep, setCurrentGroup } =
+  const { configuration, substyle, currentGroup, setCurrentStep, setCurrentGroup,getStepsForGroup } =
     useConfiguration();
   const [expandedGroups, setExpandedGroups] = useState<string[]>([]);
   const slowAction = 100;
@@ -134,6 +134,8 @@ export default function SummaryDisplayer() {
     setTimeout(() => {
       if (currentGroup !== groupKey) {
         setCurrentGroup(groupKey);
+        const groupSteps = getStepsForGroup(groupKey);
+        setCurrentStep(groupSteps[0]);
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
       if (expandedGroups?.includes(groupKey)) {

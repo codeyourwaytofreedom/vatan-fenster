@@ -9,10 +9,19 @@
     align-items: center;
     justify-content: center;
   }
-  input {
+  input[type='range'] {
     margin-top: 30px;
     width: 100%;
     max-width: 1000px;
     cursor: pointer;
+  }
+  &_manual {
+    display: flex;
+    justify-content: center;
+    column-gap: 5px;
+    max-width: 1000px;
+    input {
+      width: 50px;
+    }
   }
 }
