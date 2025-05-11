@@ -1,8 +1,8 @@
-import { Config, GroupKey, Step, StepWithProps } from '@/types/Configurator';
+import { Config, GroupKey, SelectionItem, Step, StepWithProps } from '@/types/Configurator';
 import style from '../../styles/KonfiguratorPage.module.css';
 import Stepper from '../Stepper/Stepper';
 import OptionHolder from '../Product_Holder/Option_Holder';
-import { categoryItems, SelectionItem } from '@/data/configuration_options';
+import { categoryItems } from '@/data/configurationData';
 import { useEffect, useState } from 'react';
 import { useConfiguration } from '@/context/ConfigurationContext';
 import StepGlassPaket from '../StepGlassPaket/StepGlassPaket';
@@ -32,7 +32,7 @@ export default function Configuration_Group({ groupTitle, steps }: GroupProps) {
     setCurrentGroup,
     setConfiguration,
     moveToNextStep,
-    getStepsForGroup
+    getStepsForGroup,
   } = useConfiguration();
 
   const visibleSection = categoryItems.find((cat) => cat.key === currentStep?.key);
@@ -58,7 +58,7 @@ export default function Configuration_Group({ groupTitle, steps }: GroupProps) {
     }
   }, [groupActive, visibleSection]);
 
-/*   useEffect(() => {
+  /*   useEffect(() => {
     if (currentGroup === groupTitle) {
       setCurrentStep(steps[0]);
     }

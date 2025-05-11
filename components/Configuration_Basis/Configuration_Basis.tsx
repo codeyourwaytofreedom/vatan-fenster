@@ -1,24 +1,17 @@
 import { steps } from '@/data/steps';
 import style from '../../styles/KonfiguratorPage.module.css';
-import { Config, SubStyle } from '@/types/Configurator';
+import { Config, SelectionItem, SubStyle } from '@/types/Configurator';
 import Stepper from '../Stepper/Stepper';
 import { useEffect, useState } from 'react';
 import OptionHolder from '../Product_Holder/Option_Holder';
 import Substyle_Stepper from '../Substyle_Stepper/Substyle_Stepper';
 import Sizer from '../Sizer/Sizer';
-import {
-  brands,
-  categoryItems,
-  farbenOptions,
-  fenstergriffeOptions,
-  initialSize,
-  SelectionItem,
-  subStyleOptions,
-  windowStyles,
-} from '@/data/configuration_options';
+import { categoryItems, initialSize } from '@/data/configurationData';
 import { useConfiguration } from '@/context/ConfigurationContext';
 import { useOrderDetailsReady } from '@/context/OrderDetailsContext';
 import GroupBottomActions from '../GroupBottomActions/GroupBottomActions';
+import { farbenOptions, fenstergriffeOptions } from '@/data/selectionItems/farbenData';
+import { brands, subStyleOptions, windowStyles } from '@/data/selectionItems/basisData';
 
 export default function Basis_Configuration() {
   const [itemsToDisplay, setItemsToDisplay] = useState<SelectionItem[]>();
@@ -33,7 +26,7 @@ export default function Basis_Configuration() {
     setCurrentGroup,
     setCurrentStep,
     moveToNextStep,
-    getStepsForGroup
+    getStepsForGroup,
   } = useConfiguration();
 
   const { setSize } = useOrderDetailsReady();

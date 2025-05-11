@@ -1,5 +1,3 @@
-import { SelectionItem } from '../configuration_options';
-
 import fest_fest_fest_o from '../../assets/configurator/style/flugel3/oben/F+F+F.png';
 import ff_ff_ff_o from '../../assets/configurator/style/flugel3/oben/FF+FF+FF.png';
 import kipp_kipp_kipp_o from '../../assets/configurator/style/flugel3/oben/K+K+K.png';
@@ -78,6 +76,7 @@ import dreh_kipp_dreh_links_dreh_kipp_pfosten_u from '../../assets/configurator/
 import dreh_kipp_dreh_rechts_dreh_kipp_pfosten_u from '../../assets/configurator/style/flugel3/unten/DKL+DR+DKR(Pfosten).png';
 import dreh_kipp_dreh_links_dreh_kipp_stulp_u from '../../assets/configurator/style/flugel3/unten/DKL+DL+DKR(Stulp).png';
 import dreh_kipp_dreh_rechts_dreh_kipp_stulp_u from '../../assets/configurator/style/flugel3/unten/DKL+DR+DKR(Stulp).png';
+import { SelectionItem } from '@/types/Configurator';
 
 export const flugel3_unten: SelectionItem[] = [
   {

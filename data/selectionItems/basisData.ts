@@ -1,0 +1,229 @@
+import { SelectionItem, SubStyleOptions } from '@/types/Configurator';
+
+// Brands
+import drutex from '@/assets/configurator/brands/drutex.svg';
+
+// Common images
+import no from '@/assets/common/no.jpeg';
+import soon from '@/assets/common/soon.jpg';
+
+// Styles
+import flugel1 from '@/assets/configurator/style/flugel1/1-Flügel.png';
+import flugel2 from '@/assets/configurator/style/flugel2/2-Flügel.png';
+import flugel3 from '@/assets/configurator/style/flugel3/3-Flügel.png';
+import oberlicht from '@/assets/configurator/style/oberlicht/oberlicht.png';
+import unterlicht from '@/assets/configurator/style/unterlicht/unterlicht.png';
+
+// Profiles - Plastic (Drutex)
+import Iglo5 from '@/assets/configurator/profiles/drutex/plastic/Iglo5.webp';
+import Iglo5Classic from '@/assets/configurator/profiles/drutex/plastic/Iglo5Classic.webp';
+import Iglo5Energy from '@/assets/configurator/profiles/drutex/plastic/Iglo5Energy.webp';
+import Iglo5EnergyClassic from '@/assets/configurator/profiles/drutex/plastic/Iglo5EnergyClassic.webp';
+import IgloLight from '@/assets/configurator/profiles/drutex/plastic/IgloLight.webp';
+
+// Profiles - Aluminium (Drutex)
+import MB45 from '@/assets/configurator/profiles/drutex/aluminium/MB45.webp';
+import MB70 from '@/assets/configurator/profiles/drutex/aluminium/MB70.webp';
+import MB70HI from '@/assets/configurator/profiles/drutex/aluminium/MB70HI.webp';
+import MB86NSI from '@/assets/configurator/profiles/drutex/aluminium/MB86NSI.webp';
+
+// Materials
+import plastic from '@/assets/configurator/materials/KunststoffFenster.png';
+import aluminum from '@/assets/configurator/materials/AluminiumFenster.png';
+import holz from '@/assets/configurator/materials/HolzFenster.png';
+import holzAlu from '@/assets/configurator/materials/HolzAluFenster.png';
+
+// Substyles
+import { flugel1_unten } from '.././flugel/flugel1';
+import { flugel2_unten } from '.././flugel/flugel2';
+import { flugel3_unten } from '.././flugel/flugel3';
+
+import { oberlicht_substyle } from '.././flugel/oberlicht_substyle';
+import { unterlicht_substyle } from '.././flugel/unterlicht_substyle';
+
+export const materials: SelectionItem[] = [
+  {
+    key: 'plastic',
+    name: 'Kunststoff (PVC)',
+    image: plastic,
+  },
+  {
+    key: 'aluminum',
+    name: 'Aluminium',
+    image: aluminum,
+  },
+  {
+    key: 'holz',
+    name: 'Holz',
+    image: holz,
+    disabled: true,
+  },
+  {
+    key: 'holzalu',
+    name: 'Holz-Aluminium',
+    image: holzAlu,
+    disabled: true,
+  },
+];
+
+export const brands: SelectionItem[] = [
+  {
+    key: 'drutex',
+    name: 'Drutex',
+    image: drutex,
+    isActive: true,
+    children: {
+      profile: {
+        'Kunststoff (PVC)': [
+          {
+            key: 'Iglo_5',
+            name: 'Iglo 5',
+            image: Iglo5,
+          },
+          {
+            key: 'Iglo_5_Classic',
+            name: 'Iglo 5 Classic',
+            image: Iglo5Classic,
+          },
+          {
+            key: 'Iglo_Energy',
+            name: 'Iglo Energy',
+            image: Iglo5Energy,
+          },
+          {
+            key: 'Iglo_Energy_Classic',
+            name: 'Iglo Energy Classic',
+            image: Iglo5EnergyClassic,
+          },
+          {
+            key: 'Iglo_Light',
+            name: 'Iglo Light',
+            image: IgloLight,
+          },
+        ],
+        Aluminium: [
+          {
+            key: 'MB45',
+            name: 'MB45',
+            image: MB45,
+          },
+          {
+            key: 'MB70',
+            name: 'MB70',
+            image: MB70,
+          },
+          {
+            key: 'MB70HI',
+            name: 'MB70HI',
+            image: MB70HI,
+          },
+          {
+            key: 'MB86NSI',
+            name: 'MB86NSI',
+            image: MB86NSI,
+          },
+        ],
+      },
+    },
+  },
+  /*     {
+        name: 'Schüco',
+        image: schuco,
+        isActive: false
+    },
+    {
+        name: 'Gealan',
+        image: gealan,
+        isActive: false
+    },
+    {
+        name: 'Veka',
+        image: veka,
+        isActive: false
+    },
+    {
+        name: 'Aluplast',
+        image: aluplast,
+        isActive: false
+    } */
+];
+
+export const windowStyles: SelectionItem[] = [
+  {
+    name: '1. Flügel',
+    image: flugel1,
+    key: 'flugel1',
+    children: {
+      type: flugel1_unten,
+    },
+  },
+  {
+    name: '2. Flügel',
+    image: flugel2,
+    key: 'flugel2',
+    children: {
+      type: flugel2_unten,
+    },
+  },
+  {
+    name: '3. Flügel',
+    image: flugel3,
+    key: 'flugel3',
+    children: {
+      type: flugel3_unten,
+    },
+  },
+  {
+    key: 'oberlicht',
+    name: 'Oberlicht',
+    image: oberlicht,
+  },
+  {
+    key: 'unterlicht',
+    name: 'Unterlicht',
+    image: unterlicht,
+  },
+];
+
+export const covers: SelectionItem[] = [
+  {
+    key: 'nein',
+    name: 'Nein',
+    image: no,
+  },
+  {
+    key: 'auf215',
+    name: 'Aufsatzrollladen\n215mm (PVC Kasten)',
+    image: soon,
+  },
+  {
+    key: 'auf175',
+    name: 'Aufsatzrollladen\n175mm (PVC Kasten)',
+    image: soon,
+  },
+  {
+    key: 'styroporkasten',
+    name: 'Aufsatzrollladen\n(Styroporkasten)',
+    image: soon,
+  },
+  {
+    key: 'vorsatzrollladen',
+    name: 'Vorsatzrollladen',
+    image: soon,
+  },
+  {
+    key: 'aufStyroporkasten',
+    name: 'Aufsatzraffstore\n(Styroporkasten)',
+    image: soon,
+  },
+  {
+    key: 'vorsatzraffstore',
+    name: 'Vorsatzraffstore',
+    image: soon,
+  },
+];
+
+export const subStyleOptions: SubStyleOptions = {
+  oberlicht: oberlicht_substyle,
+  unterlicht: unterlicht_substyle,
+};

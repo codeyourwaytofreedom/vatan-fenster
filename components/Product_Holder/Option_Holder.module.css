@@ -4,7 +4,9 @@
 }
 
 .option,
-.option_selected {
+.option_withzoom,
+.option_selected,
+.option_selected_withzoom {
   max-width: 270px;
   height: 370px;
   text-align: center;
@@ -15,22 +17,30 @@
   transition: all 0.4s ease;
 }
 .option:hover,
-.option_selected:hover {
+.option_withzoom:hover,
+.option_selected:hover,
+.option_selected_withzoom:hover {
   border: 1px solid var(--color-2);
 }
 .option:hover button,
-.option_selected:hover button {
+.option_withzoom:hover button,
+.option_selected:hover button,
+.option_selected_withzoom:hover button {
   display: block;
 }
 .option:hover p,
-.option_selected:hover p {
+.option_withzoom:hover p,
+.option_selected:hover p,
+.option_selected_withzoom:hover p {
   background-color: var(--color-1);
   color: whitesmoke;
   transition: all 0.4s ease;
   transition-delay: 0.1s;
 }
 .option label,
-.option_selected label {
+.option_withzoom label,
+.option_selected label,
+.option_selected_withzoom label {
   display: flex;
   flex-direction: column;
   cursor: pointer;
@@ -38,20 +48,27 @@
   height: 100%;
 }
 .option label img,
-.option_selected label img {
+.option_withzoom label img,
+.option_selected label img,
+.option_selected_withzoom label img {
   flex: 2;
   width: 100%;
   height: auto;
+  max-height: 200px;
   transition: all 0.2s ease;
 }
 .option label #details,
-.option_selected label #details {
+.option_withzoom label #details,
+.option_selected label #details,
+.option_selected_withzoom label #details {
   width: 100%;
   flex: 1;
   background-color: white;
 }
 .option label p,
-.option_selected label p {
+.option_withzoom label p,
+.option_selected label p,
+.option_selected_withzoom label p {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -64,7 +81,9 @@
   max-height: 80px !important;
 }
 .option button,
-.option_selected button {
+.option_withzoom button,
+.option_selected button,
+.option_selected_withzoom button {
   width: 30px;
   aspect-ratio: 1/1;
   border-radius: 50%;
@@ -78,7 +97,9 @@
   display: none;
 }
 .option #infobox,
-.option_selected #infobox {
+.option_withzoom #infobox,
+.option_selected #infobox,
+.option_selected_withzoom #infobox {
   position: absolute;
   top: 25px;
   border: 2px solid black;
@@ -92,17 +113,24 @@
   color: whitesmoke;
 }
 
-.option_selected {
+.option_selected,
+.option_selected_withzoom {
   border: 1px solid var(--color-2);
   background-color: whitesmoke;
 }
-.option_selected p {
+.option_selected p,
+.option_selected_withzoom p {
   background-color: var(--color-2);
   color: white;
 }
 
 .option p {
   background-color: ButtonFace;
+}
+
+.option_withzoom:hover img,
+.option_selected_withzoom:hover img {
+  scale: 1.05;
 }
 
 .huge {

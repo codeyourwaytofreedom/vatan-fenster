@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import style from './StepSprossen.module.css';
-import { SelectionItem, sprossenCards, sprossenPatterns } from '@/data/configuration_options';
 import OptionHolder from '../Product_Holder/Option_Holder';
 import { useConfiguration } from '@/context/ConfigurationContext';
 import { scrollToElement } from '@/utils';
+import { SelectionItem } from '@/types/Configurator';
+import { sprossenCards, sprossenPatterns } from '@/data/selectionItems/verglasungData';
 
 export default function StepSprossen() {
   const { configuration, setConfiguration, moveToNextStep } = useConfiguration();

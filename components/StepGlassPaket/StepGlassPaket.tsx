@@ -1,11 +1,10 @@
-import { SelectionItem } from '@/data/configuration_options';
 import style from '../../styles/KonfiguratorPage.module.css';
 import OptionHolder from '../Product_Holder/Option_Holder';
 import { useConfiguration } from '@/context/ConfigurationContext';
-import { Config } from '@/types/Configurator';
+import { Config, SelectionItem } from '@/types/Configurator';
 import { useEffect } from 'react';
-import { warmenKante } from '@/data/configuration_options';
 import { steps } from '@/data/steps';
+import { warmenKante } from '@/data/selectionItems/verglasungData';
 
 export interface GlassPaketProps {
   items: SelectionItem[];

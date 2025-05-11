@@ -1,5 +1,3 @@
-import { SelectionItem } from '../configuration_options';
-
 import fest_fest_o from '../../assets/configurator/style/flugel2/oben/F+F.png';
 import fester_flugel_fester_flugel_o from '../../assets/configurator/style/flugel2/oben/FF+FF.png';
 import kipp_kipp_o from '../../assets/configurator/style/flugel2/oben/K+K.png';
@@ -92,6 +90,7 @@ import dreh_kipp_dreh_pfosten_u from '../../assets/configurator/style/flugel2/un
 import dreh_kipp_dreh_kipp_pfosten_u from '../../assets/configurator/style/flugel2/unten/DKL+DKR (Pfosten).png';
 import dreh_kipp_dreh_stulp_u from '../../assets/configurator/style/flugel2/unten/DKL+DR (Stulp).png';
 import dreh_dreh_kipp_stulp_u from '../../assets/configurator/style/flugel2/unten/DL+DKR (Stulp).png';
+import { SelectionItem } from '@/types/Configurator';
 
 export const flugel2_unten: SelectionItem[] = [
   {

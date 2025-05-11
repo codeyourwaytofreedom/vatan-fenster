@@ -1,7 +1,8 @@
 import Substyle_Section from '../Substyle/Substyle_Section';
 import style from '../.././styles/KonfiguratorPage.module.css';
-import { subStyleOptions, SubStyleOptions } from '@/data/configuration_options';
 import { useConfiguration } from '@/context/ConfigurationContext';
+import { subStyleOptions } from '@/data/selectionItems/basisData';
+import { SubStyleOptions } from '@/types/Configurator';
 
 export default function Substyle_Stepper() {
   const { configuration, substyle } = useConfiguration();

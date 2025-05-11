@@ -1,10 +1,10 @@
 import Image, { StaticImageData } from 'next/image';
 import style from './SingleSizer.module.css';
 import { useConfiguration } from '@/context/ConfigurationContext';
-import { SelectionItem } from '@/data/configuration_options';
 import { useOrderDetailsReady } from '@/context/OrderDetailsContext';
 import React, { useEffect, useRef, useState } from 'react';
 import { SizeFeedback } from '../Size_Holder';
+import { SelectionItem } from '@/types/Configurator';
 
 interface SingleSizeRProps {
   displayedImageTwo: StaticImageData;

@@ -1,8 +1,8 @@
-import { Config, Step, StepWithProps } from '@/types/Configurator';
+import { Config, SelectionItem, Step, StepWithProps } from '@/types/Configurator';
 import style from '../../styles/KonfiguratorPage.module.css';
 import Stepper from '../Stepper/Stepper';
 import OptionHolder from '../Product_Holder/Option_Holder';
-import { categoryItems, SelectionItem } from '@/data/configuration_options';
+import { categoryItems } from '@/data/configurationData';
 import { useEffect, useState } from 'react';
 import { useConfiguration } from '@/context/ConfigurationContext';
 import GroupBottomActions from '../GroupBottomActions/GroupBottomActions';

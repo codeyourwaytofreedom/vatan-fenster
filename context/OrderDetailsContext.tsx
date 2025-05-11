@@ -1,4 +1,4 @@
-import { initialSize } from '@/data/configuration_options';
+import { initialSize } from '@/data/configurationData';
 import { Size } from '@/types/Configurator';
 import { createContext, useState, ReactNode, useContext } from 'react';
 

@@ -1,10 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import OptionHolder from '../Product_Holder/Option_Holder';
 import style from './DoubleStepper.module.css';
-import { DobuleSelection, DoubleStepperProps } from '@/types/Configurator';
+import { DobuleSelection, DoubleStepperProps, SelectionItem } from '@/types/Configurator';
 import GroupBottomActions from '../GroupBottomActions/GroupBottomActions';
 import { useConfiguration } from '@/context/ConfigurationContext';
-import { SelectionItem } from '@/data/configuration_options';
 
 export default function DoubleStepper({
   categoryItems,

@@ -1,5 +1,3 @@
-import { SelectionItem } from '../configuration_options';
-
 import fest_o from '../../assets/configurator/style/flugel1/oben/F.png';
 import fester_flugel_o from '../../assets/configurator/style/flugel1/oben/FF.png';
 import dreh_links_o from '../../assets/configurator/style/flugel1/oben/DL.png';
@@ -15,6 +13,7 @@ import dreh_rechts_u from '../../assets/configurator/style/flugel1/unten/DR.png'
 import kipp_u from '../../assets/configurator/style/flugel1/unten/K.png';
 import dreh_kipp_links_u from '../../assets/configurator/style/flugel1/unten/DKL.png';
 import dreh_kipp_rechts_u from '../../assets/configurator/style/flugel1/unten/DKR.png';
+import { SelectionItem } from '@/types/Configurator';
 
 export const flugel1_oben: SelectionItem[] = [
   {

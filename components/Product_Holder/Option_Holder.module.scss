@@ -6,7 +6,9 @@ $shine-color: #00ff36;
   position: relative;
 }
 .option,
-.option_selected {
+.option_withzoom,
+.option_selected,
+.option_selected_withzoom {
   max-width: 270px;
   height: 370px;
   text-align: center;
@@ -37,6 +39,7 @@ $shine-color: #00ff36;
       flex: 2;
       width: 100%;
       height: auto;
+      max-height: 200px;
       transition: all 0.2s ease;
     }
     #details {
@@ -84,7 +87,8 @@ $shine-color: #00ff36;
     color: whitesmoke;
   }
 }
-.option_selected {
+.option_selected,
+.option_selected_withzoom {
   border: 1px solid var(--color-2);
   background-color: whitesmoke;
   p {
@@ -95,6 +99,14 @@ $shine-color: #00ff36;
 .option {
   p {
     background-color: ButtonFace;
+  }
+}
+.option_withzoom,
+.option_selected_withzoom {
+  &:hover {
+    img {
+      scale: 1.05;
+    }
   }
 }
 

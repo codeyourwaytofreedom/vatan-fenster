@@ -1,9 +1,9 @@
-import { SelectionItem } from '@/data/configuration_options';
 import OptionHolder from '../Product_Holder/Option_Holder';
 import style from '../.././styles/KonfiguratorPage.module.css';
 import { scrollToElement } from '@/utils';
 import { steps } from '@/data/steps';
 import { useConfiguration } from '@/context/ConfigurationContext';
+import { SelectionItem } from '@/types/Configurator';
 
 type SubStyleProps = {
   configKey: 'option' | 'oben' | 'unten';

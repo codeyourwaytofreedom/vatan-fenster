@@ -1,7 +1,8 @@
 import Image from 'next/image';
 import { MouseEventHandler, useRef, useState } from 'react';
 import style from './Option_Holder.module.css';
-import { SelectionItem } from '@/data/configuration_options';
+import { useConfiguration } from '@/context/ConfigurationContext';
+import { SelectionItem } from '@/types/Configurator';
 
 type ProductHolderProps = {
   item: SelectionItem;
@@ -12,6 +13,7 @@ type ProductHolderProps = {
 export default function OptionHolder({ item, selected, action }: ProductHolderProps) {
   const [zoomedImage, setZoomededImage] = useState<string | null>(null);
   const hoverTimeout = useRef<NodeJS.Timeout | null>(null);
+  const { currentStep } = useConfiguration();
 
   const handleZoomPhoto = () => {
     if (item.zoomable) {
@@ -29,6 +31,23 @@ export default function OptionHolder({ item, selected, action }: ProductHolderPr
 
   const isZoomed = item.zoomable && item.name === zoomedImage;
 
+  const withHoverZoom = currentStep && currentStep.withHoverZoom;
+
+  const cardClass = (() => {
+    if (selected) {
+      if (withHoverZoom) {
+        return style.option_selected_withzoom;
+      }
+      return style.option_selected;
+    }
+    if (!selected) {
+      if (withHoverZoom) {
+        return style.option_withzoom;
+      }
+      return style.option;
+    }
+  })();
+
   return (
     <div className={style.outer} onMouseLeave={handleBlur}>
       {isZoomed && (
@@ -38,7 +57,7 @@ export default function OptionHolder({ item, selected, action }: ProductHolderPr
       )}
       <div
         style={{ pointerEvents: item.disabled ? 'none' : 'all' }}
-        className={selected ? style.option_selected : style.option}
+        className={cardClass}
         onClick={action}
       >
         <label>

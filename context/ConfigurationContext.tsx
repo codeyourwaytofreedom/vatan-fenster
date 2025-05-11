@@ -1,6 +1,6 @@
-import { initialConfiguration, initialSubstyle, SelectionItem } from '@/data/configuration_options';
+import { initialConfiguration, initialSubstyle } from '@/data/configurationData';
 import { sonnenschutzStepPacks, steps } from '@/data/steps';
-import { Config, GroupKey, Step, SubStyle } from '@/types/Configurator';
+import { Config, GroupKey, SelectionItem, Step, SubStyle } from '@/types/Configurator';
 import { createContext, useState, ReactNode, useContext } from 'react';
 
 // Define the context type
@@ -20,7 +20,7 @@ interface ConfigurationContextType {
   setSubStyle: React.Dispatch<React.SetStateAction<SubStyle>>;
   moveToNextStep: () => void;
   movePreviousGroup: () => void;
-  getStepsForGroup: (key: GroupKey) => Step[]
+  getStepsForGroup: (key: GroupKey) => Step[];
 }
 
 // Create the context with a default value
@@ -40,8 +40,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
         ? ['unten', 'oben']
         : undefined;
 
-
-  const getStepsForGroup = (group:GroupKey ) => {
+  const getStepsForGroup = (group: GroupKey) => {
     // for sonnenschutz group, steps are built dynamically according to cover selection in Basis
     if (group === 'sonnenschutz') {
       return (
@@ -58,7 +57,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
           return steps[group].filter((st) => st.key !== 'fenstergriffe');
         }
       }
-      if(!Boolean('option' in configuration.type)){
+      if (!Boolean('option' in configuration.type)) {
         handleExists = (configuration.type as SelectionItem).handleNumber;
       }
       if (!handleExists) {
@@ -70,7 +69,6 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
   };
 
   const currentStepPack = getStepsForGroup(group);
-
 
   const isLastStepInGroup = currentStep?.key === currentStepPack[currentStepPack.length - 1]?.key;
 

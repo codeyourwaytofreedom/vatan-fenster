@@ -1,7 +1,6 @@
-import { SelectionItem } from '@/data/configuration_options';
 import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { StaticImageData } from 'next/image';
-import { ComponentType } from 'react';
+import { ComponentType, ReactNode } from 'react';
 
 export interface Size {
   w: number | string | undefined;
@@ -103,6 +102,7 @@ export interface StepWithoutProps {
   name: string;
   icon: IconDefinition;
   yesNo?: boolean;
+  withHoverZoom?: boolean;
 }
 
 export interface StepWithProps<TProps = unknown> {
@@ -110,6 +110,7 @@ export interface StepWithProps<TProps = unknown> {
   name: string;
   icon: IconDefinition;
   yesNo?: boolean;
+  withHoverZoom?: boolean;
   component?: ComponentType<TProps>;
   props?: TProps;
 }
@@ -117,3 +118,35 @@ export interface StepWithProps<TProps = unknown> {
 export type Step = StepWithoutProps | StepWithProps<DoubleStepperProps>;
 
 export type GroupKey = 'basis' | 'farben' | 'verglasung' | 'sonnenschutz' | 'zusätze';
+
+type Image = StaticImageData;
+
+export type SelectionItem = {
+  key: string;
+  name: string;
+  image: Image;
+  isActive?: boolean;
+  handleNumber?: number;
+  colors?: SelectionItem[];
+  zoomable?: boolean;
+  sectionNumber?: number;
+  component?: ReactNode;
+  items?: SelectionItem[];
+  disabled?: boolean;
+  children?: {
+    profile?: {
+      'Kunststoff (PVC)': SelectionItem[];
+      Aluminium: SelectionItem[];
+    };
+    type?: SelectionItem[];
+    style?: SelectionItem[];
+    substyle?: SelectionItem[];
+    oben?: SelectionItem[];
+    unten?: SelectionItem[];
+  };
+};
+
+export type SubStyleOptions = {
+  oberlicht: SelectionItem[];
+  unterlicht: SelectionItem[];
+};

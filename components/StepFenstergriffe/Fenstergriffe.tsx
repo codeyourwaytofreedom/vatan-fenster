@@ -1,9 +1,10 @@
-import { farbenOptions, fenstergriffeOptions, SelectionItem } from '@/data/configuration_options';
 import OptionHolder from '../Product_Holder/Option_Holder';
 import style from './Fenstergriffe.module.css';
 import { useConfiguration } from '@/context/ConfigurationContext';
 import GroupBottomActions from '../GroupBottomActions/GroupBottomActions';
 import { useRef, useState } from 'react';
+import { SelectionItem } from '@/types/Configurator';
+import { farbenOptions, fenstergriffeOptions } from '@/data/selectionItems/farbenData';
 
 export default function Fenstergriffe() {
   const { configuration, setConfiguration, setCurrentGroup, moveToNextStep } = useConfiguration();
@@ -27,7 +28,7 @@ export default function Fenstergriffe() {
     });
     moveToNextStep();
     setTimeout(() => {
-      window.scrollTo({top:0, behavior: 'smooth'});
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }, 300);
   };
 

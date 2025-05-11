@@ -54,7 +54,7 @@ export default function Stepper() {
     currentStepGroup: steps,
     setCurrentStep,
     setCurrentGroup,
-    getStepsForGroup
+    getStepsForGroup,
   } = useConfiguration();
 
   const currentStepIndex = steps.findIndex((st) => st.key === currentStep?.key);
@@ -149,7 +149,7 @@ export default function Stepper() {
     }
     if (!previousStep && previousGroup) {
       const previousGroupSteps = getStepsForGroup(previousGroup);
-      const lastStepInGroup = previousGroupSteps[previousGroupSteps.length -1];
+      const lastStepInGroup = previousGroupSteps[previousGroupSteps.length - 1];
       setTimeout(() => {
         setCurrentGroup(previousGroup);
         setCurrentStep(lastStepInGroup);

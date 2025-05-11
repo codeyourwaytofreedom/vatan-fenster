@@ -4,14 +4,20 @@ import { steps } from '@/data/steps';
 import { useConfiguration } from '@/context/ConfigurationContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
-import { GroupKey, SubStyle } from '@/types/Configurator';
+import { GroupKey, SelectionItem, SubStyle } from '@/types/Configurator';
 import { useState } from 'react';
 import Sizer from '../Sizer/Sizer';
-import { SelectionItem, windowStyles } from '@/data/configuration_options';
+import { windowStyles } from '@/data/selectionItems/basisData';
 
 export default function SummaryDisplayer() {
-  const { configuration, substyle, currentGroup, setCurrentStep, setCurrentGroup,getStepsForGroup } =
-    useConfiguration();
+  const {
+    configuration,
+    substyle,
+    currentGroup,
+    setCurrentStep,
+    setCurrentGroup,
+    getStepsForGroup,
+  } = useConfiguration();
   const [expandedGroups, setExpandedGroups] = useState<string[]>([]);
   const slowAction = 100;
 
