@@ -5,7 +5,6 @@ import drutex from '@/assets/configurator/brands/drutex.svg';
 
 // Common images
 import no from '@/assets/common/no.jpeg';
-import soon from '@/assets/common/soon.jpg';
 
 // Styles
 import flugel1 from '@/assets/configurator/style/flugel1/1-Flügel.png';
@@ -40,6 +39,14 @@ import { flugel3_unten } from '.././flugel/flugel3';
 
 import { oberlicht_substyle } from '.././flugel/oberlicht_substyle';
 import { unterlicht_substyle } from '.././flugel/unterlicht_substyle';
+
+// Sonnenschutz
+import Aufsatzrolladen_215_225 from '@/assets/configurator/sonnenschutz/001.Aufsatzrolladen_215_225.png';
+import Aufsatzrolladen_175 from '@/assets/configurator/sonnenschutz/002.Aufsatzrolladen_175.png';
+import Aufsatzrolladen_Styroporkasten from '@/assets/configurator/sonnenschutz/003.Aufsatzrolladen_(Styroporkasten).png';
+import Vorsatzrollladen from '@/assets/configurator/sonnenschutz/004.Vorsatzrollladen.png';
+import Aufsatzraffstore_Styroporkasten from '@/assets/configurator/sonnenschutz/001.Aufsatzrolladen_215_225.png';
+import Vorsatzraffstore from '@/assets/configurator/sonnenschutz/006.Vorsatzraffstore.png';
 
 export const materials: SelectionItem[] = [
   {
@@ -194,32 +201,32 @@ export const covers: SelectionItem[] = [
   {
     key: 'auf215',
     name: 'Aufsatzrollladen\n215mm (PVC Kasten)',
-    image: soon,
+    image: Aufsatzrolladen_215_225,
   },
   {
     key: 'auf175',
     name: 'Aufsatzrollladen\n175mm (PVC Kasten)',
-    image: soon,
+    image: Aufsatzrolladen_175,
   },
   {
     key: 'styroporkasten',
     name: 'Aufsatzrollladen\n(Styroporkasten)',
-    image: soon,
+    image: Aufsatzrolladen_Styroporkasten,
   },
   {
     key: 'vorsatzrollladen',
     name: 'Vorsatzrollladen',
-    image: soon,
+    image: Vorsatzrollladen,
   },
   {
     key: 'aufStyroporkasten',
     name: 'Aufsatzraffstore\n(Styroporkasten)',
-    image: soon,
+    image: Aufsatzraffstore_Styroporkasten,
   },
   {
     key: 'vorsatzraffstore',
     name: 'Vorsatzraffstore',
-    image: soon,
+    image: Vorsatzraffstore,
   },
 ];
 

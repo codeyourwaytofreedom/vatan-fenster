@@ -53,8 +53,7 @@
 .option_selected_withzoom label img {
   flex: 2;
   width: 100%;
-  height: auto;
-  max-height: 200px;
+  height: 250px;
   transition: all 0.2s ease;
 }
 .option label #details,
@@ -76,7 +75,8 @@
   padding: 0 5px;
   width: 100%;
   position: relative;
-  font-size: medium;
+  font-size: 15px;
+  font-weight: 500;
   flex: 1;
   max-height: 80px !important;
 }

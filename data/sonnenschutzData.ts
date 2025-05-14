@@ -4,7 +4,7 @@ import soon from '../assets/common/soon.jpg';
 import no from '../assets/common/no.jpeg';
 import yes from '../assets/common/yes.png';
 
-import { farbenColorExtOptions } from './selectionItems/farbenData';
+import { farbenAussenInnenOptions } from './selectionItems/farbenData';
 
 // sonnenschutz items for all sonnenschutz categories
 export const sonnenschutzItems: Record<
@@ -318,7 +318,6 @@ export const sonnenschutzItems: Record<
   ],
 };
 
-
 // category and subcategory items for steps with DoubleStepper component
 
 export const _215_175_LamelleatProps = {
@@ -511,9 +510,9 @@ export const _215_175_farbeRollladenkasten = {
     },
   ],
   subCategoryItems: {
-    ffa: farbenColorExtOptions,
-    ffkaa: farbenColorExtOptions,
-    ffkba: farbenColorExtOptions,
+    ffa: farbenAussenInnenOptions,
+    ffkaa: farbenAussenInnenOptions,
+    ffkba: farbenAussenInnenOptions,
   },
 };
 

@@ -9,6 +9,7 @@ import StepGlassPaket from '../StepGlassPaket/StepGlassPaket';
 import StepSprossen from '../StepSprossen/StepSprossen';
 import Fenstergriffe from '../StepFenstergriffe/Fenstergriffe';
 import GroupBottomActions from '../GroupBottomActions/GroupBottomActions';
+import { sicherheitsverglasungDynamicItems } from '@/data/selectionItems/verglasungData';
 
 interface GroupProps {
   groupTitle: GroupKey;
@@ -53,8 +54,17 @@ export default function Configuration_Group({ groupTitle, steps }: GroupProps) {
   // determine what items are to be displayed for current step
   useEffect(() => {
     // additional check prevents flicker in steps with custom compoent
-    if (groupActive && visibleSection && visibleSection.items.length > 0) {
-      setItemsToDisplay(visibleSection?.items);
+    if (groupActive && visibleSection /* && visibleSection.items.length > 0 */) {
+      if (visibleSection.dynamic) {
+        switch (visibleSection.key) {
+          case 'sicherheitsverglasung':
+            const items = sicherheitsverglasungDynamicItems[configuration.glasspaket.key];
+            return setItemsToDisplay(items);
+        }
+      }
+      if (Array.isArray(visibleSection.items)) {
+        setItemsToDisplay(visibleSection?.items);
+      }
     }
   }, [groupActive, visibleSection]);
 

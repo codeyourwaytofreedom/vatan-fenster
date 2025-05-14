@@ -50,7 +50,7 @@ export default function Sonnenschutz_Group() {
   // determine what items are to be displayed for current step
   useEffect(() => {
     // additional check prevents flicker in steps with custom compoent
-    if (groupActive && visibleSection /* && visibleSection.items.length > 0 */) {
+    if (groupActive && visibleSection /* && visibleSection.items.length > 0 */ && Array.isArray(visibleSection.items)) {
       setItemsToDisplay(visibleSection?.items);
     }
   }, [groupActive, visibleSection]);

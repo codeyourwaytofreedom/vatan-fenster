@@ -48,7 +48,7 @@ export interface Config {
   glasspaket: SelectionItem;
   glasspaketWarmeKante: SelectionItem | 'Nein';
   ornament: SelectionItem;
-  sicherheitsverglasung: SelectionItem;
+  sicherheitsverglasung: Record<string, SelectionItem[]>;
   schallschutz: SelectionItem;
   sprossen: string | 'Nein';
   druckausgleichsventil: SelectionItem;

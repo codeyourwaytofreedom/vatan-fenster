@@ -97,35 +97,35 @@ export const steps: Record<GroupKey | string, Step[]> = {
   farben: [
     {
       key: 'colorExt',
-      name: 'Color Ext',
+      name: 'Dekorfarbe außen',
       icon: faPaintBrush,
     },
     {
       key: 'colorInt',
-      name: 'Color-int',
+      name: 'Dekorfarbe innen',
       icon: faPaintRoller,
     },
     {
+      key: 'sealInt',
+      name: 'Kernfarbe',
+      icon: faToolbox,
+      withHoverZoom: true,
+    },
+    {
       key: 'dichtungAussen',
-      name: 'Dichtung Aussen',
+      name: 'Dichtungsfarbe außen',
       icon: faPalette,
       withHoverZoom: true,
     },
     {
       key: 'dichtungInnen',
-      name: 'Dichtung Innen',
+      name: 'Dichtungsfarbe & Form',
       icon: faTools,
       withHoverZoom: true,
     },
     {
-      key: 'sealInt',
-      name: 'Seal Int',
-      icon: faToolbox,
-      withHoverZoom: true,
-    },
-    {
       key: 'fenstergriffe',
-      name: 'Fenstergriffe',
+      name: 'Fenstergriff',
       icon: faHandHolding,
       withHoverZoom: true,
       component: Fenstergriffe,

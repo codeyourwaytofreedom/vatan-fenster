@@ -67,7 +67,7 @@ export default function Basis_Configuration() {
 
   // determine what items are to be displayed for current step
   useEffect(() => {
-    if (currentStep) {
+    if (currentStep && Array.isArray(visibleSection?.items)) {
       switch (currentStep?.key) {
         case 'material':
         case 'brand':

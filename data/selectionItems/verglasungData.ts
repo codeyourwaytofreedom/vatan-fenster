@@ -2,7 +2,6 @@ import { SelectionItem } from '@/types/Configurator';
 
 import no from '@/assets/common/no.jpeg';
 import yes from '@/assets/common/yes.png';
-import placeholder from '@/assets/common/placeholder.png';
 import width from '@/assets/common/width.avif';
 import color2 from '@/assets/common/color2.png';
 
@@ -26,8 +25,11 @@ import osil from '@/assets/configurator/verglasung/ornament/osil.webp';
 import rb6 from '@/assets/configurator/verglasung/ornament/osil.webp'; // Note: same path as osil
 
 // Verglasung Schallschutz
-import _36 from '@/assets/configurator/verglasung/schallschutz/36.webp';
-import _38 from '@/assets/configurator/verglasung/schallschutz/36.webp'; // Note: same path as _36
+import standart from '@/assets/configurator/verglasung/schallschutz/Schallschutz_Standart.webp';
+import _34 from '@/assets/configurator/verglasung/schallschutz/Schallschutz_34db.webp';
+import _38 from '@/assets/configurator/verglasung/schallschutz/Schallschutz_38db.webp';
+import _43 from '@/assets/configurator/verglasung/schallschutz/Schallschutz_43db.webp';
+
 
 // Sprossen pattern types
 import type1 from '@/assets/configurator/verglasung/sprossen/pattern/typ01.webp';
@@ -53,6 +55,120 @@ import wk4 from '@/assets/configurator/verglasung/schallschutz/warmenkante/004.S
 import wk5 from '@/assets/configurator/verglasung/schallschutz/warmenkante/005.Hellbraun RAL8003.webp';
 import wk6 from '@/assets/configurator/verglasung/schallschutz/warmenkante/006.Braun RAL8014.webp';
 
+// sicherheitsverglasungDynamicItems
+// 2fv
+import Aussen_VSG_6mm from '@/assets/configurator/verglasung/sicherheitsverglasung/2fv/001.Aussen_VSG_6mm.png';
+import Aussen_VSG_8mm from '@/assets/configurator/verglasung/sicherheitsverglasung/2fv/002.Aussen_VSG_8mm.png';
+import Innen_VSG_6mm from '@/assets/configurator/verglasung/sicherheitsverglasung/2fv/003.Innen_VSG_6mm.png';
+import Innen_VSG_8mm from '@/assets/configurator/verglasung/sicherheitsverglasung/2fv/004.Innen_VSG_8mm.png';
+import Aussen_VSG_6mm_Innen_ESG_6mm from '@/assets/configurator/verglasung/sicherheitsverglasung/2fv/005.Aussen_VSG_6mm_Innen_ESG_6mm.png';
+import Aussen_VSG_6mm_Innen_VSG_8mm from '@/assets/configurator/verglasung/sicherheitsverglasung/2fv/006.Aussen_VSG_6mm_Innen_VSG_8mm.png';
+import Aussen_ESG_6mm from '@/assets/configurator/verglasung/sicherheitsverglasung/2fv/007.Aussen_ESG_6mm.png';
+import Aussen_ESG_6mm_Innen_ESG_6mm from '@/assets/configurator/verglasung/sicherheitsverglasung/2fv/008.Aussen_ESG_6mm_Innen_ESG_6mm.png';
+
+// 3fv
+import Aussen_VSG_6mm_3fv from '@/assets/configurator/verglasung/sicherheitsverglasung/3fv/001.Aussen_VSG_6mm.png';
+import Aussen_VSG_8mm_3fv from '@/assets/configurator/verglasung/sicherheitsverglasung/3fv/002.Aussen_VSG_8mm.png';
+import Innen_VSG_6mm_3fv from '@/assets/configurator/verglasung/sicherheitsverglasung/3fv/003.Innen_VSG_6mm.png';
+import Innen_VSG_8mm_3fv from '@/assets/configurator/verglasung/sicherheitsverglasung/3fv/004.Innen_VSG_8mm.png';
+import Aussen_VSG_6mm_Innen_VSG_6mm_3fv from '@/assets/configurator/verglasung/sicherheitsverglasung/3fv/005.Aussen_VSG_6mm_Innen_VSG_6mm.png';
+import Aussen_VSG_6mm_Innen_VSG_8mm_3fv from '@/assets/configurator/verglasung/sicherheitsverglasung/3fv/006.Aussen_VSG_6mm_Innen_VSG_8mm.png';
+import Aussen_ESG_6mm_3fv from '@/assets/configurator/verglasung/sicherheitsverglasung/3fv/007.Aussen_ESG_6mm.png';
+import Aussen_ESG_6mm_Innen_ESG_6mm_3fv from '@/assets/configurator/verglasung/sicherheitsverglasung/3fv/008.Aussen_ESG_6mm_Innen_ESG_6mm.png';
+
+
+const _2fv_sicherheitsverglasungItems= [
+    {
+      key: 'aussen_VSG_6mm',
+      name: 'Aussen VSG 6mm',
+      image: Aussen_VSG_6mm,
+    },
+    {
+      key: 'aussen_VSG_8mm',
+      name: 'Aussen VSG 8mm',
+      image: Aussen_VSG_8mm,
+    },
+    {
+      key: 'innen_VSG_6mm',
+      name: 'Innen VSG 6mm',
+      image: Innen_VSG_6mm,
+    },
+    {
+      key: 'innen_VSG_8mm',
+      name: 'Innen VSG 8mm',
+      image: Innen_VSG_8mm,
+    },
+    {
+      key: 'aussen_VSG_6mm_innen_ESG_6mm',
+      name: 'Aussen VSG 6mm / Innen ESG 6mm',
+      image: Aussen_VSG_6mm_Innen_ESG_6mm,
+    },
+    {
+      key: 'aussen_VSG_6mm_innen_VSG_8mm',
+      name: 'Aussen VSG 6mm / Innen VSG 8mm',
+      image: Aussen_VSG_6mm_Innen_VSG_8mm,
+    },
+    {
+      key: 'aussen_ESG_6mm',
+      name: 'Aussen ESG 6mm',
+      image: Aussen_ESG_6mm,
+    },
+    {
+      key: 'aussen_ESG_6mm_innen_ESG_6mm',
+      name: 'Aussen ESG 6mm / Innen ESG 6mm',
+      image: Aussen_ESG_6mm_Innen_ESG_6mm,
+    },
+];
+
+const _3fv_sicherheitsverglasungItems = [
+  {
+    key: 'aussen_VSG_6mm_3fv',
+    name: 'Aussen VSG 6mm',
+    image: Aussen_VSG_6mm_3fv
+  },
+  {
+    key: 'aussen_VSG_8mm_3fv',
+    name: 'Aussen VSG 8mm',
+    image: Aussen_VSG_8mm_3fv
+  },
+  {
+    key: 'innen_VSG_6mm_3fv',
+    name: 'Innen VSG 6mm',
+    image: Innen_VSG_6mm_3fv
+  },
+  {
+    key: 'innen_VSG_8mm_3fv',
+    name: 'Innen VSG 8mm',
+    image: Innen_VSG_8mm_3fv
+  },
+  {
+    key: 'aussen_VSG_6mm_innen_VSG_6mm_3fv',
+    name: 'Aussen VSG 6mm / Innen VSG 6mm',
+    image: Aussen_VSG_6mm_Innen_VSG_6mm_3fv
+  },
+  {
+    key: 'aussen_VSG_6mm_innen_VSG_8mm_3fv',
+    name: 'Aussen VSG 6mm / Innen VSG 8mm',
+    image: Aussen_VSG_6mm_Innen_VSG_8mm_3fv
+  },
+  {
+    key: 'aussen_ESG_6mm_3fv',
+    name: 'Aussen ESG 6mm',
+    image: Aussen_ESG_6mm_3fv
+  },
+  {
+    key: 'aussen_ESG_6mm_innen_ESG_6mm_3fv',
+    name: 'Aussen ESG 6mm / Innen ESG 6mm',
+    image: Aussen_ESG_6mm_Innen_ESG_6mm_3fv
+  }
+]
+
+export const sicherheitsverglasungDynamicItems: Record<string, SelectionItem[]> = {
+  '2-f-v': _2fv_sicherheitsverglasungItems,
+  '2-f-v-w-k': _2fv_sicherheitsverglasungItems,
+  '3-f-v': _3fv_sicherheitsverglasungItems,
+  '3-f-v-w-k': _3fv_sicherheitsverglasungItems,
+};
 
 export const verglasung = {
   glasspaket: [
@@ -139,68 +255,27 @@ export const verglasung = {
       image: ochin,
     },
   ],
-  sicherheitsverglasung: [
-    {
-      key: 'nein',
-      name: 'Nein',
-      image: no,
-    },
-    {
-      key: 'sver1',
-      name: 'Außen: VSG 6mm (Verbundsicherheitsglas)',
-      image: placeholder,
-    },
-    {
-      key: 'sver2',
-      name: 'Innen: VSG 6mm (Verbundsicherheitsglas)',
-      image: placeholder,
-    },
-    {
-      key: 'sver3',
-      name: 'Außen: VSG 6mm + Innen: VSG 6mm (Verbundsicherheitsglas)',
-      image: placeholder,
-    },
-    {
-      key: 'sver4',
-      name: 'Außen: VSG 8mm (Verbundsicherheitsglas)',
-      image: placeholder,
-    },
-    {
-      key: 'sver5',
-      name: 'Innen: VSG 8mm (Verbundsicherheitsglas)',
-      image: placeholder,
-    },
-    {
-      key: 'sver6',
-      name: 'Außen: VSG 6mm + Innen: VSG 8mm (Verbundsicherheitsglas)',
-      image: placeholder,
-    },
-    {
-      key: 'sver7',
-      name: 'Außen: ESG 6mm + Innen: ESG 6mm (Einscheibensicherheitsglas)',
-      image: placeholder,
-    },
-    {
-      key: 'sver8',
-      name: 'Außen: ESG 6mm (Einscheibensicherheitsglas)',
-      image: placeholder,
-    },
-  ],
+  sicherheitsverglasung: sicherheitsverglasungDynamicItems,
   schallschutz: [
     {
       key: 'nein',
-      name: 'Nein',
-      image: no,
+      name: 'Standart',
+      image: standart,
     },
     {
-      key: '36',
-      name: '36db',
-      image: _36,
+      key: '34',
+      name: '34db',
+      image: _34,
     },
     {
       key: '38',
       name: '38db',
       image: _38,
+    },
+        {
+      key: '43',
+      name: '43db',
+      image: _43,
     },
   ],
   sprossen: [],
@@ -217,7 +292,6 @@ export const verglasung = {
     },
   ],
 };
-
 export const warmenKante = [
   {
     key: 'wk1',
