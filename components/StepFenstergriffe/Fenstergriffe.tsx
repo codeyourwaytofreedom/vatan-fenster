@@ -58,9 +58,10 @@ export default function Fenstergriffe() {
         ))}
       </div>
       <GroupBottomActions
+        itemNumber={subHandleOptions.length}
         expandable={expandable}
         isLastStep={true}
-        expandAction={() =>
+        toggleExpand={() =>
           setExpandedCategories([
             ...expandedCategories,
             configuration.fenstergriffe?.type.name as string,

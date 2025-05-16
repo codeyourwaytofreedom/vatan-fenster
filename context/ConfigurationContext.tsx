@@ -87,7 +87,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     const currentGroupIndex = visibleGroups.indexOf(group);
     const nextGroup = visibleGroups[currentGroupIndex + 1];
     const nextGroupSteps = getStepsForGroup(nextGroup);
-    const firstStepInGroup = nextGroupSteps[0];
+    const firstStepInGroup = nextGroupSteps?.[0];
     if (nextGroup) {
       setTimeout(() => {
         setCurrentGroup(nextGroup);

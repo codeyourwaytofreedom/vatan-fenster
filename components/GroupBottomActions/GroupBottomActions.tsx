@@ -1,28 +1,33 @@
-import { faChevronDown, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import style from './GroupBottomActions.module.css';
 
 interface ActionsProps {
   expandable: boolean;
   isLastStep?: boolean;
-  expandAction: () => void;
+  toggleExpand: () => void;
   nextGroupAction?: () => void;
+  itemNumber: number;
 }
 export default function GroupBottomActions({
   expandable,
   isLastStep,
-  expandAction,
+  toggleExpand,
   nextGroupAction,
+  itemNumber
 }: ActionsProps) {
   return (
     <div className={style.bottom_actions}>
-      {expandable && (
-        <button className={style.show_more} onClick={expandAction}>
+      {
+        itemNumber > 10 &&
+        <button className={style.show_more} onClick={toggleExpand}>
           <span>
-            <FontAwesomeIcon icon={faPlus} size={'1x'} beat /> &nbsp; Alle anzeigen
+            <FontAwesomeIcon icon={expandable ? faPlus : faMinus} size={'1x'} beat /> &nbsp; {
+              expandable ? 'Alle anzeigen' : 'Weniger anzeigen'
+            }
           </span>
         </button>
-      )}
+      }
       {isLastStep && (
         <button onClick={nextGroupAction} className={style.next_group}>
           <span>

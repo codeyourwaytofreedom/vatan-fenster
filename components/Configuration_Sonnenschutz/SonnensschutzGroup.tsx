@@ -112,7 +112,7 @@ export default function Sonnenschutz_Group() {
                       ))}
                   </div>
                 </div>
-                <GroupBottomActions expandable={Boolean(expandable)} expandAction={handleExpand} />
+                <GroupBottomActions itemNumber={itemsToDisplay?.length || 0} expandable={Boolean(expandable)} toggleExpand={handleExpand} />
               </>
             )}
           </div>

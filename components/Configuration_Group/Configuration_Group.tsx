@@ -68,11 +68,6 @@ export default function Configuration_Group({ groupTitle, steps }: GroupProps) {
     }
   }, [groupActive, visibleSection]);
 
-  /*   useEffect(() => {
-    if (currentGroup === groupTitle) {
-      setCurrentStep(steps[0]);
-    }
-  }, [currentGroup, groupTitle]); */
 
   const handleSelectGroup = () => {
     setCurrentGroup(groupTitle);
@@ -103,9 +98,15 @@ export default function Configuration_Group({ groupTitle, steps }: GroupProps) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleExpand = () => {
-    setExpandedSteps([...expandedSteps, currentStep?.key || '']);
-  };
+const toggleExpand = () => {
+  const stepKey = currentStep?.key || '';
+  setExpandedSteps(prev =>
+    prev.includes(stepKey)
+      ? prev.filter(key => key !== stepKey)
+      : [...prev, stepKey]
+  );
+};
+
 
   const stepHasCustomComponent = (step: Step): step is StepWithProps => {
     return step && 'component' in step && step.component !== undefined;
@@ -148,8 +149,9 @@ export default function Configuration_Group({ groupTitle, steps }: GroupProps) {
                 </div>
                 {currentGroup === groupTitle && (
                   <GroupBottomActions
+                    itemNumber={itemsToDisplay?.length || 0}
                     expandable={Boolean(expandable)}
-                    expandAction={handleExpand}
+                    toggleExpand={toggleExpand}
                     isLastStep={isLastStepInGroup}
                     nextGroupAction={handleMoveNextGroup}
                   />

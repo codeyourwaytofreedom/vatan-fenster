@@ -67,11 +67,11 @@ export default function Basis_Configuration() {
 
   // determine what items are to be displayed for current step
   useEffect(() => {
-    if (currentStep && Array.isArray(visibleSection?.items)) {
+    if (currentStep) {
       switch (currentStep?.key) {
         case 'material':
         case 'brand':
-          setItemsToDisplay(visibleSection?.items);
+          setItemsToDisplay(visibleSection?.items as SelectionItem[]);
           break;
         case 'profile':
           const selectedBrand = brands.find((br) => br.name === configuration['brand'].name);
@@ -82,7 +82,7 @@ export default function Basis_Configuration() {
           setItemsToDisplay(profilesOfBrand);
           break;
         case 'style':
-          setItemsToDisplay(visibleSection?.items);
+          setItemsToDisplay(visibleSection?.items as SelectionItem[]);
           break;
         case 'type':
           const selectedStyle = windowStyles.find(
@@ -92,7 +92,7 @@ export default function Basis_Configuration() {
           setItemsToDisplay(typesForSelectedStyle);
           break;
         case 'cover':
-          setItemsToDisplay(visibleSection?.items);
+          setItemsToDisplay(visibleSection?.items as SelectionItem[]);
           break;
       }
     }
@@ -266,7 +266,8 @@ export default function Basis_Configuration() {
             expandable={false}
             isLastStep={currentStep?.key === 'size'}
             nextGroupAction={handleMoveNextGroup}
-            expandAction={() => {}}
+            toggleExpand={() => {}}
+            itemNumber={0}
           />
         </div>
       )}

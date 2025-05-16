@@ -7,12 +7,17 @@ import Basis_Configuration from '@/components/Configuration_Basis/Configuration_
 import { OrderDetailsProvider } from '@/context/OrderDetailsContext';
 import { ConfigurationProvider } from '@/context/ConfigurationContext';
 import Sonnenschutz_Group from '@/components/Configuration_Sonnenschutz/SonnensschutzGroup';
+import UniversalModal from '@/components/UniversalModal/UniversalModal';
+import { ModalProvider } from '@/context/ModalContext';
 
 export default function Page() {
   return (
     <OrderDetailsProvider>
       <ConfigurationProvider>
-        <PageContent />
+        <ModalProvider>
+          <PageContent />
+          <UniversalModal/>
+        </ModalProvider>
       </ConfigurationProvider>
     </OrderDetailsProvider>
   );

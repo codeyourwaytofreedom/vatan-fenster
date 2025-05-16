@@ -30,6 +30,9 @@ import _34 from '@/assets/configurator/verglasung/schallschutz/Schallschutz_34db
 import _38 from '@/assets/configurator/verglasung/schallschutz/Schallschutz_38db.webp';
 import _43 from '@/assets/configurator/verglasung/schallschutz/Schallschutz_43db.webp';
 
+// Sprossen main categories
+import Titelbild_Aufgesetzte from '@/assets/configurator/verglasung/sprossen/Titelbild_Aufgesetzte.webp';
+import Titelbild_Innenliegend from '@/assets/configurator/verglasung/sprossen/Titelbild_Innenliegend.webp';
 
 // Sprossen pattern types
 import type1 from '@/assets/configurator/verglasung/sprossen/pattern/typ01.webp';
@@ -445,7 +448,7 @@ export const sprossenCards: SelectionItem[] = [
   {
     key: 'is',
     name: 'Innenliegen Sprossen',
-    image: yes,
+    image: Titelbild_Innenliegend,
     items: [
       {
         key: '8',
@@ -504,7 +507,7 @@ export const sprossenCards: SelectionItem[] = [
   {
     key: 'as',
     name: 'Aufgesetzte Sprossen',
-    image: yes,
+    image: Titelbild_Aufgesetzte,
     items: [
       {
         key: '27',

@@ -103,6 +103,7 @@ export interface StepWithoutProps {
   icon: IconDefinition;
   yesNo?: boolean;
   withHoverZoom?: boolean;
+  withoutDetails?: boolean;
 }
 
 export interface StepWithProps<TProps = unknown> {
@@ -111,6 +112,7 @@ export interface StepWithProps<TProps = unknown> {
   icon: IconDefinition;
   yesNo?: boolean;
   withHoverZoom?: boolean;
+  withoutDetails?: boolean;
   component?: ComponentType<TProps>;
   props?: TProps;
 }

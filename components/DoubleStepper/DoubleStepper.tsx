@@ -94,8 +94,9 @@ export default function DoubleStepper({
           ))}
       </div>
       <GroupBottomActions
-        expandAction={setExpanded ? () => setExpanded(true) : () => {}}
+        toggleExpand={setExpanded ? () => setExpanded(true) : () => {}}
         expandable={expandable}
+        itemNumber={itemsToDisplay?.length || 0}
       />
     </>
   );

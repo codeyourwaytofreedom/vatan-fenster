@@ -1,0 +1,24 @@
+.modal{
+    position: fixed;
+    right: 0; left: 0; bottom: 0; top: 0;
+    background-color: rgba($color: #000000, $alpha: 0.7);
+    z-index: 9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .shell{
+        animation-delay: 0.1s;
+        position: relative;
+        .header{
+            position: relative;
+            display: flex;
+            padding: 10px;
+            padding-right: 0;
+            .close{
+                margin-left: auto;
+                background: none;
+                border: none;
+            }
+        }
+    }
+}

@@ -76,11 +76,13 @@ export const steps: Record<GroupKey | string, Step[]> = {
       key: 'style',
       name: 'Fensterart',
       icon: faCropSimple,
+      withoutDetails: true
     },
     {
       key: 'type',
       name: 'Type',
       icon: faSignsPost,
+      withoutDetails: true
     },
     {
       key: 'cover',
@@ -99,35 +101,41 @@ export const steps: Record<GroupKey | string, Step[]> = {
       key: 'colorExt',
       name: 'Dekorfarbe außen',
       icon: faPaintBrush,
+      withoutDetails: true
     },
     {
       key: 'colorInt',
       name: 'Dekorfarbe innen',
       icon: faPaintRoller,
+      withoutDetails: true
     },
     {
       key: 'sealInt',
       name: 'Kernfarbe',
       icon: faToolbox,
       withHoverZoom: true,
+      withoutDetails: true
     },
     {
       key: 'dichtungAussen',
       name: 'Dichtungsfarbe außen',
       icon: faPalette,
       withHoverZoom: true,
+      withoutDetails: true
     },
     {
       key: 'dichtungInnen',
       name: 'Dichtungsfarbe & Form',
       icon: faTools,
       withHoverZoom: true,
+      withoutDetails: true
     },
     {
       key: 'fenstergriffe',
       name: 'Fenstergriff',
       icon: faHandHolding,
       withHoverZoom: true,
+      withoutDetails: true,
       component: Fenstergriffe,
     },
   ],
@@ -137,6 +145,7 @@ export const steps: Record<GroupKey | string, Step[]> = {
       name: 'Glaspaket',
       icon: faLayerGroup,
       withHoverZoom: true,
+      withoutDetails: true
       //component: StepGlassPaket,
     },
     {
@@ -144,18 +153,21 @@ export const steps: Record<GroupKey | string, Step[]> = {
       name: 'Ornament',
       icon: faSun,
       withHoverZoom: true,
+      withoutDetails: true
     },
     {
       key: 'sicherheitsverglasung',
       name: 'Sicherheitsverglasung',
       icon: faShieldAlt,
       withHoverZoom: true,
+      withoutDetails: true
     },
     {
       key: 'schallschutz',
       name: 'Schallschutz',
       icon: faVolumeMute,
       withHoverZoom: true,
+      withoutDetails: true
     },
     {
       key: 'sprossen',
@@ -163,12 +175,14 @@ export const steps: Record<GroupKey | string, Step[]> = {
       icon: faBorderAll,
       component: StepSprossen,
       withHoverZoom: true,
+      withoutDetails: true
     },
     {
       key: 'druckausgleichsventil',
       name: 'Druckausgleichsventil',
       icon: faArrowsAltH,
       withHoverZoom: true,
+      withoutDetails: true
     },
   ],
   zusätze: [],
