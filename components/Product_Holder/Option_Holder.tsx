@@ -55,7 +55,7 @@ export default function OptionHolder({ item, selected, action }: ProductHolderPr
   })();
 
   const handleShowFullSize = () => {
-    openModal(<Image className={style.glow} src={item.image} alt={item.name} width={500} height={500} />);
+    openModal(<Image priority className={style.glow} src={item.image} alt={item.name} width={500} height={500} />);
   }
 
   return (
