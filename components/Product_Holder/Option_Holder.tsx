@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { MouseEventHandler, useEffect } from 'react';
+import { MouseEventHandler } from 'react';
 import style from './Option_Holder.module.css';
 import { useConfiguration } from '@/context/ConfigurationContext';
 import { SelectionItem } from '@/types/Configurator';
