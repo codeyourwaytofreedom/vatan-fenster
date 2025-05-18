@@ -7,46 +7,49 @@
     display: grid;
     justify-items: center;
     row-gap: 10px;
-    h3{
-        width: 240px;
-        text-align: center;
-        padding: 5px;
-        background-color: whitesmoke;
+    h3 {
+      width: 240px;
+      text-align: center;
+      padding: 5px;
+      background-color: whitesmoke;
     }
-    select{
-        width: 50%;
-        margin-top: 20px;
+    select {
+      width: 50%;
+      margin-top: 20px;
     }
-    .links, .rechts, .oben, .unten{
-        position: relative;
-        padding: 20px;
-        background-color: whitesmoke;
-        &::before{
-            position: absolute;
-            content: '';
-            width: 20px;
-            height: 200px;
-            background-color: var(--color-2);
-        }
+    .links,
+    .rechts,
+    .oben,
+    .unten {
+      position: relative;
+      padding: 20px;
+      background-color: whitesmoke;
+      &::before {
+        position: absolute;
+        content: '';
+        width: 20px;
+        height: 200px;
+        background-color: var(--color-2);
+      }
     }
-    .rechts{
-        &::before{
-            right: 0;
-        }
+    .rechts {
+      &::before {
+        right: 0;
+      }
     }
-    .oben{
-        &::before{
-            top: 0;
-            height: 20px;
-            width: 200px;
-        }
+    .oben {
+      &::before {
+        top: 0;
+        height: 20px;
+        width: 200px;
+      }
     }
-    .unten{
-        &::before{
-            bottom: 0;
-            height: 20px;
-            width: 200px;
-        }
+    .unten {
+      &::before {
+        bottom: 0;
+        height: 20px;
+        width: 200px;
+      }
     }
   }
 }

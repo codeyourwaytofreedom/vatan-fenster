@@ -74,7 +74,7 @@ export interface Config {
   verdecktLiegenderBeschlag: 'Nein' | 'Ja';
   rahmenverbreitung: 'Nein' | 'Ja';
   rahmenverbreitungMontiert: 'Nein' | 'Ja';
-  dünneSchweißnahtVPerfect:  'Nein' | 'Ja';
+  dünneSchweißnahtVPerfect: 'Nein' | 'Ja';
   verschlussüberwachungReedkontakt: 'Nein' | 'Ja';
   montagevorbohrungen: 'Nein' | 'Ja';
   lüftungssysteme: 'Nein' | 'Ja';
@@ -84,7 +84,7 @@ export interface Config {
     rechts: number;
     oben: number;
     unten: number;
-  }
+  };
 }
 
 export type DobuleSelection = {

@@ -154,7 +154,7 @@ export default function Configuration_Group({ groupTitle, steps }: GroupProps) {
               </>
             )}
           </div>
-                <br />
+          <br />
         </div>
       )}
     </div>

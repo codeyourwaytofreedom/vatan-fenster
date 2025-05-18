@@ -26,7 +26,7 @@ export default function YesNoSelector({ label }: YesNoSelectorProps) {
     if (currentStep) {
       setConfiguration((prevConfig) => ({
         ...prevConfig,
-        [(currentStep?.key as keyof Config)]: item.name,
+        [currentStep?.key as keyof Config]: item.name,
       }));
     }
     moveToNextStep();

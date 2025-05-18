@@ -113,7 +113,7 @@ export const initialConfiguration: Config = {
     links: 0,
     rechts: 0,
     oben: 0,
-    unten: 0
+    unten: 0,
   },
-  druckausgleichsventilZusatze: 'Nein'
+  druckausgleichsventilZusatze: 'Nein',
 };
