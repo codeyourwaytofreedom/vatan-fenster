@@ -50,7 +50,11 @@ export default function Sonnenschutz_Group() {
   // determine what items are to be displayed for current step
   useEffect(() => {
     // additional check prevents flicker in steps with custom compoent
-    if (groupActive && visibleSection /* && visibleSection.items.length > 0 */ && Array.isArray(visibleSection.items)) {
+    if (
+      groupActive &&
+      visibleSection /* && visibleSection.items.length > 0 */ &&
+      Array.isArray(visibleSection.items)
+    ) {
       setItemsToDisplay(visibleSection?.items);
     }
   }, [groupActive, visibleSection]);
@@ -112,7 +116,11 @@ export default function Sonnenschutz_Group() {
                       ))}
                   </div>
                 </div>
-                <GroupBottomActions itemNumber={itemsToDisplay?.length || 0} expandable={Boolean(expandable)} toggleExpand={handleExpand} />
+                <GroupBottomActions
+                  itemNumber={itemsToDisplay?.length || 0}
+                  expandable={Boolean(expandable)}
+                  toggleExpand={handleExpand}
+                />
               </>
             )}
           </div>

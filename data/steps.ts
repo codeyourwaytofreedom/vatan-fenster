@@ -50,7 +50,10 @@ import {
   styroporkasten_antriebsartProps,
   styroporkasten_LamelleatProps,
   vorsatzrollladen_putzträgerProps,
-} from './sonnenschutzData';
+} from './selectionItems/sonnenschutzData';
+import YesNoSelector from '@/components/YesNoSelector/YesNoSelector';
+import StepRahmenverbreiterung from '@/components/StepRahmenverbreiterung/StepRahmenverbreiterung';
+import StepRahmenverbreiterungAuswahlen from '@/components/StepRahmenverbreiterungAuswahlen/StepRahmenverbreiterungAuswahlen';
 
 export const steps: Record<GroupKey | string, Step[]> = {
   basis: [
@@ -76,13 +79,13 @@ export const steps: Record<GroupKey | string, Step[]> = {
       key: 'style',
       name: 'Fensterart',
       icon: faCropSimple,
-      withoutDetails: true
+      withoutDetails: true,
     },
     {
       key: 'type',
       name: 'Type',
       icon: faSignsPost,
-      withoutDetails: true
+      withoutDetails: true,
     },
     {
       key: 'cover',
@@ -101,34 +104,34 @@ export const steps: Record<GroupKey | string, Step[]> = {
       key: 'colorExt',
       name: 'Dekorfarbe außen',
       icon: faPaintBrush,
-      withoutDetails: true
+      withoutDetails: true,
     },
     {
       key: 'colorInt',
       name: 'Dekorfarbe innen',
       icon: faPaintRoller,
-      withoutDetails: true
+      withoutDetails: true,
     },
     {
       key: 'sealInt',
       name: 'Kernfarbe',
       icon: faToolbox,
       withHoverZoom: true,
-      withoutDetails: true
+      withoutDetails: true,
     },
     {
       key: 'dichtungAussen',
       name: 'Dichtungsfarbe außen',
       icon: faPalette,
       withHoverZoom: true,
-      withoutDetails: true
+      withoutDetails: true,
     },
     {
       key: 'dichtungInnen',
       name: 'Dichtungsfarbe & Form',
       icon: faTools,
       withHoverZoom: true,
-      withoutDetails: true
+      withoutDetails: true,
     },
     {
       key: 'fenstergriffe',
@@ -145,7 +148,7 @@ export const steps: Record<GroupKey | string, Step[]> = {
       name: 'Glaspaket',
       icon: faLayerGroup,
       withHoverZoom: true,
-      withoutDetails: true
+      withoutDetails: true,
       //component: StepGlassPaket,
     },
     {
@@ -153,21 +156,21 @@ export const steps: Record<GroupKey | string, Step[]> = {
       name: 'Ornament',
       icon: faSun,
       withHoverZoom: true,
-      withoutDetails: true
+      withoutDetails: true,
     },
     {
       key: 'sicherheitsverglasung',
       name: 'Sicherheitsverglasung',
       icon: faShieldAlt,
       withHoverZoom: true,
-      withoutDetails: true
+      withoutDetails: true,
     },
     {
       key: 'schallschutz',
       name: 'Schallschutz',
       icon: faVolumeMute,
       withHoverZoom: true,
-      withoutDetails: true
+      withoutDetails: true,
     },
     {
       key: 'sprossen',
@@ -175,17 +178,102 @@ export const steps: Record<GroupKey | string, Step[]> = {
       icon: faBorderAll,
       component: StepSprossen,
       withHoverZoom: true,
-      withoutDetails: true
+      withoutDetails: true,
     },
     {
       key: 'druckausgleichsventil',
       name: 'Druckausgleichsventil',
       icon: faArrowsAltH,
       withHoverZoom: true,
-      withoutDetails: true
+      withoutDetails: true,
     },
   ],
-  zusätze: [],
+  zusatze: [
+    {
+      key: 'sicherheitsbeschlage',
+      name: 'Sicherheitsbeschlage',
+      icon: faSun,
+      component: YesNoSelector,
+      withoutDetails: true,
+      props: {
+        label: 'Möchten Sie Sicherheitsbeschläge hinzufügen?',
+      },
+    },
+    {
+      key: 'verdecktLiegenderBeschlag',
+      name: 'Verdeckt Liegender Beschlag',
+      icon: faSun,
+      component: YesNoSelector,
+      withoutDetails: true,
+      props: {
+        label: 'Möchten Sie verdeckt liegende Beschläge hinzufügen?',
+      },
+    },
+    {
+      key: 'dünneSchweißnahtVPerfect',
+      name: 'Dünne Schweißnaht V-perfect',
+      icon: faSun,
+      component: YesNoSelector,
+      withoutDetails: true,
+      props: {
+        label: 'Möchten Sie für das Kunststoffprofil eine dünne Schweißnaht?',
+      },
+    },
+    {
+      key: 'verschlussüberwachungReedkontakt',
+      name: 'Verschlussüberwachung Reedkontakt',
+      icon: faSun,
+      component: YesNoSelector,
+      withoutDetails: true,
+      props: {
+        label: 'Möchten Sie Reedkontakte hinzufügen?',
+      },
+    },
+    {
+      key: 'montagevorbohrungen',
+      name: 'Montagevorbohrungen',
+      icon: faSun,
+      component: YesNoSelector,
+      withoutDetails: true,
+      props: {
+        label: 'Möchten Sie Montagevorbohrungen hinzufügen?',
+      },
+    },
+    {
+      key: 'lüftungssysteme',
+      name: 'Lüftungssysteme',
+      icon: faSun,
+      component: YesNoSelector,
+      withoutDetails: true,
+      props: {
+        label: 'Möchten Sie ein Lüftungssystem hinzufügen?',
+      },
+    },
+    {
+      key: 'rahmenverbreiterung',
+      name: 'Rahmenverbreiterung',
+      icon: faSun,
+      component: StepRahmenverbreiterung,
+      withoutDetails: true,
+    },
+    {
+      key: 'rahmenverbreiterungAuswählen',
+      name: 'Rahmenverbreiterung Auswählen',
+      icon: faSun,
+      component: StepRahmenverbreiterungAuswahlen,
+      withoutDetails: true,
+    },
+    {
+      key: 'druckausgleichsventilZusatze',
+      name: 'Druckausgleichsventil',
+      icon: faSun,
+      component: YesNoSelector,
+      withoutDetails: true,
+      props: {
+        label: 'Möchten Sie Einen Druckausgleichsventil hinzufügen?',
+      },
+    },
+  ],
   sonnenschutz: [],
 };
 

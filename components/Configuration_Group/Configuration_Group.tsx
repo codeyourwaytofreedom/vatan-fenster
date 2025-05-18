@@ -6,8 +6,6 @@ import { categoryItems } from '@/data/configurationData';
 import { useEffect, useState } from 'react';
 import { useConfiguration } from '@/context/ConfigurationContext';
 import StepGlassPaket from '../StepGlassPaket/StepGlassPaket';
-import StepSprossen from '../StepSprossen/StepSprossen';
-import Fenstergriffe from '../StepFenstergriffe/Fenstergriffe';
 import GroupBottomActions from '../GroupBottomActions/GroupBottomActions';
 import { sicherheitsverglasungDynamicItems } from '@/data/selectionItems/verglasungData';
 
@@ -68,7 +66,6 @@ export default function Configuration_Group({ groupTitle, steps }: GroupProps) {
     }
   }, [groupActive, visibleSection]);
 
-
   const handleSelectGroup = () => {
     setCurrentGroup(groupTitle);
     setCurrentStep(steps[0]);
@@ -88,8 +85,8 @@ export default function Configuration_Group({ groupTitle, steps }: GroupProps) {
   const handleMoveNextGroup = () => {
     const coverNotAvailable = configuration.cover.key === 'nein';
     const groups: GroupKey[] = coverNotAvailable
-      ? ['basis', 'farben', 'verglasung', 'zusätze']
-      : ['basis', 'farben', 'verglasung', 'zusätze', 'sonnenschutz'];
+      ? ['basis', 'farben', 'verglasung', 'zusatze']
+      : ['basis', 'farben', 'verglasung', 'zusatze', 'sonnenschutz'];
     const currentGroupIndex = groups.indexOf(currentGroup);
     const nextGroup = groups[currentGroupIndex + 1];
     setCurrentGroup(nextGroup);
@@ -98,16 +95,14 @@ export default function Configuration_Group({ groupTitle, steps }: GroupProps) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-const toggleExpand = () => {
-  const stepKey = currentStep?.key || '';
-  setExpandedSteps(prev =>
-    prev.includes(stepKey)
-      ? prev.filter(key => key !== stepKey)
-      : [...prev, stepKey]
-  );
-};
+  const toggleExpand = () => {
+    const stepKey = currentStep?.key || '';
+    setExpandedSteps((prev) =>
+      prev.includes(stepKey) ? prev.filter((key) => key !== stepKey) : [...prev, stepKey]
+    );
+  };
 
-
+  const Component = (currentStep as StepWithProps)?.component;
   const stepHasCustomComponent = (step: Step): step is StepWithProps => {
     return step && 'component' in step && step.component !== undefined;
   };
@@ -127,10 +122,10 @@ const toggleExpand = () => {
           <div className={style.group}>
             {currentStep?.key === 'glasspaket' ? (
               <StepGlassPaket items={itemsToDisplay || []} expanded={expanded!} />
-            ) : stepHasCustomComponent(currentStep!) && currentStep?.component === StepSprossen ? (
-              <StepSprossen />
-            ) : stepHasCustomComponent(currentStep!) && currentStep?.component === Fenstergriffe ? (
-              <Fenstergriffe />
+            ) : Component && stepHasCustomComponent(currentStep!) && currentStep?.props ? (
+              <Component {...currentStep?.props} />
+            ) : Component ? (
+              <Component />
             ) : (
               <>
                 <div className={style.config_wrapper}>

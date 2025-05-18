@@ -20,7 +20,7 @@
   display: grid;
   grid-template-columns: calc(100% - 370px) 350px;
   -moz-column-gap: 20px;
-       column-gap: 20px;
+  column-gap: 20px;
   padding-top: 10px;
   min-height: 99vh;
   align-items: start;
@@ -37,7 +37,7 @@
   width: 100%;
   display: flex;
   -moz-column-gap: 40px;
-       column-gap: 40px;
+  column-gap: 40px;
   padding: 5px;
 }
 .config_wrapper_option_holders {
@@ -172,17 +172,20 @@
 }
 .config #summary #actions {
   display: grid;
+  padding: 10px;
 }
 .config #summary #actions button {
   border: none;
   height: 35px;
   font-weight: bold;
-}
-.config #summary #actions button:hover {
-  filter: brightness(0.8);
+  transition: all 0.4s ease;
 }
 .config #summary #actions #add_to_chart {
-  background-color: rgb(234, 230, 230);
+  background-color: var(--color-2);
+  color: white;
+}
+.config #summary #actions #add_to_chart:hover {
+  background-color: var(--color-1);
 }
 .config #summary #actions #additional {
   background-color: gold;
@@ -197,7 +200,8 @@
     flex-wrap: wrap;
     justify-content: center;
   }
-  .config_wrapper_option_holders, .config_wrapper_subcategories {
+  .config_wrapper_option_holders,
+  .config_wrapper_subcategories {
     order: 2;
   }
   .config_wrapper #summary {
@@ -241,4 +245,4 @@
   to {
     grid-template-rows: 1fr;
   }
-}/*# sourceMappingURL=KonfiguratorPage.module.css.map */
+} /*# sourceMappingURL=KonfiguratorPage.module.css.map */

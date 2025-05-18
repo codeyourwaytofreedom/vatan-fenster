@@ -72,7 +72,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
 
   const isLastStepInGroup = currentStep?.key === currentStepPack[currentStepPack.length - 1]?.key;
 
-  const allGroups: GroupKey[] = ['basis', 'farben', 'verglasung', 'zusätze', 'sonnenschutz'];
+  const allGroups: GroupKey[] = ['basis', 'farben', 'verglasung', 'zusatze', 'sonnenschutz'];
   const visibleGroups: GroupKey[] =
     configuration.cover.key === 'nein' ? allGroups.filter((g) => g !== 'sonnenschutz') : allGroups;
 

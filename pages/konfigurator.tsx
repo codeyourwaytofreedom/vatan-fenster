@@ -16,7 +16,7 @@ export default function Page() {
       <ConfigurationProvider>
         <ModalProvider>
           <PageContent />
-          <UniversalModal/>
+          <UniversalModal />
         </ModalProvider>
       </ConfigurationProvider>
     </OrderDetailsProvider>

@@ -4,54 +4,55 @@ $shine-color: #00ff36;
 .outer {
   display: grid;
   position: relative;
-  &:hover{
-    .expand{
+  &:hover {
+    .expand {
       display: inline-block;
     }
   }
 }
-.expand{
+.expand {
   position: absolute;
   top: 20px;
   right: 20px;
   z-index: 2;
   display: none;
-  cursor:zoom-in;
-svg {
-  filter:
-    drop-shadow(1px 0 black)
-    drop-shadow(-1px 0 black)
-    drop-shadow(0 1px black)
-    drop-shadow(0 -1px black)
-    drop-shadow(1px 1px black)
-    drop-shadow(-1px -1px black)
-    drop-shadow(1px -1px black)
-    drop-shadow(-1px 1px black);
-}
+  cursor: zoom-in;
+  svg {
+    filter: drop-shadow(1px 0 black) drop-shadow(-1px 0 black) drop-shadow(0 1px black)
+      drop-shadow(0 -1px black) drop-shadow(1px 1px black) drop-shadow(-1px -1px black)
+      drop-shadow(1px -1px black) drop-shadow(-1px 1px black);
+  }
 }
 
 .glow {
-  box-shadow:
-  0 0 40px 30px white;
-  width: 95vw;
-  max-width: 500px;
-  height: auto;
+  background-color: white;
+  padding: 15px;
+  padding-bottom: 30px;
+  img {
+    width: 90vw;
+    max-width: 500px;
+    height: auto;
+  }
+  p {
+    margin-top: 10px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    column-gap: 5px;
+  }
 }
-
 
 .option,
 .option_withzoom,
 .option_selected,
 .option_selected_withzoom {
-  max-width: 270px;
+  max-width: 300px;
   text-align: center;
   border: 1px solid silver;
   position: relative;
-  box-sizing: border-box;
   transition: all 0.4s ease;
   overflow: hidden;
   &:hover {
-    //border: 1px solid var(--color-2);
     p {
       background-color: var(--color-1);
       color: whitesmoke;
@@ -59,62 +60,40 @@ svg {
       transition-delay: 0.1s;
     }
   }
-  label {
-    cursor: pointer;
+
+  cursor: pointer;
+  position: relative;
+  img {
+    width: 100%;
+    height: auto;
+    transition: all 0.2s ease;
+    display: block;
+  }
+  #details {
+    width: 100%;
+    height: 70px;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    font-weight: 300;
+    padding: 0 5px;
+    border-bottom: 1px solid silver;
+  }
+  p {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    padding: 0 5px;
+    width: 100%;
     position: relative;
-    img {
-      width: 100%;
-      height: auto;
-      transition: all 0.2s ease;
-    }
-    #details {
-      width: 100%;
-      height: 70px;
-      font-size: 14px;
-      display: flex;
-      align-items: center;
+    font-size: 14px;
+    height: 70px;
+    span {
+      font-size: 12px;
       font-weight: 300;
     }
-    p {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 0 5px;
-      width: 100%;
-      position: relative;
-      font-size: 15px;
-      flex: 1;
-      height: 70px;
-      margin-top: 5px;
-      border-top: 2px solid whitesmoke;
-    }
-  }
-  button {
-    width: 30px;
-    aspect-ratio: 1/1;
-    border-radius: 50%;
-    justify-self: flex-end;
-    position: absolute;
-    right: 5px;
-    top: 5px;
-    border: 2px solid black;
-    background-color: gold;
-    z-index: 8;
-    display: none;
-  }
-  #infobox {
-    position: absolute;
-    top: 25px;
-    border: 2px solid black;
-    border-radius: 4%;
-    left: 20px;
-    width: calc(100% - 40px);
-    min-height: 50px;
-    font-size: small;
-    padding: 5px;
-    background-color: black;
-    color: whitesmoke;
   }
 }
 .option_selected,
@@ -132,20 +111,5 @@ svg {
     img {
       scale: 1.05;
     }
-  }
-}
-
-.huge {
-  position: absolute;
-  right: -300px;
-  height: auto;
-  width: 300px;
-  display: flex;
-  justify-self: center;
-  z-index: 99;
-  background-color: silver;
-  img {
-    width: 100%;
-    height: auto;
   }
 }

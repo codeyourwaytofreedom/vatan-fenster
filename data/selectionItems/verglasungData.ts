@@ -79,92 +79,91 @@ import Aussen_VSG_6mm_Innen_VSG_8mm_3fv from '@/assets/configurator/verglasung/s
 import Aussen_ESG_6mm_3fv from '@/assets/configurator/verglasung/sicherheitsverglasung/3fv/007.Aussen_ESG_6mm.png';
 import Aussen_ESG_6mm_Innen_ESG_6mm_3fv from '@/assets/configurator/verglasung/sicherheitsverglasung/3fv/008.Aussen_ESG_6mm_Innen_ESG_6mm.png';
 
-
-const _2fv_sicherheitsverglasungItems= [
-    {
-      key: 'aussen_VSG_6mm',
-      name: 'Aussen VSG 6mm',
-      image: Aussen_VSG_6mm,
-    },
-    {
-      key: 'aussen_VSG_8mm',
-      name: 'Aussen VSG 8mm',
-      image: Aussen_VSG_8mm,
-    },
-    {
-      key: 'innen_VSG_6mm',
-      name: 'Innen VSG 6mm',
-      image: Innen_VSG_6mm,
-    },
-    {
-      key: 'innen_VSG_8mm',
-      name: 'Innen VSG 8mm',
-      image: Innen_VSG_8mm,
-    },
-    {
-      key: 'aussen_VSG_6mm_innen_ESG_6mm',
-      name: 'Aussen VSG 6mm / Innen ESG 6mm',
-      image: Aussen_VSG_6mm_Innen_ESG_6mm,
-    },
-    {
-      key: 'aussen_VSG_6mm_innen_VSG_8mm',
-      name: 'Aussen VSG 6mm / Innen VSG 8mm',
-      image: Aussen_VSG_6mm_Innen_VSG_8mm,
-    },
-    {
-      key: 'aussen_ESG_6mm',
-      name: 'Aussen ESG 6mm',
-      image: Aussen_ESG_6mm,
-    },
-    {
-      key: 'aussen_ESG_6mm_innen_ESG_6mm',
-      name: 'Aussen ESG 6mm / Innen ESG 6mm',
-      image: Aussen_ESG_6mm_Innen_ESG_6mm,
-    },
+const _2fv_sicherheitsverglasungItems = [
+  {
+    key: 'aussen_VSG_6mm',
+    name: 'Aussen VSG 6mm',
+    image: Aussen_VSG_6mm,
+  },
+  {
+    key: 'aussen_VSG_8mm',
+    name: 'Aussen VSG 8mm',
+    image: Aussen_VSG_8mm,
+  },
+  {
+    key: 'innen_VSG_6mm',
+    name: 'Innen VSG 6mm',
+    image: Innen_VSG_6mm,
+  },
+  {
+    key: 'innen_VSG_8mm',
+    name: 'Innen VSG 8mm',
+    image: Innen_VSG_8mm,
+  },
+  {
+    key: 'aussen_VSG_6mm_innen_ESG_6mm',
+    name: 'Aussen VSG 6mm / Innen ESG 6mm',
+    image: Aussen_VSG_6mm_Innen_ESG_6mm,
+  },
+  {
+    key: 'aussen_VSG_6mm_innen_VSG_8mm',
+    name: 'Aussen VSG 6mm / Innen VSG 8mm',
+    image: Aussen_VSG_6mm_Innen_VSG_8mm,
+  },
+  {
+    key: 'aussen_ESG_6mm',
+    name: 'Aussen ESG 6mm',
+    image: Aussen_ESG_6mm,
+  },
+  {
+    key: 'aussen_ESG_6mm_innen_ESG_6mm',
+    name: 'Aussen ESG 6mm / Innen ESG 6mm',
+    image: Aussen_ESG_6mm_Innen_ESG_6mm,
+  },
 ];
 
 const _3fv_sicherheitsverglasungItems = [
   {
     key: 'aussen_VSG_6mm_3fv',
     name: 'Aussen VSG 6mm',
-    image: Aussen_VSG_6mm_3fv
+    image: Aussen_VSG_6mm_3fv,
   },
   {
     key: 'aussen_VSG_8mm_3fv',
     name: 'Aussen VSG 8mm',
-    image: Aussen_VSG_8mm_3fv
+    image: Aussen_VSG_8mm_3fv,
   },
   {
     key: 'innen_VSG_6mm_3fv',
     name: 'Innen VSG 6mm',
-    image: Innen_VSG_6mm_3fv
+    image: Innen_VSG_6mm_3fv,
   },
   {
     key: 'innen_VSG_8mm_3fv',
     name: 'Innen VSG 8mm',
-    image: Innen_VSG_8mm_3fv
+    image: Innen_VSG_8mm_3fv,
   },
   {
     key: 'aussen_VSG_6mm_innen_VSG_6mm_3fv',
     name: 'Aussen VSG 6mm / Innen VSG 6mm',
-    image: Aussen_VSG_6mm_Innen_VSG_6mm_3fv
+    image: Aussen_VSG_6mm_Innen_VSG_6mm_3fv,
   },
   {
     key: 'aussen_VSG_6mm_innen_VSG_8mm_3fv',
     name: 'Aussen VSG 6mm / Innen VSG 8mm',
-    image: Aussen_VSG_6mm_Innen_VSG_8mm_3fv
+    image: Aussen_VSG_6mm_Innen_VSG_8mm_3fv,
   },
   {
     key: 'aussen_ESG_6mm_3fv',
     name: 'Aussen ESG 6mm',
-    image: Aussen_ESG_6mm_3fv
+    image: Aussen_ESG_6mm_3fv,
   },
   {
     key: 'aussen_ESG_6mm_innen_ESG_6mm_3fv',
     name: 'Aussen ESG 6mm / Innen ESG 6mm',
-    image: Aussen_ESG_6mm_Innen_ESG_6mm_3fv
-  }
-]
+    image: Aussen_ESG_6mm_Innen_ESG_6mm_3fv,
+  },
+];
 
 export const sicherheitsverglasungDynamicItems: Record<string, SelectionItem[]> = {
   '2-f-v': _2fv_sicherheitsverglasungItems,
@@ -275,7 +274,7 @@ export const verglasung = {
       name: '38db',
       image: _38,
     },
-        {
+    {
       key: '43',
       name: '43db',
       image: _43,

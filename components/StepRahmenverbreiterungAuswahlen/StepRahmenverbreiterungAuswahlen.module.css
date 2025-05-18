@@ -1,0 +1,50 @@
+.container {
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+}
+.container .frame_option {
+  display: grid;
+  justify-items: center;
+  row-gap: 10px;
+}
+.container .frame_option h3 {
+  width: 240px;
+  text-align: center;
+  padding: 5px;
+  background-color: whitesmoke;
+}
+.container .frame_option select {
+  width: 50%;
+  margin-top: 20px;
+}
+.container .frame_option .links, .container .frame_option .rechts, .container .frame_option .oben, .container .frame_option .unten {
+  position: relative;
+  padding: 20px;
+  background-color: whitesmoke;
+}
+.container .frame_option .links::before, .container .frame_option .rechts::before, .container .frame_option .oben::before, .container .frame_option .unten::before {
+  position: absolute;
+  content: "";
+  width: 20px;
+  height: 200px;
+  background-color: var(--color-2);
+}
+.container .frame_option .rechts::before {
+  right: 0;
+}
+.container .frame_option .oben::before {
+  top: 0;
+  height: 20px;
+  width: 200px;
+}
+.container .frame_option .unten::before {
+  bottom: 0;
+  height: 20px;
+  width: 200px;
+}
+
+.label {
+  font-weight: 500 !important;
+}/*# sourceMappingURL=StepRahmenverbreiterungAuswahlen.module.css.map */

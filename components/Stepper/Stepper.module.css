@@ -47,10 +47,10 @@
 .config_steps {
   display: flex;
   margin-bottom: 30px;
-  height: 40px;
   position: relative;
   overflow: hidden;
   width: 100%;
+  height: 40px;
 }
 .config_steps .complete,
 .config_steps .next,
@@ -58,16 +58,33 @@
 .config_steps .selected_next,
 .config_steps .selected_complete {
   border: none;
-  display: grid;
+  display: flex;
   align-items: center;
-  justify-items: center;
+  justify-content: center;
   -moz-column-gap: 10px;
-       column-gap: 10px;
+  column-gap: 10px;
   font-size: calc(11px + 0.1vw);
   position: relative;
-  padding: 5px 0;
+  padding: 5px 10px;
   color: whitesmoke;
   min-width: 170px;
+  transition: all 0.4s ease;
+}
+.config_steps .complete p,
+.config_steps .next p,
+.config_steps .inactive p,
+.config_steps .selected_next p,
+.config_steps .selected_complete p {
+  white-space: nowrap !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.config_steps .complete:hover,
+.config_steps .next:hover,
+.config_steps .inactive:hover,
+.config_steps .selected_next:hover,
+.config_steps .selected_complete:hover {
+  background-color: var(--color-2);
 }
 .config_steps .complete svg,
 .config_steps .next svg,
@@ -76,26 +93,10 @@
 .config_steps .selected_complete svg {
   filter: invert(100%);
 }
-.config_steps .complete #anchor,
-.config_steps .next #anchor,
-.config_steps .inactive #anchor,
-.config_steps .selected_next #anchor,
-.config_steps .selected_complete #anchor {
-  font-size: 20px;
-  position: absolute;
-  bottom: -20px;
-  left: 46%;
-  color: var(--color-1);
-  display: none;
-}
 .config_steps .selected_next {
   font-weight: bold;
   background: gold;
   color: black;
-}
-.config_steps .selected_next #anchor {
-  display: inline-block;
-  color: gold;
 }
 .config_steps .selected_next svg {
   filter: none;
@@ -113,10 +114,6 @@
 }
 .config_steps .selected_complete {
   background: var(--color-2);
-}
-.config_steps .selected_complete #anchor {
-  display: inline-block;
-  color: var(--color-2);
 }
 .config_steps .complete {
   background: var(--color-1);
@@ -141,4 +138,4 @@
 .previousStep:hover {
   background-color: var(--color-2);
   color: white;
-}/*# sourceMappingURL=Stepper.module.css.map */
+} /*# sourceMappingURL=Stepper.module.css.map */

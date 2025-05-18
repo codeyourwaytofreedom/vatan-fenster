@@ -258,7 +258,6 @@ export default function Stepper() {
                 beatFade={stepClass(st).includes('next')}
               />
               <p>{st.name}</p>
-              <span id={style.anchor}>&#9660;</span>
             </button>
           ))}
         </div>

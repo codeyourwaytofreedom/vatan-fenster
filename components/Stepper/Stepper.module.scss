@@ -49,45 +49,42 @@ $summary-shade: rgb(230, 227, 227);
 .config_steps {
   display: flex;
   margin-bottom: 30px;
-  height: 40px;
   position: relative;
   overflow: hidden;
   width: 100%;
+  height: 40px;
   .complete,
   .next,
   .inactive,
   .selected_next,
   .selected_complete {
     border: none;
-    display: grid;
+    display: flex;
     align-items: center;
-    justify-items: center;
+    justify-content: center;
     column-gap: 10px;
     font-size: calc(11px + 0.1vw);
     position: relative;
-    padding: 5px 0;
+    padding: 5px 10px;
     color: whitesmoke;
     min-width: 170px;
+    transition: all 0.4s ease;
+    p {
+      white-space: nowrap !important;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    &:hover {
+      background-color: var(--color-2);
+    }
     svg {
       filter: invert(100%);
-    }
-    #anchor {
-      font-size: 20px;
-      position: absolute;
-      bottom: -20px;
-      left: 46%;
-      color: var(--color-1);
-      display: none;
     }
   }
   .selected_next {
     font-weight: bold;
     background: $secondary-color;
     color: black;
-    #anchor {
-      display: inline-block;
-      color: $secondary-color;
-    }
     svg {
       filter: none;
     }
@@ -105,10 +102,6 @@ $summary-shade: rgb(230, 227, 227);
   }
   .selected_complete {
     background: var(--color-2);
-    #anchor {
-      display: inline-block;
-      color: var(--color-2);
-    }
   }
   .complete {
     background: var(--color-1);

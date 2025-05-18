@@ -1,10 +1,9 @@
 import { SelectionItem } from '@/types/Configurator';
 
-import soon from '../assets/common/soon.jpg';
-import no from '../assets/common/no.jpeg';
-import yes from '../assets/common/yes.png';
-
-import { farbenAussenInnenOptions } from './selectionItems/farbenData';
+import soon from '@/assets/common/soon.jpg';
+import no from '@/assets/common/no.jpeg';
+import yes from '@/assets/common/yes.png';
+import { farbenAussenInnenOptions } from './farbenData';
 
 // sonnenschutz items for all sonnenschutz categories
 export const sonnenschutzItems: Record<

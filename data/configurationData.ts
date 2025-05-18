@@ -4,7 +4,7 @@ import { Config, Size } from '@/types/Configurator';
 import { farbenOptions } from './selectionItems/farbenData';
 import { brands, covers, materials, windowStyles } from './selectionItems/basisData';
 import { verglasung } from './selectionItems/verglasungData';
-import { sonnenschutzItems } from './sonnenschutzData';
+import { sonnenschutzItems } from './selectionItems/sonnenschutzData';
 
 //
 // all items
@@ -101,4 +101,19 @@ export const initialConfiguration: Config = {
   schallschutz: verglasung.schallschutz[0],
   sprossen: 'Nein',
   druckausgleichsventil: verglasung.druckausgleichsventil[0],
+  sicherheitsbeschlage: 'Nein',
+  verdecktLiegenderBeschlag: 'Nein',
+  dünneSchweißnahtVPerfect: 'Nein',
+  verschlussüberwachungReedkontakt: 'Nein',
+  montagevorbohrungen: 'Nein',
+  lüftungssysteme: 'Nein',
+  rahmenverbreitung: 'Nein',
+  rahmenverbreitungMontiert: 'Nein',
+  rahmenverbreitungAuswahlen: {
+    links: 0,
+    rechts: 0,
+    oben: 0,
+    unten: 0
+  },
+  druckausgleichsventilZusatze: 'Nein'
 };

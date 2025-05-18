@@ -70,6 +70,21 @@ export interface Config {
   multiHeight?: Record<string, number>;
   obenMultiWidth?: Record<string, number>;
   untenMultiWidth?: Record<string, number>;
+  sicherheitsbeschlage: 'Nein' | 'Ja';
+  verdecktLiegenderBeschlag: 'Nein' | 'Ja';
+  rahmenverbreitung: 'Nein' | 'Ja';
+  rahmenverbreitungMontiert: 'Nein' | 'Ja';
+  dünneSchweißnahtVPerfect:  'Nein' | 'Ja';
+  verschlussüberwachungReedkontakt: 'Nein' | 'Ja';
+  montagevorbohrungen: 'Nein' | 'Ja';
+  lüftungssysteme: 'Nein' | 'Ja';
+  druckausgleichsventilZusatze: 'Nein' | 'Ja';
+  rahmenverbreitungAuswahlen: {
+    links: number;
+    rechts: number;
+    oben: number;
+    unten: number;
+  }
 }
 
 export type DobuleSelection = {
@@ -97,6 +112,10 @@ export interface DoubleStepperProps {
   configurationKey: keyof Config;
 }
 
+export interface YesNoSelectorProps {
+  label: string;
+}
+
 export interface StepWithoutProps {
   key: string;
   name: string;
@@ -117,18 +136,22 @@ export interface StepWithProps<TProps = unknown> {
   props?: TProps;
 }
 
-export type Step = StepWithoutProps | StepWithProps<DoubleStepperProps>;
+export type Step =
+  | StepWithoutProps
+  | StepWithProps<DoubleStepperProps>
+  | StepWithProps<YesNoSelectorProps>;
 
-export type GroupKey = 'basis' | 'farben' | 'verglasung' | 'sonnenschutz' | 'zusätze';
+export type GroupKey = 'basis' | 'farben' | 'verglasung' | 'sonnenschutz' | 'zusatze';
 
 type Image = StaticImageData;
 
 export type SelectionItem = {
   key: string;
   name: string;
-  image: Image;
+  image?: Image;
   isActive?: boolean;
   handleNumber?: number;
+  colorCode?: string;
   colors?: SelectionItem[];
   zoomable?: boolean;
   sectionNumber?: number;

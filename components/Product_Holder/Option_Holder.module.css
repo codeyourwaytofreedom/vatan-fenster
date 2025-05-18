@@ -15,27 +15,42 @@
   cursor: zoom-in;
 }
 .expand svg {
-  filter: drop-shadow(1px 0 black) drop-shadow(-1px 0 black) drop-shadow(0 1px black) drop-shadow(0 -1px black) drop-shadow(1px 1px black) drop-shadow(-1px -1px black) drop-shadow(1px -1px black) drop-shadow(-1px 1px black);
+  filter: drop-shadow(1px 0 black) drop-shadow(-1px 0 black) drop-shadow(0 1px black)
+    drop-shadow(0 -1px black) drop-shadow(1px 1px black) drop-shadow(-1px -1px black)
+    drop-shadow(1px -1px black) drop-shadow(-1px 1px black);
 }
 
 .glow {
-  box-shadow: 0 0 40px 30px white;
-  width: 95vw;
+  background-color: white;
+  padding: 15px;
+  padding-bottom: 30px;
+}
+.glow img {
+  width: 90vw;
   max-width: 500px;
   height: auto;
+}
+.glow p {
+  margin-top: 10px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  -moz-column-gap: 5px;
+  column-gap: 5px;
 }
 
 .option,
 .option_withzoom,
 .option_selected,
 .option_selected_withzoom {
-  max-width: 270px;
+  max-width: 300px;
   text-align: center;
   border: 1px solid silver;
   position: relative;
-  box-sizing: border-box;
   transition: all 0.4s ease;
   overflow: hidden;
+  cursor: pointer;
+  position: relative;
 }
 .option:hover p,
 .option_withzoom:hover p,
@@ -46,80 +61,49 @@
   transition: all 0.4s ease;
   transition-delay: 0.1s;
 }
-.option label,
-.option_withzoom label,
-.option_selected label,
-.option_selected_withzoom label {
-  cursor: pointer;
-  position: relative;
-}
-.option label img,
-.option_withzoom label img,
-.option_selected label img,
-.option_selected_withzoom label img {
+.option img,
+.option_withzoom img,
+.option_selected img,
+.option_selected_withzoom img {
   width: 100%;
   height: auto;
   transition: all 0.2s ease;
+  display: block;
 }
-.option label #details,
-.option_withzoom label #details,
-.option_selected label #details,
-.option_selected_withzoom label #details {
+.option #details,
+.option_withzoom #details,
+.option_selected #details,
+.option_selected_withzoom #details {
   width: 100%;
   height: 70px;
-  font-size: 14px;
+  font-size: 13px;
   display: flex;
   align-items: center;
   font-weight: 300;
+  padding: 0 5px;
+  border-bottom: 1px solid silver;
 }
-.option label p,
-.option_withzoom label p,
-.option_selected label p,
-.option_selected_withzoom label p {
+.option p,
+.option_withzoom p,
+.option_selected p,
+.option_selected_withzoom p {
   display: flex;
   align-items: center;
+  flex-direction: column;
   justify-content: center;
   text-align: center;
   padding: 0 5px;
   width: 100%;
   position: relative;
-  font-size: 15px;
-  flex: 1;
+  font-size: 14px;
   height: 70px;
-  margin-top: 5px;
-  border-top: 2px solid whitesmoke;
 }
-.option button,
-.option_withzoom button,
-.option_selected button,
-.option_selected_withzoom button {
-  width: 30px;
-  aspect-ratio: 1/1;
-  border-radius: 50%;
-  justify-self: flex-end;
-  position: absolute;
-  right: 5px;
-  top: 5px;
-  border: 2px solid black;
-  background-color: gold;
-  z-index: 8;
-  display: none;
-}
-.option #infobox,
-.option_withzoom #infobox,
-.option_selected #infobox,
-.option_selected_withzoom #infobox {
-  position: absolute;
-  top: 25px;
-  border: 2px solid black;
-  border-radius: 4%;
-  left: 20px;
-  width: calc(100% - 40px);
-  min-height: 50px;
-  font-size: small;
-  padding: 5px;
-  background-color: black;
-  color: whitesmoke;
+.option p span,
+.option_withzoom p span,
+.option_selected p span,
+.option_selected_withzoom p span {
+  font-size: 12px;
+  font-weight: 300;
 }
 
 .option_selected,
@@ -135,19 +119,4 @@
 .option_withzoom:hover img,
 .option_selected_withzoom:hover img {
   scale: 1.05;
-}
-
-.huge {
-  position: absolute;
-  right: -300px;
-  height: auto;
-  width: 300px;
-  display: flex;
-  justify-self: center;
-  z-index: 99;
-  background-color: silver;
-}
-.huge img {
-  width: 100%;
-  height: auto;
-}/*# sourceMappingURL=Option_Holder.module.css.map */
+} /*# sourceMappingURL=Option_Holder.module.css.map */

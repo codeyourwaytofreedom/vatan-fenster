@@ -4,7 +4,7 @@ import React, { createContext, ReactNode, useContext, useState } from 'react';
 interface ModalContextProps {
   isModalOpen: boolean;
   openModal: (content: React.ReactElement | undefined) => void;
-  closeModal: ()=> void;
+  closeModal: () => void;
   content: React.ReactElement | undefined;
 }
 

@@ -14,20 +14,18 @@ export default function GroupBottomActions({
   isLastStep,
   toggleExpand,
   nextGroupAction,
-  itemNumber
+  itemNumber,
 }: ActionsProps) {
   return (
     <div className={style.bottom_actions}>
-      {
-        itemNumber > 10 &&
+      {itemNumber > 10 && (
         <button className={style.show_more} onClick={toggleExpand}>
           <span>
-            <FontAwesomeIcon icon={expandable ? faPlus : faMinus} size={'1x'} beat /> &nbsp; {
-              expandable ? 'Alle anzeigen' : 'Weniger anzeigen'
-            }
+            <FontAwesomeIcon icon={expandable ? faPlus : faMinus} size={'1x'} beat /> &nbsp;{' '}
+            {expandable ? 'Alle anzeigen' : 'Weniger anzeigen'}
           </span>
         </button>
-      }
+      )}
       {isLastStep && (
         <button onClick={nextGroupAction} className={style.next_group}>
           <span>

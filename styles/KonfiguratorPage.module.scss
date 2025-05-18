@@ -163,16 +163,19 @@ $summary-shade: rgb(230, 227, 227);
     }
     #actions {
       display: grid;
+      padding: 10px;
       button {
         border: none;
         height: 35px;
         font-weight: bold;
-        &:hover {
-          filter: brightness(0.8);
-        }
+        transition: all 0.4s ease;
       }
       #add_to_chart {
-        background-color: rgb(234, 230, 230);
+        background-color: var(--color-2);
+        color: white;
+        &:hover {
+          background-color: var(--color-1);
+        }
       }
       #additional {
         background-color: $shine-color;
