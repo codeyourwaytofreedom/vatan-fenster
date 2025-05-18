@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { MouseEventHandler } from 'react';
+import { MouseEventHandler, useEffect } from 'react';
 import style from './Option_Holder.module.css';
 import { useConfiguration } from '@/context/ConfigurationContext';
 import { SelectionItem } from '@/types/Configurator';
@@ -20,6 +20,13 @@ export default function OptionHolder({ item, selected, action }: ProductHolderPr
   const withHoverZoom = currentStep && currentStep.withHoverZoom;
   const withoutDetails = currentStep && currentStep.withoutDetails;
 
+  useEffect(() => {
+  if (item.image && item.zoomable) {
+    const img = new window.Image();
+    img.src = item.image as unknown as string;
+  }
+}, [item.image, item.zoomable]);
+
   const cardClass = (() => {
     if (selected) {
       if (withHoverZoom) {
@@ -38,7 +45,7 @@ export default function OptionHolder({ item, selected, action }: ProductHolderPr
   const handleShowFullSize = () => {
     openModal(
       <div className={style.glow}>
-        <Image priority src={item.image!} alt={item.name} width={500} height={500} />
+        <Image priority src={item.image!} alt={item.name} width={500} height={500} sizes="500px" />
         <p>
           <span style={{ fontSize: 'x-large' }}>&#x270F;</span> {item.name}
         </p>
