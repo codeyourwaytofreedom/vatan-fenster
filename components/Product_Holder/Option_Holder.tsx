@@ -67,6 +67,7 @@ export default function OptionHolder({ item, selected, action }: ProductHolderPr
           {item.colorCode && <span>{item.colorCode}</span>}
         </p>
       </div>
+      <Image style={{display: 'none'}} src={item.image!} alt={item.name} width={500} height={500}/>
     </div>
   );
 }
