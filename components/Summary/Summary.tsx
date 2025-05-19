@@ -53,10 +53,12 @@ export default function SummaryDisplayer() {
     }, slowAction);
   };
 
-  // groupBasis
+  // group basis
   const { material, brand, profile, style, type, cover, size } = configuration;
+  // group farben
   const { colorExt, colorInt, dichtungAussen, dichtungInnen, sealInt, fenstergriffe } =
     configuration;
+  // group verglasung
   const {
     glasspaket,
     glasspaketWarmeKante,
@@ -65,6 +67,18 @@ export default function SummaryDisplayer() {
     schallschutz,
     sprossen,
     druckausgleichsventil,
+  } = configuration;
+  // group zusatze
+  const {
+    sicherheitsbeschlage,
+    verdecktLiegenderBeschlag,
+    dünneSchweißnahtVPerfect,
+    verschlussüberwachungReedkontakt,
+    montagevorbohrungen,
+    lüftungssysteme,
+    rahmenverbreiterung,
+    rahmenverbreiterungAuswahlen,
+    druckausgleichsventilZusatze,
   } = configuration;
 
   const groupBasis = {
@@ -96,17 +110,39 @@ export default function SummaryDisplayer() {
     druckausgleichsventil,
   };
 
+  const groupZusatze = {
+    sicherheitsbeschlage,
+    verdecktLiegenderBeschlag,
+    dünneSchweißnahtVPerfect,
+    verschlussüberwachungReedkontakt,
+    montagevorbohrungen,
+    lüftungssysteme,
+    rahmenverbreiterung,
+    rahmenverbreiterungAuswahlen,
+    druckausgleichsventilZusatze,
+  };
+
   const expandableGroups: { key: GroupKey; content: object }[] = [
     { key: 'farben', content: groupFarben },
     { key: 'verglasung', content: groupVerglasung },
+    { key: 'zusatze', content: groupZusatze }
   ];
 
-  const valueExtractor = (value: object | boolean | string) => {
+  const valueExtractor = (key: string , value: object | boolean | string) => {
+    if(key === 'sicherheitsverglasung'){
+      console.log(configuration);
+    }
     if (typeof value === 'boolean') {
       return value;
     }
     if (typeof value === 'string') {
       return value;
+    }
+    if('links' in value && 'rechts' in value){
+      const rahmenverbreiterungAuswahlenValue = Object.entries(value).reduce((acc, [key,val])=>{
+        return acc + key + ': ' + val + ' '
+      },'')
+      return rahmenverbreiterungAuswahlenValue;
     }
     if (typeof value === 'object') {
       if ('name' in value) {
@@ -120,11 +156,13 @@ export default function SummaryDisplayer() {
     return '--';
   };
 
-  const keyExtractor = (key: string) => {
+  const labelExtractor = (key: string) => {
     if (key === 'glasspaketWarmeKante') {
-      return 'warme kante';
+      return 'Warme Kante';
     }
-    return key;
+    const flatSteps = Object.values(steps).flat();
+    const stepLabel = flatSteps.find((st)=> st.key === key)?.name || '--';
+    return stepLabel;
   };
 
   const selectBasisGroup = () => {
@@ -175,8 +213,8 @@ export default function SummaryDisplayer() {
           ([key, value]) =>
             value && (
               <div key={key} className={styles.item} onClick={() => handleShowStep(key)} id={key}>
-                <span id={styles.title}>&#x2022; {key.toUpperCase()}</span>
-                <span id={styles.value}>{valueExtractor(value) as string}</span>
+                <span id={styles.title}>&#x2022; {labelExtractor(key)}</span>
+                <span id={styles.value}>{valueExtractor(key, value) as string}</span>
               </div>
             )
         )}
@@ -198,13 +236,13 @@ export default function SummaryDisplayer() {
                 <div
                   key={key}
                   className={
-                    (valueExtractor(value) as string).length < 25 ? styles.item : styles.itemGrid
+                    (valueExtractor(key,value) as string).length < 25 ? styles.item : styles.itemGrid
                   }
                   onClick={() => handleShowStep(key)}
                   id={key}
                 >
-                  <span id={styles.title}>&#x2022; {keyExtractor(key).toUpperCase()}</span>
-                  <div id={styles.value}>{valueExtractor(value) as string}</div>
+                  <span id={styles.title}>&#x2022; {labelExtractor(key)}</span>
+                  <div id={styles.value}>{valueExtractor(key,value) as string}</div>
                 </div>
               )
           )}

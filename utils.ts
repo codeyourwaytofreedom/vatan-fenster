@@ -12,3 +12,4 @@ export const scrollToElement = (elementId: string, delay: number = 0, offset: nu
     }
   }, delay);
 };
+

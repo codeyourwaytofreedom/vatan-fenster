@@ -78,7 +78,6 @@ export default function Stepper() {
       const scrollLeft = Number(stepsHolder!.current?.scrollLeft);
 
       if (scrollLeft === 0 && showLeftArrow) {
-        console.log('scrollLeft: ', scrollLeft);
         setShowLeftArrow(false);
       }
 
@@ -87,11 +86,9 @@ export default function Stepper() {
         //setScrollableDepth(scrollableDepth);
         if (!showRightArrow) {
           setShowRightArrow(true);
-          console.log('showed arrow right');
         }
       } else {
         if (showRightArrow) {
-          console.log('right arrow must disappear');
           setShowRightArrow(false);
         }
       }
@@ -118,11 +115,9 @@ export default function Stepper() {
       if (actualWidth! < scrollWidth!) {
         if (!showRightArrow) {
           setShowRightArrow(true);
-          console.log('showed arrow right');
         }
       } else {
         if (showRightArrow) {
-          console.log('right arrow must disappear');
           setShowRightArrow(false);
         }
       }

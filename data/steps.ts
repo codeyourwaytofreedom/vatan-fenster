@@ -257,7 +257,7 @@ export const steps: Record<GroupKey | string, Step[]> = {
       withoutDetails: true,
     },
     {
-      key: 'rahmenverbreiterungAuswählen',
+      key: 'rahmenverbreiterungAuswahlen',
       name: 'Rahmenverbreiterung Auswählen',
       icon: faSun,
       component: StepRahmenverbreiterungAuswahlen,

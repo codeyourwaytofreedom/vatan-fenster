@@ -28,7 +28,7 @@ export default function StepRahmenverbreiterungAuswahlen() {
     e: React.ChangeEvent<HTMLSelectElement>,
     key: 'links' | 'rechts' | 'oben' | 'unten'
   ) => {
-    const rahmenverbreitungAuswahlen = configuration.rahmenverbreitungAuswahlen;
+    const rahmenverbreitungAuswahlen = configuration.rahmenverbreiterungAuswahlen;
     rahmenverbreitungAuswahlen[key] = Number(e.target.value);
     setConfiguration((pr) => {
       return {
@@ -52,7 +52,7 @@ export default function StepRahmenverbreiterungAuswahlen() {
             </div>
             <select
               onChange={(e) => handleSelect(e, option.key)}
-              value={configuration.rahmenverbreitungAuswahlen[option.key]}
+              value={configuration.rahmenverbreiterungAuswahlen[option.key]}
             >
               <option value="0">0 mm</option>
               <option value="5">5 mm</option>

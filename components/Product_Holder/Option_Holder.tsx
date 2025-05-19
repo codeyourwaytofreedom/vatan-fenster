@@ -38,7 +38,7 @@ export default function OptionHolder({ item, selected, action }: ProductHolderPr
   const handleShowFullSize = () => {
     openModal(
       <div className={style.glow}>
-        <Image src={item.image!} alt={item.name} width={500} height={500}/>
+        <Image src={item.image!} alt={item.name} width={500} height={500} />
         <p>
           <span style={{ fontSize: 'x-large' }}>&#x270F;</span> {item.name}
         </p>
@@ -58,7 +58,7 @@ export default function OptionHolder({ item, selected, action }: ProductHolderPr
         className={cardClass}
         onClick={action}
       >
-        {item.image && <Image src={item.image} alt={item.name} width={250} height={220} />}
+        {item.image && <Image src={item.image} alt={item.name} width={220} height={220} />}
         {!withoutDetails && (
           <div id={style.details}>Keep up good work! Remember why you started!</div>
         )}
@@ -67,7 +67,13 @@ export default function OptionHolder({ item, selected, action }: ProductHolderPr
           {item.colorCode && <span>{item.colorCode}</span>}
         </p>
       </div>
-      <Image style={{display: 'none'}} src={item.image!} alt={item.name} width={500} height={500}/>
+      <Image
+        style={{ display: 'none' }}
+        src={item.image!}
+        alt={item.name}
+        width={500}
+        height={500}
+      />
     </div>
   );
 }

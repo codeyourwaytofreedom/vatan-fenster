@@ -97,7 +97,7 @@ export const initialConfiguration: Config = {
   glasspaket: verglasung.glasspaket[0],
   glasspaketWarmeKante: 'Nein',
   ornament: verglasung.ornament[0],
-  sicherheitsverglasung: verglasung.sicherheitsverglasung,
+  sicherheitsverglasung: verglasung.sicherheitsverglasung['2-f-v'][0],
   schallschutz: verglasung.schallschutz[0],
   sprossen: 'Nein',
   druckausgleichsventil: verglasung.druckausgleichsventil[0],
@@ -107,9 +107,9 @@ export const initialConfiguration: Config = {
   verschlussüberwachungReedkontakt: 'Nein',
   montagevorbohrungen: 'Nein',
   lüftungssysteme: 'Nein',
-  rahmenverbreitung: 'Nein',
+  rahmenverbreiterung: 'Nein',
   rahmenverbreitungMontiert: 'Nein',
-  rahmenverbreitungAuswahlen: {
+  rahmenverbreiterungAuswahlen: {
     links: 0,
     rechts: 0,
     oben: 0,

@@ -43,12 +43,12 @@ export default function StepRahmenverbreiterung() {
           <OptionHolder
             item={option}
             key={i}
-            action={() => updateConfiguration(option, 'rahmenverbreitung', false)}
-            selected={isSelected(option.name, 'rahmenverbreitung')}
+            action={() => updateConfiguration(option, 'rahmenverbreiterung', false)}
+            selected={isSelected(option.name, 'rahmenverbreiterung')}
           />
         ))}
       </div>
-      {configuration.rahmenverbreitung === 'Ja' && (
+      {configuration.rahmenverbreiterung === 'Ja' && (
         <>
           <br />
           <h4 className={style.label}>Sollen die Rahmenverbreiterungen montiert werden?</h4>

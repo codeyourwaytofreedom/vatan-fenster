@@ -48,7 +48,7 @@ export interface Config {
   glasspaket: SelectionItem;
   glasspaketWarmeKante: SelectionItem | 'Nein';
   ornament: SelectionItem;
-  sicherheitsverglasung: Record<string, SelectionItem[]>;
+  sicherheitsverglasung: SelectionItem;
   schallschutz: SelectionItem;
   sprossen: string | 'Nein';
   druckausgleichsventil: SelectionItem;
@@ -72,14 +72,14 @@ export interface Config {
   untenMultiWidth?: Record<string, number>;
   sicherheitsbeschlage: 'Nein' | 'Ja';
   verdecktLiegenderBeschlag: 'Nein' | 'Ja';
-  rahmenverbreitung: 'Nein' | 'Ja';
+  rahmenverbreiterung: 'Nein' | 'Ja';
   rahmenverbreitungMontiert: 'Nein' | 'Ja';
   dünneSchweißnahtVPerfect: 'Nein' | 'Ja';
   verschlussüberwachungReedkontakt: 'Nein' | 'Ja';
   montagevorbohrungen: 'Nein' | 'Ja';
   lüftungssysteme: 'Nein' | 'Ja';
   druckausgleichsventilZusatze: 'Nein' | 'Ja';
-  rahmenverbreitungAuswahlen: {
+  rahmenverbreiterungAuswahlen: {
     links: number;
     rechts: number;
     oben: number;
