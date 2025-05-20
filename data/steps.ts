@@ -49,11 +49,13 @@ import {
   aufStyroporkasten_farbeFührungsschieneProps,
   styroporkasten_antriebsartProps,
   styroporkasten_LamelleatProps,
+  vorsatzrollladen_antriebsartProps,
   vorsatzrollladen_putzträgerProps,
 } from './selectionItems/sonnenschutzData';
 import YesNoSelector from '@/components/YesNoSelector/YesNoSelector';
 import StepRahmenverbreiterung from '@/components/StepRahmenverbreiterung/StepRahmenverbreiterung';
-import StepRahmenverbreiterungAuswahlen from '@/components/StepRahmenverbreiterungAuswahlen/StepRahmenverbreiterungAuswahlen';
+import { yesNoOptions } from './configurationData';
+import empty from '@/assets/common/empty.jpg';
 
 export const steps: Record<GroupKey | string, Step[]> = {
   basis: [
@@ -128,7 +130,7 @@ export const steps: Record<GroupKey | string, Step[]> = {
     },
     {
       key: 'dichtungInnen',
-      name: 'Dichtungsfarbe & Form',
+      name: 'Dichtungsfarbe innen & Form',
       icon: faTools,
       withHoverZoom: true,
       withoutDetails: true,
@@ -149,11 +151,10 @@ export const steps: Record<GroupKey | string, Step[]> = {
       icon: faLayerGroup,
       withHoverZoom: true,
       withoutDetails: true,
-      //component: StepGlassPaket,
     },
     {
       key: 'ornament',
-      name: 'Ornament',
+      name: 'Ornament & Sicherheitsglas',
       icon: faSun,
       withHoverZoom: true,
       withoutDetails: true,
@@ -193,10 +194,27 @@ export const steps: Record<GroupKey | string, Step[]> = {
       key: 'sicherheitsbeschlage',
       name: 'Sicherheitsbeschlage',
       icon: faSun,
-      component: YesNoSelector,
+      component: DoubleStepper,
       withoutDetails: true,
       props: {
         label: 'Möchten Sie Sicherheitsbeschläge hinzufügen?',
+        subCategoryItems: {
+          ja: [
+            {
+              key: 'test1',
+              name: 'Test1',
+              image: empty,
+            },
+            {
+              key: 'test2',
+              name: 'Test2',
+              image: empty,
+            },
+          ],
+          nein: [],
+        },
+        categoryItems: yesNoOptions,
+        configurationKey: 'sicherheitsbeschlage',
       },
     },
     {
@@ -211,7 +229,7 @@ export const steps: Record<GroupKey | string, Step[]> = {
     },
     {
       key: 'dünneSchweißnahtVPerfect',
-      name: 'Dünne Schweißnaht V-perfect',
+      name: 'Schweißnaht',
       icon: faSun,
       component: YesNoSelector,
       withoutDetails: true,
@@ -220,7 +238,7 @@ export const steps: Record<GroupKey | string, Step[]> = {
       },
     },
     {
-      key: 'verschlussüberwachungReedkontakt',
+      key: 'reedKontakt',
       name: 'Verschlussüberwachung Reedkontakt',
       icon: faSun,
       component: YesNoSelector,
@@ -243,10 +261,27 @@ export const steps: Record<GroupKey | string, Step[]> = {
       key: 'lüftungssysteme',
       name: 'Lüftungssysteme',
       icon: faSun,
-      component: YesNoSelector,
+      component: DoubleStepper,
       withoutDetails: true,
       props: {
         label: 'Möchten Sie ein Lüftungssystem hinzufügen?',
+        subCategoryItems: {
+          ja: [
+            {
+              key: 'test1',
+              name: 'Lüftungssysteme1',
+              image: empty,
+            },
+            {
+              key: 'test2',
+              name: 'Lüftungssysteme2',
+              image: empty,
+            },
+          ],
+          nein: [],
+        },
+        categoryItems: yesNoOptions,
+        configurationKey: 'lüftungssysteme',
       },
     },
     {
@@ -256,23 +291,13 @@ export const steps: Record<GroupKey | string, Step[]> = {
       component: StepRahmenverbreiterung,
       withoutDetails: true,
     },
-    {
+    /*     {
       key: 'rahmenverbreiterungAuswahlen',
       name: 'Rahmenverbreiterung Auswählen',
       icon: faSun,
       component: StepRahmenverbreiterungAuswahlen,
       withoutDetails: true,
-    },
-    {
-      key: 'druckausgleichsventilZusatze',
-      name: 'Druckausgleichsventil',
-      icon: faSun,
-      component: YesNoSelector,
-      withoutDetails: true,
-      props: {
-        label: 'Möchten Sie Einen Druckausgleichsventil hinzufügen?',
-      },
-    },
+    }, */
   ],
   sonnenschutz: [],
 };
@@ -340,6 +365,7 @@ const _215_175: Step[] = [
     name: 'Antriebsart',
     icon: faGear,
     withHoverZoom: true,
+    withoutDetails: true,
     component: DoubleStepper,
     props: {
       configurationKey: 'antriebsart',
@@ -452,6 +478,7 @@ export const sonnenschutzStepPacks: Record<
       name: 'Antriebsart',
       icon: faGear,
       withHoverZoom: true,
+      withoutDetails: true,
       component: DoubleStepper,
       props: {
         ...styroporkasten_antriebsartProps,
@@ -529,9 +556,10 @@ export const sonnenschutzStepPacks: Record<
       icon: faGear,
       component: DoubleStepper,
       withHoverZoom: true,
+      withoutDetails: true,
       props: {
         configurationKey: 'antriebsart',
-        ...vorsatzrollladen_putzträgerProps,
+        ...vorsatzrollladen_antriebsartProps,
       },
     },
     {
@@ -582,6 +610,7 @@ export const sonnenschutzStepPacks: Record<
       name: 'Antriebsart',
       icon: faGear,
       withHoverZoom: true,
+      withoutDetails: true,
     },
     {
       key: 'antriebsseite',

@@ -4,7 +4,7 @@ import { steps } from '@/data/steps';
 import { useConfiguration } from '@/context/ConfigurationContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
-import { GroupKey, SelectionItem, SubStyle } from '@/types/Configurator';
+import { DobuleSelection, GroupKey, SelectionItem, SubStyle } from '@/types/Configurator';
 import { useState } from 'react';
 import Sizer from '../Sizer/Sizer';
 import { windowStyles } from '@/data/selectionItems/basisData';
@@ -73,12 +73,10 @@ export default function SummaryDisplayer() {
     sicherheitsbeschlage,
     verdecktLiegenderBeschlag,
     dünneSchweißnahtVPerfect,
-    verschlussüberwachungReedkontakt,
+    reedKontakt,
     montagevorbohrungen,
     lüftungssysteme,
     rahmenverbreiterung,
-    rahmenverbreiterungAuswahlen,
-    druckausgleichsventilZusatze,
   } = configuration;
 
   const groupBasis = {
@@ -114,45 +112,68 @@ export default function SummaryDisplayer() {
     sicherheitsbeschlage,
     verdecktLiegenderBeschlag,
     dünneSchweißnahtVPerfect,
-    verschlussüberwachungReedkontakt,
+    reedKontakt,
     montagevorbohrungen,
     lüftungssysteme,
     rahmenverbreiterung,
-    rahmenverbreiterungAuswahlen,
-    druckausgleichsventilZusatze,
   };
+
+  const groupSonnenschutz = {};
+
+  //const sonnenschutzSteps = getStepsForGroup('sonnenschutz');
 
   const expandableGroups: { key: GroupKey; content: object }[] = [
     { key: 'farben', content: groupFarben },
     { key: 'verglasung', content: groupVerglasung },
-    { key: 'zusatze', content: groupZusatze }
+    { key: 'zusatze', content: groupZusatze },
   ];
 
-  const valueExtractor = (key: string , value: object | boolean | string) => {
-    if(key === 'sicherheitsverglasung'){
-      console.log(configuration);
-    }
-    if (typeof value === 'boolean') {
+  if (configuration.cover.key !== 'nein') {
+    expandableGroups.push({ key: 'sonnenschutz', content: groupSonnenschutz });
+  }
+
+  const valueExtractor = (key: string, value: object | boolean | string) => {
+    if (typeof value === 'boolean' || typeof value === 'string') {
       return value;
     }
-    if (typeof value === 'string') {
-      return value;
+
+    if ('category' in value && 'subCategory' in value) {
+      const doubleSelection = value as DobuleSelection;
+      if (doubleSelection.category.name === 'Nein') {
+        return 'Nein';
+      }
+      return `${doubleSelection.category.name} - ${doubleSelection.subCategory.name || ''}`;
     }
-    if('links' in value && 'rechts' in value){
-      const rahmenverbreiterungAuswahlenValue = Object.entries(value).reduce((acc, [key,val])=>{
-        return acc + key + ': ' + val + ' '
-      },'')
-      return rahmenverbreiterungAuswahlenValue;
+
+    if (key === 'rahmenverbreiterung') {
+      const selection = value as SelectionItem;
+      if (selection.name === 'Nein') {
+        return 'Nein';
+      }
+
+      const ausgewahlenText = Object.entries(configuration.rahmenverbreiterungAuswahlen).reduce(
+        (acc, [key, val]) => acc + `${key}: ${val} `,
+        ''
+      );
+
+      return (
+        `${selection.name} - Montiert: ${configuration.rahmenverbreitungMontiert.name}\n` +
+        ausgewahlenText
+      );
     }
+
     if (typeof value === 'object') {
       if ('name' in value) {
-        return value.name;
+        return (value as { name: string }).name;
       }
+
       if ('option' in value) {
         return (value as SubStyle).option!.name;
       }
+
       return '--';
     }
+
     return '--';
   };
 
@@ -161,7 +182,7 @@ export default function SummaryDisplayer() {
       return 'Warme Kante';
     }
     const flatSteps = Object.values(steps).flat();
-    const stepLabel = flatSteps.find((st)=> st.key === key)?.name || '--';
+    const stepLabel = flatSteps.find((st) => st.key === key)?.name || '--';
     return stepLabel;
   };
 
@@ -236,13 +257,15 @@ export default function SummaryDisplayer() {
                 <div
                   key={key}
                   className={
-                    (valueExtractor(key,value) as string).length < 25 ? styles.item : styles.itemGrid
+                    (valueExtractor(key, value) as string).length < 25
+                      ? styles.item
+                      : styles.itemGrid
                   }
                   onClick={() => handleShowStep(key)}
                   id={key}
                 >
                   <span id={styles.title}>&#x2022; {labelExtractor(key)}</span>
-                  <div id={styles.value}>{valueExtractor(key,value) as string}</div>
+                  <div id={styles.value}>{valueExtractor(key, value) as string}</div>
                 </div>
               )
           )}

@@ -9,6 +9,7 @@ export default function DoubleStepper({
   categoryItems,
   subCategoryItems,
   configurationKey,
+  label,
 }: DoubleStepperProps) {
   const { configuration, moveToNextStep, setConfiguration } = useConfiguration();
   //const [expanded, setExpanded] = useState(false);
@@ -68,6 +69,13 @@ export default function DoubleStepper({
 
   return (
     <>
+      {label && (
+        <>
+          <br />
+          <h4 className={style.label}>{label}</h4>
+          <br />
+        </>
+      )}
       <div className={style.config_wrapper_option_holders}>
         {categoryItems
           ?.slice(0, !expanded ? 10 : categoryItems.length)

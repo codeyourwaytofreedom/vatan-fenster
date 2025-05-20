@@ -1,36 +1,32 @@
 import { useConfiguration } from '@/context/ConfigurationContext';
 import OptionHolder from '../Product_Holder/Option_Holder';
 import style from './StepRahmenverbreiterung.module.css';
-import { Config } from '@/types/Configurator';
+import { Config, SelectionItem } from '@/types/Configurator';
+import { yesNoOptions } from '@/data/configurationData';
+import StepRahmenverbreiterungAuswahlen from '../StepRahmenverbreiterungAuswahlen/StepRahmenverbreiterungAuswahlen';
 
 export default function StepRahmenverbreiterung() {
   const { configuration, setConfiguration, moveToNextStep } = useConfiguration();
 
-  const isSelected = (name: string, key: keyof Config) => {
-    return configuration[key] === name;
+  const isSelected = (item: SelectionItem, key: keyof Config) => {
+    return (configuration[key] as SelectionItem).key === item.key;
   };
 
-  const options: { key: string; name: 'Nein' | 'Ja' }[] = [
-    {
-      key: 'ja',
-      name: 'Ja',
-    },
-    {
-      key: 'nein',
-      name: 'Nein',
-    },
-  ];
-
   const updateConfiguration = (
-    item: { key: string; name: 'Nein' | 'Ja' },
+    item: {
+      key: string;
+      name: string;
+    },
     key: keyof Config,
     moveNext: boolean
   ) => {
     setConfiguration((prevConfig) => ({
       ...prevConfig,
-      [key]: item.name,
+      [key]: item,
     }));
-    if (moveNext) moveToNextStep();
+    if (moveNext) {
+      moveToNextStep();
+    }
   };
 
   return (
@@ -39,30 +35,35 @@ export default function StepRahmenverbreiterung() {
       <h4 className={style.label}>Möchten Sie Rahmenverbreitung hinzufügen?</h4>
       <br />
       <div className={style.container}>
-        {options.map((option, i) => (
+        {yesNoOptions.map((option, i) => (
           <OptionHolder
             item={option}
             key={i}
             action={() => updateConfiguration(option, 'rahmenverbreiterung', false)}
-            selected={isSelected(option.name, 'rahmenverbreiterung')}
+            selected={isSelected(option, 'rahmenverbreiterung')}
           />
         ))}
       </div>
-      {configuration.rahmenverbreiterung === 'Ja' && (
+      {configuration.rahmenverbreiterung.key === 'ja' && (
         <>
           <br />
           <h4 className={style.label}>Sollen die Rahmenverbreiterungen montiert werden?</h4>
           <br />
           <div className={style.container}>
-            {options.map((option, i) => (
+            {yesNoOptions.map((option, i) => (
               <OptionHolder
                 item={option}
                 key={i}
-                action={() => updateConfiguration(option, 'rahmenverbreitungMontiert', true)}
-                selected={isSelected(option.name, 'rahmenverbreitungMontiert')}
+                action={() => updateConfiguration(option, 'rahmenverbreitungMontiert', false)}
+                selected={isSelected(option, 'rahmenverbreitungMontiert')}
               />
             ))}
           </div>
+        </>
+      )}
+      {configuration.rahmenverbreiterung.key === 'ja' && (
+        <>
+          <StepRahmenverbreiterungAuswahlen />
         </>
       )}
     </>

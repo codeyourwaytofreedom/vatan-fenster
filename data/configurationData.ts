@@ -1,5 +1,5 @@
 //common images
-import { Config, Size } from '@/types/Configurator';
+import { Config, SelectionItem, Size } from '@/types/Configurator';
 
 import { farbenOptions } from './selectionItems/farbenData';
 import { brands, covers, materials, windowStyles } from './selectionItems/basisData';
@@ -67,6 +67,16 @@ export const categoryItems = [
   { key: 'montageartVorsatzrollladen', items: sonnenschutzItems.montageartVorsatzrollladen },
 ];
 
+const optionYes = {
+  key: 'ja',
+  name: 'Ja',
+};
+const optionNo = {
+  key: 'nein',
+  name: 'Nein',
+};
+export const yesNoOptions = [optionNo, optionYes];
+
 export const initialSubstyle = {
   option: null,
   oben: null,
@@ -101,19 +111,19 @@ export const initialConfiguration: Config = {
   schallschutz: verglasung.schallschutz[0],
   sprossen: 'Nein',
   druckausgleichsventil: verglasung.druckausgleichsventil[0],
-  sicherheitsbeschlage: 'Nein',
-  verdecktLiegenderBeschlag: 'Nein',
-  dünneSchweißnahtVPerfect: 'Nein',
-  verschlussüberwachungReedkontakt: 'Nein',
-  montagevorbohrungen: 'Nein',
-  lüftungssysteme: 'Nein',
-  rahmenverbreiterung: 'Nein',
-  rahmenverbreitungMontiert: 'Nein',
+  sicherheitsbeschlage: { category: optionNo, subCategory: {} as SelectionItem },
+  verdecktLiegenderBeschlag: optionNo,
+  dünneSchweißnahtVPerfect: optionNo,
+  reedKontakt: optionNo,
+  montagevorbohrungen: optionNo,
+  lüftungssysteme: { category: optionNo, subCategory: {} as SelectionItem },
+  rahmenverbreiterung: optionNo,
+  rahmenverbreitungMontiert: optionNo,
   rahmenverbreiterungAuswahlen: {
     links: 0,
     rechts: 0,
     oben: 0,
     unten: 0,
   },
-  druckausgleichsventilZusatze: 'Nein',
+  druckausgleichsventilZusatze: optionNo,
 };

@@ -8,25 +8,25 @@ export default function YesNoSelector({ label }: YesNoSelectorProps) {
   const { currentStep, configuration, setConfiguration, moveToNextStep } = useConfiguration();
   const isSelected = (name: string) => {
     if (currentStep) {
-      return (configuration[currentStep?.key as keyof Config] as string) === name;
+      return (configuration[currentStep?.key as keyof Config] as SelectionItem).name === name;
     }
     return false;
   };
   const options = [
     {
-      key: 'ja',
-      name: 'Ja',
-    },
-    {
       key: 'nein',
       name: 'Nein',
+    },
+    {
+      key: 'ja',
+      name: 'Ja',
     },
   ];
   const updateConfiguration = (item: SelectionItem) => {
     if (currentStep) {
       setConfiguration((prevConfig) => ({
         ...prevConfig,
-        [currentStep?.key as keyof Config]: item.name,
+        [currentStep?.key as keyof Config]: item,
       }));
     }
     moveToNextStep();

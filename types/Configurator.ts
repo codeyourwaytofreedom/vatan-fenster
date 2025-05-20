@@ -70,15 +70,21 @@ export interface Config {
   multiHeight?: Record<string, number>;
   obenMultiWidth?: Record<string, number>;
   untenMultiWidth?: Record<string, number>;
-  sicherheitsbeschlage: 'Nein' | 'Ja';
-  verdecktLiegenderBeschlag: 'Nein' | 'Ja';
-  rahmenverbreiterung: 'Nein' | 'Ja';
-  rahmenverbreitungMontiert: 'Nein' | 'Ja';
-  dünneSchweißnahtVPerfect: 'Nein' | 'Ja';
-  verschlussüberwachungReedkontakt: 'Nein' | 'Ja';
-  montagevorbohrungen: 'Nein' | 'Ja';
-  lüftungssysteme: 'Nein' | 'Ja';
-  druckausgleichsventilZusatze: 'Nein' | 'Ja';
+  sicherheitsbeschlage: {
+    category: SelectionItem;
+    subCategory: SelectionItem;
+  };
+  verdecktLiegenderBeschlag: SelectionItem;
+  rahmenverbreiterung: SelectionItem;
+  rahmenverbreitungMontiert: SelectionItem;
+  dünneSchweißnahtVPerfect: SelectionItem;
+  reedKontakt: SelectionItem;
+  montagevorbohrungen: SelectionItem;
+  lüftungssysteme: {
+    category: SelectionItem;
+    subCategory: SelectionItem;
+  };
+  druckausgleichsventilZusatze: SelectionItem;
   rahmenverbreiterungAuswahlen: {
     links: number;
     rechts: number;
@@ -110,6 +116,7 @@ export interface DoubleStepperProps {
   categoryItems: SelectionItem[];
   subCategoryItems: Record<string, SelectionItem[]>;
   configurationKey: keyof Config;
+  label?: string;
 }
 
 export interface YesNoSelectorProps {

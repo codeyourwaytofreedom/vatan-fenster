@@ -67,15 +67,15 @@ export default function Configuration_Group({ groupTitle, steps }: GroupProps) {
   }, [groupActive, visibleSection]);
 
   // autoselect sicherheitsverglasung's first option when glasspaket changes
-  useEffect(()=>{
+  useEffect(() => {
     const items = sicherheitsverglasungDynamicItems[configuration.glasspaket.key];
-    setConfiguration((pr)=>{
+    setConfiguration((pr) => {
       return {
         ...pr,
-        sicherheitsverglasung: items[0]
-      }
-    })
-  },[configuration.glasspaket]);
+        sicherheitsverglasung: items[0],
+      };
+    });
+  }, [configuration.glasspaket]);
 
   const handleSelectGroup = () => {
     setCurrentGroup(groupTitle);

@@ -177,10 +177,10 @@ export const sonnenschutzItems: Record<
     { key: '7grad', name: '7°', image: soon },
   ],
   antriebsart: [
-    { key: 'gurt', name: 'Gurt', image: soon },
-    { key: 'motor', name: 'Motor', image: soon },
-    { key: 'kurbel', name: 'Kurbel', image: soon },
-    { key: 'pflicht', name: 'Pflicht', image: soon },
+    { key: 'gurt', name: 'Gurt' },
+    { key: 'motor', name: 'Motor' },
+    { key: 'kurbel', name: 'Kurbel' },
+    { key: 'pflicht', name: 'Pflicht' },
   ],
   antriebsseite: [
     { key: 'links', name: 'Links', image: soon },
@@ -272,27 +272,22 @@ export const sonnenschutzItems: Record<
     {
       key: 'j406_wt_protect',
       name: 'Motor Somfy J406 6/24 WT Protect',
-      image: soon,
     },
     {
       key: 'j406_io_protect',
       name: 'Motor Somfy J406 6/24 IO Protect',
-      image: soon,
     },
     {
       key: 'j406_io_smoove',
       name: 'Motor Somfy J406 6/24 iO PROTECT + SOMFY Smoove 1 iO Pure',
-      image: soon,
     },
     {
       key: 'j406_io_smoove_situo1',
       name: 'Motor Somfy J406 6/24 iO PROTECT + Smoove 1 iO Pure + Situo 1 Variation iO Pure',
-      image: soon,
     },
     {
       key: 'j406_io_smoove_situo5',
       name: 'Motor Somfy J406 6/24 iO PROTECT + Smoove 1 iO Pure + Situo 5 Variationen AM iO Pure',
-      image: soon,
     },
   ],
   kastendämmungAufStyroporkasten: [
@@ -412,17 +407,14 @@ export const _215_175_antriebsartProps = {
     {
       key: 'gurt',
       name: 'Gurt',
-      image: soon,
     },
     {
       key: 'motor',
       name: 'Motor',
-      image: soon,
     },
     {
       key: 'kurbel',
       name: 'Kurbel',
-      image: soon,
     },
   ],
   subCategoryItems: {
@@ -559,7 +551,6 @@ export const styroporkasten_antriebsartProps = {
     {
       key: 'motor',
       name: 'Motor',
-      image: soon,
     },
   ],
   subCategoryItems: {
@@ -628,17 +619,14 @@ export const vorsatzrollladen_antriebsartProps = {
     {
       key: 'gurt',
       name: 'Gurt',
-      image: soon,
     },
     {
       key: 'motor',
       name: 'Motor',
-      image: soon,
     },
     {
       key: 'kurbel',
       name: 'Kurbel',
-      image: soon,
     },
   ],
   subCategoryItems: {

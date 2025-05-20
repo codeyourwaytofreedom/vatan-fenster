@@ -45,7 +45,7 @@ import Aufsatzrolladen_215_225 from '@/assets/configurator/sonnenschutz/001.Aufs
 import Aufsatzrolladen_175 from '@/assets/configurator/sonnenschutz/002.Aufsatzrolladen_175.png';
 import Aufsatzrolladen_Styroporkasten from '@/assets/configurator/sonnenschutz/003.Aufsatzrolladen_(Styroporkasten).png';
 import Vorsatzrollladen from '@/assets/configurator/sonnenschutz/004.Vorsatzrollladen.png';
-import Aufsatzraffstore_Styroporkasten from '@/assets/configurator/sonnenschutz/001.Aufsatzrolladen_215_225.png';
+import Aufsatzraffstore_Styroporkasten from '@/assets/configurator/sonnenschutz/005.Aufsatzraffstore_(Styroporkasten).png';
 import Vorsatzraffstore from '@/assets/configurator/sonnenschutz/006.Vorsatzraffstore.png';
 
 export const materials: SelectionItem[] = [
