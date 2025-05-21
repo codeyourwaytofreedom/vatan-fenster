@@ -1,4 +1,4 @@
-import { Config, SelectionItem, Step, StepWithProps } from '@/types/Configurator';
+import { Config, DobuleSelection, DoubleStepperProps, SelectionItem, Step, StepWithProps } from '@/types/Configurator';
 import style from '../../styles/KonfiguratorPage.module.css';
 import Stepper from '../Stepper/Stepper';
 import OptionHolder from '../Product_Holder/Option_Holder';
@@ -6,6 +6,8 @@ import { categoryItems } from '@/data/configurationData';
 import { useEffect, useState } from 'react';
 import { useConfiguration } from '@/context/ConfigurationContext';
 import GroupBottomActions from '../GroupBottomActions/GroupBottomActions';
+import { sonnenschutzItems } from '@/data/selectionItems/sonnenschutzData';
+import DoubleStepper from '../DoubleStepper/DoubleStepper';
 
 export default function Sonnenschutz_Group() {
   const isSelected = (name: string) => {
@@ -23,6 +25,7 @@ export default function Sonnenschutz_Group() {
     setCurrentStep,
     setCurrentGroup,
     setConfiguration,
+    getStepsForGroup,
     moveToNextStep,
   } = useConfiguration();
 
@@ -34,6 +37,29 @@ export default function Sonnenschutz_Group() {
   const [expandedSteps, setExpandedSteps] = useState<string[]>([]);
 
   const expanded = currentStep && expandedSteps.includes(currentStep?.key);
+
+  const sonnenschutzSteps = getStepsForGroup('sonnenschutz');
+
+  useEffect(()=>{
+    if(configuration.cover.key === 'nein') return;
+    const sonnenschutzDefaultConfig: Record<string, SelectionItem | DobuleSelection> = {};
+    for (let index = 0; index < sonnenschutzSteps.length; index++) {
+      const step = sonnenschutzSteps[index];
+      if('component' in step){
+        if(step.component === DoubleStepper){
+        sonnenschutzDefaultConfig[(step?.props as DoubleStepperProps).configurationKey] = {
+            category: (step?.props as DoubleStepperProps)?.categoryItems[0],
+            subCategory: (step?.props as DoubleStepperProps)?.subCategoryItems[(step?.props as DoubleStepperProps)?.categoryItems[0].key][0]
+          }
+        }
+        // components handle their own configuration actions
+        //continue;
+      }else{
+      sonnenschutzDefaultConfig[step.key] = sonnenschutzItems[step.key as keyof typeof sonnenschutzItems][0];
+      }
+    }
+    setConfiguration((pr)=>{return {...pr,...sonnenschutzDefaultConfig }});
+  },[sonnenschutzSteps]);
 
   const expandable =
     itemsToDisplay &&

@@ -29,7 +29,6 @@ export const categoryItems = [
   { key: 'adapter', items: sonnenschutzItems.adapter },
   { key: 'revisionsöffnung', items: sonnenschutzItems.revisionsöffnung },
   { key: 'lamellenartVorsatzrollladen', items: sonnenschutzItems.lamellenartVorsatzrollladen },
-  { key: 'farbeRollladenkasten', items: sonnenschutzItems.farbeRollladenkasten },
   { key: 'farbeRollladenPanzer', items: sonnenschutzItems.farbeRollladenPanzer },
   { key: 'farbeEndschiene', items: sonnenschutzItems.farbeEndschiene },
   { key: 'putzträger', items: sonnenschutzItems.putzträger },

@@ -60,7 +60,10 @@ export interface Config {
   };
   verlangerung?: number;
   antriebsart?: SelectionItem;
-  farbeRollladenkasten?: SelectionItem;
+  farbeRollladenkasten?: {
+    category: SelectionItem;
+    subCategory: SelectionItem;
+  };
   farbeRollladenPanzer?: SelectionItem;
   farbeEndschiene?: SelectionItem;
   farbeFührungsschiene?: SelectionItem;

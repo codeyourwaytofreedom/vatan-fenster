@@ -4,7 +4,7 @@ import { steps } from '@/data/steps';
 import { useConfiguration } from '@/context/ConfigurationContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
-import { DobuleSelection, GroupKey, SelectionItem, SubStyle } from '@/types/Configurator';
+import { Config, DobuleSelection, GroupKey, SelectionItem, SubStyle } from '@/types/Configurator';
 import { useState } from 'react';
 import Sizer from '../Sizer/Sizer';
 import { windowStyles } from '@/data/selectionItems/basisData';
@@ -132,7 +132,7 @@ export default function SummaryDisplayer() {
     expandableGroups.push({ key: 'sonnenschutz', content: groupSonnenschutz });
   }
 
-  const valueExtractor = (key: string, value: object | boolean | string) => {
+  const valueExtractor = (key: keyof Config, value: object | boolean | string) => {
     if (typeof value === 'boolean' || typeof value === 'string') {
       return value;
     }
@@ -160,6 +160,12 @@ export default function SummaryDisplayer() {
         `${selection.name} - Montiert: ${configuration.rahmenverbreitungMontiert.name}\n` +
         ausgewahlenText
       );
+    }
+
+    if(key === 'fenstergriffe'){
+      console.log(value);
+      const selection = value as {type: SelectionItem, choice: SelectionItem};
+      return `${selection.type?.name} - ${selection.choice.name}`
     }
 
     if (typeof value === 'object') {
@@ -235,7 +241,7 @@ export default function SummaryDisplayer() {
             value && (
               <div key={key} className={styles.item} onClick={() => handleShowStep(key)} id={key}>
                 <span id={styles.title}>&#x2022; {labelExtractor(key)}</span>
-                <span id={styles.value}>{valueExtractor(key, value) as string}</span>
+                <span id={styles.value}>{valueExtractor(key as keyof Config, value) as string}</span>
               </div>
             )
         )}
@@ -257,7 +263,7 @@ export default function SummaryDisplayer() {
                 <div
                   key={key}
                   className={
-                    (valueExtractor(key, value) as string).length < 25
+                    (valueExtractor(key as keyof Config, value) as string).length < 25
                       ? styles.item
                       : styles.itemGrid
                   }
@@ -265,7 +271,7 @@ export default function SummaryDisplayer() {
                   id={key}
                 >
                   <span id={styles.title}>&#x2022; {labelExtractor(key)}</span>
-                  <div id={styles.value}>{valueExtractor(key, value) as string}</div>
+                  <div id={styles.value}>{valueExtractor(key as keyof Config, value) as string}</div>
                 </div>
               )
           )}

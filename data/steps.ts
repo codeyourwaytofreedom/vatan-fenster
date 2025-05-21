@@ -644,3 +644,7 @@ export const sonnenschutzStepPacks: Record<
     },
   ],
 };
+
+const sonnenschutzAllSteps = Object.values(sonnenschutzStepPacks).flat().map((it)=>it.key);
+
+export const sonnenschutzAllStepKeys = new Set(sonnenschutzAllSteps);

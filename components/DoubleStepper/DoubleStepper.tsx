@@ -50,21 +50,12 @@ export default function DoubleStepper({
   };
 
   useEffect(() => {
-    if (!Boolean(selection)) {
-      setSelection(() => {
-        return {
-          category: categoryItems[0],
-          subCategory: subCategoryItems[categoryItems[0].key][0],
-        };
-      });
-    } else {
       setConfiguration((pr) => {
         return {
           ...pr,
           [configurationKey]: selection,
         };
       });
-    }
   }, [selection]);
 
   return (

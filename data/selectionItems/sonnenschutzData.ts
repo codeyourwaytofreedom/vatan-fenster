@@ -11,7 +11,6 @@ export const sonnenschutzItems: Record<
   | 'revisionsöffnung'
   | 'lamellenart'
   | 'lamellenartVorsatzrollladen'
-  | 'farbeRollladenkasten'
   | 'farbeRollladenPanzer'
   | 'farbeEndschiene'
   | 'putzträger'
@@ -118,13 +117,13 @@ export const sonnenschutzItems: Record<
     { key: 'alu_42mm', name: '42mm Alu', image: soon },
     { key: 'alu_55mm', name: '55mm Alu', image: soon },
   ],
-  farbeRollladenkasten: [
+/*   farbeRollladenkasten: [
     {
       key: 'default',
       name: 'Nein = Weiß',
       image: soon,
     },
-  ],
+  ], */
   farbeRollladenPanzer: [
     { key: 'silber', name: 'Silber', image: soon },
     { key: 'weiss', name: 'Weiß', image: soon },
