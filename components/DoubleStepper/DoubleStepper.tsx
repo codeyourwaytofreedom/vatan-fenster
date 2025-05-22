@@ -19,8 +19,9 @@ export default function DoubleStepper({
   );
   const items = useRef<HTMLDivElement>(null);
 
-  const categorySelected = (item: SelectionItem) => selection?.category?.key === item.key;
-  const subCategorySelected = (item: SelectionItem) => selection?.subCategory?.key === item.key;
+  const categorySelected = (item: SelectionItem) => (configuration[configurationKey] as DobuleSelection)?.category?.key === item.key;
+  const subCategorySelected = (item: SelectionItem) => (configuration[configurationKey] as DobuleSelection)?.subCategory?.key === item.key;
+
 
   const itemsToDisplay = subCategoryItems[selection?.category?.key];
   const expandable = itemsToDisplay?.length > 10;

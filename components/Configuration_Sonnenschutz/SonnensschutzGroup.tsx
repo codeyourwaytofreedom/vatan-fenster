@@ -8,6 +8,7 @@ import { useConfiguration } from '@/context/ConfigurationContext';
 import GroupBottomActions from '../GroupBottomActions/GroupBottomActions';
 import { sonnenschutzItems } from '@/data/selectionItems/sonnenschutzData';
 import DoubleStepper from '../DoubleStepper/DoubleStepper';
+import StepVerlangerung from '../StepVerlängerung/StepVerlangerung';
 
 export default function Sonnenschutz_Group() {
   const isSelected = (name: string) => {
@@ -42,7 +43,7 @@ export default function Sonnenschutz_Group() {
 
   useEffect(()=>{
     if(configuration.cover.key === 'nein') return;
-    const sonnenschutzDefaultConfig: Record<string, SelectionItem | DobuleSelection> = {};
+    const sonnenschutzDefaultConfig: Record<string, SelectionItem | DobuleSelection | number> = {};
     for (let index = 0; index < sonnenschutzSteps.length; index++) {
       const step = sonnenschutzSteps[index];
       if('component' in step){
@@ -52,14 +53,16 @@ export default function Sonnenschutz_Group() {
             subCategory: (step?.props as DoubleStepperProps)?.subCategoryItems[(step?.props as DoubleStepperProps)?.categoryItems[0].key][0]
           }
         }
-        // components handle their own configuration actions
-        //continue;
+        if(step.component === StepVerlangerung){
+          sonnenschutzDefaultConfig.verlangerung = 0;
+        }
       }else{
       sonnenschutzDefaultConfig[step.key] = sonnenschutzItems[step.key as keyof typeof sonnenschutzItems][0];
       }
     }
+    console.log(sonnenschutzDefaultConfig);
     setConfiguration((pr)=>{return {...pr,...sonnenschutzDefaultConfig }});
-  },[sonnenschutzSteps]);
+  },[configuration.cover]);
 
   const expandable =
     itemsToDisplay &&

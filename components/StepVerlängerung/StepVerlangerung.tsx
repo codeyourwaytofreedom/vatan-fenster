@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import style from './StepVerlängerung.module.css';
 import { useConfiguration } from '@/context/ConfigurationContext';
-export default function StepVerlängerung() {
+export default function StepVerlangerung() {
   const { configuration, setConfiguration } = useConfiguration();
   const [length, setLength] = useState<number>(configuration.verlangerung ?? 0);
 

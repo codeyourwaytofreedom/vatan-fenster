@@ -26,7 +26,6 @@ import {
   faShieldAlt,
   faShieldHalved,
   faSignsPost,
-  faSmile,
   faSnowflake,
   faSun,
   faToolbox,
@@ -40,7 +39,7 @@ import StepSprossen from '@/components/StepSprossen/StepSprossen';
 import Fenstergriffe from '@/components/StepFenstergriffe/Fenstergriffe';
 import PlaceHolder from '@/components/PlaceHolder/PlaceHolder';
 import DoubleStepper from '@/components/DoubleStepper/DoubleStepper';
-import StepVerlängerung from '@/components/StepVerlängerung/StepVerlängerung';
+import StepVerlangerung from '@/components/StepVerlängerung/StepVerlangerung';
 import {
   _215_175_antriebsartProps,
   _215_175_farbeRollladenkasten,
@@ -154,7 +153,7 @@ export const steps: Record<GroupKey | string, Step[]> = {
     },
     {
       key: 'ornament',
-      name: 'Ornament & Sicherheitsglas',
+      name: 'Ornament & Sonnenschutzglas',
       icon: faSun,
       withHoverZoom: true,
       withoutDetails: true,
@@ -239,7 +238,7 @@ export const steps: Record<GroupKey | string, Step[]> = {
     },
     {
       key: 'reedKontakt',
-      name: 'Verschlussüberwachung Reedkontakt',
+      name: 'Reedkontakt',
       icon: faSun,
       component: YesNoSelector,
       withoutDetails: true,
@@ -385,10 +384,10 @@ const _215_175: Step[] = [
     withHoverZoom: true,
   },
   {
-    key: 'verlängerung',
+    key: 'verlangerung',
     name: 'Verlängerung',
     icon: faExpandAlt,
-    component: StepVerlängerung,
+    component: StepVerlangerung,
   },
   {
     key: 'rollladen',
@@ -495,7 +494,7 @@ export const sonnenschutzStepPacks: Record<
       key: 'verlängerung',
       name: 'Verlängerung',
       icon: faExpandAlt,
-      component: StepVerlängerung,
+      component: StepVerlangerung,
     },
   ],
   vorsatzrollladen: [
@@ -517,12 +516,16 @@ export const sonnenschutzStepPacks: Record<
       icon: faBars,
       withHoverZoom: true,
     },
-    {
-      key: 'farbeRollladenkasten',
-      name: 'Farbe Rollladenkasten',
-      icon: faColonSign,
-      component: PlaceHolder,
+  {
+    key: 'farbeRollladenkasten',
+    name: 'Farbe Rollladenkasten',
+    icon: faColonSign,
+    component: DoubleStepper,
+    props: {
+      ..._215_175_farbeRollladenkasten,
+      configurationKey: 'farbeRollladenkasten',
     },
+  },
     {
       key: 'farbeRollladenPanzer',
       name: 'Farbe Rollladenpanzer',
@@ -637,11 +640,6 @@ export const sonnenschutzStepPacks: Record<
     },
   ],
   vorsatzraffstore: [
-    {
-      key: 'empty',
-      name: 'Empty',
-      icon: faSmile,
-    },
   ],
 };
 

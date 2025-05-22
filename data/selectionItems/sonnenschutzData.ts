@@ -375,7 +375,7 @@ export const _215_175_putzträgerProps = {
     {
       key: 'nein',
       name: 'Nein',
-      image: no,
+      image: soon,
     },
     {
       key: 'innen',
@@ -593,7 +593,7 @@ export const vorsatzrollladen_putzträgerProps = {
     {
       key: 'nein',
       name: 'Nein',
-      image: no,
+      image: soon,
     },
     {
       key: 'aussen',
