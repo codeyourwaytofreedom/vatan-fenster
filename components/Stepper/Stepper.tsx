@@ -3,11 +3,15 @@ import style from './Stepper.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useConfiguration } from '@/context/ConfigurationContext';
 import { useOrderDetailsReady } from '@/context/OrderDetailsContext';
-import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { faChevronLeft, faChevronRight, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useRef, useState } from 'react';
+import { useModal } from '@/context/ModalContext';
+import { faComments as faCommentsRegular } from '@fortawesome/free-regular-svg-icons';
 
 export default function Stepper() {
   const { orderDetailsReady } = useOrderDetailsReady();
+  const { openModal } = useModal();
+
   const stepClass = (step: Step) => {
     const currentlySelected = step.key === currentStep?.key;
     const completed = Boolean(configuration[step.key as keyof Config]);
@@ -237,6 +241,19 @@ export default function Stepper() {
     }
   }, [currentStep]);
 
+  const handleShowStepInfo = () => {
+    openModal(
+      <div className={style.step_details}>
+        <h2>
+          <FontAwesomeIcon icon={faCommentsRegular} color="salmon" size='xl' />
+          &nbsp; &nbsp;
+          {currentStep?.name}
+        </h2>
+        <br />
+        <p>{currentStep?.stepDetails}</p>
+      </div>
+    );
+  };
   return (
     <>
       <div
@@ -272,16 +289,21 @@ export default function Stepper() {
             </button>
           </div>
         )}
-        <button
-          style={{ visibility: !isFirstStepInBasis ? 'visible' : 'hidden' }}
-          className={style.previousStep}
-          onClick={goToPreviousStep}
-        >
-          <FontAwesomeIcon icon={faChevronLeft} />
-          <FontAwesomeIcon icon={faChevronLeft} />
-          <FontAwesomeIcon icon={faChevronLeft} />
-          &nbsp; Vorheriger Schritt
-        </button>
+        <div className={style.step_actions}>
+          <button
+            style={{ display: !isFirstStepInBasis ? 'block' : 'none' }}
+            className={style.previousStep}
+            onClick={goToPreviousStep}
+          >
+            <FontAwesomeIcon icon={faChevronLeft} />
+            <FontAwesomeIcon icon={faChevronLeft} />
+            <FontAwesomeIcon icon={faChevronLeft} />
+            &nbsp; Vorheriger Schritt
+          </button>
+          {currentStep?.stepDetails && (
+              <FontAwesomeIcon color='salmon' style={{cursor: 'pointer'}} onClick={handleShowStepInfo} beat icon={faInfoCircle} size='xl' />
+          )}
+        </div>
       </div>
     </>
   );

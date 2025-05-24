@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import OptionHolder from '../Product_Holder/Option_Holder';
 import style from './DoubleStepper.module.css';
 import { DobuleSelection, DoubleStepperProps, SelectionItem } from '@/types/Configurator';
@@ -12,27 +12,33 @@ export default function DoubleStepper({
   label,
 }: DoubleStepperProps) {
   const { configuration, moveToNextStep, setConfiguration } = useConfiguration();
-  //const [expanded, setExpanded] = useState(false);
 
-  const [selection, setSelection] = useState<DobuleSelection>(
-    configuration[configurationKey] as DobuleSelection
-  );
   const items = useRef<HTMLDivElement>(null);
 
-  const categorySelected = (item: SelectionItem) => (configuration[configurationKey] as DobuleSelection)?.category?.key === item.key;
-  const subCategorySelected = (item: SelectionItem) => (configuration[configurationKey] as DobuleSelection)?.subCategory?.key === item.key;
+  const categorySelected = (item: SelectionItem) =>
+    (configuration[configurationKey] as DobuleSelection)?.category?.key === item.key;
+  const subCategorySelected = (item: SelectionItem) =>
+    (configuration[configurationKey] as DobuleSelection)?.subCategory?.key === item.key;
 
-
-  const itemsToDisplay = subCategoryItems[selection?.category?.key];
+  const itemsToDisplay =
+    subCategoryItems[(configuration[configurationKey] as DobuleSelection)?.category?.key];
   const expandable = itemsToDisplay?.length > 10;
 
   const [expanded, setExpanded] = useState(false);
 
   const handleSelectCategory = (item: SelectionItem) => {
-    setSelection(() => {
+    if (item.key === (configuration[configurationKey] as DobuleSelection).category.key) {
+      return setTimeout(() => {
+        items?.current?.scrollIntoView({ behavior: 'smooth' });
+      }, 300);
+    }
+    setConfiguration((pr) => {
       return {
-        category: item,
-        subCategory: subCategoryItems[item.key][0],
+        ...pr,
+        [configurationKey]: {
+          category: item,
+          subCategory: subCategoryItems[item.key][0],
+        },
       };
     });
     setTimeout(() => {
@@ -41,23 +47,17 @@ export default function DoubleStepper({
   };
 
   const handleSelectSubCategory = (item: SelectionItem) => {
-    setSelection(() => {
+    setConfiguration((pr) => {
       return {
-        category: selection.category,
-        subCategory: item,
+        ...pr,
+        [configurationKey]: {
+          category: (configuration[configurationKey] as DobuleSelection).category,
+          subCategory: item,
+        },
       };
     });
     moveToNextStep();
   };
-
-  useEffect(() => {
-      setConfiguration((pr) => {
-        return {
-          ...pr,
-          [configurationKey]: selection,
-        };
-      });
-  }, [selection]);
 
   return (
     <>

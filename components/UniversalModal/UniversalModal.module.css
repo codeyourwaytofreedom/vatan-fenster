@@ -4,24 +4,15 @@
   left: 0;
   bottom: 0;
   top: 0;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.8);
   z-index: 9;
   display: flex;
   justify-content: center;
   align-items: center;
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
 }
 .modal .shell {
   animation-delay: 0.1s;
   position: relative;
-}
-.modal .shell .header {
-  position: relative;
-  display: flex;
-  padding: 10px;
-  padding-right: 0;
-}
-.modal .shell .header .close {
-  margin-left: auto;
-  background: none;
-  border: none;
 }/*# sourceMappingURL=UniversalModal.module.css.map */

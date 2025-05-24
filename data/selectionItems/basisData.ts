@@ -48,6 +48,8 @@ import Vorsatzrollladen from '@/assets/configurator/sonnenschutz/004.Vorsatzroll
 import Aufsatzraffstore_Styroporkasten from '@/assets/configurator/sonnenschutz/005.Aufsatzraffstore_(Styroporkasten).png';
 import Vorsatzraffstore from '@/assets/configurator/sonnenschutz/006.Vorsatzraffstore.png';
 
+const dummyDetail = 'This is the detailed info about this card...';
+
 export const materials: SelectionItem[] = [
   {
     key: 'plastic',
@@ -86,26 +88,31 @@ export const brands: SelectionItem[] = [
             key: 'Iglo_5',
             name: 'Iglo 5',
             image: Iglo5,
+            details: dummyDetail,
           },
           {
             key: 'Iglo_5_Classic',
             name: 'Iglo 5 Classic',
             image: Iglo5Classic,
+            details: dummyDetail,
           },
           {
             key: 'Iglo_Energy',
             name: 'Iglo Energy',
             image: Iglo5Energy,
+            details: dummyDetail,
           },
           {
             key: 'Iglo_Energy_Classic',
             name: 'Iglo Energy Classic',
             image: Iglo5EnergyClassic,
+            details: dummyDetail,
           },
           {
             key: 'Iglo_Light',
             name: 'Iglo Light',
             image: IgloLight,
+            details: dummyDetail,
           },
         ],
         Aluminium: [
@@ -113,21 +120,25 @@ export const brands: SelectionItem[] = [
             key: 'MB45',
             name: 'MB45',
             image: MB45,
+            details: dummyDetail,
           },
           {
             key: 'MB70',
             name: 'MB70',
             image: MB70,
+            details: dummyDetail,
           },
           {
             key: 'MB70HI',
             name: 'MB70HI',
             image: MB70HI,
+            details: dummyDetail,
           },
           {
             key: 'MB86NSI',
             name: 'MB86NSI',
             image: MB86NSI,
+            details: dummyDetail,
           },
         ],
       },
@@ -197,36 +208,43 @@ export const covers: SelectionItem[] = [
     key: 'nein',
     name: 'Nein',
     image: no,
+    details: dummyDetail,
   },
   {
     key: 'auf215',
     name: 'Aufsatzrollladen\n215mm (PVC Kasten)',
     image: Aufsatzrolladen_215_225,
+    details: dummyDetail,
   },
   {
     key: 'auf175',
     name: 'Aufsatzrollladen\n175mm (PVC Kasten)',
     image: Aufsatzrolladen_175,
+    details: dummyDetail,
   },
   {
     key: 'styroporkasten',
     name: 'Aufsatzrollladen\n(Styroporkasten)',
     image: Aufsatzrolladen_Styroporkasten,
+    details: dummyDetail,
   },
   {
     key: 'vorsatzrollladen',
     name: 'Vorsatzrollladen',
     image: Vorsatzrollladen,
+    details: dummyDetail,
   },
   {
     key: 'aufStyroporkasten',
     name: 'Aufsatzraffstore\n(Styroporkasten)',
     image: Aufsatzraffstore_Styroporkasten,
+    details: dummyDetail,
   },
   {
     key: 'vorsatzraffstore',
     name: 'Vorsatzraffstore',
     image: Vorsatzraffstore,
+    details: dummyDetail,
   },
 ];
 

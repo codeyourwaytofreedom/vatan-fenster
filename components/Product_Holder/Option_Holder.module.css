@@ -5,17 +5,41 @@
 .outer:hover .expand {
   display: inline-block;
 }
+.outer:hover .info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 .expand {
   position: absolute;
   top: 20px;
-  right: 20px;
+  left: 20px;
   z-index: 2;
   display: none;
   cursor: zoom-in;
 }
 .expand svg {
   filter: drop-shadow(1px 0 black) drop-shadow(-1px 0 black) drop-shadow(0 1px black) drop-shadow(0 -1px black) drop-shadow(1px 1px black) drop-shadow(-1px -1px black) drop-shadow(1px -1px black) drop-shadow(-1px 1px black);
+}
+
+.info {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  display: none;
+  background-color: black;
+  border: 2px solid silver;
+  width: 35px;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  display: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.info:hover {
+  transform: scale(1.2);
 }
 
 .glow {
@@ -34,6 +58,8 @@
   align-items: center;
   -moz-column-gap: 5px;
        column-gap: 5px;
+  font-size: larger;
+  justify-content: center;
 }
 
 .option,

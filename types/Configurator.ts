@@ -133,6 +133,7 @@ export interface StepWithoutProps {
   yesNo?: boolean;
   withHoverZoom?: boolean;
   withoutDetails?: boolean;
+  stepDetails?: string;
 }
 
 export interface StepWithProps<TProps = unknown> {
@@ -142,6 +143,7 @@ export interface StepWithProps<TProps = unknown> {
   yesNo?: boolean;
   withHoverZoom?: boolean;
   withoutDetails?: boolean;
+  stepDetails?: string;
   component?: ComponentType<TProps>;
   props?: TProps;
 }
@@ -168,6 +170,7 @@ export type SelectionItem = {
   component?: ReactNode;
   items?: SelectionItem[];
   disabled?: boolean;
+  details?: string;
   children?: {
     profile?: {
       'Kunststoff (PVC)': SelectionItem[];

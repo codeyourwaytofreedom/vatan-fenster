@@ -162,10 +162,10 @@ export default function SummaryDisplayer() {
       );
     }
 
-    if(key === 'fenstergriffe'){
+    if (key === 'fenstergriffe') {
       console.log(value);
-      const selection = value as {type: SelectionItem, choice: SelectionItem};
-      return `${selection.type?.name} - ${selection.choice.name}`
+      const selection = value as { type: SelectionItem; choice: SelectionItem };
+      return `${selection.type?.name} - ${selection.choice.name}`;
     }
 
     if (typeof value === 'object') {
@@ -241,7 +241,9 @@ export default function SummaryDisplayer() {
             value && (
               <div key={key} className={styles.item} onClick={() => handleShowStep(key)} id={key}>
                 <span id={styles.title}>&#x2022; {labelExtractor(key)}</span>
-                <span id={styles.value}>{valueExtractor(key as keyof Config, value) as string}</span>
+                <span id={styles.value}>
+                  {valueExtractor(key as keyof Config, value) as string}
+                </span>
               </div>
             )
         )}
@@ -271,7 +273,9 @@ export default function SummaryDisplayer() {
                   id={key}
                 >
                   <span id={styles.title}>&#x2022; {labelExtractor(key)}</span>
-                  <div id={styles.value}>{valueExtractor(key as keyof Config, value) as string}</div>
+                  <div id={styles.value}>
+                    {valueExtractor(key as keyof Config, value) as string}
+                  </div>
                 </div>
               )
           )}

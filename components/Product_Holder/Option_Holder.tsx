@@ -4,7 +4,7 @@ import style from './Option_Holder.module.css';
 import { useConfiguration } from '@/context/ConfigurationContext';
 import { SelectionItem } from '@/types/Configurator';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlassPlus } from '@fortawesome/free-solid-svg-icons';
+import { faInfo, faMagnifyingGlassPlus } from '@fortawesome/free-solid-svg-icons';
 import { useModal } from '@/context/ModalContext';
 
 type ProductHolderProps = {
@@ -39,9 +39,7 @@ export default function OptionHolder({ item, selected, action }: ProductHolderPr
     openModal(
       <div className={style.glow}>
         <Image src={item.image!} alt={item.name} width={500} height={500} />
-        <p>
-          <span style={{ fontSize: 'x-large' }}>&#x270F;</span> {item.name}
-        </p>
+        <p>{item.name}</p>
       </div>
     );
   };
@@ -51,6 +49,11 @@ export default function OptionHolder({ item, selected, action }: ProductHolderPr
       {item.zoomable && item.image && (
         <span className={style.expand} onClick={handleShowFullSize}>
           <FontAwesomeIcon size="xl" color="whitesmoke" beat icon={faMagnifyingGlassPlus} />
+        </span>
+      )}
+      {item.details && (
+        <span className={style.info}>
+          <FontAwesomeIcon color="white" beatFade icon={faInfo} />
         </span>
       )}
       <div

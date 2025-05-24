@@ -198,6 +198,7 @@ export const farbenAussenInnenOptions: SelectionItem[] = [
     key: 'anthrazitgrau_1701605_167',
     zoomable: true,
     colorCode: '1701605_167',
+    details: 'Dummy details for the Dekorfarben Aussen Options'
   },
   {
     name: 'Basaltgrau',
@@ -205,6 +206,7 @@ export const farbenAussenInnenOptions: SelectionItem[] = [
     key: 'basaltgrau_701205_167',
     zoomable: true,
     colorCode: '701205_167',
+    details: 'Dummy details for the Dekorfarben Aussen Options'
   },
   {
     name: 'Quarzgrau',
@@ -212,6 +214,7 @@ export const farbenAussenInnenOptions: SelectionItem[] = [
     key: 'quarzgrau_703905_167',
     zoomable: true,
     colorCode: '703905_167',
+    details: 'Dummy details for the Dekorfarben Aussen Options'
   },
   {
     name: 'Schokobraun',
@@ -219,6 +222,7 @@ export const farbenAussenInnenOptions: SelectionItem[] = [
     key: 'schokobraun_887505_167',
     zoomable: true,
     colorCode: '887505_167',
+    details: 'Dummy details for the Dekorfarben Aussen Options'
   },
   {
     name: 'Eiche dunkel',
@@ -226,6 +230,7 @@ export const farbenAussenInnenOptions: SelectionItem[] = [
     key: 'eiche_dunkel_2052089_167',
     zoomable: true,
     colorCode: '2052089_167',
+    details: 'Dummy details for the Dekorfarben Aussen Options'
   },
   {
     name: 'Golden Oak',
@@ -233,6 +238,7 @@ export const farbenAussenInnenOptions: SelectionItem[] = [
     key: 'golden_oak_2178001_167',
     zoomable: true,
     colorCode: '2178001_167',
+    details: 'Dummy details for the Dekorfarben Aussen Options'
   },
   {
     name: 'Anthrazitgrau glatt',
@@ -240,6 +246,7 @@ export const farbenAussenInnenOptions: SelectionItem[] = [
     key: 'anthrazitgrau_glatt_701605_097',
     zoomable: true,
     colorCode: '701605_097',
+    details: 'Dummy details for the Dekorfarben Aussen Options'
   },
   {
     name: 'Anthrazitgrau ulti matt',
@@ -247,6 +254,7 @@ export const farbenAussenInnenOptions: SelectionItem[] = [
     key: 'anthrazitgrau_ulti_matt_504700_47',
     zoomable: true,
     colorCode: '504700_47',
+    details: 'Dummy details for the Dekorfarben Aussen Options'
   },
   {
     name: 'Anthrazitgrau stylo',
@@ -254,6 +262,7 @@ export const farbenAussenInnenOptions: SelectionItem[] = [
     key: 'anthrazitgrau_stylo_f436_4003',
     zoomable: true,
     colorCode: 'F436_4003',
+    details: 'Dummy details for the Dekorfarben Aussen Options'
   },
   {
     name: 'Schwarz ulti matt',
@@ -261,6 +270,7 @@ export const farbenAussenInnenOptions: SelectionItem[] = [
     key: 'schwarz_ulti_matt_504700_047',
     zoomable: true,
     colorCode: '504700_047',
+    details: 'Dummy details for the Dekorfarben Aussen Options'
   },
   {
     name: 'Jet Black',
@@ -268,6 +278,7 @@ export const farbenAussenInnenOptions: SelectionItem[] = [
     key: 'jet_black_f4766062',
     zoomable: true,
     colorCode: 'F4766062',
+    details: 'Dummy details for the Dekorfarben Aussen Options'
   },
   {
     name: 'Basaltgrau glatt',
@@ -275,6 +286,7 @@ export const farbenAussenInnenOptions: SelectionItem[] = [
     key: 'basaltgrau_glatt_701205_097',
     zoomable: true,
     colorCode: '701205_097',
+    details: 'Dummy details for the Dekorfarben Aussen Options'
   },
   {
     name: 'Quarzgrau glatt',
@@ -282,6 +294,7 @@ export const farbenAussenInnenOptions: SelectionItem[] = [
     key: 'quarzgrau_glatt_703905_097',
     zoomable: true,
     colorCode: '703905_097',
+    details: 'Dummy details for the Dekorfarben Aussen Options'
   },
   {
     name: 'Betongrau glatt',
@@ -289,6 +302,7 @@ export const farbenAussenInnenOptions: SelectionItem[] = [
     key: 'betongrau_glatt_702305_167',
     zoomable: true,
     colorCode: '702305_167',
+    details: 'Dummy details for the Dekorfarben Aussen Options'
   },
   {
     name: 'Piryt',
@@ -296,6 +310,7 @@ export const farbenAussenInnenOptions: SelectionItem[] = [
     key: 'piryt_001_195',
     zoomable: true,
     colorCode: '001_195',
+    details: 'Dummy details for the Dekorfarben Aussen Options'
   },
   {
     name: 'Grau',
@@ -303,6 +318,7 @@ export const farbenAussenInnenOptions: SelectionItem[] = [
     key: 'grau_715505_167',
     zoomable: true,
     colorCode: '715505_167',
+    details: 'Dummy details for the Dekorfarben Aussen Options'
   },
   {
     name: 'Lichtgrau',
@@ -310,6 +326,7 @@ export const farbenAussenInnenOptions: SelectionItem[] = [
     key: 'lichtgrau_725105_167',
     zoomable: true,
     colorCode: '725105_167',
+    details: 'Dummy details for the Dekorfarben Aussen Options'
   },
   {
     name: 'Schiefergrau glatt',
@@ -317,6 +334,7 @@ export const farbenAussenInnenOptions: SelectionItem[] = [
     key: 'schiefergrau_glatt_0040_097',
     zoomable: true,
     colorCode: '0040_097',
+    details: 'Dummy details for the Dekorfarben Aussen Options'
   },
   {
     name: 'DB703 Eisenglimmer Schiefer',
@@ -324,6 +342,7 @@ export const farbenAussenInnenOptions: SelectionItem[] = [
     key: 'db703_eisenglimmer_schiefer_65002_097',
     zoomable: true,
     colorCode: '65002_097',
+    details: 'Dummy details for the Dekorfarben Aussen Options'
   },
   {
     name: 'Crowen Platin',
@@ -331,6 +350,7 @@ export const farbenAussenInnenOptions: SelectionItem[] = [
     key: 'crowen_platin_93001_195',
     zoomable: true,
     colorCode: '93001_195',
+    details: 'Dummy details for the Dekorfarben Aussen Options'
   },
   {
     name: 'Schwarzbraun',
@@ -338,6 +358,7 @@ export const farbenAussenInnenOptions: SelectionItem[] = [
     key: 'schwarzbraun_851805_167',
     zoomable: true,
     colorCode: '851805_167',
+    details: 'Dummy details for the Dekorfarben Aussen Options'
   },
   {
     name: 'Mahagoni',
@@ -345,6 +366,7 @@ export const farbenAussenInnenOptions: SelectionItem[] = [
     key: 'mahagoni_2097013_167',
     zoomable: true,
     colorCode: '2097013_167',
+    details: 'Dummy details for the Dekorfarben Aussen Options'
   },
   {
     name: 'Macore',
@@ -352,6 +374,7 @@ export const farbenAussenInnenOptions: SelectionItem[] = [
     key: 'macore_3162002_167',
     zoomable: true,
     colorCode: '3162002_167',
+    details: 'Dummy details for the Dekorfarben Aussen Options'
   },
   {
     name: 'Nussbaum',
@@ -359,6 +382,7 @@ export const farbenAussenInnenOptions: SelectionItem[] = [
     key: 'nussbaum_2178007_167',
     zoomable: true,
     colorCode: '2178007_167',
+    details: 'Dummy details for the Dekorfarben Aussen Options'
   },
   {
     name: 'Winchester',
@@ -366,6 +390,7 @@ export const farbenAussenInnenOptions: SelectionItem[] = [
     key: 'winchester_49240015_148',
     zoomable: true,
     colorCode: '49240015_148',
+    details: 'Dummy details for the Dekorfarben Aussen Options'
   },
   {
     name: 'Streifen Douglasie',
@@ -373,6 +398,7 @@ export const farbenAussenInnenOptions: SelectionItem[] = [
     key: 'streifen_douglasie_3152009_167',
     zoomable: true,
     colorCode: '3152009_167',
+    details: 'Dummy details for the Dekorfarben Aussen Options'
   },
   {
     name: 'Oregon',
@@ -380,6 +406,7 @@ export const farbenAussenInnenOptions: SelectionItem[] = [
     key: 'oregon_2115008_167',
     zoomable: true,
     colorCode: '2115008_167',
+    details: 'Dummy details for the Dekorfarben Aussen Options'
   },
   {
     name: 'Eiche Natur',
@@ -387,6 +414,7 @@ export const farbenAussenInnenOptions: SelectionItem[] = [
     key: 'eiche_natur_3118076_167',
     zoomable: true,
     colorCode: '3118076_167',
+    details: 'Dummy details for the Dekorfarben Aussen Options'
   },
   {
     name: 'Turner Oak',
@@ -394,6 +422,7 @@ export const farbenAussenInnenOptions: SelectionItem[] = [
     key: 'turner_oak_f470_3001',
     zoomable: true,
     colorCode: 'F470_3001',
+    details: 'Dummy details for the Dekorfarben Aussen Options'
   },
   {
     name: 'Scheffield Oak light',
@@ -401,6 +430,7 @@ export const farbenAussenInnenOptions: SelectionItem[] = [
     key: 'scheffield_oak_light_f456_3081',
     zoomable: true,
     colorCode: 'F456_3081',
+    details: 'Dummy details for the Dekorfarben Aussen Options'
   },
   {
     name: 'Dunkelgrün',
@@ -408,6 +438,7 @@ export const farbenAussenInnenOptions: SelectionItem[] = [
     key: 'dunkelgruen_612505_167',
     zoomable: true,
     colorCode: '612505_167',
+    details: 'Dummy details for the Dekorfarben Aussen Options'
   },
   {
     name: 'Moosgrün',
@@ -415,6 +446,7 @@ export const farbenAussenInnenOptions: SelectionItem[] = [
     key: 'moosgruen_600505_167',
     zoomable: true,
     colorCode: '600505_167',
+    details: 'Dummy details for the Dekorfarben Aussen Options'
   },
   {
     name: 'Dunkelrot',
@@ -422,6 +454,7 @@ export const farbenAussenInnenOptions: SelectionItem[] = [
     key: 'dunkelrot_308105_167',
     zoomable: true,
     colorCode: '308105_167',
+    details: 'Dummy details for the Dekorfarben Aussen Options'
   },
   {
     name: 'Cremeweiss',
@@ -429,6 +462,7 @@ export const farbenAussenInnenOptions: SelectionItem[] = [
     key: 'cremeweiss_137905_167',
     zoomable: true,
     colorCode: '137905_167',
+    details: 'Dummy details for the Dekorfarben Aussen Options'
   },
   {
     name: 'Weiss FX',
@@ -436,6 +470,7 @@ export const farbenAussenInnenOptions: SelectionItem[] = [
     key: 'weiss_fx_915205_168',
     zoomable: true,
     colorCode: '915205_168',
+    details: 'Dummy details for the Dekorfarben Aussen Options'
   },
   {
     name: 'Weiss Sand ulti matt',
@@ -443,6 +478,7 @@ export const farbenAussenInnenOptions: SelectionItem[] = [
     key: 'weiss_sand_ulti_matt_px9152',
     zoomable: true,
     colorCode: 'PX9152',
+    details: 'Dummy details for the Dekorfarben Aussen Options'
   },
   {
     name: 'Turner Oak Walnuss',
@@ -450,6 +486,7 @@ export const farbenAussenInnenOptions: SelectionItem[] = [
     key: 'turner_oak_walnuss_470_3004',
     zoomable: true,
     colorCode: '470_3004',
+    details: 'Dummy details for the Dekorfarben Aussen Options'
   },
   {
     name: 'Turner Oak Toffee',
@@ -457,6 +494,7 @@ export const farbenAussenInnenOptions: SelectionItem[] = [
     key: 'turner_oak_toffee_470_3004',
     zoomable: true,
     colorCode: '470_3004',
+    details: 'Dummy details for the Dekorfarben Aussen Options'
   },
   {
     name: 'Graphit Sand matt',
@@ -464,6 +502,7 @@ export const farbenAussenInnenOptions: SelectionItem[] = [
     key: 'graphit_sand_matt_436_6023',
     zoomable: true,
     colorCode: '436_6023',
+    details: 'Dummy details for the Dekorfarben Aussen Options'
   },
   {
     name: 'Bronze mattex',
@@ -471,6 +510,7 @@ export const farbenAussenInnenOptions: SelectionItem[] = [
     key: 'bronze_mattex_470_1029',
     zoomable: true,
     colorCode: '470_1029',
+    details: 'Dummy details for the Dekorfarben Aussen Options'
   },
 ];
 

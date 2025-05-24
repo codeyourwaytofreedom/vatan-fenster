@@ -117,7 +117,7 @@ export const sonnenschutzItems: Record<
     { key: 'alu_42mm', name: '42mm Alu', image: soon },
     { key: 'alu_55mm', name: '55mm Alu', image: soon },
   ],
-/*   farbeRollladenkasten: [
+  /*   farbeRollladenkasten: [
     {
       key: 'default',
       name: 'Nein = Weiß',

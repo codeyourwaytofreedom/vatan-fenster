@@ -1,4 +1,11 @@
-import { Config, DobuleSelection, DoubleStepperProps, SelectionItem, Step, StepWithProps } from '@/types/Configurator';
+import {
+  Config,
+  DobuleSelection,
+  DoubleStepperProps,
+  SelectionItem,
+  Step,
+  StepWithProps,
+} from '@/types/Configurator';
 import style from '../../styles/KonfiguratorPage.module.css';
 import Stepper from '../Stepper/Stepper';
 import OptionHolder from '../Product_Holder/Option_Holder';
@@ -41,28 +48,33 @@ export default function Sonnenschutz_Group() {
 
   const sonnenschutzSteps = getStepsForGroup('sonnenschutz');
 
-  useEffect(()=>{
-    if(configuration.cover.key === 'nein') return;
+  useEffect(() => {
+    if (configuration.cover.key === 'nein') return;
     const sonnenschutzDefaultConfig: Record<string, SelectionItem | DobuleSelection | number> = {};
     for (let index = 0; index < sonnenschutzSteps.length; index++) {
       const step = sonnenschutzSteps[index];
-      if('component' in step){
-        if(step.component === DoubleStepper){
-        sonnenschutzDefaultConfig[(step?.props as DoubleStepperProps).configurationKey] = {
+      if ('component' in step) {
+        if (step.component === DoubleStepper) {
+          sonnenschutzDefaultConfig[(step?.props as DoubleStepperProps).configurationKey] = {
             category: (step?.props as DoubleStepperProps)?.categoryItems[0],
-            subCategory: (step?.props as DoubleStepperProps)?.subCategoryItems[(step?.props as DoubleStepperProps)?.categoryItems[0].key][0]
-          }
+            subCategory: (step?.props as DoubleStepperProps)?.subCategoryItems[
+              (step?.props as DoubleStepperProps)?.categoryItems[0].key
+            ][0],
+          };
         }
-        if(step.component === StepVerlangerung){
+        if (step.component === StepVerlangerung) {
           sonnenschutzDefaultConfig.verlangerung = 0;
         }
-      }else{
-      sonnenschutzDefaultConfig[step.key] = sonnenschutzItems[step.key as keyof typeof sonnenschutzItems][0];
+      } else {
+        sonnenschutzDefaultConfig[step.key] =
+          sonnenschutzItems[step.key as keyof typeof sonnenschutzItems][0];
       }
     }
     console.log(sonnenschutzDefaultConfig);
-    setConfiguration((pr)=>{return {...pr,...sonnenschutzDefaultConfig }});
-  },[configuration.cover]);
+    setConfiguration((pr) => {
+      return { ...pr, ...sonnenschutzDefaultConfig };
+    });
+  }, [configuration.cover]);
 
   const expandable =
     itemsToDisplay &&
