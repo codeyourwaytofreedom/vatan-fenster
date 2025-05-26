@@ -96,6 +96,7 @@ export default function Sonnenschutz_Group() {
           sonnenschutzItems[step.key as keyof typeof sonnenschutzItems][0];
       }
     }
+    console.log(sonnenschutzDefaultConfig);
     setConfiguration({ ...clearedConfiguration, ...sonnenschutzDefaultConfig });
   }, [configuration.cover]);
 

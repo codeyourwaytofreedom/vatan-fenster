@@ -35,7 +35,7 @@ export const sonnenschutzItems: Record<
   | 'führungsschieneAufStyroporkasten'
   | 'montageartVorsatzrollladen'
   | 'farbeFührungsschiene'
-  | 'farbeRollladenKasten',
+  | 'farbeRollladenkasten',
   SelectionItem[]
 > = {
   adapter: [
@@ -313,7 +313,7 @@ export const sonnenschutzItems: Record<
   ],
   // only for key inclusion
   farbeFührungsschiene: [],
-  farbeRollladenKasten: []
+  farbeRollladenkasten: []
 };
 
 export const allSonnenschutzStepsKeys = Object.keys(sonnenschutzItems);

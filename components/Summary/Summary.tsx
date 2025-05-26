@@ -90,9 +90,7 @@ export default function SummaryDisplayer() {
   const groupSonnenschutz = Object.fromEntries(
     Object.entries(configuration).filter(([key]) => allSonnenschutzStepsKeys.includes(key))
   );
-
-  console.log(groupSonnenschutz)
-
+  
   const sonnenschutzSteps = getStepsForGroup('sonnenschutz');
 
   // include sonnenschutzSteps if cover is selected
