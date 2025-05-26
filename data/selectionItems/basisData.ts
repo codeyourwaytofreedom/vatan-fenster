@@ -203,48 +203,55 @@ export const windowStyles: SelectionItem[] = [
   },
 ];
 
-export const covers: SelectionItem[] = [
+export const covers: (SelectionItem & {height?: number})[] = [
   {
     key: 'nein',
     name: 'Nein',
     image: no,
     details: dummyDetail,
+    height: 0
   },
   {
     key: 'auf215',
     name: 'Aufsatzrollladen\n215mm (PVC Kasten)',
     image: Aufsatzrolladen_215_225,
     details: dummyDetail,
+    height: 215
   },
   {
     key: 'auf175',
     name: 'Aufsatzrollladen\n175mm (PVC Kasten)',
     image: Aufsatzrolladen_175,
     details: dummyDetail,
+    height: 175
   },
   {
     key: 'styroporkasten',
     name: 'Aufsatzrollladen\n(Styroporkasten)',
     image: Aufsatzrolladen_Styroporkasten,
     details: dummyDetail,
+    height: 150
   },
   {
     key: 'vorsatzrollladen',
     name: 'Vorsatzrollladen',
     image: Vorsatzrollladen,
     details: dummyDetail,
+    height: 150
   },
   {
     key: 'aufStyroporkasten',
     name: 'Aufsatzraffstore\n(Styroporkasten)',
     image: Aufsatzraffstore_Styroporkasten,
     details: dummyDetail,
+    height: 150
   },
   {
     key: 'vorsatzraffstore',
     name: 'Vorsatzraffstore',
     image: Vorsatzraffstore,
     details: dummyDetail,
+    height: 150
   },
 ];
 
