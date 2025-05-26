@@ -77,14 +77,12 @@ export default function Sonnenschutz_Group() {
       //////////////////////////////////////////// if step has custom component
       if ('component' in step) {
         if (step.component === DoubleStepper) {
-          alert(step.key)
           sonnenschutzDefaultConfig[step.key] = {
             category: (step?.props as DoubleStepperProps)?.categoryItems[0],
             subCategory: (step?.props as DoubleStepperProps)?.subCategoryItems[
               (step?.props as DoubleStepperProps)?.categoryItems[0].key
             ][0],
           };
-          console.log(step.key, sonnenschutzDefaultConfig[step.key]);
         }
         if (step.component === StepVerlangerung) {
           sonnenschutzDefaultConfig[step.key] = {key: 'length', name: '0'};
