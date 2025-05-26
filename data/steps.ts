@@ -89,7 +89,7 @@ export const steps: Record<GroupKey | string, Step[]> = {
       icon: faSignsPost,
       withoutDetails: true,
       stepDetails: `In diesem Schritt können Sie den Stil Ihres Fensters auswählen.
-    \nJe nach gewählter Fensterart ändern sich die in diesem Schritt sichtbaren Optionen.`
+    \nJe nach gewählter Fensterart ändern sich die in diesem Schritt sichtbaren Optionen.`,
     },
     {
       key: 'cover',
@@ -111,7 +111,7 @@ export const steps: Record<GroupKey | string, Step[]> = {
       withoutDetails: true,
       stepDetails: `Die dargestellten Farben auf den Fotos dienen lediglich zur Veranschaulichung. Aufgrund unterschiedlicher
                     \nMonitor- und Displayeinstellungen sowie der Fototechnik kann die tatsächliche Farbe von der Darstellung
-                    \nAbweichen`
+                    \nAbweichen`,
     },
     {
       key: 'colorInt',
@@ -120,7 +120,7 @@ export const steps: Record<GroupKey | string, Step[]> = {
       withoutDetails: true,
       stepDetails: `Die dargestellten Farben auf den Fotos dienen lediglich zur Veranschaulichung. Aufgrund unterschiedlicher
               \nMonitor- und Displayeinstellungen sowie der Fototechnik kann die tatsächliche Farbe von der Darstellung
-              \nAbweichen`
+              \nAbweichen`,
     },
     {
       key: 'sealInt',
@@ -158,7 +158,8 @@ export const steps: Record<GroupKey | string, Step[]> = {
       name: 'Glaspaket',
       icon: faLayerGroup,
       withHoverZoom: true,
-      stepDetails: 'Dummy details for Verglasung steps...\n\n Actual step explanation details will replace this dummy text!'
+      stepDetails:
+        'Dummy details for Verglasung steps...\n\n Actual step explanation details will replace this dummy text!',
     },
     {
       key: 'ornament',
@@ -166,7 +167,8 @@ export const steps: Record<GroupKey | string, Step[]> = {
       icon: faSun,
       withHoverZoom: true,
       withoutDetails: true,
-      stepDetails: 'Dummy details for Verglasung steps...\n\n Actual step explanation details will replace this dummy text!'
+      stepDetails:
+        'Dummy details for Verglasung steps...\n\n Actual step explanation details will replace this dummy text!',
     },
     {
       key: 'sicherheitsverglasung',
@@ -174,7 +176,8 @@ export const steps: Record<GroupKey | string, Step[]> = {
       icon: faShieldAlt,
       withHoverZoom: true,
       withoutDetails: true,
-      stepDetails: 'Dummy details for Verglasung steps...\n\n Actual step explanation details will replace this dummy text!'
+      stepDetails:
+        'Dummy details for Verglasung steps...\n\n Actual step explanation details will replace this dummy text!',
     },
     {
       key: 'schallschutz',
@@ -182,7 +185,8 @@ export const steps: Record<GroupKey | string, Step[]> = {
       icon: faVolumeMute,
       withHoverZoom: true,
       withoutDetails: true,
-      stepDetails: 'Dummy details for Verglasung steps...\n\n Actual step explanation details will replace this dummy text!'
+      stepDetails:
+        'Dummy details for Verglasung steps...\n\n Actual step explanation details will replace this dummy text!',
     },
     {
       key: 'sprossen',
@@ -191,7 +195,8 @@ export const steps: Record<GroupKey | string, Step[]> = {
       component: StepSprossen,
       withHoverZoom: true,
       withoutDetails: true,
-      stepDetails: 'Dummy details for Verglasung steps...\n\n Actual step explanation details will replace this dummy text!'
+      stepDetails:
+        'Dummy details for Verglasung steps...\n\n Actual step explanation details will replace this dummy text!',
     },
     {
       key: 'druckausgleichsventil',
@@ -199,7 +204,8 @@ export const steps: Record<GroupKey | string, Step[]> = {
       icon: faArrowsAltH,
       withHoverZoom: true,
       withoutDetails: true,
-      stepDetails: 'Dummy details for Verglasung steps...\n\n Actual step explanation details will replace this dummy text!'
+      stepDetails:
+        'Dummy details for Verglasung steps...\n\n Actual step explanation details will replace this dummy text!',
     },
   ],
   zusatze: [
@@ -209,7 +215,8 @@ export const steps: Record<GroupKey | string, Step[]> = {
       icon: faSun,
       component: DoubleStepper,
       withoutDetails: true,
-      stepDetails: 'Dummy details for Zuzatse steps...\n\n Actual step explanation details will replace this dummy text!',
+      stepDetails:
+        'Dummy details for Zuzatse steps...\n\n Actual step explanation details will replace this dummy text!',
       props: {
         label: 'Möchten Sie Sicherheitsbeschläge hinzufügen?',
         subCategoryItems: {
@@ -237,7 +244,8 @@ export const steps: Record<GroupKey | string, Step[]> = {
       icon: faSun,
       component: YesNoSelector,
       withoutDetails: true,
-      stepDetails: 'Dummy details for Zuzatse steps...\n\n Actual step explanation details will replace this dummy text!',
+      stepDetails:
+        'Dummy details for Zuzatse steps...\n\n Actual step explanation details will replace this dummy text!',
       props: {
         label: 'Möchten Sie verdeckt liegende Beschläge hinzufügen?',
       },
@@ -248,7 +256,8 @@ export const steps: Record<GroupKey | string, Step[]> = {
       icon: faSun,
       component: YesNoSelector,
       withoutDetails: true,
-      stepDetails: 'Dummy details for Zuzatse steps...\n\n Actual step explanation details will replace this dummy text!',
+      stepDetails:
+        'Dummy details for Zuzatse steps...\n\n Actual step explanation details will replace this dummy text!',
       props: {
         label: 'Möchten Sie für das Kunststoffprofil eine dünne Schweißnaht?',
       },
@@ -259,7 +268,8 @@ export const steps: Record<GroupKey | string, Step[]> = {
       icon: faSun,
       component: YesNoSelector,
       withoutDetails: true,
-      stepDetails: 'Dummy details for Zuzatse steps...\n\n Actual step explanation details will replace this dummy text!',
+      stepDetails:
+        'Dummy details for Zuzatse steps...\n\n Actual step explanation details will replace this dummy text!',
       props: {
         label: 'Möchten Sie Reedkontakte hinzufügen?',
       },
@@ -270,7 +280,8 @@ export const steps: Record<GroupKey | string, Step[]> = {
       icon: faSun,
       component: YesNoSelector,
       withoutDetails: true,
-      stepDetails: 'Dummy details for Zuzatse steps...\n\n Actual step explanation details will replace this dummy text!',
+      stepDetails:
+        'Dummy details for Zuzatse steps...\n\n Actual step explanation details will replace this dummy text!',
       props: {
         label: 'Möchten Sie Montagevorbohrungen hinzufügen?',
       },
@@ -281,7 +292,8 @@ export const steps: Record<GroupKey | string, Step[]> = {
       icon: faSun,
       component: DoubleStepper,
       withoutDetails: true,
-      stepDetails: 'Dummy details for Zuzatse steps...\n\n Actual step explanation details will replace this dummy text!',
+      stepDetails:
+        'Dummy details for Zuzatse steps...\n\n Actual step explanation details will replace this dummy text!',
       props: {
         label: 'Möchten Sie ein Lüftungssystem hinzufügen?',
         subCategoryItems: {
@@ -309,8 +321,9 @@ export const steps: Record<GroupKey | string, Step[]> = {
       icon: faSun,
       component: StepRahmenverbreiterung,
       withoutDetails: true,
-      stepDetails: 'Dummy details for Zuzatse steps...\n\n Actual step explanation details will replace this dummy text!',
-    }
+      stepDetails:
+        'Dummy details for Zuzatse steps...\n\n Actual step explanation details will replace this dummy text!',
+    },
   ],
   sonnenschutz: [],
 };
@@ -505,7 +518,7 @@ export const sonnenschutzStepPacks: Record<
       withHoverZoom: true,
     },
     {
-      key: 'verlängerung',
+      key: 'verlangerung',
       name: 'Verlängerung',
       icon: faExpandAlt,
       component: StepVerlangerung,

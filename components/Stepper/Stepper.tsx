@@ -245,7 +245,7 @@ export default function Stepper() {
     openModal(
       <div className={style.step_details}>
         <h2>
-          <FontAwesomeIcon icon={faCommentsRegular} color="salmon" size='xl' />
+          <FontAwesomeIcon icon={faCommentsRegular} color="salmon" size="xl" />
           &nbsp; &nbsp;
           {currentStep?.name}
         </h2>
@@ -301,7 +301,14 @@ export default function Stepper() {
             &nbsp; Vorheriger Schritt
           </button>
           {currentStep?.stepDetails && (
-              <FontAwesomeIcon color='salmon' style={{cursor: 'pointer'}} onClick={handleShowStepInfo} beat icon={faInfoCircle} size='xl' />
+            <FontAwesomeIcon
+              color="salmon"
+              style={{ cursor: 'pointer' }}
+              onClick={handleShowStepInfo}
+              beat
+              icon={faInfoCircle}
+              size="xl"
+            />
           )}
         </div>
       </div>

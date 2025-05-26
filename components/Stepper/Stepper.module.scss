@@ -135,7 +135,7 @@ $summary-shade: rgb(230, 227, 227);
   }
 }
 
-.step_details{
+.step_details {
   max-width: 500px;
   width: 90vw;
   min-height: 200px;
@@ -147,8 +147,8 @@ $summary-shade: rgb(230, 227, 227);
   background-color: rgb(225, 222, 222);
   position: relative;
   overflow: hidden;
-  box-shadow: 0 0 15px 5px whitesmoke;
-  h2{
+  box-shadow: 0 0 10px 3px whitesmoke;
+  h2 {
     background-color: var(--color-1);
     position: absolute;
     height: 70px;

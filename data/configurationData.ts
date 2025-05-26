@@ -37,7 +37,7 @@ export const categoryItems = [
   { key: 'antriebsart', items: sonnenschutzItems.antriebsart },
   { key: 'antriebsseite', items: sonnenschutzItems.antriebsseite },
   { key: 'schallschutzmatte', items: sonnenschutzItems.schallschutzmatte },
-  { key: 'verlängerung', items: sonnenschutzItems.verlängerung },
+  { key: 'verläagerung', items: [] },
   { key: 'rollladen', items: sonnenschutzItems.rollladen },
   { key: 'montageartRollladen', items: sonnenschutzItems.montageartRollladen },
   { key: 'stahlkonsole', items: sonnenschutzItems.stahlkonsole },

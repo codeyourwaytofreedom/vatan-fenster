@@ -13,9 +13,7 @@ export default function UniversalModal() {
 
   return (
     <div className={style.modal} onClick={handleBackgroundClick}>
-      <div className={style.shell}>
-        {content}
-      </div>
+      <div className={style.shell}>{content}</div>
     </div>
   );
 }

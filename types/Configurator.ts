@@ -58,7 +58,7 @@ export interface Config {
     category: SelectionItem;
     subCategory: SelectionItem;
   };
-  verlangerung?: number;
+  verlangerung?: SelectionItem;
   antriebsart?: SelectionItem;
   farbeRollladenkasten?: {
     category: SelectionItem;

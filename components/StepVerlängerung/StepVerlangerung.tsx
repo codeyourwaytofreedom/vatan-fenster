@@ -3,7 +3,7 @@ import style from './StepVerlängerung.module.css';
 import { useConfiguration } from '@/context/ConfigurationContext';
 export default function StepVerlangerung() {
   const { configuration, setConfiguration } = useConfiguration();
-  const [length, setLength] = useState<number>(configuration.verlangerung ?? 0);
+  const [length, setLength] = useState<number>(Number(configuration.verlangerung?.name) || 0);
 
   const debounceTimeout = useRef<NodeJS.Timeout>(null);
 
@@ -18,7 +18,7 @@ export default function StepVerlangerung() {
     debounceTimeout.current = setTimeout(() => {
       setConfiguration((prev) => ({
         ...prev,
-        verlangerung: newLength,
+        verlangerung: { key: 'length', name: newLength.toString()},
       }));
     }, 300);
   };

@@ -4,8 +4,9 @@ import style from './Option_Holder.module.css';
 import { useConfiguration } from '@/context/ConfigurationContext';
 import { SelectionItem } from '@/types/Configurator';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faInfo, faMagnifyingGlassPlus } from '@fortawesome/free-solid-svg-icons';
+import { faInfoCircle, faMagnifyingGlassPlus } from '@fortawesome/free-solid-svg-icons';
 import { useModal } from '@/context/ModalContext';
+import { faComments as faCommentsRegular } from '@fortawesome/free-regular-svg-icons';
 
 type ProductHolderProps = {
   item: SelectionItem;
@@ -44,16 +45,36 @@ export default function OptionHolder({ item, selected, action }: ProductHolderPr
     );
   };
 
+  const handleShowItemDetails = () => {
+    openModal(
+      <div className={style.details}>
+        <h3>
+          <FontAwesomeIcon icon={faCommentsRegular} color="salmon" size="xl" />
+          <span>{item.name}</span>
+        </h3>
+        <br />
+        <p>{item?.details}</p>
+      </div>
+    );
+  };
+
   return (
     <div className={style.outer}>
       {item.zoomable && item.image && (
         <span className={style.expand} onClick={handleShowFullSize}>
-          <FontAwesomeIcon size="xl" color="whitesmoke" beat icon={faMagnifyingGlassPlus} />
+          <FontAwesomeIcon size="xl" color="whitesmoke" icon={faMagnifyingGlassPlus} />
         </span>
       )}
       {item.details && (
         <span className={style.info}>
-          <FontAwesomeIcon color="white" beatFade icon={faInfo} />
+          <FontAwesomeIcon
+            color="salmon"
+            style={{ cursor: 'pointer' }}
+            onClick={handleShowItemDetails}
+            beat
+            icon={faInfoCircle}
+            size="xl"
+          />
         </span>
       )}
       <div

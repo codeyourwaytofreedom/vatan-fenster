@@ -19,7 +19,7 @@ export const sonnenschutzItems: Record<
   | 'antriebsart'
   | 'antriebsseite'
   | 'schallschutzmatte'
-  | 'verlängerung'
+  | 'verlangerung'
   | 'rollladen'
   | 'montageartRollladen'
   | 'stahlkonsole'
@@ -33,7 +33,9 @@ export const sonnenschutzItems: Record<
   | 'kastendämmungAufStyroporkasten'
   | 'putzschieneAufStyroporkasten'
   | 'führungsschieneAufStyroporkasten'
-  | 'montageartVorsatzrollladen',
+  | 'montageartVorsatzrollladen'
+  | 'farbeFührungsschiene'
+  | 'farbeRollladenKasten',
   SelectionItem[]
 > = {
   adapter: [
@@ -189,7 +191,7 @@ export const sonnenschutzItems: Record<
     { key: 'nein', name: 'Nein', image: no },
     { key: 'ja', name: 'Ja', image: yes },
   ],
-  verlängerung: [],
+  verlangerung: [],
   rollladen: [
     { key: 'nein', name: 'Nein', image: no },
     { key: 'ja', name: 'Ja', image: yes },
@@ -309,7 +311,12 @@ export const sonnenschutzItems: Record<
       image: soon,
     },
   ],
+  // only for key inclusion
+  farbeFührungsschiene: [],
+  farbeRollladenKasten: []
 };
+
+export const allSonnenschutzStepsKeys = Object.keys(sonnenschutzItems);
 
 // category and subcategory items for steps with DoubleStepper component
 

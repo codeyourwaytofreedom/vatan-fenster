@@ -8,6 +8,7 @@ import { Config, DobuleSelection, GroupKey, SelectionItem, SubStyle } from '@/ty
 import { useState } from 'react';
 import Sizer from '../Sizer/Sizer';
 import { windowStyles } from '@/data/selectionItems/basisData';
+import { allSonnenschutzStepsKeys } from '@/data/selectionItems/sonnenschutzData';
 
 export default function SummaryDisplayer() {
   const {
@@ -20,38 +21,6 @@ export default function SummaryDisplayer() {
   } = useConfiguration();
   const [expandedGroups, setExpandedGroups] = useState<string[]>([]);
   const slowAction = 100;
-
-  const handleShowStep = (key: string) => {
-    setTimeout(() => {
-      if (['oben', 'unten'].includes(key)) {
-        setCurrentStep(steps[currentGroup].find((st) => st.key === 'type') || null);
-        if (configuration.style.name === 'Oberlicht') {
-          scrollToElement(key, 50);
-        }
-        if (configuration.style.name === 'Unterlicht') {
-          if (key === 'oben') {
-            scrollToElement('unten', 50);
-          }
-          if (key === 'unten') {
-            scrollToElement('oben', 50);
-          }
-        }
-        return;
-      }
-      let parentKey = Object.entries(steps).find(
-        ([, value]) => Array.isArray(value) && value.some((item) => item.key === key)
-      )?.[0] as GroupKey;
-
-      if (key === 'glasspaketWarmeKante') {
-        key = 'glasspaket';
-        parentKey = 'verglasung';
-      }
-
-      setCurrentGroup(parentKey);
-      setCurrentStep(steps[parentKey].find((st) => st.key === key) || null);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }, slowAction);
-  };
 
   // group basis
   const { material, brand, profile, style, type, cover, size } = configuration;
@@ -118,9 +87,16 @@ export default function SummaryDisplayer() {
     rahmenverbreiterung,
   };
 
-  const groupSonnenschutz = {};
+  const groupSonnenschutz = Object.fromEntries(
+    Object.entries(configuration).filter(([key]) => allSonnenschutzStepsKeys.includes(key))
+  );
 
-  //const sonnenschutzSteps = getStepsForGroup('sonnenschutz');
+  //console.log(groupSonnenschutz)
+
+  const sonnenschutzSteps = getStepsForGroup('sonnenschutz');
+
+  // include sonnenschutzSteps if cover is selected
+  const allSteps = configuration.cover.key !== 'nein' ? {...steps, sonnenschutz: sonnenschutzSteps} : steps;
 
   const expandableGroups: { key: GroupKey; content: object }[] = [
     { key: 'farben', content: groupFarben },
@@ -163,7 +139,6 @@ export default function SummaryDisplayer() {
     }
 
     if (key === 'fenstergriffe') {
-      console.log(value);
       const selection = value as { type: SelectionItem; choice: SelectionItem };
       return `${selection.type?.name} - ${selection.choice.name}`;
     }
@@ -187,7 +162,9 @@ export default function SummaryDisplayer() {
     if (key === 'glasspaketWarmeKante') {
       return 'Warme Kante';
     }
-    const flatSteps = Object.values(steps).flat();
+
+    const flatSteps = Object.values(allSteps).flat();
+
     const stepLabel = flatSteps.find((st) => st.key === key)?.name || '--';
     return stepLabel;
   };
@@ -213,6 +190,38 @@ export default function SummaryDisplayer() {
         return setExpandedGroups(expandedGroups.filter((gr) => gr !== groupKey));
       }
       setExpandedGroups([...expandedGroups, groupKey]);
+    }, slowAction);
+  };
+
+  const handleShowStep = (key: string) => {
+    setTimeout(() => {
+      if (['oben', 'unten'].includes(key)) {
+        setCurrentStep(allSteps[currentGroup].find((st) => st.key === 'type') || null);
+        if (configuration.style.name === 'Oberlicht') {
+          scrollToElement(key, 50);
+        }
+        if (configuration.style.name === 'Unterlicht') {
+          if (key === 'oben') {
+            scrollToElement('unten', 50);
+          }
+          if (key === 'unten') {
+            scrollToElement('oben', 50);
+          }
+        }
+        return;
+      }
+      let parentKey = Object.entries(allSteps).find(
+        ([, value]) => Array.isArray(value) && value.some((item) => item.key === key)
+      )?.[0] as GroupKey;
+
+      if (key === 'glasspaketWarmeKante') {
+        key = 'glasspaket';
+        parentKey = 'verglasung';
+      }
+
+      setCurrentGroup(parentKey);
+      setCurrentStep(allSteps[parentKey].find((st) => st.key === key) || null);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }, slowAction);
   };
 

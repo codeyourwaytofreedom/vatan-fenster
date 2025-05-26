@@ -13,9 +13,13 @@ import { categoryItems } from '@/data/configurationData';
 import { useEffect, useState } from 'react';
 import { useConfiguration } from '@/context/ConfigurationContext';
 import GroupBottomActions from '../GroupBottomActions/GroupBottomActions';
-import { sonnenschutzItems } from '@/data/selectionItems/sonnenschutzData';
+import {
+  allSonnenschutzStepsKeys,
+  sonnenschutzItems,
+} from '@/data/selectionItems/sonnenschutzData';
 import DoubleStepper from '../DoubleStepper/DoubleStepper';
 import StepVerlangerung from '../StepVerlängerung/StepVerlangerung';
+import PlaceHolder from '../PlaceHolder/PlaceHolder';
 
 export default function Sonnenschutz_Group() {
   const isSelected = (name: string) => {
@@ -49,31 +53,52 @@ export default function Sonnenschutz_Group() {
   const sonnenschutzSteps = getStepsForGroup('sonnenschutz');
 
   useEffect(() => {
-    if (configuration.cover.key === 'nein') return;
+    //// remove existing sonnenschutz config
+    const sonnenschutzConfigPropertiesExist = Object.keys(configuration).some((key) =>
+      allSonnenschutzStepsKeys.includes(key)
+    );
+    const clearedConfiguration = { ...configuration };
+    if (sonnenschutzConfigPropertiesExist) {
+      Object.keys(clearedConfiguration).forEach((key) => {
+        if (allSonnenschutzStepsKeys.includes(key)) {
+          delete clearedConfiguration[key as keyof typeof clearedConfiguration];
+        }
+      });
+    }
+    // if sonnenschuts is removed, no need for default selection
+    if (configuration.cover.key === 'nein') {
+      setConfiguration(clearedConfiguration);
+      return;
+    }
+    // select default items for new sonnenschutz steps
     const sonnenschutzDefaultConfig: Record<string, SelectionItem | DobuleSelection | number> = {};
     for (let index = 0; index < sonnenschutzSteps.length; index++) {
       const step = sonnenschutzSteps[index];
+      //////////////////////////////////////////// if step has custom component
       if ('component' in step) {
         if (step.component === DoubleStepper) {
-          sonnenschutzDefaultConfig[(step?.props as DoubleStepperProps).configurationKey] = {
+          alert(step.key)
+          sonnenschutzDefaultConfig[step.key] = {
             category: (step?.props as DoubleStepperProps)?.categoryItems[0],
             subCategory: (step?.props as DoubleStepperProps)?.subCategoryItems[
               (step?.props as DoubleStepperProps)?.categoryItems[0].key
             ][0],
           };
+          console.log(step.key, sonnenschutzDefaultConfig[step.key]);
         }
         if (step.component === StepVerlangerung) {
-          sonnenschutzDefaultConfig.verlangerung = 0;
+          sonnenschutzDefaultConfig[step.key] = {key: 'length', name: '0'};
         }
+        if(step.component === PlaceHolder){
+          sonnenschutzDefaultConfig[step.key] = {key: 'ph', name: 'PlaceHolder'};
+        }
+      //////////////////////////////////////////// if step has custom component
       } else {
         sonnenschutzDefaultConfig[step.key] =
           sonnenschutzItems[step.key as keyof typeof sonnenschutzItems][0];
       }
     }
-    console.log(sonnenschutzDefaultConfig);
-    setConfiguration((pr) => {
-      return { ...pr, ...sonnenschutzDefaultConfig };
-    });
+    setConfiguration({ ...clearedConfiguration, ...sonnenschutzDefaultConfig });
   }, [configuration.cover]);
 
   const expandable =
