@@ -1,6 +1,6 @@
 import Image, { StaticImageData } from 'next/image';
 import style from './UntenSizer.module.css';
-import { SubStyle } from '@/types/Configurator';
+import { SelectionItem, SubStyle } from '@/types/Configurator';
 import { useConfiguration } from '@/context/ConfigurationContext';
 import { useEffect, useRef, useState } from 'react';
 import { smartDivider } from '../single/SingleSizeHolder';
@@ -46,6 +46,8 @@ export default function UntenSizer({
   const obenSectionNumber = (configuration.type as SubStyle).unten?.sectionNumber || 1;
 
   const tHeight = useRef<HTMLInputElement>(null);
+
+  const coverHeight = (configuration.cover as SelectionItem & { height?: number }).height;
 
   const minWidth = 900;
   const maxWidth = 2800;
@@ -370,6 +372,8 @@ export default function UntenSizer({
             </div>
           )}
         </div>
+        {!summary && coverHeight && <h4>Rolladenkasten {size?.h && <span>{coverHeight}</span>}</h4>}
+
         <div id={style.central_holder}>
           <div className={style.big}>
             <div className={style.big_shell}>

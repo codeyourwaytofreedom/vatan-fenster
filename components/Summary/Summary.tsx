@@ -90,11 +90,12 @@ export default function SummaryDisplayer() {
   const groupSonnenschutz = Object.fromEntries(
     Object.entries(configuration).filter(([key]) => allSonnenschutzStepsKeys.includes(key))
   );
-  
+
   const sonnenschutzSteps = getStepsForGroup('sonnenschutz');
 
   // include sonnenschutzSteps if cover is selected
-  const allSteps = configuration.cover.key !== 'nein' ? {...steps, sonnenschutz: sonnenschutzSteps} : steps;
+  const allSteps =
+    configuration.cover.key !== 'nein' ? { ...steps, sonnenschutz: sonnenschutzSteps } : steps;
 
   const expandableGroups: { key: GroupKey; content: object }[] = [
     { key: 'farben', content: groupFarben },

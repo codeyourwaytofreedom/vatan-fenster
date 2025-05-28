@@ -18,7 +18,7 @@ export default function StepVerlangerung() {
     debounceTimeout.current = setTimeout(() => {
       setConfiguration((prev) => ({
         ...prev,
-        verlangerung: { key: 'length', name: newLength.toString()},
+        verlangerung: { key: 'length', name: newLength.toString() },
       }));
     }, 300);
   };

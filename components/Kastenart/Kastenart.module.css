@@ -1,0 +1,94 @@
+.kasten {
+  display: flex;
+  justify-content: center;
+  -moz-column-gap: 50px;
+       column-gap: 50px;
+}
+.kasten .figure {
+  position: relative;
+  padding-bottom: 20px;
+}
+.kasten .figure .top {
+  position: absolute;
+  top: 5.5%;
+  height: 30px;
+  border-top: 2px solid black;
+  border-bottom: 2px solid black;
+  display: flex;
+  align-items: center;
+  font-size: small;
+  font-weight: 500;
+}
+.kasten .figure .right {
+  position: absolute;
+  width: 1px;
+  height: 85%;
+  border: 1px solid black;
+  top: 5%;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.kasten .figure .right span {
+  font-size: small;
+  background-color: white;
+  padding: 5px 0;
+  font-weight: 500;
+  min-width: 70px;
+  text-align: center;
+}
+.kasten .figure .bottom {
+  position: absolute;
+  bottom: 0;
+  height: 50px;
+  width: 100%;
+  padding-top: 10px;
+}
+.kasten .figure .bottom .inner_layer, .kasten .figure .bottom .outer_layer {
+  display: grid;
+  grid-template-columns: 35% 1fr 35%;
+  padding: 0 17.5%;
+  height: 25px;
+}
+.kasten .figure .bottom .inner_layer div:nth-child(1), .kasten .figure .bottom .outer_layer div:nth-child(1) {
+  border-left: 2px solid black;
+  border-bottom: 2px solid black;
+}
+.kasten .figure .bottom .inner_layer div:nth-child(2), .kasten .figure .bottom .outer_layer div:nth-child(2) {
+  font-size: small;
+  font-weight: 500;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  position: relative;
+  top: 7px;
+}
+.kasten .figure .bottom .inner_layer div:nth-child(3), .kasten .figure .bottom .outer_layer div:nth-child(3) {
+  border-right: 2px solid black;
+  border-bottom: 2px solid black;
+}
+.kasten .figure .bottom .outer_layer {
+  padding: 0 14.2%;
+  padding-left: 14.6%;
+  position: absolute;
+  bottom: -5px;
+  width: 100%;
+  height: 45px;
+}
+.kasten .height {
+  display: grid;
+  align-content: flex-start;
+  padding-top: 130px;
+  row-gap: 5px;
+}
+.kasten .height .option, .kasten .height .selected_option {
+  border: none;
+  padding: 3px 0;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+.kasten .height .selected_option, .kasten .height .option:hover {
+  background-color: var(--color-2);
+  color: whitesmoke;
+}/*# sourceMappingURL=Kastenart.module.css.map */

@@ -55,6 +55,7 @@ import YesNoSelector from '@/components/YesNoSelector/YesNoSelector';
 import StepRahmenverbreiterung from '@/components/StepRahmenverbreiterung/StepRahmenverbreiterung';
 import { yesNoOptions } from './configurationData';
 import empty from '@/assets/common/empty.jpg';
+import Kastenart from '@/components/Kastenart/Kastenart';
 
 export const steps: Record<GroupKey | string, Step[]> = {
   basis: [
@@ -535,7 +536,7 @@ export const sonnenschutzStepPacks: Record<
       key: 'mk',
       name: 'Maße und Kastenart',
       icon: faDrawPolygon,
-      component: PlaceHolder,
+      component: Kastenart,
     },
     {
       key: 'lamellenartVorsatzrollladen',

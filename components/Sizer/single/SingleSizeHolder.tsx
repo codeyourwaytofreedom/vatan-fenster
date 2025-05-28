@@ -49,8 +49,6 @@ export default function SingleSizer({
 
   const totalHeight = useRef<HTMLInputElement>(null);
 
-  const coverExists = configuration.cover.key !== 'nein';
-
   const coverHeight = (configuration.cover as SelectionItem & { height?: number }).height;
 
   const sectionHasProblems = (w: number) => {
@@ -251,11 +249,9 @@ export default function SingleSizer({
         <>
           <div id={style.single}>
             <div className={style.big}>
-              {
-                !summary && coverExists &&
-                <h4>Rolladenkasten {size?.h  && <span>{coverHeight}</span>}</h4>
-
-              }
+              {!summary && coverHeight && (
+                <h4>Rolladenkasten {size?.h && <span>{coverHeight}</span>}</h4>
+              )}
               <div className={style.big_shell}>
                 <Image src={displayedImageTwo!} alt="brand" width={230} height={230} />
               </div>

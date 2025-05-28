@@ -3,6 +3,23 @@
   width: 200px;
   position: relative;
 }
+#unterlicht h4 {
+  border: 1px dashed black;
+  background-color: silver;
+  width: -moz-fit-content;
+  width: fit-content;
+  display: flex;
+  width: 200px;
+  justify-content: center;
+  align-items: center;
+  font-weight: 400;
+  margin-top: 5px;
+}
+#unterlicht h4 span {
+  font-size: 12px;
+  position: absolute;
+  right: -40px;
+}
 #unterlicht #central_holder {
   position: relative;
 }
@@ -46,7 +63,7 @@
 #unterlicht .small {
   z-index: 3;
   position: relative;
-  margin-bottom: 10px;
+  margin-bottom: 3px;
 }
 #unterlicht .small img {
   width: 200px;
@@ -54,7 +71,7 @@
 }
 #unterlicht .big {
   margin-bottom: 5px;
-  margin-top: 10px;
+  margin-top: 3px;
 }
 #unterlicht .big img {
   width: 200px;

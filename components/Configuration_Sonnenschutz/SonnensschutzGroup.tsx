@@ -85,12 +85,12 @@ export default function Sonnenschutz_Group() {
           };
         }
         if (step.component === StepVerlangerung) {
-          sonnenschutzDefaultConfig[step.key] = {key: 'length', name: '0'};
+          sonnenschutzDefaultConfig[step.key] = { key: 'length', name: '0' };
         }
-        if(step.component === PlaceHolder){
-          sonnenschutzDefaultConfig[step.key] = {key: 'ph', name: 'PlaceHolder'};
+        if (step.component === PlaceHolder) {
+          sonnenschutzDefaultConfig[step.key] = { key: 'ph', name: 'PlaceHolder' };
         }
-      //////////////////////////////////////////// if step has custom component
+        //////////////////////////////////////////// if step has custom component
       } else {
         sonnenschutzDefaultConfig[step.key] =
           sonnenschutzItems[step.key as keyof typeof sonnenschutzItems][0];

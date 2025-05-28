@@ -313,7 +313,7 @@ export const sonnenschutzItems: Record<
   ],
   // only for key inclusion
   farbeFührungsschiene: [],
-  farbeRollladenkasten: []
+  farbeRollladenkasten: [],
 };
 
 export const allSonnenschutzStepsKeys = Object.keys(sonnenschutzItems);

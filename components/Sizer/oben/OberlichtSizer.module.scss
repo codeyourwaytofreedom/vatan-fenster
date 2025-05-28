@@ -2,6 +2,22 @@
   display: grid;
   width: 200px;
   position: relative;
+  h4 {
+    border: 1px dashed black;
+    background-color: silver;
+    width: fit-content;
+    display: flex;
+    width: 200px;
+    justify-content: center;
+    align-items: center;
+    font-weight: 400;
+    margin-top: 5px;
+    span {
+      font-size: 12px;
+      position: absolute;
+      right: -40px;
+    }
+  }
   #central_holder {
     position: relative;
     #heights {
@@ -42,14 +58,14 @@
     z-index: 3;
     position: relative;
     margin-bottom: 5px;
-    margin-top: 10px;
+    margin-top: 3px;
     img {
       width: 200px;
       height: auto;
     }
   }
   .big {
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     img {
       width: 200px;
       height: auto;
@@ -153,6 +169,7 @@
   width: fit-content;
   display: flex;
   justify-self: center;
+  position: relative;
   &_inputs {
     display: flex;
     column-gap: 3px;

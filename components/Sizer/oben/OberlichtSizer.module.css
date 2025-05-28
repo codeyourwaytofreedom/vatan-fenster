@@ -3,6 +3,23 @@
   width: 200px;
   position: relative;
 }
+#oberlicht h4 {
+  border: 1px dashed black;
+  background-color: silver;
+  width: -moz-fit-content;
+  width: fit-content;
+  display: flex;
+  width: 200px;
+  justify-content: center;
+  align-items: center;
+  font-weight: 400;
+  margin-top: 5px;
+}
+#oberlicht h4 span {
+  font-size: 12px;
+  position: absolute;
+  right: -40px;
+}
 #oberlicht #central_holder {
   position: relative;
 }
@@ -47,14 +64,14 @@
   z-index: 3;
   position: relative;
   margin-bottom: 5px;
-  margin-top: 10px;
+  margin-top: 3px;
 }
 #oberlicht .small img {
   width: 200px;
   height: auto;
 }
 #oberlicht .big {
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 #oberlicht .big img {
   width: 200px;
@@ -156,6 +173,7 @@
   width: fit-content;
   display: flex;
   justify-self: center;
+  position: relative;
 }
 .multi_widths_inputs {
   display: flex;

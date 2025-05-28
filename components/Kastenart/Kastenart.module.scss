@@ -1,0 +1,93 @@
+.kasten {
+  display: flex;
+  justify-content: center;
+  column-gap: 50px;
+  .figure {
+    position: relative;
+    padding-bottom: 20px;
+    .top {
+      position: absolute;
+      top: 5.5%;
+      height: 30px;
+      border-top: 2px solid black;
+      border-bottom: 2px solid black;
+      display: flex;
+      align-items: center;
+      font-size: small;
+      font-weight: 500;
+    }
+    .right {
+      position: absolute;
+      width: 1px;
+      height: 85%;
+      border: 1px solid black;
+      top: 5%;
+      right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      span {
+        font-size: small;
+        background-color: white;
+        padding: 5px 0;
+        font-weight: 500;
+        min-width: 70px;
+        text-align: center;
+      }
+    }
+    .bottom{
+        position: absolute;
+        bottom: 0;
+        height: 50px;
+        width: 100%;
+        padding-top: 10px;
+        .inner_layer, .outer_layer{
+            display: grid;
+            grid-template-columns: 35% 1fr 35%;
+            padding: 0 17.5%;
+            height: 25px;
+            div:nth-child(1){
+                border-left: 2px solid black;
+                border-bottom: 2px solid black;
+            }
+            div:nth-child(2){
+                font-size: small;
+                font-weight: 500;
+                display: flex;
+                align-items: flex-end;
+                justify-content: center;
+                position: relative;
+                top: 7px;
+            }
+             div:nth-child(3){
+                border-right: 2px solid black;
+                border-bottom: 2px solid black;
+            }
+        }
+        .outer_layer{
+            padding: 0 14.2%;
+            padding-left: 14.6%;
+            position: absolute;
+            bottom: -5px;
+            width: 100%;
+            height: 45px;
+        }
+    }
+  }
+  .height {
+    display: grid;
+    align-content: flex-start;
+    padding-top: 130px;
+    row-gap: 5px;
+    .option, .selected_option{
+        border: none;
+        padding: 3px 0;
+        font-weight: 500;
+        transition: all 0.2s ease;
+    }
+    .selected_option, .option:hover{
+        background-color: var(--color-2);
+        color: whitesmoke;
+    }
+  }
+}

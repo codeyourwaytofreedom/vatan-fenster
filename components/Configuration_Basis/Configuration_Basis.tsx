@@ -32,6 +32,8 @@ export default function Basis_Configuration() {
   const { setSize } = useOrderDetailsReady();
   const visibleSection = categoryItems.find((cat) => cat.key === currentStep?.key);
 
+  //const prevCoverRef = useRef(configuration.cover);
+
   const handleSelectGroup = () => {
     setCurrentGroup('basis');
     setCurrentStep(steps.basis[0]);
@@ -165,6 +167,23 @@ export default function Basis_Configuration() {
     }
   };
 
+  const updateConfiguration = (item: SelectionItem, key?: string) => {
+    if (currentStep) {
+      setConfiguration((prevConfig) => ({
+        ...prevConfig,
+        [key ?? (currentStep?.key as keyof Config)]: item,
+      }));
+    }
+    moveToNextStep();
+  };
+
+  const handleMoveNextGroup = () => {
+    setCurrentGroup('farben');
+    const nextGroupSteps = getStepsForGroup('farben');
+    setCurrentStep(nextGroupSteps[0]);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   // remove substyle selection if style changes from oberlicht/unterlicht
   useEffect(() => {
     autoSelectFirstType();
@@ -178,16 +197,6 @@ export default function Basis_Configuration() {
   useEffect(() => {
     autoSelectProfile();
   }, [configuration.material]);
-
-  const updateConfiguration = (item: SelectionItem, key?: string) => {
-    if (currentStep) {
-      setConfiguration((prevConfig) => ({
-        ...prevConfig,
-        [key ?? (currentStep?.key as keyof Config)]: item,
-      }));
-    }
-    moveToNextStep();
-  };
 
   // if selected window type has handle, update configuration and vice-versa
   useEffect(() => {
@@ -223,12 +232,26 @@ export default function Basis_Configuration() {
     }
   }, [configuration.type]);
 
-  const handleMoveNextGroup = () => {
-    setCurrentGroup('farben');
-    const nextGroupSteps = getStepsForGroup('farben');
-    setCurrentStep(nextGroupSteps[0]);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  // add sonnenschuz height to total height
+  /*   useEffect(() => {
+    const prevCover = prevCoverRef.current;
+    const currentCover = configuration.cover;
+
+    let coverHeightChange = 0;
+    if ('height' in prevCover) {
+      coverHeightChange = coverHeightChange-(prevCover as Record<string, number>).height;
+    }
+
+    if ('height' in currentCover) {
+      coverHeightChange = coverHeightChange+(currentCover as Record<string, number>).height;
+    }
+
+    if(coverHeightChange === 0) return;
+
+    setSize({w: size?.w, h: Number(size?.h)+coverHeightChange});
+
+    prevCoverRef.current = currentCover;
+  }, [configuration.cover]); */
 
   return (
     <>
