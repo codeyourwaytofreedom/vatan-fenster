@@ -35,43 +35,44 @@
         text-align: center;
       }
     }
-    .bottom{
+    .bottom {
+      position: absolute;
+      bottom: 0;
+      height: 50px;
+      width: 100%;
+      padding-top: 10px;
+      .inner_layer,
+      .outer_layer {
+        display: grid;
+        grid-template-columns: 35% 1fr 35%;
+        padding: 0 17.5%;
+        height: 25px;
+        div:nth-child(1) {
+          border-left: 2px solid black;
+          border-bottom: 2px solid black;
+        }
+        div:nth-child(2) {
+          font-size: small;
+          font-weight: 500;
+          display: flex;
+          align-items: flex-end;
+          justify-content: center;
+          position: relative;
+          top: 7px;
+        }
+        div:nth-child(3) {
+          border-right: 2px solid black;
+          border-bottom: 2px solid black;
+        }
+      }
+      .outer_layer {
+        padding: 0 14.2%;
+        padding-left: 14.6%;
         position: absolute;
-        bottom: 0;
-        height: 50px;
+        bottom: -5px;
         width: 100%;
-        padding-top: 10px;
-        .inner_layer, .outer_layer{
-            display: grid;
-            grid-template-columns: 35% 1fr 35%;
-            padding: 0 17.5%;
-            height: 25px;
-            div:nth-child(1){
-                border-left: 2px solid black;
-                border-bottom: 2px solid black;
-            }
-            div:nth-child(2){
-                font-size: small;
-                font-weight: 500;
-                display: flex;
-                align-items: flex-end;
-                justify-content: center;
-                position: relative;
-                top: 7px;
-            }
-             div:nth-child(3){
-                border-right: 2px solid black;
-                border-bottom: 2px solid black;
-            }
-        }
-        .outer_layer{
-            padding: 0 14.2%;
-            padding-left: 14.6%;
-            position: absolute;
-            bottom: -5px;
-            width: 100%;
-            height: 45px;
-        }
+        height: 45px;
+      }
     }
   }
   .height {
@@ -79,15 +80,17 @@
     align-content: flex-start;
     padding-top: 130px;
     row-gap: 5px;
-    .option, .selected_option{
-        border: none;
-        padding: 3px 0;
-        font-weight: 500;
-        transition: all 0.2s ease;
+    .option,
+    .selected_option {
+      border: none;
+      padding: 3px 0;
+      font-weight: 500;
+      transition: all 0.2s ease;
     }
-    .selected_option, .option:hover{
-        background-color: var(--color-2);
-        color: whitesmoke;
+    .selected_option,
+    .option:hover {
+      background-color: var(--color-2);
+      color: whitesmoke;
     }
   }
 }

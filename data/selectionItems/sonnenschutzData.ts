@@ -35,7 +35,17 @@ export const sonnenschutzItems: Record<
   | 'führungsschieneAufStyroporkasten'
   | 'montageartVorsatzrollladen'
   | 'farbeFührungsschiene'
-  | 'farbeRollladenkasten',
+  | 'kastenart'
+  | 'kastenheight'
+  | 'kastenDimensions'
+  | 'lamelleArtFarbe'
+  | 'farbeRaffstorelamelleVorsatzraffstore'
+  | 'farbeEndschieneVorsatzraffstore'
+  | 'antriebsartVorsatzraffstore'
+  | 'farbeRollladenkasten'
+  | 'windSonnensensoren'
+  | 'putzschieneVorsatzraffstore'
+  | 'führungsschieneVorsatzraffstore',
   SelectionItem[]
 > = {
   adapter: [
@@ -314,6 +324,86 @@ export const sonnenschutzItems: Record<
   // only for key inclusion
   farbeFührungsschiene: [],
   farbeRollladenkasten: [],
+  kastenart: [],
+  kastenheight: [
+    {
+      key: '240mm',
+      name: '240mm',
+    },
+    {
+      key: '300mm',
+      name: '300mm',
+    },
+  ],
+  kastenDimensions: [],
+  lamelleArtFarbe: [
+    {
+      key: 'c80',
+      name: 'C80',
+    },
+    {
+      key: 's90',
+      name: 'S90',
+    },
+    {
+      key: 'z90',
+      name: 'Z90',
+    },
+  ],
+  farbeRaffstorelamelleVorsatzraffstore: [
+    { key: 'ral7016', name: 'RAL 7016 Matt', image: soon },
+    { key: 'ral9005', name: 'RAL 9005 Matt', image: soon },
+    { key: 'ral9006', name: 'RAL 9006 Matt', image: soon },
+    { key: 'ral9007', name: 'RAL 9007 Matt', image: soon },
+    { key: 'ral9016', name: 'RAL 9016 Matt', image: soon },
+    { key: 'db703', name: 'DB 703', image: soon },
+    { key: 'nachral', name: 'Nach RAL', image: soon },
+  ],
+  farbeEndschieneVorsatzraffstore: [
+    { key: 'ral7016', name: 'RAL 7016 Matt', image: soon },
+    { key: 'ral9005', name: 'RAL 9005 Matt', image: soon },
+    { key: 'ral9006', name: 'RAL 9006 Matt', image: soon },
+    { key: 'ral9007', name: 'RAL 9007 Matt', image: soon },
+    { key: 'ral9016', name: 'RAL 9016 Matt', image: soon },
+    { key: 'db703', name: 'DB 703', image: soon },
+    { key: 'nachral', name: 'Nach RAL', image: soon },
+  ],
+  antriebsartVorsatzraffstore: [
+    {
+      key: 'j406_wt_protect',
+      name: 'Motor Somfy J406 6/24 WT Protect',
+      image: soon,
+    },
+    {
+      key: 'j406_io_protect',
+      name: 'Motor Somfy J406 6/24 IO Protect',
+      image: soon,
+    },
+    {
+      key: 'j406_io_smoove',
+      name: 'Motor Somfy J406 6/24 iO PROTECT + SOMFY Smoove 1 iO Pure',
+      image: soon,
+    },
+    {
+      key: 'j406_io_smoove_situo1',
+      name: 'Motor Somfy J406 6/24 iO PROTECT + Smoove 1 iO Pure + Situo 1 Variation iO Pure',
+      image: soon,
+    },
+    {
+      key: 'j406_io_smoove_situo5',
+      name: 'Motor Somfy J406 6/24 iO PROTECT + Smoove 1 iO Pure + Situo 5 Variationen AM iO Pure',
+      image: soon,
+    },
+  ],
+  windSonnensensoren: [
+    { key: 'nein', name: 'Nein', image: soon },
+    { key: 'ws2in1', name: 'Wind und Sonnensensor Soliris iO (2in1)', image: soon },
+  ],
+  putzschieneVorsatzraffstore: [
+    { key: 'nein', name: 'Nein', image: soon },
+    { key: 'pAussen', name: 'Putzaluleiste außen', image: soon },
+  ],
+  führungsschieneVorsatzraffstore: [{ key: 'zf88', name: 'Führungsschiene ZF 88mm', image: soon }],
 };
 
 export const allSonnenschutzStepsKeys = Object.keys(sonnenschutzItems);

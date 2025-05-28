@@ -94,6 +94,7 @@ export interface Config {
     oben: number;
     unten: number;
   };
+  kastenart?: SelectionItem;
 }
 
 export type DobuleSelection = {

@@ -2,7 +2,7 @@
   display: flex;
   justify-content: center;
   -moz-column-gap: 50px;
-       column-gap: 50px;
+  column-gap: 50px;
 }
 .kasten .figure {
   position: relative;
@@ -45,17 +45,20 @@
   width: 100%;
   padding-top: 10px;
 }
-.kasten .figure .bottom .inner_layer, .kasten .figure .bottom .outer_layer {
+.kasten .figure .bottom .inner_layer,
+.kasten .figure .bottom .outer_layer {
   display: grid;
   grid-template-columns: 35% 1fr 35%;
   padding: 0 17.5%;
   height: 25px;
 }
-.kasten .figure .bottom .inner_layer div:nth-child(1), .kasten .figure .bottom .outer_layer div:nth-child(1) {
+.kasten .figure .bottom .inner_layer div:nth-child(1),
+.kasten .figure .bottom .outer_layer div:nth-child(1) {
   border-left: 2px solid black;
   border-bottom: 2px solid black;
 }
-.kasten .figure .bottom .inner_layer div:nth-child(2), .kasten .figure .bottom .outer_layer div:nth-child(2) {
+.kasten .figure .bottom .inner_layer div:nth-child(2),
+.kasten .figure .bottom .outer_layer div:nth-child(2) {
   font-size: small;
   font-weight: 500;
   display: flex;
@@ -64,7 +67,8 @@
   position: relative;
   top: 7px;
 }
-.kasten .figure .bottom .inner_layer div:nth-child(3), .kasten .figure .bottom .outer_layer div:nth-child(3) {
+.kasten .figure .bottom .inner_layer div:nth-child(3),
+.kasten .figure .bottom .outer_layer div:nth-child(3) {
   border-right: 2px solid black;
   border-bottom: 2px solid black;
 }
@@ -82,13 +86,15 @@
   padding-top: 130px;
   row-gap: 5px;
 }
-.kasten .height .option, .kasten .height .selected_option {
+.kasten .height .option,
+.kasten .height .selected_option {
   border: none;
   padding: 3px 0;
   font-weight: 500;
   transition: all 0.2s ease;
 }
-.kasten .height .selected_option, .kasten .height .option:hover {
+.kasten .height .selected_option,
+.kasten .height .option:hover {
   background-color: var(--color-2);
   color: whitesmoke;
-}/*# sourceMappingURL=Kastenart.module.css.map */
+} /*# sourceMappingURL=Kastenart.module.css.map */

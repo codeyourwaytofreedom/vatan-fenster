@@ -20,6 +20,7 @@ import {
 import DoubleStepper from '../DoubleStepper/DoubleStepper';
 import StepVerlangerung from '../StepVerlängerung/StepVerlangerung';
 import PlaceHolder from '../PlaceHolder/PlaceHolder';
+import Kastenart, { kastenartSizeOptions } from '../Kastenart/Kastenart';
 
 export default function Sonnenschutz_Group() {
   const isSelected = (name: string) => {
@@ -89,6 +90,12 @@ export default function Sonnenschutz_Group() {
         }
         if (step.component === PlaceHolder) {
           sonnenschutzDefaultConfig[step.key] = { key: 'ph', name: 'PlaceHolder' };
+        }
+        if (step.component === Kastenart) {
+          sonnenschutzDefaultConfig[step.key] = {
+            key: 'ph',
+            name: kastenartSizeOptions[0].toString() + 'mm',
+          };
         }
         //////////////////////////////////////////// if step has custom component
       } else {

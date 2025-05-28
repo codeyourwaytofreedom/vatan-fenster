@@ -7,6 +7,7 @@ import {
   faBrush,
   faColonSign,
   faCopyright,
+  faCrop,
   faCropSimple,
   faCubes,
   faDrawPolygon,
@@ -31,6 +32,7 @@ import {
   faToolbox,
   faTools,
   faVolumeMute,
+  faWind,
   faWindowMaximize,
   faWrench,
 } from '@fortawesome/free-solid-svg-icons';
@@ -533,7 +535,7 @@ export const sonnenschutzStepPacks: Record<
       withHoverZoom: true,
     },
     {
-      key: 'mk',
+      key: 'kastenart',
       name: 'Maße und Kastenart',
       icon: faDrawPolygon,
       component: Kastenart,
@@ -667,7 +669,74 @@ export const sonnenschutzStepPacks: Record<
       icon: faColonSign,
     },
   ],
-  vorsatzraffstore: [],
+  vorsatzraffstore: [
+    {
+      key: 'kastenheight',
+      name: 'Kastenhöhe',
+      icon: faRuler,
+      withoutDetails: true,
+    },
+    {
+      key: 'kastenDimensions',
+      name: 'Maß',
+      icon: faCrop,
+      component: PlaceHolder,
+    },
+    {
+      key: 'lamelleArtFarbe',
+      name: 'Lamelleart & Farbe',
+      icon: faColonSign,
+      withoutDetails: true,
+    },
+    {
+      key: 'farbeRaffstorelamelleVorsatzraffstore',
+      name: 'Farbe Raffstorelamelle',
+      icon: faBars,
+    },
+    {
+      key: 'farbeEndschieneVorsatzraffstore',
+      name: 'Farbe Endschiene',
+      icon: faColonSign,
+    },
+    {
+      key: 'farbeFührungsschiene',
+      name: 'Farbe Führungsschiene',
+      icon: faColonSign,
+      component: DoubleStepper,
+      props: {
+        configurationKey: 'farbeFührungsschiene',
+        ...aufStyroporkasten_farbeFührungsschieneProps,
+      },
+    },
+    {
+      key: 'antriebsartVorsatzraffstore',
+      name: 'Antriebsart',
+      icon: faGear,
+    },
+    {
+      key: 'windSonnensensoren',
+      name: 'Wind & Sonnensensoren',
+      icon: faWind,
+      withoutDetails: true,
+    },
+    {
+      key: 'antriebsseite',
+      name: 'Antriebsseite',
+      icon: faArrowsLeftRight,
+      withHoverZoom: true,
+    },
+    {
+      key: 'putzschieneVorsatzraffstore',
+      name: 'Putzschiene',
+      icon: faCubes,
+      withHoverZoom: true,
+    },
+    {
+      key: 'führungsschieneVorsatzraffstore',
+      name: 'Führungsschiene',
+      icon: faColonSign,
+    },
+  ],
 };
 
 const sonnenschutzAllSteps = Object.values(sonnenschutzStepPacks)

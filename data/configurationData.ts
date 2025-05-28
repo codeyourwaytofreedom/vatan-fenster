@@ -64,6 +64,33 @@ export const categoryItems = [
     items: sonnenschutzItems.führungsschieneAufStyroporkasten,
   },
   { key: 'montageartVorsatzrollladen', items: sonnenschutzItems.montageartVorsatzrollladen },
+  { key: 'kastenheight', items: sonnenschutzItems.kastenheight },
+  { key: 'kastenDimensions', items: sonnenschutzItems.kastenDimensions },
+  { key: 'lamelleArtFarbe', items: sonnenschutzItems.lamelleArtFarbe },
+  {
+    key: 'farbeRaffstorelamelleVorsatzraffstore',
+    items: sonnenschutzItems.farbeRaffstorelamelleVorsatzraffstore,
+  },
+  {
+    key: 'farbeEndschieneVorsatzraffstore',
+    items: sonnenschutzItems.farbeEndschieneVorsatzraffstore,
+  },
+  {
+    key: 'antriebsartVorsatzraffstore',
+    items: sonnenschutzItems.antriebsartVorsatzraffstore,
+  },
+  {
+    key: 'windSonnensensoren',
+    items: sonnenschutzItems.windSonnensensoren,
+  },
+  {
+    key: 'putzschieneVorsatzraffstore',
+    items: sonnenschutzItems.putzschieneVorsatzraffstore,
+  },
+  {
+    key: 'führungsschieneVorsatzraffstore',
+    items: sonnenschutzItems.führungsschieneVorsatzraffstore,
+  },
 ];
 
 const optionYes = {
