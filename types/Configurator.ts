@@ -73,6 +73,7 @@ export interface Config {
   multiHeight?: Record<string, number>;
   obenMultiWidth?: Record<string, number>;
   untenMultiWidth?: Record<string, number>;
+  kastenheight?: SelectionItem;
   sicherheitsbeschlage: {
     category: SelectionItem;
     subCategory: SelectionItem;
@@ -95,6 +96,7 @@ export interface Config {
     unten: number;
   };
   kastenart?: SelectionItem;
+  kastenDimensions?: Size | null;
 }
 
 export type DobuleSelection = {

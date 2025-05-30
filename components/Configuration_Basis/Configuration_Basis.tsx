@@ -232,27 +232,6 @@ export default function Basis_Configuration() {
     }
   }, [configuration.type]);
 
-  // add sonnenschuz height to total height
-  /*   useEffect(() => {
-    const prevCover = prevCoverRef.current;
-    const currentCover = configuration.cover;
-
-    let coverHeightChange = 0;
-    if ('height' in prevCover) {
-      coverHeightChange = coverHeightChange-(prevCover as Record<string, number>).height;
-    }
-
-    if ('height' in currentCover) {
-      coverHeightChange = coverHeightChange+(currentCover as Record<string, number>).height;
-    }
-
-    if(coverHeightChange === 0) return;
-
-    setSize({w: size?.w, h: Number(size?.h)+coverHeightChange});
-
-    prevCoverRef.current = currentCover;
-  }, [configuration.cover]); */
-
   return (
     <>
       <div className={style.layers}>

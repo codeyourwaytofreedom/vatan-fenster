@@ -1,0 +1,103 @@
+.kasten {
+  display: grid;
+  justify-items: center;
+  column-gap: 90px;
+  .figure {
+    position: relative;
+    display: grid;
+    justify-content: center;
+    width: 300px;
+    .top {
+      position: absolute;
+      top: 2px;
+      left: -55px;
+      height: 40px;
+      border-top: 2px solid black;
+      border-bottom: 2px solid black;
+      display: flex;
+      align-items: center;
+      font-size: small;
+      font-weight: 500;
+    }
+    .right {
+      position: absolute;
+      width: 1px;
+      height: 90%;
+      border: 1px solid black;
+      top: 0;
+      right: -50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      span {
+        font-size: small;
+        background-color: white;
+        padding: 5px 0;
+        font-weight: 500;
+        min-width: 90px;
+        text-align: center;
+        position: relative;
+        left: 15px;
+      }
+    }
+    .bottom {
+      height: 50px;
+      .outer_layer {
+        display: grid;
+        grid-template-columns: 35% 1fr 35%;
+        height: 25px;
+        margin-top: 5px;
+        div:nth-child(1) {
+          border-left: 2px solid black;
+          border-bottom: 2px solid black;
+        }
+        div:nth-child(2) {
+          font-size: small;
+          font-weight: 500;
+          display: flex;
+          align-items: flex-end;
+          justify-content: center;
+          position: relative;
+          top: 7px;
+        }
+        div:nth-child(3) {
+          border-right: 2px solid black;
+          border-bottom: 2px solid black;
+        }
+      }
+    }
+  }
+  .height {
+    display: grid;
+    align-content: flex-start;
+    row-gap: 5px;
+    .option,
+    .selected_option {
+      border: none;
+      padding: 3px 0;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+    .selected_option,
+    .option:hover {
+      background-color: var(--color-2);
+      color: whitesmoke;
+    }
+  }
+  input {
+    width: 50px;
+    margin-right: 5px;
+  }
+  .errors {
+    width: fit-content;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    font-size: 14px;
+    color: red !important;
+    span {
+      font-weight: 600;
+      font-size: larger;
+      margin-right: 10px;
+    }
+  }
+}

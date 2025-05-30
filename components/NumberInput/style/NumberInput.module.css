@@ -1,0 +1,19 @@
+.clean,
+.warn {
+  outline: none;
+  padding-left: 3px;
+}
+
+.warn {
+  border: 1px dashed crimson;
+  animation: attention 0.7s infinite;
+}
+
+@keyframes attention {
+  from {
+    border: 1px dashed crimson;
+  }
+  to {
+    border: 1px solid crimson;
+  }
+} /*# sourceMappingURL=NumberInput.module.css.map */

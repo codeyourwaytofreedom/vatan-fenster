@@ -3,6 +3,7 @@ import {
   DobuleSelection,
   DoubleStepperProps,
   SelectionItem,
+  Size,
   Step,
   StepWithProps,
 } from '@/types/Configurator';
@@ -21,6 +22,8 @@ import DoubleStepper from '../DoubleStepper/DoubleStepper';
 import StepVerlangerung from '../StepVerlängerung/StepVerlangerung';
 import PlaceHolder from '../PlaceHolder/PlaceHolder';
 import Kastenart, { kastenartSizeOptions } from '../Kastenart/Kastenart';
+import KastenartVorsatzraffstore from '../KastenartVorsatzraffstore/KastenartVorsatzraffstore';
+import { useOrderDetailsReady } from '@/context/OrderDetailsContext';
 
 export default function Sonnenschutz_Group() {
   const isSelected = (name: string) => {
@@ -41,6 +44,8 @@ export default function Sonnenschutz_Group() {
     getStepsForGroup,
     moveToNextStep,
   } = useConfiguration();
+
+  const { size } = useOrderDetailsReady();
 
   const visibleSection = categoryItems.find((cat) => cat.key === currentStep?.key);
 
@@ -72,7 +77,10 @@ export default function Sonnenschutz_Group() {
       return;
     }
     // select default items for new sonnenschutz steps
-    const sonnenschutzDefaultConfig: Record<string, SelectionItem | DobuleSelection | number> = {};
+    const sonnenschutzDefaultConfig: Record<
+      string,
+      SelectionItem | DobuleSelection | number | Size
+    > = {};
     for (let index = 0; index < sonnenschutzSteps.length; index++) {
       const step = sonnenschutzSteps[index];
       //////////////////////////////////////////// if step has custom component
@@ -97,13 +105,15 @@ export default function Sonnenschutz_Group() {
             name: kastenartSizeOptions[0].toString() + 'mm',
           };
         }
+        if (step.component === KastenartVorsatzraffstore) {
+          sonnenschutzDefaultConfig[step.key] = size || ({} as Size);
+        }
         //////////////////////////////////////////// if step has custom component
       } else {
         sonnenschutzDefaultConfig[step.key] =
           sonnenschutzItems[step.key as keyof typeof sonnenschutzItems][0];
       }
     }
-    console.log(sonnenschutzDefaultConfig);
     setConfiguration({ ...clearedConfiguration, ...sonnenschutzDefaultConfig });
   }, [configuration.cover]);
 

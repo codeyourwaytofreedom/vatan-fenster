@@ -4,7 +4,14 @@ import { steps } from '@/data/steps';
 import { useConfiguration } from '@/context/ConfigurationContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
-import { Config, DobuleSelection, GroupKey, SelectionItem, SubStyle } from '@/types/Configurator';
+import {
+  Config,
+  DobuleSelection,
+  GroupKey,
+  SelectionItem,
+  Size,
+  SubStyle,
+} from '@/types/Configurator';
 import { useState } from 'react';
 import Sizer from '../Sizer/Sizer';
 import { windowStyles } from '@/data/selectionItems/basisData';
@@ -23,7 +30,8 @@ export default function SummaryDisplayer() {
   const slowAction = 100;
 
   // group basis
-  const { material, brand, profile, style, type, cover, size } = configuration;
+  const { material, brand, profile, style, type, cover, size, multiHeight, multiWidth } =
+    configuration;
   // group farben
   const { colorExt, colorInt, dichtungAussen, dichtungInnen, sealInt, fenstergriffe } =
     configuration;
@@ -56,6 +64,8 @@ export default function SummaryDisplayer() {
     type,
     cover,
     size,
+    multiHeight,
+    multiWidth,
   };
 
   const groupFarben = {
@@ -120,6 +130,18 @@ export default function SummaryDisplayer() {
       return `${doubleSelection.category.name} - ${doubleSelection.subCategory.name || ''}`;
     }
 
+    if (key === 'size') {
+      return `w: ${(value as Size).w || '--'}, h: ${(value as Size).h || '--'}`;
+    }
+
+    if (key === 'multiHeight') {
+      return 'multiHeight';
+    }
+
+    if (key === 'multiWidth') {
+      return 'multiWidth';
+    }
+
     if (key === 'rahmenverbreiterung') {
       const selection = value as SelectionItem;
       if (selection.name === 'Nein') {
@@ -140,6 +162,10 @@ export default function SummaryDisplayer() {
     if (key === 'fenstergriffe') {
       const selection = value as { type: SelectionItem; choice: SelectionItem };
       return `${selection.type?.name} - ${selection.choice.name}`;
+    }
+
+    if (key === 'kastenDimensions' && 'w' in value && 'h' in value) {
+      return `w: ${value.w || '--'}, h: ${value.h || '--'}`;
     }
 
     if (typeof value === 'object') {

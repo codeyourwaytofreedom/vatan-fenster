@@ -58,6 +58,7 @@ import StepRahmenverbreiterung from '@/components/StepRahmenverbreiterung/StepRa
 import { yesNoOptions } from './configurationData';
 import empty from '@/assets/common/empty.jpg';
 import Kastenart from '@/components/Kastenart/Kastenart';
+import KastenartVorsatzraffstore from '@/components/KastenartVorsatzraffstore/KastenartVorsatzraffstore';
 
 export const steps: Record<GroupKey | string, Step[]> = {
   basis: [
@@ -680,7 +681,7 @@ export const sonnenschutzStepPacks: Record<
       key: 'kastenDimensions',
       name: 'Maß',
       icon: faCrop,
-      component: PlaceHolder,
+      component: KastenartVorsatzraffstore,
     },
     {
       key: 'lamelleArtFarbe',
