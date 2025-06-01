@@ -26,7 +26,7 @@ export default function Sizer({ sizeImage, substyle, summary }: SizerProps) {
       timeoutId = setTimeout(() => {
         setOrderDetailsReady(true);
         setConfiguration((pr) => {
-          return { ...pr, size: true };
+          return { ...pr, size: size };
         });
       }, 1000);
     } else {

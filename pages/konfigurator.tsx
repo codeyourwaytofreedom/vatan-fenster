@@ -9,6 +9,7 @@ import { ConfigurationProvider } from '@/context/ConfigurationContext';
 import Sonnenschutz_Group from '@/components/Configuration_Sonnenschutz/SonnensschutzGroup';
 import UniversalModal from '@/components/UniversalModal/UniversalModal';
 import { ModalProvider } from '@/context/ModalContext';
+import Grouper from '@/components/Grouper/Grouper';
 
 export default function Page() {
   return (
@@ -28,7 +29,8 @@ function PageContent() {
     <>
       <div className={style.config}>
         <div>
-          {Object.entries(steps).map(([stepKey, stepValues]) =>
+          <Grouper />
+          {Object.entries(steps).map(([stepKey]) =>
             stepKey === 'basis' ? (
               <Basis_Configuration key={stepKey} />
             ) : stepKey === 'sonnenschutz' ? (
@@ -37,7 +39,6 @@ function PageContent() {
               <Configuration_Group
                 key={stepKey}
                 groupTitle={stepKey as GroupKey}
-                steps={stepValues}
               />
             )
           )}

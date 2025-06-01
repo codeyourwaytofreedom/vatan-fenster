@@ -30,8 +30,19 @@ export default function SummaryDisplayer() {
   const slowAction = 100;
 
   // group basis
-  const { material, brand, profile, style, type, cover, size, multiHeight, multiWidth } =
-    configuration;
+  const {
+    material,
+    brand,
+    profile,
+    style,
+    type,
+    cover,
+    size,
+    multiHeight,
+    multiWidth,
+    obenMultiWidth,
+    untenMultiWidth,
+  } = configuration;
   // group farben
   const { colorExt, colorInt, dichtungAussen, dichtungInnen, sealInt, fenstergriffe } =
     configuration;
@@ -66,6 +77,8 @@ export default function SummaryDisplayer() {
     size,
     multiHeight,
     multiWidth,
+    obenMultiWidth,
+    untenMultiWidth,
   };
 
   const groupFarben = {
@@ -131,15 +144,27 @@ export default function SummaryDisplayer() {
     }
 
     if (key === 'size') {
-      return `w: ${(value as Size).w || '--'}, h: ${(value as Size).h || '--'}`;
+      return `Breite: ${(value as Size).w || '--'}, Höhe: ${(value as Size).h || '--'}`;
     }
 
-    if (key === 'multiHeight') {
-      return 'multiHeight';
+    if (key === 'multiHeight' && 'untenHeight' in value && 'obenHeight' in value) {
+      if (configuration.style.name === 'Oberlicht') {
+        return `Oben: ${value.obenHeight} - Unten: ${value.untenHeight}`;
+      }
+      if (configuration.style.name === 'Unterlicht') {
+        return `Oben: ${value.obenHeight} - Unten: ${value.untenHeight}`;
+      }
     }
 
     if (key === 'multiWidth') {
-      return 'multiWidth';
+      return Object.values(value).join(' - ');
+    }
+
+    if (key === 'obenMultiWidth') {
+      return Object.values(value).join(' - ');
+    }
+    if (key === 'untenMultiWidth') {
+      return Object.values(value).join(' - ');
     }
 
     if (key === 'rahmenverbreiterung') {
@@ -186,6 +211,22 @@ export default function SummaryDisplayer() {
   const labelExtractor = (key: string) => {
     if (key === 'glasspaketWarmeKante') {
       return 'Warme Kante';
+    }
+
+    if (key === 'multiHeight') {
+      return 'Höhe';
+    }
+
+    if (key === 'obenMultiWidth') {
+      return 'Obere Breite';
+    }
+
+    if (key === 'untenMultiWidth') {
+      return 'Untere Breite';
+    }
+
+    if (key === 'multiWidth') {
+      return 'Breite';
     }
 
     const flatSteps = Object.values(allSteps).flat();
@@ -265,7 +306,7 @@ export default function SummaryDisplayer() {
 
   return (
     <div id={styles.summary}>
-      <h3>Bestellübersicht</h3>
+      <h3 onClick={() => console.log(configuration)}>Bestellübersicht</h3>
       <Sizer substyle={substyle} sizeImage={findSizeImage()!} summary={true} />
       <br />
       <div id={styles.items}>

@@ -22,7 +22,7 @@ export default function KastenartVorsatzraffstore() {
   const width = Number(size?.w);
   const height = Number(size?.h);
 
-  const valueValid = (v: number, key: 'w' | 'h') => v > (key === 'h' ? height-1 : width-1);
+  const valueValid = (v: number, key: 'w' | 'h') => v > (key === 'h' ? height - 1 : width - 1);
 
   const handleChangeDimension = (e: React.ChangeEvent<HTMLInputElement>, key: 'w' | 'h') => {
     const raw = e.target.value;

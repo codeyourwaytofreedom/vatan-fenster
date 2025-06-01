@@ -28,6 +28,8 @@ export default function ObenSizer({
   const { configuration, setConfiguration } = useConfiguration();
   const { size, setSize } = useOrderDetailsReady();
 
+  const widthManuallyChanged = useRef(false);
+
   const [obenMultiWidth, setObenMultiWidth] = useState<Record<string, number>>(
     configuration.obenMultiWidth || {}
   );
@@ -225,6 +227,7 @@ export default function ObenSizer({
     });
 
     if (problems.length > 0) {
+      widthManuallyChanged.current = true;
       setSize((prevSize) => ({
         ...(prevSize || { w: undefined, h: undefined }),
         w: undefined,
@@ -317,20 +320,25 @@ export default function ObenSizer({
 
   // if no previous partition available
   useEffect(() => {
-    if (obenSectionNumber > 1) {
-      if (typeof size?.w === 'string' && typeof size.w !== 'undefined') {
-        return;
-      }
-      const dividedWidthItems = smartDivider(size?.w || 0, obenSectionNumber);
+    if (!size?.w || typeof size.w === 'string') return;
+
+    if (obenSectionNumber > 1 && (!configuration.obenMultiWidth || widthManuallyChanged.current)) {
+      const dividedWidthItems = smartDivider(size.w, obenSectionNumber);
       setObenMultiWidth(dividedWidthItems);
+      setConfiguration((pr) => ({ ...pr, obenMultiWidth: dividedWidthItems }));
     }
-    if (untenSectionNumber > 1) {
-      if (typeof size?.w === 'string' && typeof size.w !== 'undefined') {
-        return;
-      }
-      const dividedWidthItems = smartDivider(size?.w || 0, untenSectionNumber);
+
+    if (
+      untenSectionNumber > 1 &&
+      (!configuration.untenMultiWidth || widthManuallyChanged.current)
+    ) {
+      const dividedWidthItems = smartDivider(size.w, untenSectionNumber);
       setUntenMultiWidth(dividedWidthItems);
+      setConfiguration((pr) => ({ ...pr, untenMultiWidth: dividedWidthItems }));
     }
+
+    // reset the manual update flag
+    widthManuallyChanged.current = false;
   }, [size?.w]);
 
   // when multiHeight changes, update Configuration.multiHeight

@@ -39,7 +39,6 @@ export default function Sonnenschutz_Group() {
     configuration,
     currentStepGroup,
     setCurrentStep,
-    setCurrentGroup,
     setConfiguration,
     getStepsForGroup,
     moveToNextStep,
@@ -141,10 +140,10 @@ export default function Sonnenschutz_Group() {
     }
   }, [groupActive, visibleSection]);
 
-  const handleSelectGroup = () => {
+/*   const handleSelectGroup = () => {
     setCurrentGroup('sonnenschutz');
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  }; */
 
   const updateConfiguration = (item: SelectionItem, key?: string) => {
     if (currentStep) {
@@ -169,11 +168,11 @@ export default function Sonnenschutz_Group() {
 
   return (
     <div>
-      <div className={style.layers}>
+{/*       <div className={style.layers}>
         <button id={groupActive ? style.active : style.default} onClick={handleSelectGroup}>
           <span>SONNENSCHUTZ</span>
         </button>
-      </div>
+      </div> */}
       {groupActive && (
         <div>
           {<Stepper />}

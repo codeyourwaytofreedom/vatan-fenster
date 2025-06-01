@@ -34,10 +34,10 @@ export default function Basis_Configuration() {
 
   //const prevCoverRef = useRef(configuration.cover);
 
-  const handleSelectGroup = () => {
+/*   const handleSelectGroup = () => {
     setCurrentGroup('basis');
     setCurrentStep(steps.basis[0]);
-  };
+  }; */
 
   const showDefaultProductHolders =
     currentStep &&
@@ -189,7 +189,12 @@ export default function Basis_Configuration() {
     autoSelectFirstType();
     setSize(initialSize);
     setConfiguration((pr) => {
-      return { ...pr, multiWidth: undefined };
+      const refreshedConfig = { ...pr };
+      delete refreshedConfig.multiWidth;
+      delete refreshedConfig.multiHeight;
+      delete refreshedConfig.obenMultiWidth;
+      delete refreshedConfig.untenMultiWidth;
+      return refreshedConfig;
     });
   }, [configuration.style]);
 
@@ -234,14 +239,14 @@ export default function Basis_Configuration() {
 
   return (
     <>
-      <div className={style.layers}>
+{/*       <div className={style.layers}>
         <button
           id={currentGroup === 'basis' ? style.active : style.default}
           onClick={handleSelectGroup}
         >
           <span>BASISKONFIGURATION</span>
         </button>
-      </div>
+      </div> */}
       {currentGroup === 'basis' && <Stepper />}
       {currentGroup === 'basis' && (
         <div className={style.group}>

@@ -203,6 +203,9 @@ export default function SingleSizer({
       }
       const dividedWidthItems = smartDivider(size?.w || 0, numberOfSections);
       setMultiWidth(dividedWidthItems);
+      setConfiguration((pr) => {
+        return { ...pr, multiWidth: dividedWidthItems };
+      });
     }
   }, [numberOfSections, size?.w]);
 

@@ -11,10 +11,9 @@ import { sicherheitsverglasungDynamicItems } from '@/data/selectionItems/verglas
 
 interface GroupProps {
   groupTitle: GroupKey;
-  steps: Step[];
 }
 
-export default function Configuration_Group({ groupTitle, steps }: GroupProps) {
+export default function Configuration_Group({ groupTitle }: GroupProps) {
   const isSelected = (name: string) => {
     if (currentStep) {
       return (configuration[currentStep?.key as keyof Config] as SelectionItem)?.name === name;
@@ -77,11 +76,11 @@ export default function Configuration_Group({ groupTitle, steps }: GroupProps) {
     });
   }, [configuration.glasspaket]);
 
-  const handleSelectGroup = () => {
+/*   const handleSelectGroup = () => {
     setCurrentGroup(groupTitle);
     setCurrentStep(steps[0]);
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  }; */
 
   const updateConfiguration = (item: SelectionItem, key?: string) => {
     if (currentStep) {
@@ -122,11 +121,11 @@ export default function Configuration_Group({ groupTitle, steps }: GroupProps) {
 
   return (
     <div>
-      <div className={style.layers}>
+{/*       <div className={style.layers}>
         <button id={groupActive ? style.active : style.default} onClick={handleSelectGroup}>
           <span>{groupTitle.toUpperCase()}</span>
         </button>
-      </div>
+      </div> */}
       {groupActive && (
         <div>
           {<Stepper />}
