@@ -174,6 +174,7 @@ export type SelectionItem = {
   items?: SelectionItem[];
   disabled?: boolean;
   details?: string;
+  sections?: string[];
   children?: {
     profile?: {
       'Kunststoff (PVC)': SelectionItem[];

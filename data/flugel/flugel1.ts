@@ -62,41 +62,41 @@ export const flugel1_unten: SelectionItem[] = [
   {
     name: 'Fest',
     image: fest_u,
-    key: 'fest_u',
+    key: 'F'
   },
   {
     name: 'Fester Flügel',
     image: fester_flugel_u,
-    key: 'fester_flugel_u',
+    key: 'FF'
   },
   {
     name: 'Dreh Links',
     image: dreh_links_u,
-    key: 'dreh_links_u',
-    handleNumber: 1,
+    key: 'DL',
+    handleNumber: 1
   },
   {
     name: 'Dreh Rechts',
     image: dreh_rechts_u,
-    key: 'dreh_rechts_u',
-    handleNumber: 1,
+    key: 'DR',
+    handleNumber: 1
   },
   {
     name: 'Kipp',
     image: kipp_u,
-    key: 'kipp_u',
-    handleNumber: 1,
+    key: 'K',
+    handleNumber: 1
   },
   {
     name: 'Dreh Kipp Links',
     image: dreh_kipp_links_u,
-    key: 'dreh_kipp_links_u',
-    handleNumber: 1,
+    key: 'DKL',
+    handleNumber: 1
   },
   {
     name: 'Dreh Kipp Rechts',
     image: dreh_kipp_rechts_u,
-    key: 'dreh_kipp_rechts_u',
-    handleNumber: 1,
-  },
+    key: 'DKL',
+    handleNumber: 1
+  }
 ];

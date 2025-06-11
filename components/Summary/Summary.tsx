@@ -16,6 +16,41 @@ import { useState } from 'react';
 import Sizer from '../Sizer/Sizer';
 import { windowStyles } from '@/data/selectionItems/basisData';
 import { allSonnenschutzStepsKeys } from '@/data/selectionItems/sonnenschutzData';
+import { I5_F } from '@/pages/api/prices/prices/iglo 5/I5_F';
+import { I5_FF } from '@/pages/api/prices/prices/iglo 5/I5_FF';
+import { I5_DR } from '@/pages/api/prices/prices/iglo 5/I5_DR';
+import { I5_DL } from '@/pages/api/prices/prices/iglo 5/I5_DL';
+import { I5_DKR } from '@/pages/api/prices/prices/iglo 5/I5_DKR';
+import { I5_DKL } from '@/pages/api/prices/prices/iglo 5/I5_DKL';
+import { I5_K } from '@/pages/api/prices/prices/iglo 5/I5_K';
+import { I5C_F } from '@/pages/api/prices/prices/iglo 5 classic/I5C_F';
+import { I5C_FF } from '@/pages/api/prices/prices/iglo 5 classic/I5C_FF';
+import { I5C_DR } from '@/pages/api/prices/prices/iglo 5 classic/I5C_DR';
+import { I5C_DL } from '@/pages/api/prices/prices/iglo 5 classic/I5C_DL';
+import { I5C_DKR } from '@/pages/api/prices/prices/iglo 5 classic/I5C_DKR';
+import { I5C_DKL } from '@/pages/api/prices/prices/iglo 5 classic/I5C_DKL';
+import { I5C_K } from '@/pages/api/prices/prices/iglo 5 classic/I5C_K';
+import { IE_F } from '@/pages/api/prices/prices/iglo energy/IE_F';
+import { IE_FF } from '@/pages/api/prices/prices/iglo energy/IE_FF';
+import { IE_DR } from '@/pages/api/prices/prices/iglo energy/IE_DR';
+import { IE_DL } from '@/pages/api/prices/prices/iglo energy/IE_DL';
+import { IE_DKR } from '@/pages/api/prices/prices/iglo energy/IE_DKR';
+import { IE_DKL } from '@/pages/api/prices/prices/iglo energy/IE_DKL';
+import { IE_K } from '@/pages/api/prices/prices/iglo energy/IE_K';
+import { IEC_F } from '@/pages/api/prices/prices/iglo energy classic/IEC_F';
+import { IEC_FF } from '@/pages/api/prices/prices/iglo energy classic/IEC_FF';
+import { IEC_K } from '@/pages/api/prices/prices/iglo energy classic/IEC_K';
+import { IEC_DL } from '@/pages/api/prices/prices/iglo energy classic/IEC_DL';
+import { IEC_DR } from '@/pages/api/prices/prices/iglo energy classic/IEC_DR';
+import { IEC_DKR } from '@/pages/api/prices/prices/iglo energy classic/IEC_DKR';
+import { IEC_DKL } from '@/pages/api/prices/prices/iglo energy classic/IEC_DKL';
+import { IL_DKL } from '@/pages/api/prices/prices/iglo light/IL_DKL';
+import { IL_DKR } from '@/pages/api/prices/prices/iglo light/IL_DKR';
+import { IL_DL } from '@/pages/api/prices/prices/iglo light/IL_DL';
+import { IL_DR } from '@/pages/api/prices/prices/iglo light/IL_DR';
+import { IL_F } from '@/pages/api/prices/prices/iglo light/IL_F';
+import { IL_FF } from '@/pages/api/prices/prices/iglo light/IL_FF';
+import { IL_K } from '@/pages/api/prices/prices/iglo light/IL_K';
 
 export default function SummaryDisplayer() {
   const {
@@ -304,9 +339,83 @@ export default function SummaryDisplayer() {
     return selectedType?.image;
   };
 
+  const priceLists: Record<string, Record<number, Record<number, number>>> = {
+    I5_F: I5_F,
+    I5_FF: I5_FF,
+    I5_DR: I5_DR,
+    I5_DL: I5_DL,
+    I5_DKR: I5_DKR,
+    I5_DKL: I5_DKL,
+    I5_K: I5_K,
+
+    I5C_F: I5C_F,
+    I5C_FF: I5C_FF,
+    I5C_DR: I5C_DR,
+    I5C_DL: I5C_DL,
+    I5C_DKR: I5C_DKR,
+    I5C_DKL: I5C_DKL,
+    I5C_K: I5C_K,
+
+    IE_F: IE_F,
+    IE_FF: IE_FF,
+    IE_DR: IE_DR,
+    IE_DL: IE_DL,
+    IE_DKR: IE_DKR,
+    IE_DKL: IE_DKL,
+    IE_K: IE_K,
+
+    IEC_F: IEC_F,
+    IEC_FF: IEC_FF,
+    IEC_K: IEC_K,
+    IEC_DL: IEC_DL,
+    IEC_DR: IEC_DR,
+    IEC_DKR: IEC_DKR,
+    IEC_DKL: IEC_DKL,
+
+    IL_DKL: IL_DKL,
+    IL_DKR: IL_DKR,
+    IL_DL: IL_DL,
+    IL_DR: IL_DR,
+    IL_F: IL_F,
+    IL_FF: IL_FF,
+    IL_K: IL_K
+  }
+
+  const testPricing = () => {
+    const width = Number((size as Size).w) || 0;
+    const height = Number((size as Size).h) || 0;
+
+    if(width === 0 || height === 0) return;
+
+    if(['flugel2', 'flugel3', 'oberlicht', 'unterlicht'].includes(configuration.style.key)){
+      alert(`${configuration.style.key} not ready for pricing yet`);
+      return;
+    }
+
+    // adjust for overlicht and unterlicht
+    const priceListKey = `${(configuration.profile as SelectionItem).key}_${(configuration.type as SelectionItem).key}`;
+
+    const priceListForSelectedType = priceLists[priceListKey];
+    // take height as reference point
+    for (const [key, value] of Object.entries(priceListForSelectedType)) {
+      const keyAsNumber = Number(key);
+      if(height === keyAsNumber || height < keyAsNumber){
+        for(const [w, price] of Object.entries(value)){
+          const wid = Number(w);
+          if(width === wid || width < wid){
+            alert(price);
+            return price;
+          }
+        }
+        break;
+      }
+    }
+    return null;
+  };
+
   return (
     <div id={styles.summary}>
-      <h3 onClick={() => console.log(configuration)}>Bestellübersicht</h3>
+      <h3 onClick={()=>testPricing()}>Bestellübersicht</h3>
       <Sizer substyle={substyle} sizeImage={findSizeImage()!} summary={true} />
       <br />
       <div id={styles.items}>

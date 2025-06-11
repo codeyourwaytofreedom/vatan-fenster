@@ -85,35 +85,35 @@ export const brands: SelectionItem[] = [
       profile: {
         'Kunststoff (PVC)': [
           {
-            key: 'Iglo_5',
+            key: 'I5',
             name: 'Iglo 5',
             image: Iglo5,
-            details: dummyDetail,
+            details: dummyDetail
           },
           {
-            key: 'Iglo_5_Classic',
+            key: 'I5C',
             name: 'Iglo 5 Classic',
             image: Iglo5Classic,
-            details: dummyDetail,
+            details: dummyDetail
           },
           {
-            key: 'Iglo_Energy',
+            key: 'IE',
             name: 'Iglo Energy',
             image: Iglo5Energy,
-            details: dummyDetail,
+            details: dummyDetail
           },
           {
-            key: 'Iglo_Energy_Classic',
+            key: 'IEC',
             name: 'Iglo Energy Classic',
             image: Iglo5EnergyClassic,
-            details: dummyDetail,
+            details: dummyDetail
           },
           {
-            key: 'Iglo_Light',
+            key: 'IL',
             name: 'Iglo Light',
             image: IgloLight,
-            details: dummyDetail,
-          },
+            details: dummyDetail
+          }
         ],
         Aluminium: [
           {

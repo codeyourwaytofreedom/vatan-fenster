@@ -14,69 +14,69 @@ export const flugel2_oben: SelectionItem[] = [
     name: 'Fest + Fest',
     image: fest_fest_o,
     key: 'fest__fest_o',
-    sectionNumber: 2,
+    sectionNumber: 2
   },
   {
     name: 'Fester Flügel + Fester Flügel',
     image: fester_flugel_fester_flugel_o,
     key: 'fester_flugel_fester_flugel_o',
-    sectionNumber: 2,
+    sectionNumber: 2
   },
   {
     name: 'Kipp + Kipp',
     image: kipp_kipp_o,
     key: 'kipp_kipp_o',
     handleNumber: 2,
-    sectionNumber: 2,
+    sectionNumber: 2
   },
   {
     name: 'Dreh-Kipp + Fest',
     image: dreh_kip_fest_o,
     key: 'dreh_kip_fest_o',
     handleNumber: 1,
-    sectionNumber: 2,
+    sectionNumber: 2
   },
   {
     name: 'Fest + Dreh-Kipp',
     image: fest_dreh_kipp_o,
     key: 'fest_dreh_kipp_o',
     handleNumber: 1,
-    sectionNumber: 2,
+    sectionNumber: 2
   },
   {
     name: 'Dreh + Dreh-Kipp (pfosten)',
     image: dreh_dreh_kipp_pfosten_o,
     key: 'dreh_dreh_kipp_pfosten_o',
     handleNumber: 2,
-    sectionNumber: 2,
+    sectionNumber: 2
   },
   {
     name: 'Dreh-Kipp + Dreh (Pfosten)',
     image: dreh_kipp_dreh_pfosten_o,
     key: 'dreh_kipp_dreh_pfosten_o',
     handleNumber: 2,
-    sectionNumber: 2,
+    sectionNumber: 2
   },
   {
     name: 'Dreh-Kipp + Dreh-Kipp (pfosten)',
     image: dreh_kipp_dreh_kipp_pfosten_o,
     key: 'dreh_kipp_dreh_kipp_pfosten_o',
     handleNumber: 2,
-    sectionNumber: 2,
+    sectionNumber: 2
   },
   {
     name: 'Dreh + Dreh-Kipp(Stulp)',
     image: dreh_dreh_kipp_stulp_o,
     key: 'dreh_dreh_kipp_stulp_o',
     handleNumber: 2,
-    sectionNumber: 2,
+    sectionNumber: 2
   },
   {
     name: 'Dreh-Kipp + Dreh (Stulp)',
     image: dreh_kipp_dreh_stulp_o,
     key: 'dreh_kipp_dreh_stulp_o',
     handleNumber: 2,
-    sectionNumber: 2,
+    sectionNumber: 2
   },
 ];
 
@@ -98,12 +98,14 @@ export const flugel2_unten: SelectionItem[] = [
     image: fest__fest_u,
     key: 'fest__fest_u',
     sectionNumber: 2,
+    sections: ['F', 'F']
   },
   {
     name: 'Fester Flügel + Fester Flügel',
     image: fester_flugel_fester_flugel_u,
     key: 'fester_flugel_fester_flugel_u',
     sectionNumber: 2,
+    sections: ['FF', 'FF']
   },
   {
     name: 'Kipp + Kipp',
@@ -111,6 +113,7 @@ export const flugel2_unten: SelectionItem[] = [
     key: 'kipp_kipp_u',
     handleNumber: 2,
     sectionNumber: 2,
+    sections: ['K', 'K']
   },
   {
     name: 'Dreh-Kipp + Fest',
@@ -118,6 +121,7 @@ export const flugel2_unten: SelectionItem[] = [
     key: 'dreh_kip_fest_u',
     handleNumber: 1,
     sectionNumber: 2,
+    sections: ['DK', 'F']
   },
   {
     name: 'Fest + Dreh-Kipp',
@@ -125,6 +129,7 @@ export const flugel2_unten: SelectionItem[] = [
     key: 'fest_dreh_kipp_u',
     handleNumber: 1,
     sectionNumber: 2,
+    sections: ['F', 'DK']
   },
   {
     name: 'Dreh + Dreh-Kipp (pfosten)',
@@ -132,6 +137,7 @@ export const flugel2_unten: SelectionItem[] = [
     key: 'dreh_dreh_kipp_pfosten_u',
     handleNumber: 2,
     sectionNumber: 2,
+    sections: ['DL', 'DKR']
   },
   {
     name: 'Dreh-Kipp + Dreh (Pfosten)',
@@ -139,6 +145,7 @@ export const flugel2_unten: SelectionItem[] = [
     key: 'dreh_kipp_dreh_pfosten_u',
     handleNumber: 2,
     sectionNumber: 2,
+    sections: ['DKL', 'DR']
   },
   {
     name: 'Dreh-Kipp + Dreh-Kipp (pfosten)',
@@ -146,6 +153,7 @@ export const flugel2_unten: SelectionItem[] = [
     key: 'dreh_kipp_dreh_kipp_pfosten_u',
     handleNumber: 2,
     sectionNumber: 2,
+    sections: ['DKL', 'DKR']
   },
   {
     name: 'Dreh + Dreh-Kipp(Stulp)',
@@ -153,6 +161,7 @@ export const flugel2_unten: SelectionItem[] = [
     key: 'dreh_dreh_kipp_stulp_u',
     handleNumber: 2,
     sectionNumber: 2,
+    sections: ['DL', 'DKR', 'LINE']
   },
   {
     name: 'Dreh-Kipp + Dreh (Stulp)',
@@ -160,5 +169,6 @@ export const flugel2_unten: SelectionItem[] = [
     key: 'dreh_kipp_dreh_stulp_u',
     handleNumber: 2,
     sectionNumber: 2,
+    sections: ['DKL', 'DR', 'LINE']
   },
 ];
