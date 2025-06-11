@@ -388,7 +388,7 @@ export default function SummaryDisplayer() {
     if(width === 0 || height === 0) return;
 
     if(['flugel2', 'flugel3', 'oberlicht', 'unterlicht'].includes(configuration.style.key)){
-      alert(`${configuration.style.key} not ready for pricing yet`);
+      alert(`${configuration.style.key} not ready for pricing yett`);
       return;
     }
 
