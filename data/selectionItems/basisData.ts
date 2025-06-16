@@ -28,7 +28,7 @@ import MB86NSI from '@/assets/configurator/profiles/drutex/aluminium/MB86NSI.web
 
 // Materials
 import plastic from '@/assets/configurator/materials/KunststoffFenster.png';
-import aluminum from '@/assets/configurator/materials/AluminiumFenster.png';
+import aluminium from '@/assets/configurator/materials/AluminiumFenster.png';
 import holz from '@/assets/configurator/materials/HolzFenster.png';
 import holzAlu from '@/assets/configurator/materials/HolzAluFenster.png';
 
@@ -57,9 +57,9 @@ export const materials: SelectionItem[] = [
     image: plastic,
   },
   {
-    key: 'aluminum',
+    key: 'aluminium',
     name: 'Aluminium',
-    image: aluminum,
+    image: aluminium,
   },
   {
     key: 'holz',
@@ -83,7 +83,7 @@ export const brands: SelectionItem[] = [
     isActive: true,
     children: {
       profile: {
-        'Kunststoff (PVC)': [
+        plastic: [
           {
             key: 'I5',
             name: 'Iglo 5',
@@ -115,7 +115,7 @@ export const brands: SelectionItem[] = [
             details: dummyDetail
           }
         ],
-        Aluminium: [
+        aluminium: [
           {
             key: 'MB45',
             name: 'MB45',

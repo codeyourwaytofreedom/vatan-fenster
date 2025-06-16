@@ -120,7 +120,7 @@ export const initialSize: Size = {
 export const initialConfiguration: Config = {
   material: materials[0],
   brand: brands[0],
-  profile: brands[0].children!.profile!['Kunststoff (PVC)'][0],
+  profile: brands[0].children!.profile!.plastic[0],
   style: windowStyles[0],
   type: windowStyles[0].children!.type![0]!,
   cover: covers[0],

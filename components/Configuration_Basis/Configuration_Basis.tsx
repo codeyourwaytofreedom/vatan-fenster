@@ -76,10 +76,10 @@ export default function Basis_Configuration() {
           setItemsToDisplay(visibleSection?.items as SelectionItem[]);
           break;
         case 'profile':
-          const selectedBrand = brands.find((br) => br.name === configuration['brand'].name);
+          const selectedBrand = brands.find((br) => br.key === configuration['brand'].key);
           const profilesOfBrand =
             selectedBrand?.children?.profile?.[
-              configuration.material.name as keyof typeof selectedBrand.children.profile
+              configuration.material.key as keyof typeof selectedBrand.children.profile
             ];
           setItemsToDisplay(profilesOfBrand);
           break;

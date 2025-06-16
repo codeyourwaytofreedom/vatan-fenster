@@ -31,6 +31,10 @@ export interface SubStyle {
   unten: SelectionItem | null;
 }
 
+export type WindowStyle = 'flugel1' | 'flugel2' | 'flugel3';
+
+export type WindowMaterial = 'plastic' | 'aluminium';
+
 export interface Config {
   material: SelectionItem;
   brand: SelectionItem;
@@ -177,8 +181,8 @@ export type SelectionItem = {
   sections?: string[];
   children?: {
     profile?: {
-      'Kunststoff (PVC)': SelectionItem[];
-      Aluminium: SelectionItem[];
+      plastic: SelectionItem[];
+      aluminium: SelectionItem[];
     };
     type?: SelectionItem[];
     style?: SelectionItem[];
