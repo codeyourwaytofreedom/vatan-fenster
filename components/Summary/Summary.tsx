@@ -364,8 +364,8 @@ export default function SummaryDisplayer() {
     const width = Number((size as Size).w) || 0;
     const height = Number((size as Size).h) || 0;
 
-    //alert(selectedMaterial);
-    //alert(selectedWindowStyle);
+    alert(selectedMaterial);
+    alert(selectedWindowStyle);
 
 
     if(width === 0 || height === 0) return;
