@@ -140,7 +140,7 @@ export default function Sonnenschutz_Group() {
     }
   }, [groupActive, visibleSection]);
 
-/*   const handleSelectGroup = () => {
+  /*   const handleSelectGroup = () => {
     setCurrentGroup('sonnenschutz');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }; */
@@ -168,7 +168,7 @@ export default function Sonnenschutz_Group() {
 
   return (
     <div>
-{/*       <div className={style.layers}>
+      {/*       <div className={style.layers}>
         <button id={groupActive ? style.active : style.default} onClick={handleSelectGroup}>
           <span>SONNENSCHUTZ</span>
         </button>

@@ -31,7 +31,7 @@ export interface SubStyle {
   unten: SelectionItem | null;
 }
 
-export type WindowStyle = 'flugel1' | 'flugel2' | 'flugel3';
+export type WindowStyle = 'flugel1' | 'flugel2' | 'flugel3' | 'oberlicht' | 'unterlicht';
 
 export type WindowMaterial = 'plastic' | 'aluminium';
 

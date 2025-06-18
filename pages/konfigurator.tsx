@@ -36,10 +36,7 @@ function PageContent() {
             ) : stepKey === 'sonnenschutz' ? (
               <Sonnenschutz_Group key={stepKey} />
             ) : (
-              <Configuration_Group
-                key={stepKey}
-                groupTitle={stepKey as GroupKey}
-              />
+              <Configuration_Group key={stepKey} groupTitle={stepKey as GroupKey} />
             )
           )}
         </div>

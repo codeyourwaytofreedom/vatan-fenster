@@ -1,6 +1,6 @@
 import { steps } from '@/data/steps';
 import style from '../../styles/KonfiguratorPage.module.css';
-import { Config, SelectionItem, SubStyle } from '@/types/Configurator';
+import { Config, SelectionItem, SubStyle, WindowStyle } from '@/types/Configurator';
 import Stepper from '../Stepper/Stepper';
 import { useEffect, useState } from 'react';
 import OptionHolder from '../Product_Holder/Option_Holder';
@@ -12,6 +12,10 @@ import { useOrderDetailsReady } from '@/context/OrderDetailsContext';
 import GroupBottomActions from '../GroupBottomActions/GroupBottomActions';
 import { farbenOptions, fenstergriffeOptions } from '@/data/selectionItems/farbenData';
 import { brands, subStyleOptions, windowStyles } from '@/data/selectionItems/basisData';
+import {
+  windowStylesForProfile,
+  windowTypesForMaterialStyle,
+} from '@/data/windowTypesForMaterialStyle';
 
 export default function Basis_Configuration() {
   const [itemsToDisplay, setItemsToDisplay] = useState<SelectionItem[]>();
@@ -34,7 +38,7 @@ export default function Basis_Configuration() {
 
   //const prevCoverRef = useRef(configuration.cover);
 
-/*   const handleSelectGroup = () => {
+  /*   const handleSelectGroup = () => {
     setCurrentGroup('basis');
     setCurrentStep(steps.basis[0]);
   }; */
@@ -84,13 +88,26 @@ export default function Basis_Configuration() {
           setItemsToDisplay(profilesOfBrand);
           break;
         case 'style':
-          setItemsToDisplay(visibleSection?.items as SelectionItem[]);
+          const allWindowStyles = visibleSection?.items as SelectionItem[];
+          const availableStyleKeys = windowStylesForProfile[configuration.profile.key];
+          const availableWindowStyles = allWindowStyles.filter((style) =>
+            availableStyleKeys.includes(style.key as WindowStyle)
+          );
+          setItemsToDisplay(availableWindowStyles);
           break;
         case 'type':
           const selectedStyle = windowStyles.find(
             (sty) => sty.name === configuration['style'].name
           );
-          const typesForSelectedStyle = selectedStyle?.children?.type;
+          const selectedStyleKey = configuration.style.key as WindowStyle;
+          const selectedMaterialKey = configuration.material.key;
+
+          const availableTypes = windowTypesForMaterialStyle[selectedStyleKey][selectedMaterialKey];
+
+          const typesForSelectedStyle = selectedStyle?.children?.type?.filter((type) =>
+            availableTypes.includes(type.key)
+          );
+
           setItemsToDisplay(typesForSelectedStyle);
           break;
         case 'cover':
@@ -150,10 +167,17 @@ export default function Basis_Configuration() {
         });
       }
     } else {
-      const selectedStyle = windowStyles.find((sty) => sty.name === configuration['style'].name);
-      const typesForSelectedStyle = selectedStyle?.children?.type;
-      const firstTypeToSelect = typesForSelectedStyle![0];
-      updateConfiguration(firstTypeToSelect, 'type');
+      const selectedStyle = windowStyles.find((sty) => sty.key === configuration['style'].key);
+      const selectedStyleKey = configuration.style.key as WindowStyle;
+      const selectedMaterialKey = configuration.material.key;
+
+      const availableTypeKeys = windowTypesForMaterialStyle[selectedStyleKey][selectedMaterialKey];
+      const availableTypes = selectedStyle?.children?.type?.filter((type) =>
+        availableTypeKeys.includes(type.key)
+      );
+      const defaultTypeSelection = availableTypes![0];
+
+      updateConfiguration(defaultTypeSelection, 'type');
     }
   };
 
@@ -161,7 +185,7 @@ export default function Basis_Configuration() {
     const selectedBrand = brands.find((sty) => sty.name === configuration['brand'].name);
     const profiles = selectedBrand?.children?.profile;
     const profileForSelectedMaterial =
-      profiles![configuration.material.name as keyof typeof profiles];
+      profiles![configuration.material.key as keyof typeof profiles];
     if (profileForSelectedMaterial && profileForSelectedMaterial[0]) {
       updateConfiguration(profileForSelectedMaterial[0], 'profile');
     }
@@ -239,7 +263,7 @@ export default function Basis_Configuration() {
 
   return (
     <>
-{/*       <div className={style.layers}>
+      {/*       <div className={style.layers}>
         <button
           id={currentGroup === 'basis' ? style.active : style.default}
           onClick={handleSelectGroup}

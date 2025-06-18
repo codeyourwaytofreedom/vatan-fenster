@@ -12,7 +12,7 @@ export default function Grouper() {
     currentGroup,
     setCurrentGroup,
     setCurrentStep,
-    getStepsForGroup
+    getStepsForGroup,
   } = useConfiguration();
 
   const [showRightArrow, setShowRightArrow] = useState<boolean>(false);
@@ -84,7 +84,7 @@ export default function Grouper() {
     stepChangeManuallyTriggered.current = true;
     setTimeout(() => {
       setCurrentGroup(step.key as GroupKey);
-      const newSteps = getStepsForGroup(step.key as GroupKey)
+      const newSteps = getStepsForGroup(step.key as GroupKey);
       setCurrentStep(newSteps[0]);
     }, 100);
   };
@@ -184,7 +184,8 @@ export default function Grouper() {
     };
   });
 
-  const stepClass = (key: string) => currentGroup === key ? style.selected_complete : style.complete;
+  const stepClass = (key: string) =>
+    currentGroup === key ? style.selected_complete : style.complete;
 
   return (
     <>

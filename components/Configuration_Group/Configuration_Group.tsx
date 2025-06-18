@@ -76,7 +76,7 @@ export default function Configuration_Group({ groupTitle }: GroupProps) {
     });
   }, [configuration.glasspaket]);
 
-/*   const handleSelectGroup = () => {
+  /*   const handleSelectGroup = () => {
     setCurrentGroup(groupTitle);
     setCurrentStep(steps[0]);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -121,7 +121,7 @@ export default function Configuration_Group({ groupTitle }: GroupProps) {
 
   return (
     <div>
-{/*       <div className={style.layers}>
+      {/*       <div className={style.layers}>
         <button id={groupActive ? style.active : style.default} onClick={handleSelectGroup}>
           <span>{groupTitle.toUpperCase()}</span>
         </button>

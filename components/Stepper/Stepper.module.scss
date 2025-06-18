@@ -148,6 +148,10 @@ $summary-shade: rgb(230, 227, 227);
 }
 
 @keyframes expand {
-  from{width: 170px;}
-  to{width: 100%;}
+  from {
+    width: 170px;
+  }
+  to {
+    width: 100%;
+  }
 }

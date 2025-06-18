@@ -88,32 +88,32 @@ export const brands: SelectionItem[] = [
             key: 'I5',
             name: 'Iglo 5',
             image: Iglo5,
-            details: dummyDetail
+            details: dummyDetail,
           },
           {
             key: 'I5C',
             name: 'Iglo 5 Classic',
             image: Iglo5Classic,
-            details: dummyDetail
+            details: dummyDetail,
           },
           {
             key: 'IE',
             name: 'Iglo Energy',
             image: Iglo5Energy,
-            details: dummyDetail
+            details: dummyDetail,
           },
           {
             key: 'IEC',
             name: 'Iglo Energy Classic',
             image: Iglo5EnergyClassic,
-            details: dummyDetail
+            details: dummyDetail,
           },
           {
             key: 'IL',
             name: 'Iglo Light',
             image: IgloLight,
-            details: dummyDetail
-          }
+            details: dummyDetail,
+          },
         ],
         aluminium: [
           {
@@ -144,26 +144,6 @@ export const brands: SelectionItem[] = [
       },
     },
   },
-  /*     {
-        name: 'Schüco',
-        image: schuco,
-        isActive: false
-    },
-    {
-        name: 'Gealan',
-        image: gealan,
-        isActive: false
-    },
-    {
-        name: 'Veka',
-        image: veka,
-        isActive: false
-    },
-    {
-        name: 'Aluplast',
-        image: aluplast,
-        isActive: false
-    } */
 ];
 
 export const windowStyles: SelectionItem[] = [
