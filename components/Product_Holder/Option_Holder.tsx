@@ -58,6 +58,14 @@ export default function OptionHolder({ item, selected, action }: ProductHolderPr
     );
   };
 
+  // temorary extensino to highlight types for which price calculation does not exist.
+  // to be removed later on
+  const { configuration, calculateTotalPrice } = useConfiguration();
+  const pricingAvailableForType =
+    currentStep?.key !== 'type'
+      ? true
+      : Boolean(calculateTotalPrice(`${(configuration.profile as SelectionItem).key}_${item.key}`));
+
   return (
     <div className={style.outer}>
       {item.zoomable && item.image && (
@@ -86,7 +94,7 @@ export default function OptionHolder({ item, selected, action }: ProductHolderPr
         {!withoutDetails && (
           <div id={style.details}>Keep up good work! Remember why you started!</div>
         )}
-        <p>
+        <p style={{ border: pricingAvailableForType ? 'none' : '3px solid crimson' }}>
           {item.name}
           {item.colorCode && <span>{item.colorCode}</span>}
         </p>

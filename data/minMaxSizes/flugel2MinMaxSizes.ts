@@ -357,172 +357,177 @@ export const flugel2MinMaxSizesPlastic = {
         min: 455,
         max: 1866,
       },
-    }
-  }
+    },
+  },
 };
 
 export const flugel2MinMaxSizesAluminium = {
-  MB45_DK_D_STULP: {
-    width: {
-      min: 1100,
-      max: 2500,
+  MB45: {
+    DK_D_STULP: {
+      width: {
+        min: 1100,
+        max: 2500,
+      },
+      height: {
+        min: 570,
+        max: 1700,
+      },
     },
-    height: {
-      min: 570,
-      max: 1700,
+    DK_D_POS: {
+      width: {
+        min: 1100,
+        max: 2500,
+      },
+      height: {
+        min: 570,
+        max: 1700,
+      },
     },
-  },
-  MB45_DK_D_POS: {
-    width: {
-      min: 1100,
-      max: 2500,
+    D_DK_STULP: {
+      width: {
+        min: 1100,
+        max: 2500,
+      },
+      height: {
+        min: 570,
+        max: 1700,
+      },
     },
-    height: {
-      min: 570,
-      max: 1700,
-    },
-  },
-  MB45_D_DK_STULP: {
-    width: {
-      min: 1100,
-      max: 2500,
-    },
-    height: {
-      min: 570,
-      max: 1700,
-    },
-  },
-  MB45_D_DK_POS: {
-    width: {
-      min: 1100,
-      max: 2500,
-    },
-    height: {
-      min: 570,
-      max: 1700,
-    },
-  },
-  //////////////////////////////////////////
-  MB70_DK_D_STULP: {
-    width: {
-      min: 1100,
-      max: 2700,
-    },
-    height: {
-      min: 590,
-      max: 1700,
+    D_DK_POS: {
+      width: {
+        min: 1100,
+        max: 2500,
+      },
+      height: {
+        min: 570,
+        max: 1700,
+      },
     },
   },
-  MB70_DK_D_POS: {
-    width: {
-      min: 1100,
-      max: 2700,
+  MB70: {
+    DK_D_STULP: {
+      width: {
+        min: 1100,
+        max: 2700,
+      },
+      height: {
+        min: 590,
+        max: 1700,
+      },
     },
-    height: {
-      min: 590,
-      max: 1700,
+    DK_D_POS: {
+      width: {
+        min: 1100,
+        max: 2700,
+      },
+      height: {
+        min: 590,
+        max: 1700,
+      },
     },
-  },
-  MB70_D_DK_STULP: {
-    width: {
-      min: 1100,
-      max: 2700,
+    D_DK_STULP: {
+      width: {
+        min: 1100,
+        max: 2700,
+      },
+      height: {
+        min: 590,
+        max: 1700,
+      },
     },
-    height: {
-      min: 590,
-      max: 1700,
-    },
-  },
-  MB70_D_DK_POS: {
-    width: {
-      min: 1100,
-      max: 2700,
-    },
-    height: {
-      min: 590,
-      max: 1700,
-    },
-  },
-  //////////////////////////////////////////
-  MB70HI_DK_D_STULP: {
-    width: {
-      min: 1100,
-      max: 2700,
-    },
-    height: {
-      min: 590,
-      max: 1700,
-    },
-  },
-  MB70HI_DK_D_POS: {
-    width: {
-      min: 1100,
-      max: 2700,
-    },
-    height: {
-      min: 590,
-      max: 1700,
+    D_DK_POS: {
+      width: {
+        min: 1100,
+        max: 2700,
+      },
+      height: {
+        min: 590,
+        max: 1700,
+      },
     },
   },
-  MB70HI_D_DK_STULP: {
-    width: {
-      min: 1100,
-      max: 2700,
+  MB70HI: {
+    DK_D_STULP: {
+      width: {
+        min: 1100,
+        max: 2700,
+      },
+      height: {
+        min: 590,
+        max: 1700,
+      },
     },
-    height: {
-      min: 590,
-      max: 1700,
+    DK_D_POS: {
+      width: {
+        min: 1100,
+        max: 2700,
+      },
+      height: {
+        min: 590,
+        max: 1700,
+      },
     },
-  },
-  MB70HI_D_DK_POS: {
-    width: {
-      min: 1100,
-      max: 2700,
+    D_DK_STULP: {
+      width: {
+        min: 1100,
+        max: 2700,
+      },
+      height: {
+        min: 590,
+        max: 1700,
+      },
     },
-    height: {
-      min: 590,
-      max: 1700,
-    },
-  },
-  //////////////////////////////////////////
-  MB86NSI_DK_D_STULP: {
-    width: {
-      min: 1300,
-      max: 2700,
-    },
-    height: {
-      min: 700,
-      max: 1700,
-    },
-  },
-  MB86NSI_DK_D_POS: {
-    width: {
-      min: 1300,
-      max: 2700,
-    },
-    height: {
-      min: 700,
-      max: 1700,
-    },
-  },
-  MB86NSI_D_DK_STULP: {
-    width: {
-      min: 1300,
-      max: 2700,
-    },
-    height: {
-      min: 700,
-      max: 1700,
+    D_DK_POS: {
+      width: {
+        min: 1100,
+        max: 2700,
+      },
+      height: {
+        min: 590,
+        max: 1700,
+      },
     },
   },
-  MB86NSI_D_DK_POS: {
-    width: {
-      min: 1300,
-      max: 2700,
+  MB86NSI: {
+    DK_D_STULP: {
+      width: {
+        min: 1300,
+        max: 2700,
+      },
+      height: {
+        min: 700,
+        max: 1700,
+      },
     },
-    height: {
-      min: 700,
-      max: 1700,
+    DK_D_POS: {
+      width: {
+        min: 1300,
+        max: 2700,
+      },
+      height: {
+        min: 700,
+        max: 1700,
+      },
+    },
+    D_DK_STULP: {
+      width: {
+        min: 1300,
+        max: 2700,
+      },
+      height: {
+        min: 700,
+        max: 1700,
+      },
+    },
+    D_DK_POS: {
+      width: {
+        min: 1300,
+        max: 2700,
+      },
+      height: {
+        min: 700,
+        max: 1700,
+      },
     },
   },
 };

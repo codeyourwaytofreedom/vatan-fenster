@@ -1,6 +1,6 @@
 import { steps } from '@/data/steps';
 import style from '../../styles/KonfiguratorPage.module.css';
-import { Config, SelectionItem, SubStyle, WindowStyle } from '@/types/Configurator';
+import { Config, SelectionItem, SubStyle } from '@/types/Configurator';
 import Stepper from '../Stepper/Stepper';
 import { useEffect, useState } from 'react';
 import OptionHolder from '../Product_Holder/Option_Holder';
@@ -12,10 +12,6 @@ import { useOrderDetailsReady } from '@/context/OrderDetailsContext';
 import GroupBottomActions from '../GroupBottomActions/GroupBottomActions';
 import { farbenOptions, fenstergriffeOptions } from '@/data/selectionItems/farbenData';
 import { brands, subStyleOptions, windowStyles } from '@/data/selectionItems/basisData';
-import {
-  windowStylesForProfile,
-  windowTypesForMaterialStyle,
-} from '@/data/windowTypesForMaterialStyle';
 
 export default function Basis_Configuration() {
   const [itemsToDisplay, setItemsToDisplay] = useState<SelectionItem[]>();
@@ -88,25 +84,13 @@ export default function Basis_Configuration() {
           setItemsToDisplay(profilesOfBrand);
           break;
         case 'style':
-          const allWindowStyles = visibleSection?.items as SelectionItem[];
-          const availableStyleKeys = windowStylesForProfile[configuration.profile.key];
-          const availableWindowStyles = allWindowStyles.filter((style) =>
-            availableStyleKeys.includes(style.key as WindowStyle)
-          );
-          setItemsToDisplay(availableWindowStyles);
+          setItemsToDisplay(visibleSection?.items as SelectionItem[]);
           break;
         case 'type':
           const selectedStyle = windowStyles.find(
             (sty) => sty.name === configuration['style'].name
           );
-          const selectedStyleKey = configuration.style.key as WindowStyle;
-          const selectedMaterialKey = configuration.material.key;
-
-          const availableTypes = windowTypesForMaterialStyle[selectedStyleKey][selectedMaterialKey];
-
-          const typesForSelectedStyle = selectedStyle?.children?.type?.filter((type) =>
-            availableTypes.includes(type.key)
-          );
+          const typesForSelectedStyle = selectedStyle?.children?.type;
 
           setItemsToDisplay(typesForSelectedStyle);
           break;
@@ -167,17 +151,11 @@ export default function Basis_Configuration() {
         });
       }
     } else {
-      const selectedStyle = windowStyles.find((sty) => sty.key === configuration['style'].key);
-      const selectedStyleKey = configuration.style.key as WindowStyle;
-      const selectedMaterialKey = configuration.material.key;
+      const selectedStyle = windowStyles.find((sty) => sty.name === configuration['style'].name);
+      const typesForSelectedStyle = selectedStyle?.children?.type;
+      const firstTypeToSelect = typesForSelectedStyle![0];
 
-      const availableTypeKeys = windowTypesForMaterialStyle[selectedStyleKey][selectedMaterialKey];
-      const availableTypes = selectedStyle?.children?.type?.filter((type) =>
-        availableTypeKeys.includes(type.key)
-      );
-      const defaultTypeSelection = availableTypes![0];
-
-      updateConfiguration(defaultTypeSelection, 'type');
+      updateConfiguration(firstTypeToSelect, 'type');
     }
   };
 

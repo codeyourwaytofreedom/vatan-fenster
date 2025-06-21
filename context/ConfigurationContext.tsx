@@ -1,6 +1,16 @@
 import { initialConfiguration, initialSubstyle } from '@/data/configurationData';
+import { priceLists } from '@/data/priceLists/priceLists';
 import { sonnenschutzStepPacks, steps } from '@/data/steps';
-import { Config, GroupKey, SelectionItem, Step, SubStyle } from '@/types/Configurator';
+import {
+  Config,
+  GroupKey,
+  SelectionItem,
+  Size,
+  Step,
+  SubStyle,
+  WindowMaterial,
+  WindowStyle,
+} from '@/types/Configurator';
 import { createContext, useState, ReactNode, useContext } from 'react';
 
 // Define the context type
@@ -21,6 +31,7 @@ interface ConfigurationContextType {
   moveToNextStep: () => void;
   movePreviousGroup: () => void;
   getStepsForGroup: (key: GroupKey) => Step[];
+  calculateTotalPrice: (testKey?: string) => number | null | undefined;
 }
 
 // Create the context with a default value
@@ -116,6 +127,63 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     }
   };
 
+  const calculateAdditionalWindowPrice = (m2Price: number = 8, w: number, h: number) => {
+    const additionalWindowPrice = (w * h * m2Price * 2) / 1_000_000;
+    const truncatedAdditionalWindowPrice = Math.floor(additionalWindowPrice * 100) / 100;
+    return truncatedAdditionalWindowPrice;
+  };
+
+  const calculateTotalPrice = (testKey?: string) => {
+    const selectedMaterial: WindowMaterial = configuration.material.key as WindowMaterial;
+    const selectedWindowStyle: WindowStyle = configuration.style.key as WindowStyle;
+
+    const priceListForSelectedWindowStyle = priceLists[selectedWindowStyle][selectedMaterial];
+
+    const width = Number((configuration.size as Size).w) || 0;
+    const height = Number((configuration.size as Size).h) || 0;
+
+    if (width === 0 || height === 0) return;
+
+    if (['oberlicht', 'unterlicht'].includes(configuration.style.key)) {
+      return;
+    }
+
+    // additional calculation for the glass
+    // deafult is 2 layer of glass so multiply by 2
+    const additionalWindowPrice = calculateAdditionalWindowPrice(8, width, height);
+
+    // adjust for overlicht and unterlicht
+    const priceListKey =
+      testKey ??
+      `${(configuration.profile as SelectionItem).key}_${(configuration.type as SelectionItem).key}`;
+    console.log('priceListKey', priceListKey);
+
+    let totalPrice: number;
+    totalPrice = additionalWindowPrice;
+
+    // extract price for given width and height from csv tables
+    const priceListForSelectedType = priceListForSelectedWindowStyle[priceListKey];
+    console.log('priceListForSelectedType', priceListForSelectedType);
+    if (!priceListForSelectedType) {
+      return 0;
+    }
+    // take height as reference point
+    for (const [key, value] of Object.entries(priceListForSelectedType)) {
+      const keyAsNumber = Number(key);
+      if (height === keyAsNumber || height < keyAsNumber) {
+        for (const [w, price] of Object.entries(value)) {
+          const wid = Number(w);
+          if (width === wid || width < wid) {
+            totalPrice = totalPrice + price;
+            return totalPrice;
+          }
+        }
+        break;
+      }
+    }
+    return null;
+  };
+
   return (
     <ConfiurationContext.Provider
       value={{
@@ -135,6 +203,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
         setSubStyle,
         moveToNextStep,
         movePreviousGroup,
+        calculateTotalPrice,
       }}
     >
       {children}

@@ -11,14 +11,11 @@ import {
   SelectionItem,
   Size,
   SubStyle,
-  WindowMaterial,
-  WindowStyle,
 } from '@/types/Configurator';
 import { useEffect, useState } from 'react';
 import Sizer from '../Sizer/Sizer';
 import { windowStyles } from '@/data/selectionItems/basisData';
 import { allSonnenschutzStepsKeys } from '@/data/selectionItems/sonnenschutzData';
-import { priceLists } from '@/data/priceLists/priceLists';
 
 export default function SummaryDisplayer() {
   const {
@@ -69,6 +66,8 @@ export default function SummaryDisplayer() {
     lüftungssysteme,
     rahmenverbreiterung,
   } = configuration;
+
+  const { calculateTotalPrice } = useConfiguration();
 
   const groupBasis = {
     material,
@@ -299,63 +298,12 @@ export default function SummaryDisplayer() {
   };
 
   const findSizeImage = () => {
-    const selectedStyle = windowStyles.find((sty) => sty.name === configuration['style'].name);
+    const selectedStyle = windowStyles.find((sty) => sty.key === configuration['style'].key);
     const typesForSelectedStyle = selectedStyle?.children?.type;
     const selectedType = typesForSelectedStyle?.find(
-      (typ) => typ.name === (configuration.type as SelectionItem).name
+      (typ) => typ.key === (configuration.type as SelectionItem).key
     );
     return selectedType?.image;
-  };
-
-  const calculateAdditionalWindowPrice = (m2Price: number = 8, w: number, h: number) => {
-    const additionalWindowPrice = (w * h * m2Price * 2) / 1_000_000;
-    const truncatedAdditionalWindowPrice = Math.floor(additionalWindowPrice * 100) / 100;
-    return truncatedAdditionalWindowPrice;
-  };
-
-  const calculateTotalPrice = () => {
-    const selectedMaterial: WindowMaterial = configuration.material.key as WindowMaterial;
-    const selectedWindowStyle: WindowStyle = configuration.style.key as WindowStyle;
-
-    const priceListForSelectedWindowStyle = priceLists[selectedWindowStyle][selectedMaterial];
-
-    const width = Number((size as Size).w) || 0;
-    const height = Number((size as Size).h) || 0;
-
-    if (width === 0 || height === 0) return;
-
-    if (['oberlicht', 'unterlicht'].includes(configuration.style.key)) {
-      alert(`${configuration.style.key} not ready for pricing yett`);
-      return;
-    }
-
-    // additional calculation for the glass
-    // deafult is 2 layer of glass so multiply by 2
-    const additionalWindowPrice = calculateAdditionalWindowPrice(8, width, height);
-
-    // adjust for overlicht and unterlicht
-    const priceListKey = `${(configuration.profile as SelectionItem).key}_${(configuration.type as SelectionItem).key}`;
-
-    let totalPrice: number;
-    totalPrice = additionalWindowPrice;
-
-    // extract price for given width and height from csv tables
-    const priceListForSelectedType = priceListForSelectedWindowStyle[priceListKey];
-    // take height as reference point
-    for (const [key, value] of Object.entries(priceListForSelectedType)) {
-      const keyAsNumber = Number(key);
-      if (height === keyAsNumber || height < keyAsNumber) {
-        for (const [w, price] of Object.entries(value)) {
-          const wid = Number(w);
-          if (width === wid || width < wid) {
-            totalPrice = totalPrice + price;
-            return totalPrice;
-          }
-        }
-        break;
-      }
-    }
-    return null;
   };
 
   const [totalPrice, setTotalPrice] = useState<number>();
@@ -366,6 +314,8 @@ export default function SummaryDisplayer() {
         const totalPrice = calculateTotalPrice();
         if (totalPrice) {
           setTotalPrice(totalPrice);
+        } else {
+          setTotalPrice(0);
         }
       }
     } catch {}
