@@ -422,7 +422,7 @@ export const flugel1MinMaxSizesAluminium = {
         min: 570,
         max: 1700,
       },
-    }
+    },
   },
   MB70: {
     K: {
@@ -484,7 +484,7 @@ export const flugel1MinMaxSizesAluminium = {
         min: 590,
         max: 1700,
       },
-    }
+    },
   },
   MB70HI: {
     K: {
@@ -546,7 +546,7 @@ export const flugel1MinMaxSizesAluminium = {
         min: 590,
         max: 1700,
       },
-    }
+    },
   },
   MB86NSI: {
     K: {
@@ -608,6 +608,6 @@ export const flugel1MinMaxSizesAluminium = {
         min: 700,
         max: 1700,
       },
-    }
-  }
+    },
+  },
 };

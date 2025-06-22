@@ -29,7 +29,7 @@ export default function SingleSizer({
   summary,
   setSizeFeedback,
 }: SingleSizeRProps) {
-  const { orderOfKeys, configuration, setConfiguration } = useConfiguration();
+  const { orderOfKeys, configuration, setConfiguration, getMinMaxSizes } = useConfiguration();
   const numberOfSections = (configuration.type as SelectionItem).sectionNumber || 1;
   const { size, setSize } = useOrderDetailsReady();
 
@@ -38,11 +38,13 @@ export default function SingleSizer({
   );
   const [height, setHeight] = useState<number | string>(size?.h ?? '');
 
-  const minHeight = 500;
-  const maxHeight = 1800;
+  const minMaxSizes = getMinMaxSizes();
 
-  const minWidth = 500;
-  const maxWidth = 1800;
+  const minHeight = minMaxSizes?.minHeight;
+  const maxHeight = minMaxSizes?.maxHeight;
+
+  const minWidth = minMaxSizes?.minWidth;
+  const maxWidth = minMaxSizes?.maxWidth;
 
   const sectionMinWidth = 300;
   const sectionMaxWidth = 2000;
@@ -225,7 +227,8 @@ export default function SingleSizer({
     const newHeightFeedback: string[] = [];
     const numericHeight = Number(height);
 
-    if (numericHeight < minHeight) {
+    if (numericHeight && numericHeight < minHeight) {
+      alert(numericHeight);
       newHeightFeedback.push(minHeightViolated);
     }
     if (numericHeight > maxHeight) {

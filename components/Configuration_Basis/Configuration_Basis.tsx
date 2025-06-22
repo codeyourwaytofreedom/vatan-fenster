@@ -32,13 +32,6 @@ export default function Basis_Configuration() {
   const { setSize } = useOrderDetailsReady();
   const visibleSection = categoryItems.find((cat) => cat.key === currentStep?.key);
 
-  //const prevCoverRef = useRef(configuration.cover);
-
-  /*   const handleSelectGroup = () => {
-    setCurrentGroup('basis');
-    setCurrentStep(steps.basis[0]);
-  }; */
-
   const showDefaultProductHolders =
     currentStep &&
     currentStep?.key !== 'size' &&
@@ -241,14 +234,6 @@ export default function Basis_Configuration() {
 
   return (
     <>
-      {/*       <div className={style.layers}>
-        <button
-          id={currentGroup === 'basis' ? style.active : style.default}
-          onClick={handleSelectGroup}
-        >
-          <span>BASISKONFIGURATION</span>
-        </button>
-      </div> */}
       {currentGroup === 'basis' && <Stepper />}
       {currentGroup === 'basis' && (
         <div className={style.group}>

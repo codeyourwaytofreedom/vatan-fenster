@@ -8,6 +8,18 @@ export interface Size {
   h_unten?: number | undefined;
 }
 
+export interface MinMaxSet {
+  min: number;
+  max: number;
+}
+
+export interface MinMaxSizes {
+  minWidth: number
+  maxWidth: number
+  minHeight: number
+  maxHeight: number
+}
+
 export interface TripleSize {
   w_oben: number | undefined;
   h_oben: number | undefined;

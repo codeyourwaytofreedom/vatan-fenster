@@ -1,9 +1,12 @@
 import { initialConfiguration, initialSubstyle } from '@/data/configurationData';
+import { minMaxSizes } from '@/data/minMaxSizes/minMaxSizes';
 import { priceLists } from '@/data/priceLists/priceLists';
 import { sonnenschutzStepPacks, steps } from '@/data/steps';
 import {
   Config,
   GroupKey,
+  MinMaxSet,
+  MinMaxSizes,
   SelectionItem,
   Size,
   Step,
@@ -32,6 +35,7 @@ interface ConfigurationContextType {
   movePreviousGroup: () => void;
   getStepsForGroup: (key: GroupKey) => Step[];
   calculateTotalPrice: (testKey?: string) => number | null | undefined;
+  getMinMaxSizes: () => MinMaxSizes;
 }
 
 // Create the context with a default value
@@ -156,14 +160,14 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     const priceListKey =
       testKey ??
       `${(configuration.profile as SelectionItem).key}_${(configuration.type as SelectionItem).key}`;
-    console.log('priceListKey', priceListKey);
+    //console.log('priceListKey', priceListKey);
 
     let totalPrice: number;
     totalPrice = additionalWindowPrice;
 
     // extract price for given width and height from csv tables
     const priceListForSelectedType = priceListForSelectedWindowStyle[priceListKey];
-    console.log('priceListForSelectedType', priceListForSelectedType);
+    //console.log('priceListForSelectedType', priceListForSelectedType);
     if (!priceListForSelectedType) {
       return 0;
     }
@@ -182,6 +186,36 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
       }
     }
     return null;
+  };
+
+  const getMinMaxSizes = () => {
+    const selectedMaterial = configuration.material.key;
+    const selectedStyle = configuration.style.key;
+    const selectedProfile = configuration.profile.key;
+    const selectedType = (configuration.type as SelectionItem).key;
+
+    const sizesByMaterial = minMaxSizes[selectedMaterial as keyof typeof minMaxSizes];
+    const sizesByStyle = sizesByMaterial?.[selectedStyle as keyof typeof sizesByMaterial];
+    const sizesByProfile = sizesByStyle?.[selectedProfile as keyof typeof sizesByStyle];
+    const sizesByType = sizesByProfile?.[selectedType];
+
+    if(sizesByType){
+      const { width, height } = sizesByType;
+
+      const minWidth = (width as MinMaxSet).min;
+      const maxWidth = (width as MinMaxSet).max;
+      
+      const minHeight = (height as MinMaxSet).min;
+      const maxHeight = (height as MinMaxSet).max;
+
+      return {
+        minWidth,
+        maxWidth,
+        minHeight,
+        maxHeight
+      } as MinMaxSizes
+    }
+    return {} as MinMaxSizes;
   };
 
   return (
@@ -204,6 +238,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
         moveToNextStep,
         movePreviousGroup,
         calculateTotalPrice,
+        getMinMaxSizes
       }}
     >
       {children}
