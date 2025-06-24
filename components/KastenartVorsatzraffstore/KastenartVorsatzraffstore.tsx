@@ -14,7 +14,7 @@ export default function KastenartVorsatzraffstore() {
   const { configuration, setConfiguration } = useConfiguration();
   const coverHeight = configuration.kastenheight?.name || '';
   const existingKastenDimensions = configuration.kastenDimensions;
-  const [kastenDimensions, setKastenDimentions] = useState<Size | null>(
+  const [kastenDimensions, setKastenDimentions] = useState<Size | null | undefined>(
     existingKastenDimensions ?? size
   );
   const [errors, setErrors] = useState<{ w?: string; h?: string }>();
