@@ -124,7 +124,7 @@ export const initialConfiguration: Config = {
   style: windowStyles[0],
   type: windowStyles[0].children!.type![0]!,
   cover: covers[0],
-  size: initialSize,
+  size: false,
   colorExt: farbenOptions.colorExt[0],
   colorInt: farbenOptions.colorInt[0],
   dichtungAussen: farbenOptions.dichtungAussen[0],

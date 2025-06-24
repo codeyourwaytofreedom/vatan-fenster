@@ -189,6 +189,8 @@ $summary-shade: rgb(230, 227, 227);
       color: greenyellow;
       margin-bottom: 20px;
       text-align: center;
+      transition: all 0.3s ease;
+      overflow: hidden;
     }
   }
 }

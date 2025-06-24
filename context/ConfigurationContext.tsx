@@ -35,7 +35,7 @@ interface ConfigurationContextType {
   movePreviousGroup: () => void;
   getStepsForGroup: (key: GroupKey) => Step[];
   calculateTotalPrice: (testKey?: string) => number | null | undefined;
-  getMinMaxSizes: () => MinMaxSizes;
+  getMinMaxSizes: (selectedMaterial: SelectionItem,selectedStyle: SelectionItem,selectedProfile: SelectionItem,selectedType: SelectionItem) => MinMaxSizes;
 }
 
 // Create the context with a default value
@@ -188,16 +188,16 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     return null;
   };
 
-  const getMinMaxSizes = () => {
-    const selectedMaterial = configuration.material.key;
-    const selectedStyle = configuration.style.key;
-    const selectedProfile = configuration.profile.key;
-    const selectedType = (configuration.type as SelectionItem).key;
+  const getMinMaxSizes = (selectedMaterial: SelectionItem,selectedStyle: SelectionItem,selectedProfile: SelectionItem,selectedType: SelectionItem   ) => {
+    const selectedMaterialKey = selectedMaterial.key;
+    const selectedStyleKey = selectedStyle.key;
+    const selectedProfileKey = selectedProfile.key;
+    const selectedTypeKey = (selectedType as SelectionItem).key;
 
-    const sizesByMaterial = minMaxSizes[selectedMaterial as keyof typeof minMaxSizes];
-    const sizesByStyle = sizesByMaterial?.[selectedStyle as keyof typeof sizesByMaterial];
-    const sizesByProfile = sizesByStyle?.[selectedProfile as keyof typeof sizesByStyle];
-    const sizesByType = sizesByProfile?.[selectedType];
+    const sizesByMaterial = minMaxSizes[selectedMaterialKey as keyof typeof minMaxSizes];
+    const sizesByStyle = sizesByMaterial?.[selectedStyleKey as keyof typeof sizesByMaterial];
+    const sizesByProfile = sizesByStyle?.[selectedProfileKey as keyof typeof sizesByStyle];
+    const sizesByType = sizesByProfile?.[selectedTypeKey];
 
     if(sizesByType){
       const { width, height } = sizesByType;

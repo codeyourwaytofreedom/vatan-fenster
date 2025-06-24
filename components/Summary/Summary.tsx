@@ -326,7 +326,7 @@ export default function SummaryDisplayer() {
       <h3 onClick={() => calculateTotalPrice()}>Bestellübersicht</h3>
       <Sizer substyle={substyle} sizeImage={findSizeImage()!} summary={true} />
       <br />
-      <div className={styles.price}>
+      <div className={styles.price} style={{height: totalPrice ? '30px' : '0'}}>
         <h2>{totalPrice && totalPrice}</h2>
       </div>
       <div id={styles.items}>

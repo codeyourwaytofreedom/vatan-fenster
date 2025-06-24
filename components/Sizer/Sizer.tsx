@@ -28,7 +28,7 @@ export default function Sizer({ sizeImage, substyle, summary }: SizerProps) {
         setConfiguration((pr) => {
           return { ...pr, size: size };
         });
-      }, 1000);
+      }, 100);
     } else {
       setOrderDetailsReady(false);
       setConfiguration((pr) => {

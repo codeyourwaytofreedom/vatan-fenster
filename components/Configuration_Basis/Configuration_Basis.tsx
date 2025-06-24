@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import OptionHolder from '../Product_Holder/Option_Holder';
 import Substyle_Stepper from '../Substyle_Stepper/Substyle_Stepper';
 import Sizer from '../Sizer/Sizer';
-import { categoryItems, initialSize } from '@/data/configurationData';
+import { categoryItems } from '@/data/configurationData';
 import { useConfiguration } from '@/context/ConfigurationContext';
 import { useOrderDetailsReady } from '@/context/OrderDetailsContext';
 import GroupBottomActions from '../GroupBottomActions/GroupBottomActions';
@@ -27,6 +27,7 @@ export default function Basis_Configuration() {
     setCurrentStep,
     moveToNextStep,
     getStepsForGroup,
+    getMinMaxSizes
   } = useConfiguration();
 
   const { setSize } = useOrderDetailsReady();
@@ -182,7 +183,6 @@ export default function Basis_Configuration() {
   // remove substyle selection if style changes from oberlicht/unterlicht
   useEffect(() => {
     autoSelectFirstType();
-    setSize(initialSize);
     setConfiguration((pr) => {
       const refreshedConfig = { ...pr };
       delete refreshedConfig.multiWidth;
@@ -231,6 +231,23 @@ export default function Basis_Configuration() {
       });
     }
   }, [configuration.type]);
+
+  useEffect(()=>{
+    setTimeout(() => {
+      if(configuration.material && configuration.profile && configuration.style && configuration.type){
+        // remove multiwidth to trigger re-division in sizer for types with sections
+        setConfiguration((pr)=>{
+          const reserve = { ...pr };
+          delete reserve.multiWidth;
+          return reserve
+        });
+        setSize({
+          w: getMinMaxSizes(configuration.material , configuration.style,  configuration.profile  , configuration.type as SelectionItem).minWidth,
+          h: getMinMaxSizes(configuration.material , configuration.style,  configuration.profile , configuration.type as SelectionItem).minHeight
+        });
+      }
+    }, 100);
+  },[configuration.material, configuration.profile, configuration.style, configuration.type])
 
   return (
     <>

@@ -38,7 +38,7 @@ export default function SingleSizer({
   );
   const [height, setHeight] = useState<number | string>(size?.h ?? '');
 
-  const minMaxSizes = getMinMaxSizes();
+  const minMaxSizes = getMinMaxSizes(configuration.material , configuration.style,  configuration.profile , configuration.type as SelectionItem);
 
   const minHeight = minMaxSizes?.minHeight;
   const maxHeight = minMaxSizes?.maxHeight;
@@ -199,6 +199,7 @@ export default function SingleSizer({
   };
 
   useEffect(() => {
+    // when minMaxSizes changes, multiWidth is removed to make sure partition fires again here
     if (numberOfSections > 1 && !configuration.multiWidth) {
       if (typeof size?.w === 'string' && typeof size.w !== 'undefined') {
         return;
@@ -209,7 +210,7 @@ export default function SingleSizer({
         return { ...pr, multiWidth: dividedWidthItems };
       });
     }
-  }, [numberOfSections, size?.w]);
+  }, [numberOfSections, size, configuration.type]);
 
   // handle initial load
   useEffect(() => {
@@ -228,7 +229,6 @@ export default function SingleSizer({
     const numericHeight = Number(height);
 
     if (numericHeight && numericHeight < minHeight) {
-      alert(numericHeight);
       newHeightFeedback.push(minHeightViolated);
     }
     if (numericHeight > maxHeight) {
