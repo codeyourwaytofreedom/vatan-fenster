@@ -8,12 +8,12 @@ import {
   MinMaxSet,
   MinMaxSizes,
   SelectionItem,
-  Size,
   Step,
   SubStyle,
   WindowMaterial,
   WindowStyle,
 } from '@/types/Configurator';
+import { extractPriceFromTable } from '@/utils';
 import { createContext, useState, ReactNode, useContext } from 'react';
 
 // Define the context type
@@ -34,8 +34,21 @@ interface ConfigurationContextType {
   moveToNextStep: () => void;
   movePreviousGroup: () => void;
   getStepsForGroup: (key: GroupKey) => Step[];
-  calculateTotalPrice: (testKey?: string) => number | null | undefined;
-  getMinMaxSizes: (selectedMaterial: SelectionItem,selectedStyle: SelectionItem,selectedProfile: SelectionItem,selectedType: SelectionItem) => MinMaxSizes;
+  calculateTotalPrice: (
+    selectedMaterialKey: WindowMaterial,
+    selectedProfileKey: string,
+    selectedWindowStyleKey: WindowStyle,
+    selectedTypeKey: string,
+    width: number,
+    height: number,
+    testKey?: string
+  ) => number | null | undefined;
+  getMinMaxSizes: (
+    selectedMaterial: SelectionItem,
+    selectedStyle: SelectionItem,
+    selectedProfile: SelectionItem,
+    selectedType: SelectionItem
+  ) => MinMaxSizes;
 }
 
 // Create the context with a default value
@@ -137,16 +150,20 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     return truncatedAdditionalWindowPrice;
   };
 
-  const calculateTotalPrice = (testKey?: string) => {
-    const selectedMaterial: WindowMaterial = configuration.material.key as WindowMaterial;
-    const selectedWindowStyle: WindowStyle = configuration.style.key as WindowStyle;
+  const calculateTotalPrice = (
+    selectedMaterialKey: WindowMaterial,
+    selectedProfileKey: string,
+    selectedWindowStyleKey: WindowStyle,
+    selectedTypeKey: string,
+    width: number = 0,
+    height: number = 0,
+    testKey?: string
+  ) => {
+    const priceListForSelectedWindowStyle = priceLists[selectedWindowStyleKey][selectedMaterialKey];
 
-    const priceListForSelectedWindowStyle = priceLists[selectedWindowStyle][selectedMaterial];
-
-    const width = Number((configuration.size as Size).w) || 0;
-    const height = Number((configuration.size as Size).h) || 0;
-
-    if (width === 0 || height === 0) return;
+    if (width === 0 || height === 0) {
+      return;
+    }
 
     if (['oberlicht', 'unterlicht'].includes(configuration.style.key)) {
       return;
@@ -157,38 +174,33 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     const additionalWindowPrice = calculateAdditionalWindowPrice(8, width, height);
 
     // adjust for overlicht and unterlicht
-    const priceListKey =
-      testKey ??
-      `${(configuration.profile as SelectionItem).key}_${(configuration.type as SelectionItem).key}`;
-    //console.log('priceListKey', priceListKey);
-
-    let totalPrice: number;
-    totalPrice = additionalWindowPrice;
+    const priceListKey = testKey || `${selectedProfileKey}_${selectedTypeKey}`;
 
     // extract price for given width and height from csv tables
     const priceListForSelectedType = priceListForSelectedWindowStyle[priceListKey];
-    //console.log('priceListForSelectedType', priceListForSelectedType);
+
     if (!priceListForSelectedType) {
+      /* const priceListFor1Flugel = priceLists['flugel1'][selectedMaterial];
+      const individualSectionTypeKeys = (configuration.type as SelectionItem).sections;
+      const priceKey = `${(configuration.profile as SelectionItem).key}_${individualSectionTypeKeys![0]}`;
+      const priceListForSectionType = priceListFor1Flugel[priceKey];
+      console.log(priceListForSectionType); */
       return 0;
     }
-    // take height as reference point
-    for (const [key, value] of Object.entries(priceListForSelectedType)) {
-      const keyAsNumber = Number(key);
-      if (height === keyAsNumber || height < keyAsNumber) {
-        for (const [w, price] of Object.entries(value)) {
-          const wid = Number(w);
-          if (width === wid || width < wid) {
-            totalPrice = totalPrice + price;
-            return totalPrice;
-          }
-        }
-        break;
-      }
+
+    const priceFromTable = extractPriceFromTable(priceListForSelectedType, width, height);
+    if (priceFromTable) {
+      return additionalWindowPrice + priceFromTable;
     }
     return null;
   };
 
-  const getMinMaxSizes = (selectedMaterial: SelectionItem,selectedStyle: SelectionItem,selectedProfile: SelectionItem,selectedType: SelectionItem   ) => {
+  const getMinMaxSizes = (
+    selectedMaterial: SelectionItem,
+    selectedStyle: SelectionItem,
+    selectedProfile: SelectionItem,
+    selectedType: SelectionItem
+  ) => {
     const selectedMaterialKey = selectedMaterial.key;
     const selectedStyleKey = selectedStyle.key;
     const selectedProfileKey = selectedProfile.key;
@@ -199,12 +211,12 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     const sizesByProfile = sizesByStyle?.[selectedProfileKey as keyof typeof sizesByStyle];
     const sizesByType = sizesByProfile?.[selectedTypeKey];
 
-    if(sizesByType){
+    if (sizesByType) {
       const { width, height } = sizesByType;
 
       const minWidth = (width as MinMaxSet).min;
       const maxWidth = (width as MinMaxSet).max;
-      
+
       const minHeight = (height as MinMaxSet).min;
       const maxHeight = (height as MinMaxSet).max;
 
@@ -212,10 +224,18 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
         minWidth,
         maxWidth,
         minHeight,
-        maxHeight
-      } as MinMaxSizes
+        maxHeight,
+      } as MinMaxSizes;
     }
-    return {} as MinMaxSizes;
+    // no price list available so can't extract minMaxSizes
+    // therefore return placeholder minMax values for now
+    // to be discussed
+    return {
+      /* minWidth: 1000,
+      maxWidth: 1000,
+      minHeight: 1000,
+      maxHeight: 1000, */
+    } as MinMaxSizes;
   };
 
   return (
@@ -238,7 +258,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
         moveToNextStep,
         movePreviousGroup,
         calculateTotalPrice,
-        getMinMaxSizes
+        getMinMaxSizes,
       }}
     >
       {children}

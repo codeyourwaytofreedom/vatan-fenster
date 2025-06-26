@@ -12,3 +12,19 @@ export const scrollToElement = (elementId: string, delay: number = 0, offset: nu
     }
   }, delay);
 };
+
+export const extractPriceFromTable = (priceTable: Record<number, Record<number, number>>, width: number, height: number) => {
+  for (const [key, value] of Object.entries(priceTable)) {
+      const keyAsNumber = Number(key);
+      if (height === keyAsNumber || height < keyAsNumber) {
+        for (const [w, price] of Object.entries(value)) {
+          const wid = Number(w);
+          if (width === wid || width < wid) {
+            return price;
+          }
+        }
+        break;
+      }
+    }
+    return null;
+}

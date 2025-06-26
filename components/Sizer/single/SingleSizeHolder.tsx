@@ -46,7 +46,7 @@ export default function SingleSizer({
   const minWidth = minMaxSizes?.minWidth;
   const maxWidth = minMaxSizes?.maxWidth;
 
-  const sectionMinWidth = 300;
+  const sectionMinWidth = minWidth/numberOfSections;
   const sectionMaxWidth = 2000;
 
   const totalHeight = useRef<HTMLInputElement>(null);

@@ -45,13 +45,13 @@ export interface SubStyle {
 
 export type WindowStyle = 'flugel1' | 'flugel2' | 'flugel3' | 'oberlicht' | 'unterlicht';
 
-export type WindowMaterial = 'plastic' | 'aluminium';
+export type WindowMaterial = 'plastic' | 'aluminium' | 'holz' | 'holzalu';
 
 export interface Config {
-  material: SelectionItem;
+  material: SelectionItem<WindowMaterial>;
   brand: SelectionItem;
   profile: SelectionItem;
-  style: SelectionItem;
+  style: SelectionItem<WindowStyle>;
   type: SelectionItem | SubStyle;
   cover: SelectionItem;
   size: boolean | Size;
@@ -176,8 +176,10 @@ export type GroupKey = 'basis' | 'farben' | 'verglasung' | 'sonnenschutz' | 'zus
 
 type Image = StaticImageData;
 
-export type SelectionItem = {
-  key: string;
+export type SelectionItem< 
+  KEY extends string = string
+  > = {
+  key: KEY;
   name: string;
   image?: Image;
   isActive?: boolean;

@@ -311,7 +311,14 @@ export default function SummaryDisplayer() {
   useEffect(() => {
     try {
       if (configuration.size) {
-        const totalPrice = calculateTotalPrice();
+        const totalPrice = calculateTotalPrice(
+          configuration.material.key,
+          configuration.profile.key,
+          configuration.style.key,
+          (configuration.type as SelectionItem).key,
+          Number((size as Size).w),
+          Number((size as Size).h)
+        );
         if (totalPrice) {
           setTotalPrice(totalPrice);
         } else {
@@ -323,10 +330,10 @@ export default function SummaryDisplayer() {
 
   return (
     <div id={styles.summary}>
-      <h3 onClick={() => calculateTotalPrice()}>Bestellübersicht</h3>
+      <h3>Bestellübersicht</h3>
       <Sizer substyle={substyle} sizeImage={findSizeImage()!} summary={true} />
       <br />
-      <div className={styles.price} style={{height: totalPrice ? '30px' : '0'}}>
+      <div className={styles.price} style={{ height: totalPrice ? '30px' : '0' }}>
         <h2>{totalPrice && totalPrice}</h2>
       </div>
       <div id={styles.items}>

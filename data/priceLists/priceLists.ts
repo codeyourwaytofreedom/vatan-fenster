@@ -1,4 +1,4 @@
-import { WindowMaterial, WindowStyle } from '@/types/Configurator';
+import { WindowStyle } from '@/types/Configurator';
 import { priceList_1flugelPlastic } from './1flugel/prices1FlugelPlastic';
 import { priceList_1flugelAluminium } from './1flugel/prices1FlugelAluminium';
 import { priceList_2flugelPlastic } from './2flugel/prices2FlugelPlastic';
@@ -7,7 +7,7 @@ import { priceList_3flugelPlastic } from './3flugel/prices3FlugelPlastic';
 
 export const priceLists: Record<
   WindowStyle,
-  Record<WindowMaterial, Record<string, Record<number, Record<number, number>>>>
+  Record<string, Record<string, Record<number, Record<number, number>>>>
 > = {
   flugel1: {
     plastic: priceList_1flugelPlastic,

@@ -1,4 +1,4 @@
-import { SelectionItem, SubStyleOptions } from '@/types/Configurator';
+import { SelectionItem, SubStyleOptions, WindowMaterial, WindowStyle } from '@/types/Configurator';
 
 // Brands
 import drutex from '@/assets/configurator/brands/drutex.svg';
@@ -50,7 +50,7 @@ import Vorsatzraffstore from '@/assets/configurator/sonnenschutz/006.Vorsatzraff
 
 const dummyDetail = 'This is the detailed info about this card...';
 
-export const materials: SelectionItem[] = [
+export const materials: SelectionItem<WindowMaterial>[] = [
   {
     key: 'plastic',
     name: 'Kunststoff (PVC)',
@@ -146,7 +146,7 @@ export const brands: SelectionItem[] = [
   },
 ];
 
-export const windowStyles: SelectionItem[] = [
+export const windowStyles: SelectionItem<WindowStyle>[] = [
   {
     name: '1. Flügel',
     image: flugel1,
