@@ -13,7 +13,7 @@ import {
   WindowMaterial,
   WindowStyle,
 } from '@/types/Configurator';
-import { extractPriceFromTable } from '@/utils';
+import { calculateGlassPriceByM2, extractPriceFromTable } from '@/utils';
 import { createContext, useState, ReactNode, useContext } from 'react';
 
 // Define the context type
@@ -144,12 +144,6 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     }
   };
 
-  const calculateAdditionalWindowPrice = (m2Price: number = 8, w: number, h: number) => {
-    const additionalWindowPrice = (w * h * m2Price * 2) / 1_000_000;
-    const truncatedAdditionalWindowPrice = Math.floor(additionalWindowPrice * 100) / 100;
-    return truncatedAdditionalWindowPrice;
-  };
-
   const calculateTotalPrice = (
     selectedMaterialKey: WindowMaterial,
     selectedProfileKey: string,
@@ -171,7 +165,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
 
     // additional calculation for the glass
     // deafult is 2 layer of glass so multiply by 2
-    const additionalWindowPrice = calculateAdditionalWindowPrice(8, width, height);
+    const additionalWindowPrice = calculateGlassPriceByM2(8, width, height);
 
     // adjust for overlicht and unterlicht
     const priceListKey = testKey || `${selectedProfileKey}_${selectedTypeKey}`;
@@ -230,6 +224,8 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     // no price list available so can't extract minMaxSizes
     // therefore return placeholder minMax values for now
     // to be discussed
+
+    // maybe define minMax sizes depending on the Fensterart
     return {
       /* minWidth: 1000,
       maxWidth: 1000,

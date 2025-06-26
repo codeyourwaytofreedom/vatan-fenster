@@ -28,3 +28,10 @@ export const extractPriceFromTable = (priceTable: Record<number, Record<number, 
     }
     return null;
 }
+
+
+export const calculateGlassPriceByM2 = (m2Price: number = 8, w: number, h: number) => {
+    const additionalWindowPrice = (w * h * m2Price * 2) / 1_000_000;
+    const truncatedAdditionalWindowPrice = Math.floor(additionalWindowPrice * 100) / 100;
+    return truncatedAdditionalWindowPrice;
+};
