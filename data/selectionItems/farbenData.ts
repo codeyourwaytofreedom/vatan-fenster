@@ -193,6 +193,11 @@ import Bronze_mattex_470_1029 from '@/assets/configurator/farben/farbeAussen/040
 
 export const farbenAussenInnenOptions: SelectionItem[] = [
   {
+    name: 'Weiss (ohne Dekorfarbe)',
+    key: 'weiss',
+    image: color3
+  },
+  {
     name: 'Anthrazitgrau',
     image: Anthrazitgrau_1701605_167,
     key: 'anthrazitgrau_1701605_167',

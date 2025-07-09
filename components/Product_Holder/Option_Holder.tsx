@@ -58,14 +58,22 @@ export default function OptionHolder({ item, selected, action }: ProductHolderPr
     );
   };
 
-  // temorary extensino to highlight types for which price calculation does not exist.
+  /*   // temorary extensino to highlight types for which price calculation does not exist.
   // to be removed later on
-  const { configuration,getMinMaxSizes } = useConfiguration();
+  const { configuration, calculateTotalPrice } = useConfiguration();
+  const { size } = useOrderDetailsReady();
 
-  const minMaxSizesAvailableForType = currentStep?.key !== 'type'
+  const minMaxSizesAvailableForType =
+    currentStep?.key !== 'type'
       ? true
-      :
-      getMinMaxSizes(configuration.material, configuration.style, configuration.profile, item).minWidth;
+      : calculateTotalPrice(
+          configuration.material.key,
+          configuration.profile.key,
+          configuration.style.key,
+          item.key,
+          Number(size?.w),
+          Number(size?.h)
+        ); */
 
   return (
     <div className={style.outer}>
@@ -95,7 +103,7 @@ export default function OptionHolder({ item, selected, action }: ProductHolderPr
         {!withoutDetails && (
           <div id={style.details}>Keep up good work! Remember why you started!</div>
         )}
-        <p style={{ border: minMaxSizesAvailableForType ? 'none' : '3px solid crimson' }}>
+        <p /* style={{ border: minMaxSizesAvailableForType ? 'none' : '3px solid crimson' }} */>
           {item.name}
           {item.colorCode && <span>{item.colorCode}</span>}
         </p>

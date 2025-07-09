@@ -38,7 +38,12 @@ export default function SingleSizer({
   );
   const [height, setHeight] = useState<number | string>(size?.h ?? '');
 
-  const minMaxSizes = getMinMaxSizes(configuration.material , configuration.style,  configuration.profile , configuration.type as SelectionItem);
+  const minMaxSizes = getMinMaxSizes(
+    configuration.material,
+    configuration.style,
+    configuration.profile,
+    configuration.type as SelectionItem
+  );
 
   const minHeight = minMaxSizes?.minHeight;
   const maxHeight = minMaxSizes?.maxHeight;
@@ -46,7 +51,7 @@ export default function SingleSizer({
   const minWidth = minMaxSizes?.minWidth;
   const maxWidth = minMaxSizes?.maxWidth;
 
-  const sectionMinWidth = minWidth/numberOfSections;
+  const sectionMinWidth = Math.floor(minWidth / numberOfSections);
   const sectionMaxWidth = 2000;
 
   const totalHeight = useRef<HTMLInputElement>(null);

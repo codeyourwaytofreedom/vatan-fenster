@@ -81,6 +81,11 @@ import Aussen_ESG_6mm_Innen_ESG_6mm_3fv from '@/assets/configurator/verglasung/s
 
 const _2fv_sicherheitsverglasungItems = [
   {
+    key: 'nein',
+    name: 'Nein',
+    image: no,
+  },
+  {
     key: 'aussen_VSG_6mm',
     name: 'Aussen VSG 6mm',
     image: Aussen_VSG_6mm,
@@ -123,6 +128,11 @@ const _2fv_sicherheitsverglasungItems = [
 ];
 
 const _3fv_sicherheitsverglasungItems = [
+  {
+    key: 'nein',
+    name: 'Nein',
+    image: no,
+  },
   {
     key: 'aussen_VSG_6mm_3fv',
     name: 'Aussen VSG 6mm',

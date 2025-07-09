@@ -173,20 +173,53 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     // extract price for given width and height from csv tables
     const priceListForSelectedType = priceListForSelectedWindowStyle[priceListKey];
 
-    if (!priceListForSelectedType) {
-      /* const priceListFor1Flugel = priceLists['flugel1'][selectedMaterial];
-      const individualSectionTypeKeys = (configuration.type as SelectionItem).sections;
-      const priceKey = `${(configuration.profile as SelectionItem).key}_${individualSectionTypeKeys![0]}`;
-      const priceListForSectionType = priceListFor1Flugel[priceKey];
-      console.log(priceListForSectionType); */
-      return 0;
-    }
-
     const priceFromTable = extractPriceFromTable(priceListForSelectedType, width, height);
     if (priceFromTable) {
       return additionalWindowPrice + priceFromTable;
     }
-    return null;
+
+    // csv table does not exist for the selected type
+    // so build the price based on sections
+    if (!priceListForSelectedType) {
+      const selectedMaterial = configuration.material.key;
+      const priceListFor1Flugel = priceLists['flugel1'][selectedMaterial];
+      const individualSectionTypeKeys = (configuration.type as SelectionItem).sections;
+
+      if (!individualSectionTypeKeys) {
+        alert('no price list - to sections to calculate the price');
+        return 0;
+      }
+
+      const multiWidth = configuration.multiWidth;
+      if (multiWidth) {
+        let totalPrice = 0;
+
+        for (let index = 0; index < individualSectionTypeKeys.length; index++) {
+          const typeKey = individualSectionTypeKeys?.[index];
+          const priceKey = `${(configuration.profile as SelectionItem).key}_${typeKey}`;
+          const priceListForSectionType = priceListFor1Flugel[priceKey];
+          if (!priceListForSectionType) {
+            return 0;
+          }
+          const priceFromTable = extractPriceFromTable(
+            priceListForSectionType,
+            multiWidth[index],
+            height
+          );
+
+          if (!priceFromTable) {
+            alert('price can not be extracted for a given multiwidth section');
+            return 0;
+          }
+
+          totalPrice += priceFromTable;
+        }
+
+        return totalPrice + additionalWindowPrice;
+      }
+
+      return 0;
+    }
   };
 
   const getMinMaxSizes = (
@@ -227,10 +260,10 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
 
     // maybe define minMax sizes depending on the Fensterart
     return {
-      /* minWidth: 1000,
-      maxWidth: 1000,
+      minWidth: 1000,
+      maxWidth: 2000,
       minHeight: 1000,
-      maxHeight: 1000, */
+      maxHeight: 2000,
     } as MinMaxSizes;
   };
 

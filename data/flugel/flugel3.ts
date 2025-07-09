@@ -84,12 +84,14 @@ export const flugel3_unten: SelectionItem[] = [
     image: fest_fest_fest_u,
     key: 'fest_fest_fest_u',
     sectionNumber: 3,
+    sections: ['F','F','F']
   },
   {
     name: 'Fester Flügel + Fester Flügel + Fester Flügel',
     image: ff_ff_ff_u,
     key: 'ff_ff_ff_u',
     sectionNumber: 3,
+    sections: ['FF','FF','FF']
   },
   {
     name: 'Kipp + Kipp + Kipp',
@@ -97,6 +99,7 @@ export const flugel3_unten: SelectionItem[] = [
     key: 'kipp_kipp_kipp_u',
     handleNumber: 3,
     sectionNumber: 3,
+    sections: ['K','K','K']
   },
   {
     name: 'Dreh-Kipp + Fest + Fest',
@@ -104,6 +107,7 @@ export const flugel3_unten: SelectionItem[] = [
     key: 'dreh_kipp_fest_fest_u',
     handleNumber: 1,
     sectionNumber: 3,
+    sections: ['DKL','F','F']
   },
   {
     name: 'Fest + Fest + Dreh-Kipp',
@@ -111,6 +115,7 @@ export const flugel3_unten: SelectionItem[] = [
     key: 'fest_fest_dreh_kipp_u',
     handleNumber: 1,
     sectionNumber: 3,
+    sections: ['F','F','DKR']
   },
   {
     name: 'Fest + Dreh-Kipp Links + Fest',
@@ -118,6 +123,7 @@ export const flugel3_unten: SelectionItem[] = [
     key: 'fest_dreh_kipp_links_fest_u',
     handleNumber: 1,
     sectionNumber: 3,
+    sections: ['F','DKL','F']
   },
   {
     name: 'Fest + Dreh-Kipp Rechts + Fest',
@@ -125,6 +131,7 @@ export const flugel3_unten: SelectionItem[] = [
     key: 'fest_dreh_kipp_rechts_fest_u',
     handleNumber: 1,
     sectionNumber: 3,
+    sections: ['F','DKR','F']
   },
   {
     name: 'Dreh-Kipp + Fest + Dreh-Kipp',
@@ -132,7 +139,9 @@ export const flugel3_unten: SelectionItem[] = [
     key: 'DK_F_DK',
     handleNumber: 2,
     sectionNumber: 3,
+    sections: ['DKL','F','DKR']
   },
+  // no sections needed for the following since they have price tables
   {
     name: 'Dreh-Kipp + Dreh links + Dreh-Kipp (Pfosten)',
     image: dreh_kipp_dreh_links_dreh_kipp_pfosten_u,

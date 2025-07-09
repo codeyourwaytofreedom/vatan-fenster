@@ -309,32 +309,44 @@ export default function SummaryDisplayer() {
   const [totalPrice, setTotalPrice] = useState<number>();
 
   useEffect(() => {
-    try {
-      if (configuration.size) {
-        const totalPrice = calculateTotalPrice(
-          configuration.material.key,
-          configuration.profile.key,
-          configuration.style.key,
-          (configuration.type as SelectionItem).key,
-          Number((size as Size).w),
-          Number((size as Size).h)
-        );
-        if (totalPrice) {
-          setTotalPrice(totalPrice);
-        } else {
-          setTotalPrice(0);
+    const timeout = setTimeout(() => {
+      try {
+        if (configuration.size) {
+          const totalPrice = calculateTotalPrice(
+            configuration.material.key,
+            configuration.profile.key,
+            configuration.style.key,
+            (configuration.type as SelectionItem).key,
+            Number((size as Size).w),
+            Number((size as Size).h)
+          );
+          if (totalPrice) {
+            setTotalPrice(totalPrice);
+          } else {
+            setTotalPrice(0);
+          }
         }
-      }
-    } catch {}
-  }, [configuration]);
+      } catch {}
+    }, 200);
+
+    return () => clearTimeout(timeout);
+  }, [
+    size,
+    configuration.material,
+    configuration.profile,
+    configuration.style,
+    configuration.type,
+    configuration.size,
+    calculateTotalPrice,
+  ]);
 
   return (
     <div id={styles.summary}>
       <h3>Bestellübersicht</h3>
       <Sizer substyle={substyle} sizeImage={findSizeImage()!} summary={true} />
       <br />
-      <div className={styles.price} style={{ height: totalPrice ? '30px' : '0' }}>
-        <h2>{totalPrice && totalPrice}</h2>
+      <div className={styles.price} style={{ height: totalPrice !== undefined ? '30px' : '0' }}>
+        {totalPrice !== undefined && <h2>{totalPrice}</h2>}
       </div>
       <div id={styles.items}>
         <button onClick={selectBasisGroup}>BASIS</button>
