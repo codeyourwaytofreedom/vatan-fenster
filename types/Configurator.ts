@@ -13,6 +13,11 @@ export interface MinMaxSet {
   max: number;
 }
 
+export interface MinMaxSize {
+  width: MinMaxSet,
+  height: MinMaxSet
+}
+
 export interface MinMaxSizes {
   minWidth: number
   maxWidth: number

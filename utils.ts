@@ -27,9 +27,7 @@ export const extractPriceFromTable = (priceTable: Record<number, Record<number, 
           break;
         }
       }
-  } catch (error) {
-    console.log('unable to extract price from table',error)
-    return null;
+  } catch {
   }
 }
 

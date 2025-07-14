@@ -27,7 +27,7 @@ export default function Basis_Configuration() {
     setCurrentStep,
     moveToNextStep,
     getStepsForGroup,
-    getMinMaxSizes
+    getMinMaxSizes,
   } = useConfiguration();
 
   const { setSize } = useOrderDetailsReady();
@@ -232,22 +232,37 @@ export default function Basis_Configuration() {
     }
   }, [configuration.type]);
 
-  useEffect(()=>{
+  useEffect(() => {
     setTimeout(() => {
-      if(configuration.material && configuration.profile && configuration.style && configuration.type){
+      if (
+        configuration.material &&
+        configuration.profile &&
+        configuration.style &&
+        configuration.type
+      ) {
         // remove multiwidth to trigger re-division in sizer for types with sections
-        setConfiguration((pr)=>{
+        setConfiguration((pr) => {
           const reserve = { ...pr };
           delete reserve.multiWidth;
-          return reserve
+          return reserve;
         });
         setSize({
-          w: getMinMaxSizes(configuration.material , configuration.style,  configuration.profile  , configuration.type as SelectionItem).minWidth,
-          h: getMinMaxSizes(configuration.material , configuration.style,  configuration.profile , configuration.type as SelectionItem).minHeight
+          w: getMinMaxSizes(
+            configuration.material,
+            configuration.style,
+            configuration.profile,
+            configuration.type as SelectionItem
+          ).minWidth,
+          h: getMinMaxSizes(
+            configuration.material,
+            configuration.style,
+            configuration.profile,
+            configuration.type as SelectionItem
+          ).minHeight,
         });
       }
     }, 100);
-  },[configuration.material, configuration.profile, configuration.style, configuration.type])
+  }, [configuration.material, configuration.profile, configuration.style, configuration.type]);
 
   return (
     <>

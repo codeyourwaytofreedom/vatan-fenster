@@ -17,7 +17,6 @@ export default function Grouper() {
 
   const [showRightArrow, setShowRightArrow] = useState<boolean>(false);
   const [showLeftArrow, setShowLeftArrow] = useState<boolean>(false);
-
   const stepChangeManuallyTriggered = useRef(false);
 
   // scroll step size
@@ -80,11 +79,11 @@ export default function Grouper() {
     handleResize();
   }, []);
 
-  const selectGroup = (step: Step) => {
+  const selectGroup = (group: Step) => {
     stepChangeManuallyTriggered.current = true;
     setTimeout(() => {
-      setCurrentGroup(step.key as GroupKey);
-      const newSteps = getStepsForGroup(step.key as GroupKey);
+      setCurrentGroup(group.key as GroupKey);
+      const newSteps = getStepsForGroup(group.key as GroupKey);
       setCurrentStep(newSteps[0]);
     }, 100);
   };

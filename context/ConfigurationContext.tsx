@@ -6,6 +6,7 @@ import {
   Config,
   GroupKey,
   MinMaxSet,
+  MinMaxSize,
   MinMaxSizes,
   SelectionItem,
   Step,
@@ -258,12 +259,47 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     // therefore return placeholder minMax values for now
     // to be discussed
 
-    // maybe define minMax sizes depending on the Fensterart
+    // flugel1 min-max values for different types available for selected profile
+    // F, FF, K, DL, DR, DKL, DKR
+    const minMaxSizesForSingleSections =
+      sizesByMaterial.flugel1[selectedProfileKey as keyof typeof sizesByMaterial.flugel1];
+
+    // selected type's sections --> ie F+F --> DK + DL
+    const selectedTypeSections = selectedType.sections;
+
+    // for each section in the selected type, get min-max sizes
+    let minWidthDerivedFromSections = 0;
+    let maxWidthDerivedFromSections = 0;
+    const minHeightForEachSection: number[] = [];
+    const maxHeightForEachSection: number[] = [];
+
+    selectedTypeSections?.forEach((section) => {
+      const minMaxForSingleSectionInSelectedType = minMaxSizesForSingleSections[section];
+      const { width, height } = minMaxForSingleSectionInSelectedType as MinMaxSize;
+      const minWidthForSection = width.min;
+      const maxWidthForSection = width.max;
+
+      minHeightForEachSection.push(height.min);
+      maxHeightForEachSection.push(height.max);
+
+      // calculate minWidth by summing minWidth values for each section
+      minWidthDerivedFromSections += minWidthForSection;
+
+      // calculate maxWidth by summing maxWidth values for each section
+      maxWidthDerivedFromSections += maxWidthForSection;
+    });
+
+    // from all sections' minHeight, take the biggest
+    const minHeight = Math.max(...minHeightForEachSection);
+
+    // from all sections' maxHeight, take the smallest
+    const maxHeight = Math.min(...maxHeightForEachSection);
+
     return {
-      minWidth: 1000,
-      maxWidth: 2000,
-      minHeight: 1000,
-      maxHeight: 2000,
+      minWidth: minWidthDerivedFromSections,
+      maxWidth: maxWidthDerivedFromSections,
+      minHeight: minHeight,
+      maxHeight: maxHeight,
     } as MinMaxSizes;
   };
 
