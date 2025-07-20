@@ -1,8 +1,32 @@
 import { flugel1MinMaxSizesAluminium, flugel1MinMaxSizesPlastic } from './flugel1MinMaxSizes';
 import { flugel2MinMaxSizesAluminium, flugel2MinMaxSizesPlastic } from './flugel2MinMaxSizes';
 import { flugel3MinMaxSizesPlastic } from './flugel3MinMaxSizes';
+import { 
+  ProfileTypeForWindowType1,ProfileTypeForWindowType2,
+  ProfileTypeForWindowType3,ProfileTypeForWindowType1Aluminium,ProfileTypeForWindowType2Aluminium, 
+  } from '@/types/Configurator';
 
-export const minMaxSizes = 
+
+type MinMaxSizeByWindowStyle = 
+  ProfileTypeForWindowType1 
+  | ProfileTypeForWindowType2 
+  | ProfileTypeForWindowType3 
+  | ProfileTypeForWindowType1Aluminium 
+  | ProfileTypeForWindowType2Aluminium
+
+type MinMaxSizesPack = {
+  plastic: {
+    flugel1: MinMaxSizeByWindowStyle,
+    flugel2: MinMaxSizeByWindowStyle,
+    flugel3: MinMaxSizeByWindowStyle
+  },
+  aluminium: {
+    flugel1: MinMaxSizeByWindowStyle,
+    flugel2: MinMaxSizeByWindowStyle,
+  }
+}
+
+export const minMaxSizes:MinMaxSizesPack = 
   {
     plastic: {
       flugel1: flugel1MinMaxSizesPlastic,

@@ -1,4 +1,6 @@
-export const flugel3MinMaxSizesPlastic = {
+import { ProfileTypeForWindowType3 } from '@/types/Configurator';
+
+export const flugel3MinMaxSizesPlastic: ProfileTypeForWindowType3 = {
   I5: {
     DK_F_DK: {
       width: {

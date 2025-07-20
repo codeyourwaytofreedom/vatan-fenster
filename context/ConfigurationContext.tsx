@@ -46,7 +46,7 @@ interface ConfigurationContextType {
     testKey?: string
   ) => number | null | undefined;
   getMinMaxSizes: (
-    selectedMaterial: SelectionItem,
+    selectedMaterial: SelectionItem<WindowMaterial>,
     selectedStyle: SelectionItem,
     selectedProfile: SelectionItem,
     selectedType: SelectionItem
@@ -226,7 +226,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
   };
 
   const getMinMaxSizes = (
-    selectedMaterial: SelectionItem,
+    selectedMaterial: SelectionItem<WindowMaterial>,
     selectedStyle: SelectionItem,
     selectedProfile: SelectionItem,
     selectedType: SelectionItem
