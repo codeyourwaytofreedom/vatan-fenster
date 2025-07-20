@@ -42,6 +42,7 @@ interface ConfigurationContextType {
     selectedTypeKey: string,
     width: number,
     height: number,
+    multiWidth: Record<string, number> | undefined,
     testKey?: string
   ) => number | null | undefined;
   getMinMaxSizes: (
@@ -152,6 +153,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     selectedTypeKey: string,
     width: number = 0,
     height: number = 0,
+    multiWidth: Record<string, number> | undefined,
     testKey?: string
   ) => {
     const priceListForSelectedWindowStyle = priceLists[selectedWindowStyleKey][selectedMaterialKey];
@@ -166,7 +168,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
 
     // additional calculation for the glass
     // deafult is 2 layer of glass so multiply by 2
-    const additionalWindowPrice = calculateGlassPriceByM2(8, width, height);
+    const additionalWindowPrice = calculateGlassPriceByM2(8, width, height, multiWidth);
 
     // adjust for overlicht and unterlicht
     const priceListKey = testKey || `${selectedProfileKey}_${selectedTypeKey}`;
@@ -239,6 +241,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     const sizesByProfile = sizesByStyle?.[selectedProfileKey as keyof typeof sizesByStyle];
     const sizesByType = sizesByProfile?.[selectedTypeKey];
 
+    // if price table exists for selected window type, extract the min-max sizes from the table
     if (sizesByType) {
       const { width, height } = sizesByType;
 
@@ -247,7 +250,6 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
 
       const minHeight = (height as MinMaxSet).min;
       const maxHeight = (height as MinMaxSet).max;
-
       return {
         minWidth,
         maxWidth,
@@ -256,11 +258,10 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
       } as MinMaxSizes;
     }
     // no price list available so can't extract minMaxSizes
-    // therefore return placeholder minMax values for now
-    // to be discussed
 
     // flugel1 min-max values for different types available for selected profile
     // F, FF, K, DL, DR, DKL, DKR
+    // so calculate the min-max sizes via aggregating each section's min-max values
     const minMaxSizesForSingleSections =
       sizesByMaterial.flugel1[selectedProfileKey as keyof typeof sizesByMaterial.flugel1];
 
@@ -273,11 +274,17 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     const minHeightForEachSection: number[] = [];
     const maxHeightForEachSection: number[] = [];
 
+    const sectionsMinWidthPack: Record<string, number> = {};
+    const sectionsMaxWidthPack: Record<string, number> = {};
+
     selectedTypeSections?.forEach((section) => {
       const minMaxForSingleSectionInSelectedType = minMaxSizesForSingleSections[section];
       const { width, height } = minMaxForSingleSectionInSelectedType as MinMaxSize;
       const minWidthForSection = width.min;
       const maxWidthForSection = width.max;
+
+      sectionsMinWidthPack[section] = minWidthForSection;
+      sectionsMaxWidthPack[section] = maxWidthForSection;
 
       minHeightForEachSection.push(height.min);
       maxHeightForEachSection.push(height.max);
@@ -296,10 +303,14 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     const maxHeight = Math.min(...maxHeightForEachSection);
 
     return {
-      minWidth: minWidthDerivedFromSections,
-      maxWidth: maxWidthDerivedFromSections,
+      // total window width can never be greater than 4800
+      minWidth: Math.min(minWidthDerivedFromSections, 4800),
+      maxWidth: Math.min(maxWidthDerivedFromSections, 4800),
       minHeight: minHeight,
       maxHeight: maxHeight,
+      // provide each section's minWidth so that sizer can use it an minSectionWidth
+      sectionsMinWidthPack,
+      sectionsMaxWidthPack,
     } as MinMaxSizes;
   };
 

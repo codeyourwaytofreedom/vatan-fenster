@@ -58,23 +58,6 @@ export default function OptionHolder({ item, selected, action }: ProductHolderPr
     );
   };
 
-  /*   // temorary extensino to highlight types for which price calculation does not exist.
-  // to be removed later on
-  const { configuration, calculateTotalPrice } = useConfiguration();
-  const { size } = useOrderDetailsReady();
-
-  const minMaxSizesAvailableForType =
-    currentStep?.key !== 'type'
-      ? true
-      : calculateTotalPrice(
-          configuration.material.key,
-          configuration.profile.key,
-          configuration.style.key,
-          item.key,
-          Number(size?.w),
-          Number(size?.h)
-        ); */
-
   return (
     <div className={style.outer}>
       {item.zoomable && item.image && (

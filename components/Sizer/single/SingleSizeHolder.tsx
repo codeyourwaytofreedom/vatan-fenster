@@ -51,14 +51,85 @@ export default function SingleSizer({
   const minWidth = minMaxSizes?.minWidth;
   const maxWidth = minMaxSizes?.maxWidth;
 
-  const sectionMinWidth = Math.floor(minWidth / numberOfSections);
-  const sectionMaxWidth = 2000;
+  //const sectionMinWidth = Math.floor(minWidth / numberOfSections);
+  const sectionMaxWidth = 3000;
+
+  const autoSplit = Boolean(minMaxSizes.sectionsMinWidthPack);
+
+  const extractMinWidthForSection = (
+    sectionIndex: number,
+    minWidth: number,
+    selectedType: SelectionItem,
+    minWidthPack: Record<string, number>
+  ) => {
+    if (!minMaxSizes.sectionsMinWidthPack) {
+      return Math.floor(minWidth / numberOfSections);
+    }
+    const sectionMinWidth = minWidthPack[(selectedType.sections || [])[sectionIndex]];
+    return sectionMinWidth;
+  };
+
+  /*   const extractMaxWidthForSection = (
+    sectionIndex: number,
+    maxWidth: number,
+    selectedType: SelectionItem,
+    maxWidthPack: Record<string, number>
+  ) => {
+    if (!minMaxSizes.sectionsMaxWidthPack) {
+      return Math.floor(maxWidth / numberOfSections);
+    }
+    const sectionMinWidth = maxWidthPack[(selectedType.sections || [])[sectionIndex]];
+    return sectionMinWidth;
+  }; */
+
+  const customMultiWidth = (currentWidth: number) => {
+    if (autoSplit) {
+      const sections = (configuration.type as SelectionItem).sections || [];
+
+      // Create initial widths based on min widths
+      const customMultiWidth = sections.reduce(
+        (acc, _, index) => {
+          acc[index] = extractMinWidthForSection(
+            index,
+            minWidth,
+            configuration.type as SelectionItem,
+            minMaxSizes.sectionsMinWidthPack || {}
+          );
+          return acc;
+        },
+        {} as Record<number, number>
+      );
+
+      // Calculate total of current widths
+      const total = Object.values(customMultiWidth).reduce((sum, val) => sum + val, 0);
+
+      if (currentWidth > total) {
+        const excess = currentWidth - total;
+        const division = Math.floor(excess / sections.length);
+        const remainder = excess % sections.length;
+
+        // Spread the excess across all sections
+        Object.keys(customMultiWidth).forEach((key, index) => {
+          customMultiWidth[Number(key)] += division + (index < remainder ? 1 : 0);
+        });
+      }
+
+      return customMultiWidth;
+    }
+    return {} as Record<number, number>;
+  };
 
   const totalHeight = useRef<HTMLInputElement>(null);
 
   const coverHeight = (configuration.cover as SelectionItem & { height?: number }).height;
 
-  const sectionHasProblems = (w: number) => {
+  const sectionHasProblems = (w: number, sectionIndex: number) => {
+    const sectionMinWidth = extractMinWidthForSection(
+      sectionIndex,
+      minWidth,
+      configuration.type as SelectionItem,
+      minMaxSizes.sectionsMinWidthPack || {}
+    );
     return w < sectionMinWidth || w > sectionMaxWidth;
   };
 
@@ -78,7 +149,7 @@ export default function SingleSizer({
   const maxSectionWidthViolated = (val: number) =>
     `${val} mm ist ungültig! Die maximale Breite eines Abschnitts beträgt ${sectionMaxWidth} mm.`;
 
-  const minSectionWidthViolated = (val: number) =>
+  const minSectionWidthViolated = (val: number, sectionMinWidth: number) =>
     `${val} mm ist ungültig! Die minimale Breite eines Abschnitts beträgt ${sectionMinWidth} mm.`;
 
   const maxHeightViolated = `Die Höhe darf ${maxHeight} mm nicht überschreiten.`;
@@ -115,14 +186,23 @@ export default function SingleSizer({
         ...(prevSize || { w: undefined, h: undefined }),
         [property]: value,
       }));
-      const dividedWidthItems = smartDivider(value, numberOfSections);
+      const dividedWidthItems = autoSplit
+        ? customMultiWidth(Number(value))
+        : smartDivider(value, numberOfSections);
       setMultiWidth(dividedWidthItems);
     }
   };
 
   const sectionWidthValidator = (multiWidth: Record<string, number>) => {
-    return Object.values(multiWidth).reduce((issues: string[], width) => {
-      if (width < sectionMinWidth && width > 0) issues.push(minSectionWidthViolated(width));
+    return Object.values(multiWidth).reduce((issues: string[], width, sectionIndex) => {
+      const sectionMinWidth = extractMinWidthForSection(
+        sectionIndex,
+        minWidth,
+        configuration.type as SelectionItem,
+        minMaxSizes.sectionsMinWidthPack || {}
+      );
+      if (width < sectionMinWidth && width > 0)
+        issues.push(minSectionWidthViolated(width, sectionMinWidth));
       if (width > sectionMaxWidth) issues.push(maxSectionWidthViolated(width));
       return issues;
     }, []);
@@ -150,7 +230,10 @@ export default function SingleSizer({
     if (index === 0) {
       const slotsToRight = numberOfSections - 1;
       const remainingWidth = width - value;
-      const partition = smartDivider(remainingWidth, slotsToRight);
+      const partition = /* autoSplit ? customMultiWidth() : */ smartDivider(
+        remainingWidth,
+        slotsToRight
+      );
 
       // Shift keys to the right
       updatedMultiWidth = Object.entries(partition).reduce(
@@ -209,7 +292,9 @@ export default function SingleSizer({
       if (typeof size?.w === 'string' && typeof size.w !== 'undefined') {
         return;
       }
-      const dividedWidthItems = smartDivider(size?.w || 0, numberOfSections);
+      const dividedWidthItems = autoSplit
+        ? customMultiWidth(Number(size?.w))
+        : smartDivider(size?.w || 0, numberOfSections);
       setMultiWidth(dividedWidthItems);
       setConfiguration((pr) => {
         return { ...pr, multiWidth: dividedWidthItems };
@@ -300,11 +385,16 @@ export default function SingleSizer({
                   {Object.keys(multiWidth).map((i) => (
                     <input
                       key={i}
-                      className={sectionHasProblems(multiWidth[i]) ? style.warn : ''}
+                      className={sectionHasProblems(multiWidth[i], parseInt(i)) ? style.warn : ''}
                       type="number"
                       onChange={(e) => updateIndividualWidth(e, parseInt(i))}
                       value={multiWidth ? multiWidth[i] : 0}
-                      min={sectionMinWidth}
+                      min={extractMinWidthForSection(
+                        parseInt(i),
+                        minWidth,
+                        configuration.type as SelectionItem,
+                        minMaxSizes.sectionsMinWidthPack || {}
+                      )}
                       max={sectionMaxWidth}
                       placeholder="breite"
                       pattern="^[1-9][0-9]*$"

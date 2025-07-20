@@ -318,7 +318,8 @@ export default function SummaryDisplayer() {
             configuration.style.key,
             (configuration.type as SelectionItem).key,
             Number((size as Size).w),
-            Number((size as Size).h)
+            Number((size as Size).h),
+            configuration.multiWidth
           );
           if (totalPrice) {
             setTotalPrice(totalPrice);

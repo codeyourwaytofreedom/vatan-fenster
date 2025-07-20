@@ -23,6 +23,9 @@ export interface MinMaxSizes {
   maxWidth: number
   minHeight: number
   maxHeight: number
+  sectionsMinWidthPack?: Record<string, number>
+  sectionsMaxWidthPack?: Record<string, number>
+
 }
 
 export interface TripleSize {
@@ -52,10 +55,14 @@ export type WindowStyle = 'flugel1' | 'flugel2' | 'flugel3' | 'oberlicht' | 'unt
 
 export type WindowMaterial = 'plastic' | 'aluminium' | 'holz' | 'holzalu';
 
+export type WindowProfilePlastic = 'I5' | 'I5C' | 'IE' | 'IEC' | 'IL';
+export type WindowProfileAluminium = 'MB45' | 'MB70' | 'MB70HI' | 'MB86NSI';
+
+
 export interface Config {
   material: SelectionItem<WindowMaterial>;
   brand: SelectionItem;
-  profile: SelectionItem;
+  profile: SelectionItem<WindowProfilePlastic | WindowProfileAluminium>;
   style: SelectionItem<WindowStyle>;
   type: SelectionItem | SubStyle;
   cover: SelectionItem;

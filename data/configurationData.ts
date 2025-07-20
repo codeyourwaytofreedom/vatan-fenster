@@ -1,5 +1,5 @@
 //common images
-import { Config, SelectionItem, Size } from '@/types/Configurator';
+import { Config, SelectionItem, Size, WindowProfilePlastic } from '@/types/Configurator';
 
 import { farbenOptions } from './selectionItems/farbenData';
 import { brands, covers, materials, windowStyles } from './selectionItems/basisData';
@@ -120,7 +120,8 @@ export const initialSize: Size = {
 export const initialConfiguration: Config = {
   material: materials[0],
   brand: brands[0],
-  profile: brands[0].children!.profile!.plastic[0],
+  // adjust the type here
+  profile: brands[0].children!.profile!.plastic[0] as SelectionItem<WindowProfilePlastic>,
   style: windowStyles[0],
   type: windowStyles[0].children!.type![0]!,
   cover: covers[0],
@@ -137,6 +138,7 @@ export const initialConfiguration: Config = {
   schallschutz: verglasung.schallschutz[0],
   sprossen: 'Nein',
   druckausgleichsventil: verglasung.druckausgleichsventil[0],
+  // adjust the type here
   sicherheitsbeschlage: { category: optionNo, subCategory: {} as SelectionItem },
   verdecktLiegenderBeschlag: optionNo,
   dünneSchweißnahtVPerfect: optionNo,
