@@ -89,7 +89,7 @@ export const flugel1MinMaxSizesPlastic: ProfileTypeForWindowType1 = {
     FF: {
       width: {
         min: 380,
-        max: 2400,
+        max: 3000,
       },
       height: {
         min: 380,

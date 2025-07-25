@@ -189,7 +189,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
       const individualSectionTypeKeys = (configuration.type as SelectionItem).sections;
 
       if (!individualSectionTypeKeys) {
-        alert('no price list - to sections to calculate the price');
+        //alert('no price list - to sections to calculate the price');
         return 0;
       }
 

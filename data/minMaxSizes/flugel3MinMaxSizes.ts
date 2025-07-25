@@ -113,7 +113,7 @@ export const flugel3MinMaxSizesPlastic: ProfileTypeForWindowType3 = {
       },
       height: {
         min: 480,
-        max: 1866
+        max: 1860
       }
     },
     DK_DR_DK_STULP: {
@@ -133,7 +133,7 @@ export const flugel3MinMaxSizesPlastic: ProfileTypeForWindowType3 = {
       },
       height: {
         min: 480,
-        max: 1866
+        max: 1860
       }
     },
     DK_DL_DK_STULP: {
@@ -153,7 +153,7 @@ export const flugel3MinMaxSizesPlastic: ProfileTypeForWindowType3 = {
       },
       height: {
         min: 480,
-        max: 1866
+        max: 1860
       }
     }
   },

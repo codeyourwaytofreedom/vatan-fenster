@@ -174,12 +174,12 @@ export const flugel2MinMaxSizesPlastic: ProfileTypeForWindowType2 = {
       },
       height: {
         min: 480,
-        max: 1866,
+        max: 1900,
       },
     },
     DK_D_STULP: {
       width: {
-        min: 900,
+        min: 850,
         max: 2800,
       },
       height: {
@@ -199,7 +199,7 @@ export const flugel2MinMaxSizesPlastic: ProfileTypeForWindowType2 = {
     },
     D_DK_STULP: {
       width: {
-        min: 900,
+        min: 850,
         max: 2800,
       },
       height: {
