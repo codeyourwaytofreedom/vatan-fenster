@@ -57,6 +57,7 @@ export type WindowMaterial = 'plastic' | 'aluminium' | 'holz' | 'holzalu';
 
 export type WindowProfilePlastic = 'I5' | 'I5C' | 'IE' | 'IEC' | 'IL';
 export type WindowProfileAluminium = 'MB45' | 'MB70' | 'MB70HI' | 'MB86NSI';
+export type WindowProfile = WindowProfilePlastic | WindowProfileAluminium;
 
 export type WindowType1 = 'F' | 'K' | 'FF' | 'DR' | 'DL' | 'DKR' | 'DKL';
 export type WindowType2 =  'F_DK' | 'DK_F' | 'DK_DK_POS' | 'DK_D_STULP' | 'DK_D_POS' | 'D_DK_STULP' | 'D_DK_POS';

@@ -23,6 +23,7 @@ type MinMaxSizesPack = {
   aluminium: {
     flugel1: MinMaxSizeByWindowStyle,
     flugel2: MinMaxSizeByWindowStyle,
+    flugel3: MinMaxSizeByWindowStyle
   }
 }
 
@@ -35,6 +36,7 @@ export const minMaxSizes:MinMaxSizesPack =
     },
     aluminium: {
       flugel1: flugel1MinMaxSizesAluminium,
-      flugel2: flugel2MinMaxSizesAluminium
+      flugel2: flugel2MinMaxSizesAluminium,
+      flugel3: {} as MinMaxSizeByWindowStyle
     },
   }
