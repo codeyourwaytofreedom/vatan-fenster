@@ -1,6 +1,7 @@
-import { ProfileTypeForWindowType1, ProfileTypeForWindowType1Aluminium } from '@/types/Configurator';
-
-
+import {
+  ProfileTypeForWindowType1,
+  ProfileTypeForWindowType1Aluminium,
+} from '@/types/Configurator';
 
 export const flugel1MinMaxSizesPlastic: ProfileTypeForWindowType1 = {
   I5: {
@@ -365,7 +366,7 @@ export const flugel1MinMaxSizesPlastic: ProfileTypeForWindowType1 = {
   },
 };
 
-export const flugel1MinMaxSizesAluminium:ProfileTypeForWindowType1Aluminium = {
+export const flugel1MinMaxSizesAluminium: ProfileTypeForWindowType1Aluminium = {
   MB45: {
     K: {
       width: {

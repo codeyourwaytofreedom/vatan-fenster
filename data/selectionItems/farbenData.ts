@@ -195,7 +195,7 @@ export const farbenAussenInnenOptions: SelectionItem[] = [
   {
     name: 'Weiss (ohne Dekorfarbe)',
     key: 'weiss',
-    image: color3
+    image: color3,
   },
   {
     name: 'Anthrazitgrau',

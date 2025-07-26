@@ -14,18 +14,17 @@ export interface MinMaxSet {
 }
 
 export interface MinMaxSize {
-  width: MinMaxSet,
-  height: MinMaxSet
+  width: MinMaxSet;
+  height: MinMaxSet;
 }
 
 export interface MinMaxSizes {
-  minWidth: number
-  maxWidth: number
-  minHeight: number
-  maxHeight: number
-  sectionsMinWidthPack?: Record<string, number>
-  sectionsMaxWidthPack?: Record<string, number>
-
+  minWidth: number;
+  maxWidth: number;
+  minHeight: number;
+  maxHeight: number;
+  sectionsMinWidthPack?: Record<string, number>;
+  sectionsMaxWidthPack?: Record<string, number>;
 }
 
 export interface TripleSize {
@@ -60,29 +59,42 @@ export type WindowProfileAluminium = 'MB45' | 'MB70' | 'MB70HI' | 'MB86NSI';
 export type WindowProfile = WindowProfilePlastic | WindowProfileAluminium;
 
 export type WindowType1 = 'F' | 'K' | 'FF' | 'DR' | 'DL' | 'DKR' | 'DKL';
-export type WindowType2 =  'F_DK' | 'DK_F' | 'DK_DK_POS' | 'DK_D_STULP' | 'DK_D_POS' | 'D_DK_STULP' | 'D_DK_POS';
-export type WindowType3 = 'DK_F_DK' | 'DK_DR_DK_STULP' | 'DK_DR_DK_POS' | 'DK_DL_DK_STULP' | 'DK_DL_DK_POS';
+export type WindowType2 =
+  | 'F_DK'
+  | 'DK_F'
+  | 'DK_DK_POS'
+  | 'DK_D_STULP'
+  | 'DK_D_POS'
+  | 'D_DK_STULP'
+  | 'D_DK_POS';
+export type WindowType3 =
+  | 'DK_F_DK'
+  | 'DK_DR_DK_STULP'
+  | 'DK_DR_DK_POS'
+  | 'DK_DL_DK_STULP'
+  | 'DK_DL_DK_POS';
 
+export type ProfileTypeMinMaxSizesPlastic<W extends string = WindowType1> = Record<
+  WindowProfilePlastic,
+  Record<W, MinMaxSize>
+>;
 
-export type ProfileTypeMinMaxSizesPlastic<
-  W extends string = WindowType1
-> = Record<WindowProfilePlastic, Record<W, MinMaxSize>>;
-
-
-export type ProfileTypeMinMaxSizesAluminium<
-  W extends string = WindowType1
-> = Record<WindowProfileAluminium, Record<W, MinMaxSize>>;
+export type ProfileTypeMinMaxSizesAluminium<W extends string = WindowType1> = Record<
+  WindowProfileAluminium,
+  Record<W, MinMaxSize>
+>;
 
 export type ProfileTypeForWindowType1 = ProfileTypeMinMaxSizesPlastic<WindowType1>;
 export type ProfileTypeForWindowType2 = ProfileTypeMinMaxSizesPlastic<WindowType2>;
 export type ProfileTypeForWindowType3 = ProfileTypeMinMaxSizesPlastic<WindowType3>;
 
-
 // FF does not exist in Aluminium profiles
-export type ProfileTypeForWindowType1Aluminium = ProfileTypeMinMaxSizesAluminium<Exclude<WindowType1, 'FF'>>;
-export type ProfileTypeForWindowType2Aluminium = ProfileTypeMinMaxSizesAluminium<'DK_D_STULP' | 'DK_D_POS' | 'D_DK_STULP' |'D_DK_POS'>;
-
-
+export type ProfileTypeForWindowType1Aluminium = ProfileTypeMinMaxSizesAluminium<
+  Exclude<WindowType1, 'FF'>
+>;
+export type ProfileTypeForWindowType2Aluminium = ProfileTypeMinMaxSizesAluminium<
+  'DK_D_STULP' | 'DK_D_POS' | 'D_DK_STULP' | 'D_DK_POS'
+>;
 
 export interface Config {
   material: SelectionItem<WindowMaterial>;
@@ -213,9 +225,7 @@ export type GroupKey = 'basis' | 'farben' | 'verglasung' | 'sonnenschutz' | 'zus
 
 type Image = StaticImageData;
 
-export type SelectionItem< 
-  KEY extends string = string
-  > = {
+export type SelectionItem<KEY extends string = string> = {
   key: KEY;
   name: string;
   image?: Image;
