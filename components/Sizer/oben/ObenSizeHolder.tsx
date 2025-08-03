@@ -3,9 +3,14 @@ import style from './OberlichtSizer.module.css';
 import { SelectionItem, SubStyle } from '@/types/Configurator';
 import { useConfiguration } from '@/context/ConfigurationContext';
 import { useEffect, useRef, useState } from 'react';
-import { smartDivider } from '../single/SingleSizeHolder';
+import {
+  buildCustomMultiWidth,
+  extractMinWidthForSection,
+  smartDivider,
+} from '../single/SingleSizeHolder';
 import { SizeFeedback } from '../Size_Holder';
 import { useOrderDetailsReady } from '@/context/OrderDetailsContext';
+import { windowStyles } from '@/data/selectionItems/basisData';
 
 interface OberSizeProps {
   displayedImageOne: StaticImageData;
@@ -13,10 +18,25 @@ interface OberSizeProps {
   summary?: boolean;
   setSizeFeedback: React.Dispatch<React.SetStateAction<SizeFeedback>>;
 }
-const smartHeightDivider = (height: number) => {
-  const up = Math.round(height / 3);
-  const down = height - up;
-  return { obenHeight: up, untenHeight: down };
+
+const smartHeightDivider = (totalHeight: number, heightOben: number, heightUnten: number) => {
+  const currentTotal = heightOben + heightUnten;
+
+  if (totalHeight > currentTotal) {
+    const excess = totalHeight - currentTotal;
+    const half = Math.floor(excess / 2);
+    const remainder = excess % 2; // will be 1 if odd
+
+    return {
+      obenHeight: heightOben + half + remainder, // give remainder to oben
+      untenHeight: heightUnten + half,
+    };
+  }
+
+  return {
+    obenHeight: heightOben,
+    untenHeight: heightUnten,
+  };
 };
 
 export default function ObenSizer({
@@ -25,7 +45,7 @@ export default function ObenSizer({
   summary,
   setSizeFeedback,
 }: OberSizeProps) {
-  const { configuration, setConfiguration } = useConfiguration();
+  const { configuration, setConfiguration, getMinMaxSizes } = useConfiguration();
   const { size, setSize } = useOrderDetailsReady();
 
   const widthManuallyChanged = useRef(false);
@@ -50,24 +70,80 @@ export default function ObenSizer({
 
   const coverHeight = (configuration.cover as SelectionItem & { height?: number }).height;
 
-  const minWidth = 900;
-  const maxWidth = 2800;
+  const minMaxSizesOben = (() => {
+    if ('oben' in configuration.type) {
+      const sectionNumberOben = configuration.type.oben?.sectionNumber || 1;
+      const windowStyleOben =
+        sectionNumberOben === 1
+          ? windowStyles.find((st) => st.key === 'flugel1')
+          : sectionNumberOben === 2
+            ? windowStyles.find((st) => st.key === 'flugel2')
+            : windowStyles.find((st) => st.key === 'flugel3');
 
-  const sectionMinWidth = 300;
-  const sectionMaxWidth = 2000;
+      const windowProfileOben = configuration.profile;
+      const windowTypeOben = configuration.type.oben!;
 
-  const sectionMinHeight = 300;
-  const sectionMaxHeight = 2000;
+      return getMinMaxSizes(
+        configuration.material,
+        windowStyleOben!,
+        windowProfileOben,
+        windowTypeOben
+      );
+    }
 
-  const minHeight = 900;
-  const maxHeight = 2800;
+    return undefined;
+  })();
 
-  const sectionHasProblems = (w: number) => {
-    return w < sectionMinWidth || w > sectionMaxWidth;
+  const minMaxSizesUnten = (() => {
+    if ('unten' in configuration.type) {
+      const sectionNumberUnten = configuration.type.unten?.sectionNumber || 1;
+      const windowStyleUnten =
+        sectionNumberUnten === 1
+          ? windowStyles.find((st) => st.key === 'flugel1')
+          : sectionNumberUnten === 2
+            ? windowStyles.find((st) => st.key === 'flugel2')
+            : windowStyles.find((st) => st.key === 'flugel3');
+
+      const windowProfileUnten = configuration.profile;
+      const windowTypeUnten = configuration.type.unten!;
+
+      return getMinMaxSizes(
+        configuration.material,
+        windowStyleUnten!,
+        windowProfileUnten,
+        windowTypeUnten
+      );
+    }
+
+    return undefined;
+  })();
+
+  // if sectionsMinWidthPack
+  const obenNeedsCustomSplit = Boolean(minMaxSizesOben?.sectionsMinWidthPack);
+  const untenNeedsCustomSplit = Boolean(minMaxSizesUnten?.sectionsMinWidthPack);
+
+  const minWidthTotal = Math.max(minMaxSizesOben?.minWidth ?? 0, minMaxSizesUnten?.minWidth ?? 0);
+  const maxWidthTotal = Math.min(minMaxSizesOben?.maxWidth ?? 0, minMaxSizesUnten?.maxWidth ?? 0);
+
+  const minHeight = (minMaxSizesOben?.minHeight ?? 0) + (minMaxSizesUnten?.minHeight ?? 0);
+  const maxHeight = (minMaxSizesOben?.maxHeight ?? 0) + (minMaxSizesUnten?.maxHeight ?? 0);
+
+  const minHeightOben = minMaxSizesOben?.minHeight;
+  const minHeightUnten = minMaxSizesUnten?.minHeight;
+
+  const maxHeightOben = minMaxSizesOben?.maxHeight;
+  const maxHeightUnten = minMaxSizesUnten?.maxHeight;
+
+  // sectionMinWidth is dynamically calculated for each section
+  // sectionMaxWidth is to be discussed
+  const sectionMaxWidth = 3000;
+
+  const sectionHasProblems = (w: number, minWidthForSection: number) => {
+    return w < minWidthForSection || w > sectionMaxWidth;
   };
 
-  const maxWidthViolated = `Die Breite darf ${maxWidth} mm nicht überschreiten.`;
-  const minWidthViolated = `Die Breite darf nicht kleiner als ${minWidth} mm sein.`;
+  const maxWidthViolated = `Die Breite darf ${maxWidthTotal} mm nicht überschreiten.`;
+  const minWidthViolated = `Die Breite darf nicht kleiner als ${minWidthTotal} mm sein.`;
 
   const maxHeightViolated = `Die Höhe darf ${maxHeight} mm nicht überschreiten.`;
   const minHeightViolated = `Die Höhe darf nicht kleiner als ${minHeight} mm sein.`;
@@ -75,34 +151,64 @@ export default function ObenSizer({
   const maxSectionWidthViolated = (val: number) =>
     `${val} mm ist ungültig! Die maximale Breite eines Abschnitts beträgt ${sectionMaxWidth} mm.`;
 
-  const minSectionWidthViolated = (val: number) =>
+  const minSectionWidthViolated = (val: number, sectionMinWidth: number) =>
     `${val} mm ist ungültig! Die minimale Breite eines Abschnitts beträgt ${sectionMinWidth} mm.`;
 
-  const maxSectionHeightViolated = (val: number) =>
+  const maxSectionHeightViolated = (val: number, sectionMaxHeight: number) =>
     `${val} mm ist ungültig! Die maximale Höhe eines Abschnitts beträgt ${sectionMaxHeight} mm.`;
 
-  const minSectionHeightViolated = (val: number) =>
+  const minSectionHeightViolated = (val: number, sectionMinHeight: number) =>
     `${val} mm ist ungültig! Die minimale Höhe eines Abschnitts beträgt ${sectionMinHeight} mm.`;
 
-  const sectionWidthValidator = (multiWidth: Record<string, number>) => {
-    return Object.values(multiWidth).reduce((issues: string[], width) => {
-      if (width < sectionMinWidth && width > 0) issues.push(minSectionWidthViolated(width));
+  const sectionWidthValidator = (
+    multiWidth: Record<string, number>,
+    direction: 'oben' | 'unten'
+  ) => {
+    return Object.values(multiWidth).reduce((issues: string[], width, index) => {
+      const minWidthTotal =
+        direction === 'oben' ? minMaxSizesOben?.minWidth : minMaxSizesUnten?.minWidth;
+      const selectedType =
+        direction === 'oben'
+          ? (configuration.type as SubStyle).oben
+          : (configuration.type as SubStyle).unten;
+      const minWidthPack =
+        direction === 'oben'
+          ? minMaxSizesOben?.sectionsMinWidthPack
+          : minMaxSizesUnten?.sectionsMinWidthPack;
+      const sectionMinWidth = extractMinWidthForSection(
+        index,
+        minWidthTotal!,
+        selectedType!,
+        minWidthPack!,
+        selectedType!.sectionNumber!
+      );
+
+      if (width < sectionMinWidth && width > 0)
+        issues.push(minSectionWidthViolated(width, sectionMinWidth));
       if (width > sectionMaxWidth) issues.push(maxSectionWidthViolated(width));
       return issues;
     }, []);
   };
 
   const sectionHeightValidator = (multiHeight: Record<string, number>) => {
-    return Object.values(multiHeight).reduce((issues: string[], height) => {
-      if (height < sectionMinHeight && height > 0) issues.push(minSectionHeightViolated(height));
-      if (height > sectionMaxHeight) issues.push(maxSectionHeightViolated(height));
+    return Object.entries(multiHeight).reduce((issues: string[], [key, height]) => {
+      // caution needed about non-null assertion
+      const sectionMinHeight =
+        key === 'obenHeight' ? minMaxSizesOben!.minHeight : minMaxSizesUnten!.minHeight;
+      const sectionMaxHeight =
+        key === 'obenHeight' ? minMaxSizesOben!.maxHeight : minMaxSizesUnten!.maxHeight;
+
+      if (height < sectionMinHeight && height > 0)
+        issues.push(minSectionHeightViolated(height, sectionMinHeight));
+      if (height > sectionMaxHeight)
+        issues.push(maxSectionHeightViolated(height, sectionMaxHeight));
       return issues;
     }, []);
   };
 
   const widthInputHasProblems = () => {
     if (!size || !size.w) return true;
-    return (size?.w as number) < minWidth || (size?.w as number) > maxWidth;
+    return (size?.w as number) < minWidthTotal || (size?.w as number) > maxWidthTotal;
   };
 
   const heightInputHasProblems = () => {
@@ -110,7 +216,12 @@ export default function ObenSizer({
     return (size?.h as number) < minHeight || (size?.h as number) > maxHeight;
   };
 
-  const sectionHeightHasProblems = (h: number) => {
+  const sectionHeightHasProblems = (
+    h: number,
+    sectionMinHeight: number | undefined,
+    sectionMaxHeight: number | undefined
+  ) => {
+    if (!sectionMinHeight || !sectionMaxHeight) return true;
     return h < sectionMinHeight || h > sectionMaxHeight;
   };
 
@@ -180,7 +291,7 @@ export default function ObenSizer({
       allIssues.push(`Die Gesamtbreite muss genau ${width} betragen.`);
     }
 
-    const layoutFeedback = sectionWidthValidator(updatedMultiWidth);
+    const layoutFeedback = sectionWidthValidator(updatedMultiWidth, direction);
     allIssues.push(...layoutFeedback);
 
     setSizeFeedback((prev) => {
@@ -211,10 +322,10 @@ export default function ObenSizer({
     const value = e.target.value ? Number(e.target.value.replace(/^0+(?=\d)/, '')) : 0;
     e.target.value = value === 0 ? '' : value.toString();
     const problems: string[] = [];
-    if (value > maxWidth) {
+    if (value > maxWidthTotal) {
       problems.push(maxWidthViolated);
     }
-    if (value < minWidth) {
+    if (value < minWidthTotal) {
       problems.push(minWidthViolated);
     }
 
@@ -268,7 +379,11 @@ export default function ObenSizer({
         h: undefined,
       }));
     } else {
-      const heightPartition = smartHeightDivider(value as number);
+      const heightPartition = smartHeightDivider(
+        value as number,
+        minMaxSizesOben!.minHeight,
+        minMaxSizesUnten!.minHeight
+      );
       setMultiHeight(heightPartition);
       setSize((prevSize) => ({
         ...(prevSize || { w: undefined, h: undefined }),
@@ -314,7 +429,15 @@ export default function ObenSizer({
       if (typeof size?.h === 'string' && typeof size.h !== 'undefined') {
         return;
       }
-      setMultiHeight(smartHeightDivider(size?.h as number));
+      if (minMaxSizesOben && minHeightUnten) {
+        setMultiHeight(
+          smartHeightDivider(
+            size?.h as number,
+            minMaxSizesOben?.minHeight,
+            minMaxSizesUnten?.minHeight
+          )
+        );
+      }
     }
   }, [size?.h]);
 
@@ -323,7 +446,18 @@ export default function ObenSizer({
     if (!size?.w || typeof size.w === 'string') return;
 
     if (obenSectionNumber > 1 && (!configuration.obenMultiWidth || widthManuallyChanged.current)) {
-      const dividedWidthItems = smartDivider(size.w, obenSectionNumber);
+      const sectionsOben = 'oben' in configuration.type ? configuration.type.oben?.sections : [];
+      const typeOben = (configuration.type as SubStyle).oben;
+      const dividedWidthItems = obenNeedsCustomSplit
+        ? buildCustomMultiWidth(
+            size.w,
+            minWidthTotal,
+            obenNeedsCustomSplit,
+            sectionsOben!,
+            typeOben!,
+            minMaxSizesOben!.sectionsMinWidthPack!
+          )
+        : smartDivider(size.w, obenSectionNumber);
       setObenMultiWidth(dividedWidthItems);
       setConfiguration((pr) => ({ ...pr, obenMultiWidth: dividedWidthItems }));
     }
@@ -332,7 +466,18 @@ export default function ObenSizer({
       untenSectionNumber > 1 &&
       (!configuration.untenMultiWidth || widthManuallyChanged.current)
     ) {
-      const dividedWidthItems = smartDivider(size.w, untenSectionNumber);
+      const sectionsUnten = 'unten' in configuration.type ? configuration.type.unten?.sections : [];
+      const typeUnten = (configuration.type as SubStyle).unten;
+      const dividedWidthItems = untenNeedsCustomSplit
+        ? buildCustomMultiWidth(
+            size.w,
+            minWidthTotal,
+            untenNeedsCustomSplit,
+            sectionsUnten!,
+            typeUnten!,
+            minMaxSizesUnten!.sectionsMinWidthPack!
+          )
+        : smartDivider(size.w, untenSectionNumber);
       setUntenMultiWidth(dividedWidthItems);
       setConfiguration((pr) => ({ ...pr, untenMultiWidth: dividedWidthItems }));
     }
@@ -363,12 +508,31 @@ export default function ObenSizer({
               {Object.keys(obenMultiWidth).map((it, index) => (
                 <input
                   key={index}
-                  className={sectionHasProblems(obenMultiWidth[index]) ? style.warn : ''}
+                  className={
+                    sectionHasProblems(
+                      obenMultiWidth[index],
+                      extractMinWidthForSection(
+                        index,
+                        minWidthTotal,
+                        (configuration.type as SubStyle).oben!,
+                        minMaxSizesOben!.sectionsMinWidthPack!,
+                        obenSectionNumber
+                      )
+                    )
+                      ? style.warn
+                      : ''
+                  }
                   type="number"
                   onChange={(e) => updateIndividualWidth(e, index, 'oben')}
                   onKeyDown={(event) => suppressArrows(event)}
                   value={obenMultiWidth ? obenMultiWidth[index] : 0}
-                  min={sectionMinWidth}
+                  min={extractMinWidthForSection(
+                    index,
+                    minWidthTotal,
+                    (configuration.type as SubStyle).oben!,
+                    minMaxSizesOben!.sectionsMinWidthPack!,
+                    obenSectionNumber
+                  )}
                   max={sectionMaxWidth}
                   placeholder="breite"
                   pattern="^[1-9][0-9]*$"
@@ -406,9 +570,19 @@ export default function ObenSizer({
                       onKeyDown={(event) => suppressArrows(event)}
                       value={multiHeight.obenHeight}
                       placeholder="höhe"
-                      className={sectionHeightHasProblems(multiHeight.obenHeight) ? style.warn : ''}
+                      className={
+                        sectionHeightHasProblems(
+                          multiHeight.obenHeight,
+                          minHeightOben,
+                          maxHeightOben
+                        )
+                          ? style.warn
+                          : ''
+                      }
                     />
-                    <span id={style.range}>(500-800)</span>
+                    <span id={style.range}>
+                      ({minHeightOben}-{maxHeightOben})
+                    </span>
                   </div>
                   <div id={style.height_unten}>
                     <h5>
@@ -419,12 +593,20 @@ export default function ObenSizer({
                       value={multiHeight.untenHeight}
                       placeholder="höhe"
                       className={
-                        sectionHeightHasProblems(multiHeight.untenHeight) ? style.warn : ''
+                        sectionHeightHasProblems(
+                          multiHeight.untenHeight,
+                          minHeightUnten,
+                          maxHeightUnten
+                        )
+                          ? style.warn
+                          : ''
                       }
                       readOnly
                       disabled
                     />
-                    <span id={style.range}>(1000-1700)</span>
+                    <span id={style.range}>
+                      ({minHeightUnten}-{maxHeightUnten})
+                    </span>
                   </div>
                 </div>
               </>
@@ -443,7 +625,9 @@ export default function ObenSizer({
                   className={heightInputHasProblems() ? style.warn : ''}
                   ref={tHeight}
                 />
-                <span id={style.range}>(1000-1700)</span>
+                <span id={style.range}>
+                  ({minHeight}-{maxHeight})
+                </span>
               </div>
             )}
           </div>
@@ -457,12 +641,31 @@ export default function ObenSizer({
               {Object.keys(untenMultiWidth).map((item, index) => (
                 <input
                   key={index}
-                  className={sectionHasProblems(untenMultiWidth[index]) ? style.warn : ''}
+                  className={
+                    sectionHasProblems(
+                      untenMultiWidth[index],
+                      extractMinWidthForSection(
+                        index,
+                        minWidthTotal,
+                        (configuration.type as SubStyle).unten!,
+                        minMaxSizesUnten!.sectionsMinWidthPack!,
+                        untenSectionNumber
+                      )
+                    )
+                      ? style.warn
+                      : ''
+                  }
                   type="number"
                   onChange={(e) => updateIndividualWidth(e, index, 'unten')}
                   onKeyDown={(event) => suppressArrows(event)}
                   value={untenMultiWidth ? untenMultiWidth[index] : 0}
-                  min={sectionMinWidth}
+                  min={extractMinWidthForSection(
+                    index,
+                    minWidthTotal,
+                    (configuration.type as SubStyle).unten!,
+                    minMaxSizesUnten!.sectionsMinWidthPack!,
+                    untenSectionNumber
+                  )}
                   max={sectionMaxWidth}
                   placeholder="breite"
                   pattern="^[1-9][0-9]*$"
@@ -480,7 +683,10 @@ export default function ObenSizer({
           <div id={style.inputs}>
             <div id={style.input_line}>
               <h5>
-                <span>Width</span> <span id={style.range}>(1000-1700)</span>
+                <span>Width</span>{' '}
+                <span id={style.range}>
+                  ({minWidthTotal}-{maxWidthTotal})
+                </span>
               </h5>
               <input
                 type="number"

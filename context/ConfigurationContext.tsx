@@ -43,7 +43,7 @@ interface ConfigurationContextType {
     width: number,
     height: number,
     multiWidth: Record<string, number> | undefined,
-    testKey?: string
+    direction?: 'oben' | 'unten'
   ) => number | null | undefined;
   getMinMaxSizes: (
     selectedMaterial: SelectionItem<WindowMaterial>,
@@ -154,7 +154,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     width: number = 0,
     height: number = 0,
     multiWidth: Record<string, number> | undefined,
-    testKey?: string
+    direction?: 'oben' | 'unten'
   ) => {
     const priceListForSelectedWindowStyle = priceLists[selectedWindowStyleKey][selectedMaterialKey];
 
@@ -162,7 +162,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
       return;
     }
 
-    if (['oberlicht', 'unterlicht'].includes(configuration.style.key)) {
+    if (['unterlicht'].includes(selectedWindowStyleKey)) {
       return;
     }
 
@@ -171,7 +171,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     const additionalWindowPrice = calculateGlassPriceByM2(8, width, height, multiWidth);
 
     // adjust for overlicht and unterlicht
-    const priceListKey = testKey || `${selectedProfileKey}_${selectedTypeKey}`;
+    const priceListKey = `${selectedProfileKey}_${selectedTypeKey}`;
 
     // extract price for given width and height from csv tables
     const priceListForSelectedType = priceListForSelectedWindowStyle[priceListKey];
@@ -186,14 +186,23 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     if (!priceListForSelectedType) {
       const selectedMaterial = configuration.material.key;
       const priceListFor1Flugel = priceLists['flugel1'][selectedMaterial];
-      const individualSectionTypeKeys = (configuration.type as SelectionItem).sections;
+      let selectedType: SelectionItem;
+      if (direction === 'oben') {
+        selectedType = (configuration.type as SubStyle).oben!;
+      } else if (direction === 'unten') {
+        selectedType = (configuration.type as SubStyle).unten!;
+      } else {
+        selectedType = configuration.type as SelectionItem;
+      }
+
+      if (!selectedType) alert('cant extract selectedType');
+      const individualSectionTypeKeys = selectedType!.sections;
 
       if (!individualSectionTypeKeys) {
         //alert('no price list - to sections to calculate the price');
         return 0;
       }
 
-      const multiWidth = configuration.multiWidth;
       if (multiWidth) {
         let totalPrice = 0;
 
@@ -211,7 +220,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
           );
 
           if (!priceFromTable) {
-            alert('price can not be extracted for a given multiwidth section');
+            //alert('price can not be extracted for a given multiwidth section');
             return 0;
           }
 
@@ -220,8 +229,6 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
 
         return totalPrice + additionalWindowPrice;
       }
-
-      return 0;
     }
   };
 
@@ -241,22 +248,23 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     const sizesByProfile = sizesByStyle?.[selectedProfileKey as keyof typeof sizesByStyle];
     const sizesByType = sizesByProfile?.[selectedTypeKey];
 
-    // if price table exists for selected window type, extract the min-max sizes from the table
-    if (sizesByType) {
-      const { width, height } = sizesByType;
+    if (selectedStyle.key)
+      if (sizesByType) {
+        // if price table exists for selected window type, extract the min-max sizes from the table
+        const { width, height } = sizesByType;
 
-      const minWidth = (width as MinMaxSet).min;
-      const maxWidth = (width as MinMaxSet).max;
+        const minWidth = (width as MinMaxSet).min;
+        const maxWidth = (width as MinMaxSet).max;
 
-      const minHeight = (height as MinMaxSet).min;
-      const maxHeight = (height as MinMaxSet).max;
-      return {
-        minWidth,
-        maxWidth,
-        minHeight,
-        maxHeight,
-      } as MinMaxSizes;
-    }
+        const minHeight = (height as MinMaxSet).min;
+        const maxHeight = (height as MinMaxSet).max;
+        return {
+          minWidth,
+          maxWidth,
+          minHeight,
+          maxHeight,
+        } as MinMaxSizes;
+      }
     // no price list available so can't extract minMaxSizes
 
     // flugel1 min-max values for different types available for selected profile

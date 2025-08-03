@@ -240,26 +240,73 @@ export default function Basis_Configuration() {
         configuration.style &&
         configuration.type
       ) {
-        // remove multiwidth to trigger re-division in sizer for types with sections
+        // remove multiwidth,obenMultiWidth,untenMultiWidth,multiHeight
+        // to trigger re-division in sizer for types with sections
         setConfiguration((pr) => {
           const reserve = { ...pr };
           delete reserve.multiWidth;
+          delete reserve.obenMultiWidth;
+          delete reserve.untenMultiWidth;
+          delete reserve.multiHeight;
           return reserve;
         });
-        setSize({
-          w: getMinMaxSizes(
+        // provide Width and Height when oberlicht is selected
+        if (configuration.style.key === 'oberlicht' && 'oben' in configuration.type) {
+          const sectionNumberOben = configuration.type.oben?.sectionNumber || 1;
+          const windowStyleOben =
+            sectionNumberOben === 1
+              ? windowStyles.find((st) => st.key === 'flugel1')
+              : sectionNumberOben === 2
+                ? windowStyles.find((st) => st.key === 'flugel2')
+                : windowStyles.find((st) => st.key === 'flugel3');
+          const windowProfileOben = configuration.profile;
+          const windowTypeOben = configuration.type.oben!;
+
+          const minMaxSizesOben = getMinMaxSizes(
             configuration.material,
-            configuration.style,
-            configuration.profile,
-            configuration.type as SelectionItem
-          ).minWidth,
-          h: getMinMaxSizes(
+            windowStyleOben!,
+            windowProfileOben,
+            windowTypeOben
+          );
+
+          const sectionNumberUnten = configuration.type.unten?.sectionNumber || 1;
+          const windowStyleUnten =
+            sectionNumberUnten === 1
+              ? windowStyles.find((st) => st.key === 'flugel1')
+              : sectionNumberUnten === 2
+                ? windowStyles.find((st) => st.key === 'flugel2')
+                : windowStyles.find((st) => st.key === 'flugel3');
+          const windowProfileUnten = configuration.profile;
+          const windowTypeUnten = configuration.type.unten!;
+
+          const minMaxSizesUnten = getMinMaxSizes(
             configuration.material,
-            configuration.style,
-            configuration.profile,
-            configuration.type as SelectionItem
-          ).minHeight,
-        });
+            windowStyleUnten!,
+            windowProfileUnten,
+            windowTypeUnten
+          );
+
+          const minWidthOberlicht = Math.max(minMaxSizesOben.minWidth, minMaxSizesUnten.minWidth);
+          const minHeightOberlicht = minMaxSizesOben.minHeight + minMaxSizesUnten.minHeight;
+
+          setSize({ w: minWidthOberlicht, h: minHeightOberlicht });
+        }
+        if (['flugel1', 'flugel2', 'flugel3'].includes(configuration.style.key)) {
+          setSize({
+            w: getMinMaxSizes(
+              configuration.material,
+              configuration.style,
+              configuration.profile,
+              configuration.type as SelectionItem
+            ).minWidth,
+            h: getMinMaxSizes(
+              configuration.material,
+              configuration.style,
+              configuration.profile,
+              configuration.type as SelectionItem
+            ).minHeight,
+          });
+        }
       }
     }, 100);
   }, [configuration.material, configuration.profile, configuration.style, configuration.type]);

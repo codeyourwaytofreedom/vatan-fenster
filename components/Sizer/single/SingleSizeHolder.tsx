@@ -24,6 +24,63 @@ export const smartDivider = (total: number, divisionNumber: number): Record<numb
   );
 };
 
+export const extractMinWidthForSection = (
+  sectionIndex: number,
+  minWidth: number,
+  selectedType: SelectionItem,
+  minWidthPack: Record<string, number>,
+  numberOfSections: number
+) => {
+  if (!minWidthPack || Object.keys(minWidthPack).length === 0) {
+    return Math.floor(minWidth / numberOfSections);
+  }
+  const sectionMinWidth = minWidthPack[(selectedType.sections || [])[sectionIndex]];
+  return sectionMinWidth;
+};
+
+export const buildCustomMultiWidth = (
+  currentWidth: number,
+  minWidth: number,
+  needsCustomSplit: boolean,
+  sections: string[],
+  windowType: SelectionItem,
+  sectionsMinWidthPack: Record<string, number>
+) => {
+  if (needsCustomSplit) {
+    // Create initial widths based on min widths
+    const customMultiWidth = sections.reduce(
+      (acc, _, index) => {
+        acc[index] = extractMinWidthForSection(
+          index,
+          minWidth,
+          windowType,
+          sectionsMinWidthPack,
+          sections.length
+        );
+        return acc;
+      },
+      {} as Record<number, number>
+    );
+
+    // Calculate total of current widths
+    const total = Object.values(customMultiWidth).reduce((sum, val) => sum + val, 0);
+
+    if (currentWidth > total) {
+      const excess = currentWidth - total;
+      const division = Math.floor(excess / sections.length);
+      const remainder = excess % sections.length;
+
+      // Spread the excess across all sections
+      Object.keys(customMultiWidth).forEach((key, index) => {
+        customMultiWidth[Number(key)] += division + (index < remainder ? 1 : 0);
+      });
+    }
+
+    return customMultiWidth;
+  }
+  return {} as Record<number, number>;
+};
+
 export default function SingleSizer({
   displayedImageTwo,
   summary,
@@ -45,79 +102,19 @@ export default function SingleSizer({
     configuration.type as SelectionItem
   );
 
+  const sections = (configuration.type as SelectionItem).sections || [];
+
   const minHeight = minMaxSizes?.minHeight;
   const maxHeight = minMaxSizes?.maxHeight;
 
   const minWidth = minMaxSizes?.minWidth;
   const maxWidth = minMaxSizes?.maxWidth;
 
-  //const sectionMinWidth = Math.floor(minWidth / numberOfSections);
+  // sectionMinWidth is dynamically calculated for each section
+  // sectionMaxWidth is to be discussed
   const sectionMaxWidth = 3000;
 
-  const autoSplit = Boolean(minMaxSizes.sectionsMinWidthPack);
-
-  const extractMinWidthForSection = (
-    sectionIndex: number,
-    minWidth: number,
-    selectedType: SelectionItem,
-    minWidthPack: Record<string, number>
-  ) => {
-    if (!minMaxSizes.sectionsMinWidthPack) {
-      return Math.floor(minWidth / numberOfSections);
-    }
-    const sectionMinWidth = minWidthPack[(selectedType.sections || [])[sectionIndex]];
-    return sectionMinWidth;
-  };
-
-  /*   const extractMaxWidthForSection = (
-    sectionIndex: number,
-    maxWidth: number,
-    selectedType: SelectionItem,
-    maxWidthPack: Record<string, number>
-  ) => {
-    if (!minMaxSizes.sectionsMaxWidthPack) {
-      return Math.floor(maxWidth / numberOfSections);
-    }
-    const sectionMinWidth = maxWidthPack[(selectedType.sections || [])[sectionIndex]];
-    return sectionMinWidth;
-  }; */
-
-  const customMultiWidth = (currentWidth: number) => {
-    if (autoSplit) {
-      const sections = (configuration.type as SelectionItem).sections || [];
-
-      // Create initial widths based on min widths
-      const customMultiWidth = sections.reduce(
-        (acc, _, index) => {
-          acc[index] = extractMinWidthForSection(
-            index,
-            minWidth,
-            configuration.type as SelectionItem,
-            minMaxSizes.sectionsMinWidthPack || {}
-          );
-          return acc;
-        },
-        {} as Record<number, number>
-      );
-
-      // Calculate total of current widths
-      const total = Object.values(customMultiWidth).reduce((sum, val) => sum + val, 0);
-
-      if (currentWidth > total) {
-        const excess = currentWidth - total;
-        const division = Math.floor(excess / sections.length);
-        const remainder = excess % sections.length;
-
-        // Spread the excess across all sections
-        Object.keys(customMultiWidth).forEach((key, index) => {
-          customMultiWidth[Number(key)] += division + (index < remainder ? 1 : 0);
-        });
-      }
-
-      return customMultiWidth;
-    }
-    return {} as Record<number, number>;
-  };
+  const customSplitNeeded = Boolean(minMaxSizes.sectionsMinWidthPack);
 
   const totalHeight = useRef<HTMLInputElement>(null);
 
@@ -128,7 +125,8 @@ export default function SingleSizer({
       sectionIndex,
       minWidth,
       configuration.type as SelectionItem,
-      minMaxSizes.sectionsMinWidthPack || {}
+      minMaxSizes.sectionsMinWidthPack || {},
+      numberOfSections
     );
     return w < sectionMinWidth || w > sectionMaxWidth;
   };
@@ -186,8 +184,15 @@ export default function SingleSizer({
         ...(prevSize || { w: undefined, h: undefined }),
         [property]: value,
       }));
-      const dividedWidthItems = autoSplit
-        ? customMultiWidth(Number(value))
+      const dividedWidthItems = customSplitNeeded
+        ? buildCustomMultiWidth(
+            Number(value),
+            minWidth,
+            customSplitNeeded,
+            sections,
+            configuration.type as SelectionItem,
+            minMaxSizes.sectionsMinWidthPack || {}
+          )
         : smartDivider(value, numberOfSections);
       setMultiWidth(dividedWidthItems);
     }
@@ -199,7 +204,8 @@ export default function SingleSizer({
         sectionIndex,
         minWidth,
         configuration.type as SelectionItem,
-        minMaxSizes.sectionsMinWidthPack || {}
+        minMaxSizes.sectionsMinWidthPack || {},
+        numberOfSections
       );
       if (width < sectionMinWidth && width > 0)
         issues.push(minSectionWidthViolated(width, sectionMinWidth));
@@ -292,8 +298,15 @@ export default function SingleSizer({
       if (typeof size?.w === 'string' && typeof size.w !== 'undefined') {
         return;
       }
-      const dividedWidthItems = autoSplit
-        ? customMultiWidth(Number(size?.w))
+      const dividedWidthItems = customSplitNeeded
+        ? buildCustomMultiWidth(
+            Number(size?.w),
+            minWidth,
+            customSplitNeeded,
+            sections,
+            configuration.type as SelectionItem,
+            minMaxSizes.sectionsMinWidthPack || {}
+          )
         : smartDivider(size?.w || 0, numberOfSections);
       setMultiWidth(dividedWidthItems);
       setConfiguration((pr) => {
@@ -393,7 +406,8 @@ export default function SingleSizer({
                         parseInt(i),
                         minWidth,
                         configuration.type as SelectionItem,
-                        minMaxSizes.sectionsMinWidthPack || {}
+                        minMaxSizes.sectionsMinWidthPack || {},
+                        numberOfSections
                       )}
                       max={sectionMaxWidth}
                       placeholder="breite"

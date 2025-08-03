@@ -25,7 +25,7 @@
       top: 0;
       left: 220px;
       height: 100%;
-      z-index: 9;
+      z-index: 4;
       transition: width 0.5s ease;
       #height_oben,
       #height_unten,
@@ -39,8 +39,8 @@
         }
         #range {
           font-size: 11px !important;
-          color: gray;
-          font-weight: 100;
+          color: var(--color-1);
+          font-weight: 200;
           margin-top: 5px;
         }
       }
@@ -197,7 +197,7 @@
       width: 80px;
       #range {
         font-size: 11px !important;
-        color: gray;
+        color: var(--color-1);
         font-weight: 100;
       }
     }

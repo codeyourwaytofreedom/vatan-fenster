@@ -311,22 +311,79 @@ export default function SummaryDisplayer() {
   useEffect(() => {
     const timeout = setTimeout(() => {
       try {
-        if (configuration.size) {
-          const totalPrice = calculateTotalPrice(
+        // dont calculate price when no valid size is available
+        if (!configuration.size) return;
+
+        let totalPrice: number = 0;
+        setTotalPrice(totalPrice);
+
+        // if style is Oberlicht, calculate for 2 components seperately
+        if (
+          configuration.style.key === 'oberlicht' &&
+          'oben' in configuration.type &&
+          'unten' in configuration.type
+        ) {
+          /* Calculate oben part */
+          const sectionNumberOben = configuration.type.oben?.sectionNumber || 1;
+          const windowStyleOben =
+            sectionNumberOben === 1
+              ? windowStyles.find((st) => st.key === 'flugel1')
+              : sectionNumberOben === 2
+                ? windowStyles.find((st) => st.key === 'flugel2')
+                : windowStyles.find((st) => st.key === 'flugel3');
+          const windowProfileOben = configuration.profile;
+          const windowTypeOben = configuration.type.oben!;
+          const obenPrice = calculateTotalPrice(
             configuration.material.key,
-            configuration.profile.key,
-            configuration.style.key,
-            (configuration.type as SelectionItem).key,
+            windowProfileOben.key,
+            windowStyleOben!.key,
+            windowTypeOben.key,
             Number((size as Size).w),
-            Number((size as Size).h),
-            configuration.multiWidth
+            Number(configuration.multiHeight!['obenHeight']),
+            configuration.obenMultiWidth,
+            'oben'
           );
-          if (totalPrice) {
-            setTotalPrice(totalPrice);
-          } else {
-            setTotalPrice(0);
-          }
+
+          /* Calculate unten part */
+          const sectionNumberUnten = configuration.type.unten?.sectionNumber || 1;
+          const windowStyleUnten =
+            sectionNumberUnten === 1
+              ? windowStyles.find((st) => st.key === 'flugel1')
+              : sectionNumberUnten === 2
+                ? windowStyles.find((st) => st.key === 'flugel2')
+                : windowStyles.find((st) => st.key === 'flugel3');
+          const windowProfileUnten = configuration.profile;
+          const windowTypeUnten = configuration.type.unten!;
+          const untenPrice = calculateTotalPrice(
+            configuration.material.key,
+            windowProfileUnten.key,
+            windowStyleUnten!.key,
+            windowTypeUnten.key,
+            Number((size as Size).w),
+            Number(configuration.multiHeight!['untenHeight']),
+            configuration.untenMultiWidth,
+            'unten'
+          );
+          //console.log(`untenPrice: ${untenPrice}`);
+          totalPrice = (obenPrice ?? 0) + (untenPrice ?? 0);
         }
+
+        if (['flugel1', 'flugel2', 'flugel3'].includes(configuration.style.key)) {
+          totalPrice =
+            calculateTotalPrice(
+              configuration.material.key,
+              configuration.profile.key,
+              configuration.style.key,
+              (configuration.type as SelectionItem).key,
+              Number((size as Size).w),
+              Number((size as Size).h),
+              configuration.multiWidth
+            ) || 0;
+        }
+
+        // round for 2 decimal points
+        totalPrice = Math.round(totalPrice * 100) / 100;
+        setTotalPrice(totalPrice);
       } catch {}
     }, 200);
 
@@ -339,6 +396,10 @@ export default function SummaryDisplayer() {
     configuration.type,
     configuration.size,
     calculateTotalPrice,
+    configuration.multiWidth,
+    configuration.obenMultiWidth,
+    configuration.untenMultiWidth,
+    configuration.multiHeight,
   ]);
 
   return (
