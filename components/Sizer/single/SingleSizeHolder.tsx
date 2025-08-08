@@ -38,6 +38,25 @@ export const extractMinWidthForSection = (
   return sectionMinWidth;
 };
 
+export const extractMaxWidthForSection = (
+  sectionIndex: number,
+  minWidth: number,
+  maxWidth: number,
+  selectedType: SelectionItem,
+  maxWidthPack: Record<string, number>,
+  numberOfSections: number
+) => {
+  let sectionMaxWidth = 0;
+  // this is the scenario where there is price list so the minSectionWidth is equally distributed according to section number
+  // therefore maxSectionWidth must be totalMaxWidth - (numberofSection-1)*minSectionWidth (which is calculated via Math.floor(minWidth / numberOfSections))
+  if (!maxWidthPack || Object.keys(maxWidthPack).length === 0) {
+    sectionMaxWidth = maxWidth - Math.floor(minWidth / numberOfSections) * (numberOfSections - 1);
+  } else {
+    sectionMaxWidth = maxWidthPack[(selectedType.sections || [])[sectionIndex]];
+  }
+  return sectionMaxWidth;
+};
+
 export const buildCustomMultiWidth = (
   currentWidth: number,
   minWidth: number,
@@ -112,7 +131,7 @@ export default function SingleSizer({
 
   // sectionMinWidth is dynamically calculated for each section
   // sectionMaxWidth is to be discussed
-  const sectionMaxWidth = 3000;
+  //const sectionMaxWidth = 3000;
 
   const customSplitNeeded = Boolean(minMaxSizes.sectionsMinWidthPack);
 
@@ -126,6 +145,14 @@ export default function SingleSizer({
       minWidth,
       configuration.type as SelectionItem,
       minMaxSizes.sectionsMinWidthPack || {},
+      numberOfSections
+    );
+    const sectionMaxWidth = extractMaxWidthForSection(
+      sectionIndex,
+      minWidth,
+      maxWidth,
+      configuration.type as SelectionItem,
+      minMaxSizes.sectionsMaxWidthPack || {},
       numberOfSections
     );
     return w < sectionMinWidth || w > sectionMaxWidth;
@@ -144,7 +171,7 @@ export default function SingleSizer({
   const maxWidthViolated = `Die Breite darf ${maxWidth} mm nicht überschreiten.`;
   const minWidthViolated = `Die Breite darf nicht kleiner als ${minWidth} mm sein.`;
 
-  const maxSectionWidthViolated = (val: number) =>
+  const maxSectionWidthViolated = (val: number, sectionMaxWidth: number) =>
     `${val} mm ist ungültig! Die maximale Breite eines Abschnitts beträgt ${sectionMaxWidth} mm.`;
 
   const minSectionWidthViolated = (val: number, sectionMinWidth: number) =>
@@ -207,9 +234,18 @@ export default function SingleSizer({
         minMaxSizes.sectionsMinWidthPack || {},
         numberOfSections
       );
+      const sectionMaxWidth = extractMaxWidthForSection(
+        sectionIndex,
+        minWidth,
+        maxWidth,
+        configuration.type as SelectionItem,
+        minMaxSizes.sectionsMaxWidthPack || {},
+        numberOfSections
+      );
+
       if (width < sectionMinWidth && width > 0)
         issues.push(minSectionWidthViolated(width, sectionMinWidth));
-      if (width > sectionMaxWidth) issues.push(maxSectionWidthViolated(width));
+      if (width > sectionMaxWidth) issues.push(maxSectionWidthViolated(width, sectionMaxWidth));
       return issues;
     }, []);
   };
@@ -409,7 +445,14 @@ export default function SingleSizer({
                         minMaxSizes.sectionsMinWidthPack || {},
                         numberOfSections
                       )}
-                      max={sectionMaxWidth}
+                      max={extractMaxWidthForSection(
+                        parseInt(i),
+                        minWidth,
+                        maxWidth,
+                        configuration.type as SelectionItem,
+                        minMaxSizes.sectionsMaxWidthPack || {},
+                        numberOfSections
+                      )}
                       placeholder="breite"
                       pattern="^[1-9][0-9]*$"
                       readOnly={parseInt(i) === Object.keys(multiWidth).length - 1}
