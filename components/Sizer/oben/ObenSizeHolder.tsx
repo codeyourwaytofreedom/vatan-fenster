@@ -140,6 +140,7 @@ export default function ObenSizer({
   //const sectionMaxWidth = 3000;
 
   const sectionHasProblems = (w: number, minWidthForSection: number, sectionMaxWidth: number) => {
+    console.log(w, minWidthForSection, sectionMaxWidth);
     return w < minWidthForSection || w > sectionMaxWidth;
   };
 
@@ -166,8 +167,6 @@ export default function ObenSizer({
     direction: 'oben' | 'unten'
   ) => {
     return Object.values(multiWidth).reduce((issues: string[], width, index) => {
-      const minWidthTotal =
-        direction === 'oben' ? minMaxSizesOben?.minWidth : minMaxSizesUnten?.minWidth;
       const selectedType =
         direction === 'oben'
           ? (configuration.type as SubStyle).oben
