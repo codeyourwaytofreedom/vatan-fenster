@@ -5,6 +5,7 @@ import { useConfiguration } from '@/context/ConfigurationContext';
 import { useEffect, useRef, useState } from 'react';
 import {
   buildCustomMultiWidth,
+  extractMaxWidthForSection,
   extractMinWidthForSection,
   smartDivider,
 } from '../single/SingleSizeHolder';
@@ -136,9 +137,9 @@ export default function ObenSizer({
 
   // sectionMinWidth is dynamically calculated for each section
   // sectionMaxWidth is to be discussed
-  const sectionMaxWidth = 3000;
+  //const sectionMaxWidth = 3000;
 
-  const sectionHasProblems = (w: number, minWidthForSection: number) => {
+  const sectionHasProblems = (w: number, minWidthForSection: number, sectionMaxWidth: number) => {
     return w < minWidthForSection || w > sectionMaxWidth;
   };
 
@@ -148,7 +149,7 @@ export default function ObenSizer({
   const maxHeightViolated = `Die Höhe darf ${maxHeight} mm nicht überschreiten.`;
   const minHeightViolated = `Die Höhe darf nicht kleiner als ${minHeight} mm sein.`;
 
-  const maxSectionWidthViolated = (val: number) =>
+  const maxSectionWidthViolated = (val: number, sectionMaxWidth: number) =>
     `${val} mm ist ungültig! Die maximale Breite eines Abschnitts beträgt ${sectionMaxWidth} mm.`;
 
   const minSectionWidthViolated = (val: number, sectionMinWidth: number) =>
@@ -175,6 +176,11 @@ export default function ObenSizer({
         direction === 'oben'
           ? minMaxSizesOben?.sectionsMinWidthPack
           : minMaxSizesUnten?.sectionsMinWidthPack;
+      const maxWidthPack =
+        direction === 'oben'
+          ? minMaxSizesOben?.sectionsMaxWidthPack
+          : minMaxSizesUnten?.sectionsMaxWidthPack;
+
       const sectionMinWidth = extractMinWidthForSection(
         index,
         minWidthTotal!,
@@ -183,9 +189,18 @@ export default function ObenSizer({
         selectedType!.sectionNumber!
       );
 
+      const sectionMaxWidth = extractMaxWidthForSection(
+        index,
+        minWidthTotal!,
+        maxWidthTotal,
+        selectedType!,
+        maxWidthPack!,
+        selectedType!.sectionNumber!
+      );
+
       if (width < sectionMinWidth && width > 0)
         issues.push(minSectionWidthViolated(width, sectionMinWidth));
-      if (width > sectionMaxWidth) issues.push(maxSectionWidthViolated(width));
+      if (width > sectionMaxWidth) issues.push(maxSectionWidthViolated(width, sectionMaxWidth));
       return issues;
     }, []);
   };
@@ -517,6 +532,14 @@ export default function ObenSizer({
                         (configuration.type as SubStyle).oben!,
                         minMaxSizesOben!.sectionsMinWidthPack!,
                         obenSectionNumber
+                      ),
+                      extractMaxWidthForSection(
+                        index,
+                        minWidthTotal,
+                        maxWidthTotal,
+                        (configuration.type as SubStyle).oben!,
+                        minMaxSizesOben!.sectionsMaxWidthPack!,
+                        obenSectionNumber
                       )
                     )
                       ? style.warn
@@ -533,7 +556,14 @@ export default function ObenSizer({
                     minMaxSizesOben!.sectionsMinWidthPack!,
                     obenSectionNumber
                   )}
-                  max={sectionMaxWidth}
+                  max={extractMaxWidthForSection(
+                    index,
+                    minWidthTotal,
+                    maxWidthTotal,
+                    (configuration.type as SubStyle).oben!,
+                    minMaxSizesOben!.sectionsMaxWidthPack!,
+                    obenSectionNumber
+                  )}
                   placeholder="breite"
                   pattern="^[1-9][0-9]*$"
                   readOnly={index === Object.keys(obenMultiWidth).length - 1}
@@ -650,6 +680,14 @@ export default function ObenSizer({
                         (configuration.type as SubStyle).unten!,
                         minMaxSizesUnten!.sectionsMinWidthPack!,
                         untenSectionNumber
+                      ),
+                      extractMaxWidthForSection(
+                        index,
+                        minWidthTotal,
+                        maxWidthTotal,
+                        (configuration.type as SubStyle).unten!,
+                        minMaxSizesUnten!.sectionsMaxWidthPack!,
+                        untenSectionNumber
                       )
                     )
                       ? style.warn
@@ -666,7 +704,14 @@ export default function ObenSizer({
                     minMaxSizesUnten!.sectionsMinWidthPack!,
                     untenSectionNumber
                   )}
-                  max={sectionMaxWidth}
+                  max={extractMaxWidthForSection(
+                    index,
+                    minWidthTotal,
+                    maxWidthTotal,
+                    (configuration.type as SubStyle).unten!,
+                    minMaxSizesUnten!.sectionsMaxWidthPack!,
+                    untenSectionNumber
+                  )}
                   placeholder="breite"
                   pattern="^[1-9][0-9]*$"
                   readOnly={index === Object.keys(untenMultiWidth).length - 1}
