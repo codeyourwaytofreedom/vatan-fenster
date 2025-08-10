@@ -140,7 +140,6 @@ export default function ObenSizer({
   //const sectionMaxWidth = 3000;
 
   const sectionHasProblems = (w: number, minWidthForSection: number, sectionMaxWidth: number) => {
-    console.log(w, minWidthForSection, sectionMaxWidth);
     return w < minWidthForSection || w > sectionMaxWidth;
   };
 
@@ -180,9 +179,12 @@ export default function ObenSizer({
           ? minMaxSizesOben?.sectionsMaxWidthPack
           : minMaxSizesUnten?.sectionsMaxWidthPack;
 
+      const totalWidth =
+        direction === 'oben' ? minMaxSizesOben?.minWidth : minMaxSizesUnten?.minWidth;
+
       const sectionMinWidth = extractMinWidthForSection(
         index,
-        minWidthTotal!,
+        totalWidth!,
         selectedType!,
         minWidthPack!,
         selectedType!.sectionNumber!
@@ -190,7 +192,7 @@ export default function ObenSizer({
 
       const sectionMaxWidth = extractMaxWidthForSection(
         index,
-        minWidthTotal!,
+        totalWidth!,
         maxWidthTotal,
         selectedType!,
         maxWidthPack!,
@@ -437,7 +439,6 @@ export default function ObenSizer({
     });
   };
 
-  // inject existing multiHeight
   useEffect(() => {
     if (!configuration.multiHeight) {
       if (typeof size?.h === 'string' && typeof size.h !== 'undefined') {
@@ -527,14 +528,14 @@ export default function ObenSizer({
                       obenMultiWidth[index],
                       extractMinWidthForSection(
                         index,
-                        minWidthTotal,
+                        minMaxSizesOben?.minWidth || Infinity,
                         (configuration.type as SubStyle).oben!,
                         minMaxSizesOben!.sectionsMinWidthPack!,
                         obenSectionNumber
                       ),
                       extractMaxWidthForSection(
                         index,
-                        minWidthTotal,
+                        minMaxSizesUnten?.minWidth || Infinity,
                         maxWidthTotal,
                         (configuration.type as SubStyle).oben!,
                         minMaxSizesOben!.sectionsMaxWidthPack!,
@@ -675,14 +676,14 @@ export default function ObenSizer({
                       untenMultiWidth[index],
                       extractMinWidthForSection(
                         index,
-                        minWidthTotal,
+                        minMaxSizesUnten?.minWidth || Infinity,
                         (configuration.type as SubStyle).unten!,
                         minMaxSizesUnten!.sectionsMinWidthPack!,
                         untenSectionNumber
                       ),
                       extractMaxWidthForSection(
                         index,
-                        minWidthTotal,
+                        minMaxSizesUnten?.minWidth || Infinity,
                         maxWidthTotal,
                         (configuration.type as SubStyle).unten!,
                         minMaxSizesUnten!.sectionsMaxWidthPack!,
