@@ -45,15 +45,31 @@ export const calculateGlassPriceByM2 = (
   if (multiWidth) {
     const additionalWindowGlassPrice = Object.values(multiWidth).reduce((acc, sectionWidth) => {
       const sectionArea = (sectionWidth * h) / 1_000_000;
-      m2Price = sectionArea > 3.6 ? 59 : 8;
+      //m2Price = sectionArea > 3.6 ? 59 : 8;
+      m2Price =
+        sectionArea < 4
+          ? 8
+          : sectionArea > 4 && sectionArea <= 5
+            ? 10.8
+            : sectionArea > 5 && sectionArea <= 7
+              ? 11.6
+              : 12.8;
       const sectionGlassPrice = (sectionWidth * h * m2Price * 2) / 1_000_000;
       return acc + sectionGlassPrice;
     }, 0);
     const truncatedAdditionalWindowPrice = Math.floor(additionalWindowGlassPrice * 100) / 100;
     return truncatedAdditionalWindowPrice;
   }
-  // for single section window, take the m2 price as 8
-  // this is only for 1Flugel
+  // for single section window
+  const sectionArea = (w * h) / 1_000_000;
+  m2Price =
+    sectionArea < 4
+      ? 8
+      : sectionArea > 4 && sectionArea <= 5
+        ? 10.8
+        : sectionArea > 5 && sectionArea <= 7
+          ? 11.6
+          : 12.8;
   const additionalWindowGlassPrice = (w * h * m2Price * 2) / 1_000_000;
   const truncatedAdditionalWindowPrice = Math.floor(additionalWindowGlassPrice * 100) / 100;
   return truncatedAdditionalWindowPrice;
