@@ -241,7 +241,7 @@ export default function Basis_Configuration() {
         configuration.type
       ) {
         // provide Width and Height when oberlicht is selected
-        if (configuration.style.key === 'oberlicht' && 'oben' in configuration.type) {
+        if (/* configuration.style.key === 'oberlicht' && */ 'oben' in configuration.type) {
           const sectionNumberOben = configuration.type.oben?.sectionNumber || 1;
           const windowStyleOben =
             sectionNumberOben === 1
@@ -289,10 +289,19 @@ export default function Basis_Configuration() {
             delete reserve.obenMultiWidth;
             delete reserve.untenMultiWidth;
             delete reserve.multiHeight;
-            reserve.multiHeight = {
-              obenHeight: minMaxSizesOben.minHeight,
-              untenHeight: minMaxSizesUnten.minHeight,
-            };
+            if (configuration.style.key === 'oberlicht') {
+              reserve.multiHeight = {
+                obenHeight: minMaxSizesOben.minHeight,
+                untenHeight: minMaxSizesUnten.minHeight,
+              };
+            }
+            //flip for unterlicht
+            if (configuration.style.key === 'unterlicht') {
+              reserve.multiHeight = {
+                obenHeight: minMaxSizesUnten.minHeight,
+                untenHeight: minMaxSizesOben.minHeight,
+              };
+            }
             return reserve;
           });
         }

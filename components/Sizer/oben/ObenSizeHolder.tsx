@@ -381,12 +381,6 @@ export default function ObenSizer({
       newHeightFeedback.push(maxHeightViolated);
     }
 
-    // Update only the 'height' part of feedback
-    setSizeFeedback((prev) => ({
-      ...prev,
-      height: newHeightFeedback,
-    }));
-
     setTotalHeight(value);
 
     if (newHeightFeedback.length > 0) {
@@ -400,6 +394,12 @@ export default function ObenSizer({
         minMaxSizesOben!.minHeight,
         minMaxSizesUnten!.minHeight
       );
+      const sectionHeightProblems = sectionHeightValidator(heightPartition);
+      // Update only the 'height' part of feedback
+      setSizeFeedback((prev) => ({
+        ...prev,
+        height: [...newHeightFeedback, ...sectionHeightProblems],
+      }));
       setMultiHeight(heightPartition);
       setSize((prevSize) => ({
         ...(prevSize || { w: undefined, h: undefined }),
@@ -535,7 +535,7 @@ export default function ObenSizer({
                       ),
                       extractMaxWidthForSection(
                         index,
-                        minMaxSizesUnten?.minWidth || Infinity,
+                        minMaxSizesOben?.minWidth || Infinity,
                         maxWidthTotal,
                         (configuration.type as SubStyle).oben!,
                         minMaxSizesOben!.sectionsMaxWidthPack!,

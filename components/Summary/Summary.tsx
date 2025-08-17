@@ -343,7 +343,6 @@ export default function SummaryDisplayer() {
             configuration.obenMultiWidth,
             'oben'
           );
-
           /* Calculate unten part */
           const sectionNumberUnten = configuration.type.unten?.sectionNumber || 1;
           const windowStyleUnten =
@@ -364,7 +363,59 @@ export default function SummaryDisplayer() {
             configuration.untenMultiWidth,
             'unten'
           );
-          //console.log(`untenPrice: ${untenPrice}`);
+          totalPrice = (obenPrice ?? 0) + (untenPrice ?? 0);
+        }
+
+        // if style is Unterlicht, calculate for 2 components seperately
+        if (
+          configuration.style.key === 'unterlicht' &&
+          'oben' in configuration.type &&
+          'unten' in configuration.type
+        ) {
+          /* Calculate oben part */
+          const sectionNumberOben = configuration.type.unten?.sectionNumber || 1;
+          const windowStyleOben =
+            sectionNumberOben === 1
+              ? windowStyles.find((st) => st.key === 'flugel1')
+              : sectionNumberOben === 2
+                ? windowStyles.find((st) => st.key === 'flugel2')
+                : windowStyles.find((st) => st.key === 'flugel3');
+          const windowProfileOben = configuration.profile;
+          const windowTypeOben = configuration.type.unten!;
+          const obenPrice = calculateTotalPrice(
+            configuration.material.key,
+            windowProfileOben.key,
+            windowStyleOben!.key,
+            windowTypeOben.key,
+            Number((size as Size).w),
+            Number(configuration.multiHeight!['obenHeight']),
+            configuration.obenMultiWidth,
+            'unten'
+          );
+          //console.log(`obenPrice: ${obenPrice}`);
+
+          /* Calculate unten part */
+          const sectionNumberUnten = configuration.type.oben?.sectionNumber || 1;
+          const windowStyleUnten =
+            sectionNumberUnten === 1
+              ? windowStyles.find((st) => st.key === 'flugel1')
+              : sectionNumberUnten === 2
+                ? windowStyles.find((st) => st.key === 'flugel2')
+                : windowStyles.find((st) => st.key === 'flugel3');
+          const windowProfileUnten = configuration.profile;
+          const windowTypeUnten = configuration.type.oben!;
+          const untenPrice = calculateTotalPrice(
+            configuration.material.key,
+            windowProfileUnten.key,
+            windowStyleUnten!.key,
+            windowTypeUnten.key,
+            Number((size as Size).w),
+            Number(configuration.multiHeight!['untenHeight']),
+            configuration.untenMultiWidth,
+            'oben'
+          );
+          console.log(`untenPrice: ${untenPrice}`);
+
           totalPrice = (obenPrice ?? 0) + (untenPrice ?? 0);
         }
 

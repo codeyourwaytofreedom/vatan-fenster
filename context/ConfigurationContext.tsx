@@ -162,9 +162,9 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
       return;
     }
 
-    if (['unterlicht'].includes(selectedWindowStyleKey)) {
+    /*     if (['unterlicht'].includes(selectedWindowStyleKey)) {
       return;
-    }
+    } */
 
     // additional calculation for the glass
     // deafult is 2 layer of glass so multiply by 2
