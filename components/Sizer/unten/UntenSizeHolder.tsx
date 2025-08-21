@@ -52,9 +52,12 @@ export default function UntenSizer({
   const [obenMultiWidth, setObenMultiWidth] = useState<Record<string, number>>(
     configuration.obenMultiWidth || {}
   );
+  const obenMultiWidthConfig = configuration.obenMultiWidth;
+
   const [untenMultiWidth, setUntenMultiWidth] = useState<Record<string, number>>(
     configuration.untenMultiWidth || {}
   );
+  const untenMultiWidthConfig = configuration.untenMultiWidth;
 
   const [totalHeight, setTotalHeight] = useState(size?.h);
 
@@ -547,7 +550,7 @@ export default function UntenSizer({
                   type="number"
                   onChange={(e) => updateIndividualWidth(e, index, 'oben')}
                   onKeyDown={(event) => suppressArrows(event)}
-                  value={obenMultiWidth ? obenMultiWidth[index] : 0}
+                  value={obenMultiWidthConfig ? obenMultiWidthConfig[index] : 0}
                   min={extractMinWidthForSection(
                     index,
                     minWidthTotal,
@@ -586,6 +589,12 @@ export default function UntenSizer({
             </div>
           </div>
           <div id={style.heights} style={{ width: size?.h && !summary ? '75px' : '10px' }}>
+            {summary && size?.h && (
+              <div className={style.lines}>
+                <span className={style.lines_top}>{configuration.multiHeight?.obenHeight} </span>
+                <span className={style.lines_bottom}>{configuration.multiHeight?.untenHeight}</span>
+              </div>
+            )}
             <div id={style.right_line} className={style.obenunten_rightline}></div>
             {size?.h && !summary && (
               <>
@@ -698,7 +707,7 @@ export default function UntenSizer({
                   type="number"
                   onChange={(e) => updateIndividualWidth(e, index, 'unten')}
                   onKeyDown={(event) => suppressArrows(event)}
-                  value={untenMultiWidth ? untenMultiWidth[index] : 0}
+                  value={untenMultiWidthConfig ? untenMultiWidthConfig[index] : 0}
                   min={extractMinWidthForSection(
                     index,
                     minWidthTotal,

@@ -112,6 +112,8 @@ export default function SingleSizer({
   const [multiWidth, setMultiWidth] = useState<Record<string, number>>(
     configuration.multiWidth || {}
   );
+  const multiWidthConfig = configuration.multiWidth;
+
   const [height, setHeight] = useState<number | string>(size?.h ?? '');
 
   const minMaxSizes = getMinMaxSizes(
@@ -400,8 +402,8 @@ export default function SingleSizer({
               <div className={style.big_shell}>
                 <Image src={displayedImageTwo!} alt="brand" width={230} height={230} />
               </div>
-              <div className={style.heightHolder} style={{ paddingLeft: size?.h ? '30px' : '0' }}>
-                <p style={{ width: size?.h ? '30px' : '0' }}>{size?.h}</p>
+              <div className={style.heightHolder}>
+                {summary && <p>{size?.h}</p>}
                 <div id={style.right_line}></div>
                 {!summary && (
                   <div id={style.height_line}>
@@ -434,7 +436,7 @@ export default function SingleSizer({
                       className={sectionHasProblems(multiWidth[i], parseInt(i)) ? style.warn : ''}
                       type="number"
                       onChange={(e) => updateIndividualWidth(e, parseInt(i))}
-                      value={multiWidth ? multiWidth[i] : 0}
+                      value={multiWidthConfig ? multiWidthConfig[i] : 0}
                       min={extractMinWidthForSection(
                         parseInt(i),
                         minWidth,

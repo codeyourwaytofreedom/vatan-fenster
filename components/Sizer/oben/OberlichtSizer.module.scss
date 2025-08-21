@@ -52,6 +52,22 @@
         top: 30%;
         right: -100px;
       }
+      .lines {
+        height: 100%;
+        padding-top: 25px;
+        display: grid;
+        position: relative;
+        left: 5px;
+        justify-content: center;
+        span {
+          font-size: 12px;
+          font-weight: bold;
+          position: relative;
+          height: fit-content;
+          background-color: white;
+          z-index: 3;
+        }
+      }
     }
   }
   .small {

@@ -3,6 +3,7 @@ import style from './OberlichtSizer.module.css';
 import { SelectionItem, SubStyle } from '@/types/Configurator';
 import { useConfiguration } from '@/context/ConfigurationContext';
 import { useEffect, useRef, useState } from 'react';
+
 import {
   buildCustomMultiWidth,
   extractMaxWidthForSection,
@@ -54,11 +55,15 @@ export default function ObenSizer({
   const [obenMultiWidth, setObenMultiWidth] = useState<Record<string, number>>(
     configuration.obenMultiWidth || {}
   );
+  const obenMultiWidthConfig = configuration.obenMultiWidth;
+
   const [untenMultiWidth, setUntenMultiWidth] = useState<Record<string, number>>(
     configuration.untenMultiWidth || {}
   );
 
-  const [totalHeight, setTotalHeight] = useState(size?.h);
+  const untenMultiWidthConfig = configuration.untenMultiWidth;
+
+  const totalHeightConfig = size?.h;
 
   const [multiHeight, setMultiHeight] = useState<Record<string, number>>(
     configuration.multiHeight || {}
@@ -381,8 +386,6 @@ export default function ObenSizer({
       newHeightFeedback.push(maxHeightViolated);
     }
 
-    setTotalHeight(value);
-
     if (newHeightFeedback.length > 0) {
       setSize((prevSize) => ({
         ...(prevSize || { w: undefined, h: undefined }),
@@ -547,7 +550,7 @@ export default function ObenSizer({
                   type="number"
                   onChange={(e) => updateIndividualWidth(e, index, 'oben')}
                   onKeyDown={(event) => suppressArrows(event)}
-                  value={obenMultiWidth ? obenMultiWidth[index] : 0}
+                  value={obenMultiWidthConfig ? obenMultiWidthConfig[index] : 0}
                   min={extractMinWidthForSection(
                     index,
                     minWidthTotal,
@@ -589,7 +592,13 @@ export default function ObenSizer({
             </div>
           </div>
           <div id={style.heights} style={{ width: size?.h && !summary ? '75px' : '10px' }}>
-            <div id={style.right_line} className={style.obenunten_rightline}></div>
+            {summary && size?.h && (
+              <div className={style.lines}>
+                <span className={style.lines_top}>{configuration.multiHeight?.obenHeight} </span>
+                <span className={style.lines_bottom}>{configuration.multiHeight?.untenHeight}</span>
+              </div>
+            )}
+            {<div id={style.right_line} className={style.obenunten_rightline}></div>}
             {size?.h && !summary && (
               <>
                 <div>
@@ -653,7 +662,7 @@ export default function ObenSizer({
                   type="number"
                   onChange={(e) => updateTotalHeight(e)}
                   onKeyDown={(event) => suppressArrows(event)}
-                  value={totalHeight}
+                  value={totalHeightConfig}
                   placeholder="höhe"
                   className={heightInputHasProblems() ? style.warn : ''}
                   ref={tHeight}
@@ -699,7 +708,7 @@ export default function ObenSizer({
                   type="number"
                   onChange={(e) => updateIndividualWidth(e, index, 'unten')}
                   onKeyDown={(event) => suppressArrows(event)}
-                  value={untenMultiWidth ? untenMultiWidth[index] : 0}
+                  value={untenMultiWidthConfig ? untenMultiWidthConfig[index] : 0}
                   min={extractMinWidthForSection(
                     index,
                     minWidthTotal,

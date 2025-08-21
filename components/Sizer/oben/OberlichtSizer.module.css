@@ -60,6 +60,23 @@
   top: 30%;
   right: -100px;
 }
+#oberlicht #central_holder #heights .lines {
+  height: 100%;
+  padding-top: 25px;
+  display: grid;
+  position: relative;
+  left: 5px;
+  justify-content: center;
+}
+#oberlicht #central_holder #heights .lines span {
+  font-size: 12px;
+  font-weight: bold;
+  position: relative;
+  height: -moz-fit-content;
+  height: fit-content;
+  background-color: white;
+  z-index: 3;
+}
 #oberlicht .small {
   z-index: 3;
   position: relative;

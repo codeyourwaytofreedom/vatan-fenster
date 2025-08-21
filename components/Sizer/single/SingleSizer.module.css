@@ -47,7 +47,7 @@
 }
 #single .big .heightHolder {
   position: absolute;
-  left: 230px;
+  left: 240px;
   height: 100%;
   display: flex;
   align-items: center;
@@ -55,11 +55,13 @@
 }
 #single .big .heightHolder p {
   position: absolute;
-  left: -5px;
+  left: -10px;
   font-size: 12px;
   font-weight: bold;
   overflow: hidden;
   transition: width 0.3s ease;
+  z-index: 3;
+  background-color: white;
 }
 #single .big .heightHolder #height_line {
   display: grid;
