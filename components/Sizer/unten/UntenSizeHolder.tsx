@@ -516,10 +516,7 @@ export default function UntenSizer({
   return (
     <>
       <div id={style.unterlicht}>
-        <div
-          className={style.multi_widths}
-          style={{ height: size?.w && !summary && obenSectionNumber > 1 ? '25px' : '0px' }}
-        >
+        <div className={style.multi_widths}>
           {obenSectionNumber > 1 && size?.w && (
             <div className={style.multi_widths_inputs}>
               {Object.keys(obenMultiWidth).map((it, index) => (
@@ -569,7 +566,7 @@ export default function UntenSizer({
                   placeholder="breite"
                   pattern="^[1-9][0-9]*$"
                   readOnly={index === Object.keys(obenMultiWidth).length - 1}
-                  disabled={index === Object.keys(obenMultiWidth).length - 1}
+                  disabled={summary || index === Object.keys(obenMultiWidth).length - 1}
                 />
               ))}
             </div>
@@ -669,9 +666,9 @@ export default function UntenSizer({
         </div>
         <div
           className={style.multi_widths}
-          style={{ height: size?.w && !summary && untenSectionNumber > 1 ? '25px' : '0px' }}
+          style={{ height: size?.w && untenSectionNumber > 1 ? '25px' : '0px' }}
         >
-          {untenSectionNumber > 1 && size?.w && !summary && (
+          {untenSectionNumber > 1 && size?.w && (
             <div className={style.multi_widths_inputs}>
               {Object.keys(untenMultiWidth).map((item, index) => (
                 <input
@@ -720,7 +717,7 @@ export default function UntenSizer({
                   placeholder="breite"
                   pattern="^[1-9][0-9]*$"
                   readOnly={index === Object.keys(untenMultiWidth).length - 1}
-                  disabled={index === Object.keys(untenMultiWidth).length - 1}
+                  disabled={summary || index === Object.keys(untenMultiWidth).length - 1}
                 />
               ))}
             </div>

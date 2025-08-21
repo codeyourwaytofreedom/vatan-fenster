@@ -511,13 +511,12 @@ export default function ObenSizer({
     });
   }, [multiHeight]);
 
+  //const heightUnten = configuration.multiHeight?.untenHeight;
+
   return (
     <>
       <div id={style.oberlicht}>
-        <div
-          className={style.multi_widths}
-          style={{ height: size?.w && !summary && obenSectionNumber > 1 ? '25px' : '0px' }}
-        >
+        <div className={style.multi_widths}>
           {obenSectionNumber > 1 && size?.w && (
             <div className={style.multi_widths_inputs}>
               {Object.keys(obenMultiWidth).map((it, index) => (
@@ -577,12 +576,16 @@ export default function ObenSizer({
         <div id={style.central_holder}>
           <div className={style.small}>
             <div className={style.small_shell}>
-              <Image src={displayedImageOne!} alt="brand" width={230} height={230} />
+              {displayedImageOne && (
+                <Image src={displayedImageOne} alt="brand" width={230} height={230} />
+              )}
             </div>
           </div>
           <div className={style.big}>
             <div className={style.big_shell}>
-              <Image src={displayedImageTwo!} alt="brand" width={230} height={230} />
+              {displayedImageTwo && (
+                <Image src={displayedImageTwo} alt="brand" width={230} height={230} />
+              )}
             </div>
           </div>
           <div id={style.heights} style={{ width: size?.h && !summary ? '75px' : '10px' }}>
@@ -664,7 +667,7 @@ export default function ObenSizer({
         </div>
         <div
           className={style.multi_widths}
-          style={{ height: size?.w && !summary && untenSectionNumber > 1 ? '25px' : '0px' }}
+          style={{ height: size?.w && untenSectionNumber > 1 ? '25px' : '0px' }}
         >
           {untenSectionNumber > 1 && size?.w && (
             <div className={style.multi_widths_inputs}>

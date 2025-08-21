@@ -38,11 +38,12 @@ export const calculateGlassPriceByM2 = (
   m2Price: number = 8,
   w: number,
   h: number,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   multiWidth?: Record<string, number>
 ) => {
   // if multiWidth, check each section's area and if any area is greater than 3.6 m2
   // then take m2 price as 59 instead of 8 because thicker glass is used
-  if (multiWidth) {
+  /* if (multiWidth) {
     const additionalWindowGlassPrice = Object.values(multiWidth).reduce((acc, sectionWidth) => {
       const sectionArea = (sectionWidth * h) / 1_000_000;
       //m2Price = sectionArea > 3.6 ? 59 : 8;
@@ -59,7 +60,7 @@ export const calculateGlassPriceByM2 = (
     }, 0);
     const truncatedAdditionalWindowPrice = Math.floor(additionalWindowGlassPrice * 100) / 100;
     return truncatedAdditionalWindowPrice;
-  }
+  } */
   // for single section window
   const sectionArea = (w * h) / 1_000_000;
   m2Price =

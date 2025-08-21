@@ -425,10 +425,7 @@ export default function SingleSizer({
                 )}
               </div>
             </div>
-            <div
-              className={style.multi_widths}
-              style={{ height: size?.w && !summary && numberOfSections > 1 ? '25px' : '0px' }}
-            >
+            <div className={style.multi_widths}>
               {numberOfSections > 1 && (
                 <div className={style.multi_widths_inputs}>
                   {Object.keys(multiWidth).map((i) => (
@@ -456,7 +453,7 @@ export default function SingleSizer({
                       placeholder="breite"
                       pattern="^[1-9][0-9]*$"
                       readOnly={parseInt(i) === Object.keys(multiWidth).length - 1}
-                      disabled={parseInt(i) === Object.keys(multiWidth).length - 1}
+                      disabled={summary ?? parseInt(i) === Object.keys(multiWidth).length - 1}
                     />
                   ))}
                 </div>
