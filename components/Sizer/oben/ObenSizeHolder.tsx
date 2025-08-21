@@ -569,7 +569,7 @@ export default function ObenSizer({
                   placeholder="breite"
                   pattern="^[1-9][0-9]*$"
                   readOnly={index === Object.keys(obenMultiWidth).length - 1}
-                  disabled={index === Object.keys(obenMultiWidth).length - 1}
+                  disabled={summary || index === Object.keys(obenMultiWidth).length - 1}
                 />
               ))}
             </div>
@@ -727,7 +727,7 @@ export default function ObenSizer({
                   placeholder="breite"
                   pattern="^[1-9][0-9]*$"
                   readOnly={index === Object.keys(untenMultiWidth).length - 1}
-                  disabled={index === Object.keys(untenMultiWidth).length - 1}
+                  disabled={summary || index === Object.keys(untenMultiWidth).length - 1}
                 />
               ))}
             </div>
