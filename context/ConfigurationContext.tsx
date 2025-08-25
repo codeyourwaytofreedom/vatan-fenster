@@ -1,6 +1,5 @@
 import { initialConfiguration, initialSubstyle } from '@/data/configurationData';
 import { minMaxSizes } from '@/data/minMaxSizes/minMaxSizes';
-import { colorPriceMultipliers } from '@/data/priceLists/colors/colorPriceMultipliers';
 import { priceLists } from '@/data/priceLists/priceLists';
 import { sonnenschutzStepPacks, steps } from '@/data/steps';
 import {
@@ -15,7 +14,7 @@ import {
   WindowMaterial,
   WindowStyle,
 } from '@/types/Configurator';
-import { calculateGlassPriceByM2, extractPriceFromTable } from '@/utils';
+import { calculateGlassPriceByM2, extractPriceFromTable, getColoringMultiplier } from '@/utils';
 import { createContext, useState, ReactNode, useContext } from 'react';
 
 // Define the context type
@@ -44,7 +43,8 @@ interface ConfigurationContextType {
     width: number,
     height: number,
     multiWidth: Record<string, number> | undefined,
-    colorExtKey: string,
+    colorExteriorCode: string,
+    colorInteriorCode: string,
     direction?: 'oben' | 'unten'
   ) => number | null | undefined;
   getMinMaxSizes: (
@@ -156,7 +156,8 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     width: number = 0,
     height: number = 0,
     multiWidth: Record<string, number> | undefined,
-    colorExtKey: string,
+    colorExteriorCode: string,
+    colorInteriorCode: string,
     direction?: 'oben' | 'unten'
   ) => {
     const priceListForSelectedWindowStyle = priceLists[selectedWindowStyleKey][selectedMaterialKey];
@@ -165,11 +166,15 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
       return;
     }
 
-    const exterirorPriceMultiplier =
-      Number(
-        colorPriceMultipliers[selectedProfileKey].find((mulp) => mulp.colorCode === colorExtKey)
-          ?.priceMultiplier
-      ) / 100;
+    const colouringPriceMultiplier = getColoringMultiplier(
+      colorExteriorCode,
+      colorInteriorCode,
+      selectedProfileKey
+    );
+
+    /*     alert(
+      `Exterior: ${colorExteriorCode} - Interior: ${colorInteriorCode} - colouringPriceMultiplier: ${colouringPriceMultiplier}`
+    ); */
 
     // additional calculation for the glass
     // deafult is 2 layer of glass so multiply by 2
@@ -184,8 +189,8 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     const priceFromTable = extractPriceFromTable(priceListForSelectedType, width, height);
     if (priceFromTable) {
       // additional price from colorSelection for Exterior
-      const colorPrice = priceFromTable * exterirorPriceMultiplier;
-      return additionalWindowPrice + priceFromTable + colorPrice;
+      const colorPriceExterior = priceFromTable * colouringPriceMultiplier;
+      return additionalWindowPrice + priceFromTable + colorPriceExterior;
     }
 
     // csv table does not exist for the selected type
@@ -235,8 +240,8 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
         }
 
         // additional price from colorSelection for Exterior
-        const colorPrice = totalPrice * exterirorPriceMultiplier;
-        return totalPrice + additionalWindowPrice + colorPrice;
+        const colorPriceExterior = totalPrice * colouringPriceMultiplier;
+        return totalPrice + additionalWindowPrice + colorPriceExterior;
       }
     }
   };

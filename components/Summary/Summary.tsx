@@ -315,6 +315,7 @@ export default function SummaryDisplayer() {
         if (!configuration.size) return;
 
         const colorCodeExt = configuration.colorExt.colorCode;
+        const colorCodeInt = configuration.colorInt.colorCode;
 
         let totalPrice: number = 0;
         setTotalPrice(totalPrice);
@@ -344,6 +345,7 @@ export default function SummaryDisplayer() {
             Number(configuration.multiHeight!['obenHeight']),
             configuration.obenMultiWidth,
             colorCodeExt!,
+            colorCodeInt!,
             'oben'
           );
           /* Calculate unten part */
@@ -365,6 +367,7 @@ export default function SummaryDisplayer() {
             Number(configuration.multiHeight!['untenHeight']),
             configuration.untenMultiWidth,
             colorCodeExt!,
+            colorCodeInt!,
             'unten'
           );
           totalPrice = (obenPrice ?? 0) + (untenPrice ?? 0);
@@ -395,6 +398,7 @@ export default function SummaryDisplayer() {
             Number(configuration.multiHeight!['obenHeight']),
             configuration.obenMultiWidth,
             colorCodeExt!,
+            colorCodeInt!,
             'unten'
           );
 
@@ -417,6 +421,7 @@ export default function SummaryDisplayer() {
             Number(configuration.multiHeight!['untenHeight']),
             configuration.untenMultiWidth,
             colorCodeExt!,
+            colorCodeInt!,
             'oben'
           );
 
@@ -433,14 +438,17 @@ export default function SummaryDisplayer() {
               Number((size as Size).w),
               Number((size as Size).h),
               configuration.multiWidth,
-              colorCodeExt!
+              colorCodeExt!,
+              colorCodeInt!
             ) || 0;
         }
 
         // round for 2 decimal points
         totalPrice = Math.round(totalPrice * 100) / 100;
         setTotalPrice(totalPrice);
-      } catch {}
+      } catch (err) {
+        console.log(err);
+      }
     }, 200);
 
     return () => clearTimeout(timeout);
@@ -457,6 +465,7 @@ export default function SummaryDisplayer() {
     configuration.untenMultiWidth,
     configuration.multiHeight,
     configuration.colorExt.colorCode,
+    configuration.colorInt.colorCode,
   ]);
 
   return (

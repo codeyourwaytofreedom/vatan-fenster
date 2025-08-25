@@ -1,3 +1,5 @@
+import { colorPriceMultipliersExteriorOnly, colorPriceMultipliersInteriorExteriorSame, colorPriceMultipliersInteriorOnly } from "./data/priceLists/colors/colorPriceMultipliers";
+
 export const scrollToElement = (elementId: string, delay: number = 0, offset: number = 150) => {
   setTimeout(() => {
     const targetElement = document.getElementById(elementId);
@@ -37,7 +39,7 @@ export const extractPriceFromTable = (
 export const calculateGlassPriceByM2 = (
   m2Price: number = 8,
   w: number,
-  h: number,
+  h: number
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
 ) => {
   // if multiWidth, check each section's area and if any area is greater than 3.6 m2
@@ -73,3 +75,33 @@ export const calculateGlassPriceByM2 = (
   const additionalWindowGlassPrice = (w * h * m2Price * 2) / 1_000_000;
   return additionalWindowGlassPrice;
 };
+
+export const getColoringMultiplier = (colorExteriorCode: string, colorInteriorCode:string, selectedProfileKey: string) => {
+  // No Colours
+  if(colorExteriorCode === '0' && colorInteriorCode === '0'){
+    return 0;
+  }
+  // Interior Only
+  if(colorExteriorCode === '0' && colorInteriorCode !== '0'){
+     return (colorPriceMultipliersInteriorOnly[selectedProfileKey]?.find(
+        (mulp) => mulp.colorCode === colorInteriorCode
+      )?.priceMultiplier ?? 0) / 100;
+  }
+  // Exterior Only
+  if(colorExteriorCode !== '0' && colorInteriorCode === '0'){
+    return (colorPriceMultipliersExteriorOnly[selectedProfileKey]?.find(
+            (mulp) => mulp.colorCode === colorExteriorCode
+          )?.priceMultiplier ?? 0) / 100;
+  }
+  // Exterior and Interior (Same Color)
+  if(colorExteriorCode !== '0' && colorInteriorCode !== '0' && colorExteriorCode === colorInteriorCode){
+        return (colorPriceMultipliersInteriorExteriorSame[selectedProfileKey]?.find(
+            (mulp) => mulp.colorCode === colorExteriorCode
+          )?.priceMultiplier ?? 0) / 100;
+  }
+  // Exterior and Interior (Different Colors)
+  if(colorExteriorCode !== '0' && colorInteriorCode !== '0' && colorExteriorCode !== colorInteriorCode){
+    return 21;
+  }
+  return 999;
+}

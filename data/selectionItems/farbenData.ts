@@ -196,7 +196,7 @@ export const farbenAussenInnenOptions: SelectionItem[] = [
     name: 'Weiss (ohne Dekorfarbe)',
     key: 'weiss',
     image: color3,
-    colorCode: '0'
+    colorCode: '0',
   },
   {
     name: 'Anthrazitgrau',
@@ -264,7 +264,7 @@ export const farbenAussenInnenOptions: SelectionItem[] = [
   },
   // no price multiplier available yet for this
   // to be activated later on
-/*   {
+  /*   {
     name: 'Anthrazitgrau stylo',
     image: Anthrazitgrau_stylo_F436_4003,
     key: 'anthrazitgrau_stylo_f436_4003',
@@ -281,7 +281,7 @@ export const farbenAussenInnenOptions: SelectionItem[] = [
     details: 'Dummy details for the Dekorfarben Aussen Options',
   },
   {
-    name: 'Jet Black',
+    name: 'Jet Black Mattex CC',
     image: Jet_Black_F4766062,
     key: 'jet_black_f4766062',
     zoomable: true,
@@ -313,9 +313,9 @@ export const farbenAussenInnenOptions: SelectionItem[] = [
     details: 'Dummy details for the Dekorfarben Aussen Options',
   },
   {
-    name: 'Piryt',
+    name: 'Pyrit',
     image: Piryt_001_195,
-    key: 'piryt_001_195',
+    key: 'pyrit_001_195',
     zoomable: true,
     colorCode: '001_195',
     details: 'Dummy details for the Dekorfarben Aussen Options',

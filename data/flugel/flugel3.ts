@@ -137,13 +137,13 @@ export const flugel3_unten: SelectionItem[] = [
     sectionNumber: 3,
     sections: ['F', 'DKR', 'F'],
   },
-    // no sections needed for the following since they have price tables
+  // no sections needed for the following since they have price tables
   {
     name: 'Dreh-Kipp + Fest + Dreh-Kipp',
     image: dreh_kipp_fest_dreh_kipp_u,
     key: 'DK_F_DK',
     handleNumber: 2,
-    sectionNumber: 3
+    sectionNumber: 3,
   },
   {
     name: 'Dreh-Kipp + Dreh links + Dreh-Kipp (Pfosten)',
