@@ -1,5 +1,6 @@
 import { initialConfiguration, initialSubstyle } from '@/data/configurationData';
 import { minMaxSizes } from '@/data/minMaxSizes/minMaxSizes';
+import { colorPriceMultipliers } from '@/data/priceLists/colors/colorPriceMultipliers';
 import { priceLists } from '@/data/priceLists/priceLists';
 import { sonnenschutzStepPacks, steps } from '@/data/steps';
 import {
@@ -43,6 +44,7 @@ interface ConfigurationContextType {
     width: number,
     height: number,
     multiWidth: Record<string, number> | undefined,
+    colorExtKey: string,
     direction?: 'oben' | 'unten'
   ) => number | null | undefined;
   getMinMaxSizes: (
@@ -154,6 +156,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     width: number = 0,
     height: number = 0,
     multiWidth: Record<string, number> | undefined,
+    colorExtKey: string,
     direction?: 'oben' | 'unten'
   ) => {
     const priceListForSelectedWindowStyle = priceLists[selectedWindowStyleKey][selectedMaterialKey];
@@ -162,13 +165,15 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
       return;
     }
 
-    /*     if (['unterlicht'].includes(selectedWindowStyleKey)) {
-      return;
-    } */
+    const exterirorPriceMultiplier =
+      Number(
+        colorPriceMultipliers[selectedProfileKey].find((mulp) => mulp.colorCode === colorExtKey)
+          ?.priceMultiplier
+      ) / 100;
 
     // additional calculation for the glass
     // deafult is 2 layer of glass so multiply by 2
-    const additionalWindowPrice = calculateGlassPriceByM2(8, width, height, multiWidth);
+    const additionalWindowPrice = calculateGlassPriceByM2(8, width, height);
 
     // adjust for overlicht and unterlicht
     const priceListKey = `${selectedProfileKey}_${selectedTypeKey}`;
@@ -178,7 +183,9 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
 
     const priceFromTable = extractPriceFromTable(priceListForSelectedType, width, height);
     if (priceFromTable) {
-      return additionalWindowPrice + priceFromTable;
+      // additional price from colorSelection for Exterior
+      const colorPrice = priceFromTable * exterirorPriceMultiplier;
+      return additionalWindowPrice + priceFromTable + colorPrice;
     }
 
     // csv table does not exist for the selected type
@@ -227,7 +234,9 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
           totalPrice += priceFromTable;
         }
 
-        return totalPrice + additionalWindowPrice;
+        // additional price from colorSelection for Exterior
+        const colorPrice = totalPrice * exterirorPriceMultiplier;
+        return totalPrice + additionalWindowPrice + colorPrice;
       }
     }
   };

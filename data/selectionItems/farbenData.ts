@@ -158,7 +158,7 @@ import Eiche_dunkel_2052089_167 from '@/assets/configurator/farben/farbeAussen/0
 import Golden_Oak_2178001_167 from '@/assets/configurator/farben/farbeAussen/006.Golden_Oak_(2178001-167).jpg';
 import Anthrazitgrau_glatt_701605_097 from '@/assets/configurator/farben/farbeAussen/007.Anthrazitgrau_glatt_(701605-097).jpg';
 import Anthrazitgrau_ulti_matt_504700_47 from '@/assets/configurator/farben/farbeAussen/008.Anthrazitgrau_ulti_matt_(504700-47).jpg';
-import Anthrazitgrau_stylo_F436_4003 from '@/assets/configurator/farben/farbeAussen/009.Anthrazitgrau_stylo_(F436-4003).webp';
+//import Anthrazitgrau_stylo_F436_4003 from '@/assets/configurator/farben/farbeAussen/009.Anthrazitgrau_stylo_(F436-4003).webp';
 import Schwarz_ulti_matt_504700_047 from '@/assets/configurator/farben/farbeAussen/010.Schwarz_ulti_matt_(504700-047).jpg';
 import Jet_Black_F4766062 from '@/assets/configurator/farben/farbeAussen/011.Jet_Black_(F4766062).jpg';
 import Basaltgrau_glatt_701205_097 from '@/assets/configurator/farben/farbeAussen/012.Basaltgrau_glatt_(701205-097).jpg';
@@ -196,6 +196,7 @@ export const farbenAussenInnenOptions: SelectionItem[] = [
     name: 'Weiss (ohne Dekorfarbe)',
     key: 'weiss',
     image: color3,
+    colorCode: '0'
   },
   {
     name: 'Anthrazitgrau',
@@ -261,14 +262,16 @@ export const farbenAussenInnenOptions: SelectionItem[] = [
     colorCode: '504700_47',
     details: 'Dummy details for the Dekorfarben Aussen Options',
   },
-  {
+  // no price multiplier available yet for this
+  // to be activated later on
+/*   {
     name: 'Anthrazitgrau stylo',
     image: Anthrazitgrau_stylo_F436_4003,
     key: 'anthrazitgrau_stylo_f436_4003',
     zoomable: true,
     colorCode: 'F436_4003',
     details: 'Dummy details for the Dekorfarben Aussen Options',
-  },
+  }, */
   {
     name: 'Schwarz ulti matt',
     image: Schwarz_ulti_matt_504700_047,
@@ -488,9 +491,9 @@ export const farbenAussenInnenOptions: SelectionItem[] = [
   {
     name: 'Turner Oak Walnuss',
     image: Turner_Oak_Walnuss_470_3004,
-    key: 'turner_oak_walnuss_470_3004',
+    key: 'turner_oak_walnuss_470_9036',
     zoomable: true,
-    colorCode: '470_3004',
+    colorCode: '470_9036',
     details: 'Dummy details for the Dekorfarben Aussen Options',
   },
   {

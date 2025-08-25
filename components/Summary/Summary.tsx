@@ -314,6 +314,8 @@ export default function SummaryDisplayer() {
         // dont calculate price when no valid size is available
         if (!configuration.size) return;
 
+        const colorCodeExt = configuration.colorExt.colorCode;
+
         let totalPrice: number = 0;
         setTotalPrice(totalPrice);
 
@@ -341,6 +343,7 @@ export default function SummaryDisplayer() {
             Number((size as Size).w),
             Number(configuration.multiHeight!['obenHeight']),
             configuration.obenMultiWidth,
+            colorCodeExt!,
             'oben'
           );
           /* Calculate unten part */
@@ -361,6 +364,7 @@ export default function SummaryDisplayer() {
             Number((size as Size).w),
             Number(configuration.multiHeight!['untenHeight']),
             configuration.untenMultiWidth,
+            colorCodeExt!,
             'unten'
           );
           totalPrice = (obenPrice ?? 0) + (untenPrice ?? 0);
@@ -390,9 +394,9 @@ export default function SummaryDisplayer() {
             Number((size as Size).w),
             Number(configuration.multiHeight!['obenHeight']),
             configuration.obenMultiWidth,
+            colorCodeExt!,
             'unten'
           );
-          //console.log(`obenPrice: ${obenPrice}`);
 
           /* Calculate unten part */
           const sectionNumberUnten = configuration.type.oben?.sectionNumber || 1;
@@ -412,9 +416,9 @@ export default function SummaryDisplayer() {
             Number((size as Size).w),
             Number(configuration.multiHeight!['untenHeight']),
             configuration.untenMultiWidth,
+            colorCodeExt!,
             'oben'
           );
-          console.log(`untenPrice: ${untenPrice}`);
 
           totalPrice = (obenPrice ?? 0) + (untenPrice ?? 0);
         }
@@ -428,7 +432,8 @@ export default function SummaryDisplayer() {
               (configuration.type as SelectionItem).key,
               Number((size as Size).w),
               Number((size as Size).h),
-              configuration.multiWidth
+              configuration.multiWidth,
+              colorCodeExt!
             ) || 0;
         }
 
@@ -451,6 +456,7 @@ export default function SummaryDisplayer() {
     configuration.obenMultiWidth,
     configuration.untenMultiWidth,
     configuration.multiHeight,
+    configuration.colorExt.colorCode,
   ]);
 
   return (
