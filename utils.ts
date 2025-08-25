@@ -97,7 +97,7 @@ export const getColoringMultiplier = (colorExteriorCode: string, colorInteriorCo
   if(colorExteriorCode !== '0' && colorInteriorCode !== '0' && colorExteriorCode === colorInteriorCode){
         return (colorPriceMultipliersInteriorExteriorSame[selectedProfileKey]?.find(
             (mulp) => mulp.colorCode === colorExteriorCode
-          )?.priceMultiplier ?? 0) / 100;
+          )?.priceMultiplier ?? 0) / 100 * 2;
   }
   // Exterior and Interior (Different Colors)
   if(colorExteriorCode !== '0' && colorInteriorCode !== '0' && colorExteriorCode !== colorInteriorCode){
