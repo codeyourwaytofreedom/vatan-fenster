@@ -101,7 +101,7 @@ export const getColoringMultiplier = (colorExteriorCode: string, colorInteriorCo
   }
   // Exterior and Interior (Different Colors)
   if(colorExteriorCode !== '0' && colorInteriorCode !== '0' && colorExteriorCode !== colorInteriorCode){
-    return 21;
+    return 0.21;
   }
   return 999;
 }
