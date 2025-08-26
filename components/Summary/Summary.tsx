@@ -1,5 +1,5 @@
 import styles from '../.././styles/KonfiguratorPage.module.css';
-import { scrollToElement } from '@/utils';
+import { getColoringMultiplier, scrollToElement } from '@/utils';
 import { steps } from '@/data/steps';
 import { useConfiguration } from '@/context/ConfigurationContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -16,6 +16,8 @@ import { useEffect, useState } from 'react';
 import Sizer from '../Sizer/Sizer';
 import { windowStyles } from '@/data/selectionItems/basisData';
 import { allSonnenschutzStepsKeys } from '@/data/selectionItems/sonnenschutzData';
+import { useModal } from '@/context/ModalContext';
+import Infobox from '../1_General/Infobox/Infobox';
 
 export default function SummaryDisplayer() {
   const {
@@ -68,6 +70,7 @@ export default function SummaryDisplayer() {
   } = configuration;
 
   const { calculateTotalPrice } = useConfiguration();
+  const { openModal } = useModal();
 
   const groupBasis = {
     material,
@@ -313,7 +316,6 @@ export default function SummaryDisplayer() {
       try {
         // dont calculate price when no valid size is available
         if (!configuration.size) return;
-
         const colorCodeExt = configuration.colorExt.colorCode;
         const colorCodeInt = configuration.colorInt.colorCode;
 
@@ -467,6 +469,24 @@ export default function SummaryDisplayer() {
     configuration.colorExt.colorCode,
     configuration.colorInt.colorCode,
   ]);
+
+  useEffect(() => {
+    const { min10 } = getColoringMultiplier(
+      configuration.colorExt.colorCode!,
+      configuration.colorInt.colorCode!,
+      configuration.profile.key
+    );
+    if (min10) {
+      openModal(
+        <Infobox
+          title="Achtung"
+          details="Mevcut profil rengi seçimi için ilave ücret ödeyeceksiniz. En az 10 adet pencere eklemeniz 
+          halinde ücret değişecek. HüSEYİN bura için Almanca metin verirsin"
+          closeText="Schließen"
+        />
+      );
+    }
+  }, [configuration.colorExt, configuration.colorInt]);
 
   return (
     <div id={styles.summary}>

@@ -79,29 +79,32 @@ export const calculateGlassPriceByM2 = (
 export const getColoringMultiplier = (colorExteriorCode: string, colorInteriorCode:string, selectedProfileKey: string) => {
   // No Colours
   if(colorExteriorCode === '0' && colorInteriorCode === '0'){
-    return 0;
+    return {colouringPriceMultiplier: 0};
   }
   // Interior Only
   if(colorExteriorCode === '0' && colorInteriorCode !== '0'){
-     return (colorPriceMultipliersInteriorOnly[selectedProfileKey]?.find(
+     const multiplier =  (colorPriceMultipliersInteriorOnly[selectedProfileKey]?.find(
         (mulp) => mulp.colorCode === colorInteriorCode
       )?.priceMultiplier ?? 0) / 100;
+      return {colouringPriceMultiplier: multiplier, min10: true }
   }
   // Exterior Only
   if(colorExteriorCode !== '0' && colorInteriorCode === '0'){
-    return (colorPriceMultipliersExteriorOnly[selectedProfileKey]?.find(
+    const multiplier = (colorPriceMultipliersExteriorOnly[selectedProfileKey]?.find(
             (mulp) => mulp.colorCode === colorExteriorCode
           )?.priceMultiplier ?? 0) / 100;
+    return {colouringPriceMultiplier: multiplier }
   }
   // Exterior and Interior (Same Color)
   if(colorExteriorCode !== '0' && colorInteriorCode !== '0' && colorExteriorCode === colorInteriorCode){
-        return (colorPriceMultipliersInteriorExteriorSame[selectedProfileKey]?.find(
-            (mulp) => mulp.colorCode === colorExteriorCode
-          )?.priceMultiplier ?? 0) / 100 * 2;
+      const multiplier =  (colorPriceMultipliersInteriorExteriorSame[selectedProfileKey]?.find(
+          (mulp) => mulp.colorCode === colorExteriorCode
+        )?.priceMultiplier ?? 0) / 100 * 2;
+      return {colouringPriceMultiplier: multiplier }
   }
   // Exterior and Interior (Different Colors)
   if(colorExteriorCode !== '0' && colorInteriorCode !== '0' && colorExteriorCode !== colorInteriorCode){
-    return 0.21;
+    return {colouringPriceMultiplier: 0.21, min10: true }
   }
-  return 999;
+  return {colouringPriceMultiplier: 999 }
 }

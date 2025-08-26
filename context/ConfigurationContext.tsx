@@ -34,6 +34,7 @@ interface ConfigurationContextType {
   setSubStyle: React.Dispatch<React.SetStateAction<SubStyle>>;
   moveToNextStep: () => void;
   movePreviousGroup: () => void;
+  moveNextGroup: () => void;
   getStepsForGroup: (key: GroupKey) => Step[];
   calculateTotalPrice: (
     selectedMaterialKey: WindowMaterial,
@@ -166,15 +167,11 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
       return;
     }
 
-    const colouringPriceMultiplier = getColoringMultiplier(
+    const { colouringPriceMultiplier } = getColoringMultiplier(
       colorExteriorCode,
       colorInteriorCode,
       selectedProfileKey
     );
-
-    /*     alert(
-      `Exterior: ${colorExteriorCode} - Interior: ${colorInteriorCode} - colouringPriceMultiplier: ${colouringPriceMultiplier}`
-    ); */
 
     // additional calculation for the glass
     // deafult is 2 layer of glass so multiply by 2
@@ -355,6 +352,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
         setSubStyle,
         moveToNextStep,
         movePreviousGroup,
+        moveNextGroup,
         calculateTotalPrice,
         getMinMaxSizes,
       }}

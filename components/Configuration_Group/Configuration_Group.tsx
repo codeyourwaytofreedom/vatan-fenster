@@ -26,11 +26,9 @@ export default function Configuration_Group({ groupTitle }: GroupProps) {
     currentGroup,
     configuration,
     isLastStepInGroup,
-    setCurrentStep,
-    setCurrentGroup,
     setConfiguration,
     moveToNextStep,
-    getStepsForGroup,
+    moveNextGroup,
   } = useConfiguration();
 
   const visibleSection = categoryItems.find((cat) => cat.key === currentStep?.key);
@@ -76,12 +74,6 @@ export default function Configuration_Group({ groupTitle }: GroupProps) {
     });
   }, [configuration.glasspaket]);
 
-  /*   const handleSelectGroup = () => {
-    setCurrentGroup(groupTitle);
-    setCurrentStep(steps[0]);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }; */
-
   const updateConfiguration = (item: SelectionItem, key?: string) => {
     if (currentStep) {
       setConfiguration((prevConfig) => ({
@@ -90,19 +82,6 @@ export default function Configuration_Group({ groupTitle }: GroupProps) {
       }));
     }
     moveToNextStep();
-  };
-
-  const handleMoveNextGroup = () => {
-    const coverNotAvailable = configuration.cover.key === 'nein';
-    const groups: GroupKey[] = coverNotAvailable
-      ? ['basis', 'farben', 'verglasung', 'zusatze']
-      : ['basis', 'farben', 'verglasung', 'zusatze', 'sonnenschutz'];
-    const currentGroupIndex = groups.indexOf(currentGroup);
-    const nextGroup = groups[currentGroupIndex + 1];
-    setCurrentGroup(nextGroup);
-    const nextGroupSteps = getStepsForGroup(nextGroup);
-    setCurrentStep(nextGroupSteps[0]);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const toggleExpand = () => {
@@ -121,11 +100,6 @@ export default function Configuration_Group({ groupTitle }: GroupProps) {
 
   return (
     <div>
-      {/*       <div className={style.layers}>
-        <button id={groupActive ? style.active : style.default} onClick={handleSelectGroup}>
-          <span>{groupTitle.toUpperCase()}</span>
-        </button>
-      </div> */}
       {groupActive && (
         <div>
           {<Stepper />}
@@ -158,7 +132,7 @@ export default function Configuration_Group({ groupTitle }: GroupProps) {
                     expandable={Boolean(expandable)}
                     toggleExpand={toggleExpand}
                     isLastStep={isLastStepInGroup}
-                    nextGroupAction={handleMoveNextGroup}
+                    nextGroupAction={moveNextGroup}
                   />
                 )}
               </>
