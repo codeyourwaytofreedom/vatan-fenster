@@ -175,7 +175,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
 
     // additional calculation for the glass
     // deafult is 2 layer of glass so multiply by 2
-    const additionalWindowPrice = calculateGlassPriceByM2(8, width, height);
+    let additionalWindowPrice = calculateGlassPriceByM2(8, width, height);
 
     // adjust for overlicht and unterlicht
     const priceListKey = `${selectedProfileKey}_${selectedTypeKey}`;
@@ -214,6 +214,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
 
       if (multiWidth) {
         let totalPrice = 0;
+        additionalWindowPrice = calculateGlassPriceByM2(8, width, height, multiWidth);
 
         for (let index = 0; index < individualSectionTypeKeys.length; index++) {
           const typeKey = individualSectionTypeKeys?.[index];

@@ -8,6 +8,7 @@ import { useConfiguration } from '@/context/ConfigurationContext';
 import StepGlassPaket from '../StepGlassPaket/StepGlassPaket';
 import GroupBottomActions from '../GroupBottomActions/GroupBottomActions';
 import { sicherheitsverglasungDynamicItems } from '@/data/selectionItems/verglasungData';
+import { getColoringMultiplier } from '@/utils';
 
 interface GroupProps {
   groupTitle: GroupKey;
@@ -55,6 +56,18 @@ export default function Configuration_Group({ groupTitle }: GroupProps) {
           case 'sicherheitsverglasung':
             const items = sicherheitsverglasungDynamicItems[configuration.glasspaket.key];
             return setItemsToDisplay(items);
+          case 'sealInt':
+            const { colorsAvailable } = getColoringMultiplier(
+              configuration.colorExt.colorCode!,
+              configuration.colorInt.colorCode!,
+              configuration.profile.key
+            );
+            const dynamicSealIntColors = Array.isArray(visibleSection.items)
+              ? visibleSection.items.filter((item) =>
+                  colorsAvailable?.some((it) => it.colorKey === item.key)
+                )
+              : [];
+            return setItemsToDisplay(dynamicSealIntColors);
         }
       }
       if (Array.isArray(visibleSection.items)) {

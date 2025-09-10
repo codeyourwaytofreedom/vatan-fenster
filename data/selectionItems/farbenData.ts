@@ -612,3 +612,15 @@ export const fenstergriffeOptions: Record<string, SelectionItem[]> = {
   druckknopf: druckknopfFestergriffeOptions,
   schlüssel: schluesselFestergriffeOptions,
 };
+
+
+export const midColorsForAussenEqualsInnen: Record<string, string[]> = {
+  887505_167: ['dark-brown'],
+  2052089_167: ['dark-brown'],
+  2097013_167: ['dark-brown'],
+  1701605_167: ['white','dark-brown','antrasite'],
+  2178001_167: ['dark-brown'],
+  //Nussbaum
+  2178007_167: ['dark-brown'],
+
+}

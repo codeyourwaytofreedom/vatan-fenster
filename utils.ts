@@ -39,15 +39,15 @@ export const extractPriceFromTable = (
 export const calculateGlassPriceByM2 = (
   m2Price: number = 8,
   w: number,
-  h: number
+  h: number,
+  multiWidth?: Record<string, number>,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
 ) => {
   // if multiWidth, check each section's area and if any area is greater than 3.6 m2
   // then take m2 price as 59 instead of 8 because thicker glass is used
-  /* if (multiWidth) {
+  if (multiWidth) {
     const additionalWindowGlassPrice = Object.values(multiWidth).reduce((acc, sectionWidth) => {
       const sectionArea = (sectionWidth * h) / 1_000_000;
-      //m2Price = sectionArea > 3.6 ? 59 : 8;
       m2Price =
         sectionArea < 4
           ? 8
@@ -59,9 +59,9 @@ export const calculateGlassPriceByM2 = (
       const sectionGlassPrice = (sectionWidth * h * m2Price * 2) / 1_000_000;
       return acc + sectionGlassPrice;
     }, 0);
-    const truncatedAdditionalWindowPrice = Math.floor(additionalWindowGlassPrice * 100) / 100;
-    return truncatedAdditionalWindowPrice;
-  } */
+    //const truncatedAdditionalWindowPrice = Math.floor(additionalWindowGlassPrice * 100) / 100;
+    return additionalWindowGlassPrice;
+  }
   // for single section window
   const sectionArea = (w * h) / 1_000_000;
   m2Price =
@@ -86,25 +86,31 @@ export const getColoringMultiplier = (colorExteriorCode: string, colorInteriorCo
      const multiplier =  (colorPriceMultipliersInteriorOnly[selectedProfileKey]?.find(
         (mulp) => mulp.colorCode === colorInteriorCode
       )?.priceMultiplier ?? 0) / 100;
-      return {colouringPriceMultiplier: multiplier, min10: true }
+      return {colouringPriceMultiplier: multiplier, min10: true, colorsAvailable: [{colorKey: 'white', priceMultiplier: 0 }] }
   }
   // Exterior Only
   if(colorExteriorCode !== '0' && colorInteriorCode === '0'){
     const multiplier = (colorPriceMultipliersExteriorOnly[selectedProfileKey]?.find(
             (mulp) => mulp.colorCode === colorExteriorCode
           )?.priceMultiplier ?? 0) / 100;
-    return {colouringPriceMultiplier: multiplier }
+    return {colouringPriceMultiplier: multiplier, colorsAvailable: [{colorKey: 'white', priceMultiplier: 0 }] }
   }
   // Exterior and Interior (Same Color)
   if(colorExteriorCode !== '0' && colorInteriorCode !== '0' && colorExteriorCode === colorInteriorCode){
       const multiplier =  (colorPriceMultipliersInteriorExteriorSame[selectedProfileKey]?.find(
           (mulp) => mulp.colorCode === colorExteriorCode
         )?.priceMultiplier ?? 0) / 100 * 2;
+      alert('check pdf for colorsAvailable');
       return {colouringPriceMultiplier: multiplier }
   }
   // Exterior and Interior (Different Colors)
   if(colorExteriorCode !== '0' && colorInteriorCode !== '0' && colorExteriorCode !== colorInteriorCode){
-    return {colouringPriceMultiplier: 0.21, min10: true }
+    // +0.02 is for midSectionColouring
+    return {colouringPriceMultiplier: 0.21 + 0.02, min10: true, colorsAvailable: [
+      {colorKey: 'white', priceMultiplier: 2 },
+      {colorKey: 'dark-brown', priceMultiplier: 2 },
+      {colorKey: 'antrasite', priceMultiplier: 2 }
+    ] }
   }
   return {colouringPriceMultiplier: 999 }
 }

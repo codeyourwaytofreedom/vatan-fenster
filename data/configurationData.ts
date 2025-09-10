@@ -18,7 +18,7 @@ export const categoryItems = [
   { key: 'colorInt', items: farbenOptions.colorInt },
   { key: 'dichtungAussen', items: farbenOptions.dichtungAussen },
   { key: 'dichtungInnen', items: farbenOptions.dichtungInnen },
-  { key: 'sealInt', items: farbenOptions.sealInt },
+  { key: 'sealInt', items: farbenOptions.sealInt, dynamic: true },
   { key: 'fenstergriffe', items: farbenOptions.fenstergriffe },
   { key: 'glasspaket', items: verglasung.glasspaket },
   { key: 'ornament', items: verglasung.ornament },
