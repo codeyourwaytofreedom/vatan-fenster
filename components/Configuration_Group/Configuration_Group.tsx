@@ -57,14 +57,15 @@ export default function Configuration_Group({ groupTitle }: GroupProps) {
             const items = sicherheitsverglasungDynamicItems[configuration.glasspaket.key];
             return setItemsToDisplay(items);
           case 'sealInt':
-            const { colorsAvailable } = getColoringMultiplier(
-              configuration.colorExt.colorCode!,
-              configuration.colorInt.colorCode!,
-              configuration.profile.key
-            );
+            const { colorsAvailable } = getColoringMultiplier({
+              colorExteriorCode: configuration.colorExt.colorCode!,
+              colorInteriorCode: configuration.colorInt.colorCode!,
+              colorMidKey: configuration.sealInt?.key,
+              selectedProfileKey: configuration.profile.key,
+            });
             const dynamicSealIntColors = Array.isArray(visibleSection.items)
               ? visibleSection.items.filter((item) =>
-                  colorsAvailable?.some((it) => it.colorKey === item.key)
+                  colorsAvailable?.some((it) => it === item.key)
                 )
               : [];
             return setItemsToDisplay(dynamicSealIntColors);
@@ -75,6 +76,42 @@ export default function Configuration_Group({ groupTitle }: GroupProps) {
       }
     }
   }, [groupActive, visibleSection]);
+
+  const { colorsAvailable } = getColoringMultiplier({
+    colorExteriorCode: configuration.colorExt.colorCode!,
+    colorInteriorCode: configuration.colorInt.colorCode!,
+    colorMidKey: configuration.sealInt?.key,
+    selectedProfileKey: configuration.profile.key,
+  });
+
+  // make selection from dynamic midColorOptions
+  useEffect(() => {
+    const dynamicSealIntColors = Array.isArray(visibleSection?.items)
+      ? visibleSection.items.filter((item) => colorsAvailable?.some((it) => it === item.key))
+      : [];
+    if (dynamicSealIntColors?.[0]) {
+      if (!configuration.sealInt) {
+        setConfiguration((pr) => {
+          return { ...pr, sealInt: dynamicSealIntColors[0] };
+        });
+      }
+      if (configuration.sealInt) {
+        if (!dynamicSealIntColors.some((it) => it.key == configuration.sealInt.key)) {
+          setConfiguration((pr) => {
+            return { ...pr, sealInt: dynamicSealIntColors[0] };
+          });
+        }
+      }
+    }
+  }, [
+    colorsAvailable,
+    configuration.colorExt,
+    configuration.colorInt,
+    configuration.profile.key,
+    configuration.sealInt,
+    setConfiguration,
+    visibleSection,
+  ]);
 
   // autoselect sicherheitsverglasung's first option when glasspaket changes
   useEffect(() => {

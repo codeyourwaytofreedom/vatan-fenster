@@ -1,3 +1,4 @@
+import { ColorCode } from '@/data/selectionItems/farbenData';
 import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { StaticImageData } from 'next/image';
 import { ComponentType, ReactNode } from 'react';
@@ -231,7 +232,7 @@ export type SelectionItem<KEY extends string = string> = {
   image?: Image;
   isActive?: boolean;
   handleNumber?: number;
-  colorCode?: string;
+  colorCode?: ColorCode;
   colors?: SelectionItem[];
   zoomable?: boolean;
   sectionNumber?: number;

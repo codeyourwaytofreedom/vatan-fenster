@@ -1,4 +1,9 @@
-import { colorPriceMultipliersExteriorOnly, colorPriceMultipliersInteriorExteriorSame, colorPriceMultipliersInteriorOnly } from "./data/priceLists/colors/colorPriceMultipliers";
+import {
+  colorPriceMultipliersExteriorOnly,
+  colorPriceMultipliersInteriorExteriorSame,
+  colorPriceMultipliersInteriorOnly,
+} from './data/priceLists/colors/colorPriceMultipliers';
+import { ColorCode, MidColor, midColorsForAussenEqualsInnen } from './data/selectionItems/farbenData';
 
 export const scrollToElement = (elementId: string, delay: number = 0, offset: number = 150) => {
   setTimeout(() => {
@@ -40,7 +45,7 @@ export const calculateGlassPriceByM2 = (
   m2Price: number = 8,
   w: number,
   h: number,
-  multiWidth?: Record<string, number>,
+  multiWidth?: Record<string, number>
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
 ) => {
   // if multiWidth, check each section's area and if any area is greater than 3.6 m2
@@ -76,41 +81,86 @@ export const calculateGlassPriceByM2 = (
   return additionalWindowGlassPrice;
 };
 
-export const getColoringMultiplier = (colorExteriorCode: string, colorInteriorCode:string, selectedProfileKey: string) => {
+
+
+type ColoringMultiplierParams = {
+  colorExteriorCode: ColorCode;
+  colorInteriorCode: ColorCode;
+  colorMidKey: string;
+  selectedProfileKey: string;
+};
+
+
+export const getColoringMultiplier = (
+  {colorExteriorCode,
+  colorInteriorCode,
+  colorMidKey,
+  selectedProfileKey}: Readonly<ColoringMultiplierParams>
+) => {
   // No Colours
-  if(colorExteriorCode === '0' && colorInteriorCode === '0'){
-    return {colouringPriceMultiplier: 0};
+
+  if (colorExteriorCode === '0' && colorInteriorCode === '0') {
+    // no color multplier
+    return { colouringPriceMultiplier: 0, colorsAvailable: ['white'] };
   }
   // Interior Only
-  if(colorExteriorCode === '0' && colorInteriorCode !== '0'){
-     const multiplier =  (colorPriceMultipliersInteriorOnly[selectedProfileKey]?.find(
+  if (colorExteriorCode === '0' && colorInteriorCode !== '0') {
+    // no mid color price multiplier here
+    const multiplier =
+      (colorPriceMultipliersInteriorOnly[selectedProfileKey]?.find(
         (mulp) => mulp.colorCode === colorInteriorCode
       )?.priceMultiplier ?? 0) / 100;
-      return {colouringPriceMultiplier: multiplier, min10: true, colorsAvailable: [{colorKey: 'white', priceMultiplier: 0 }] }
+    return {
+      colouringPriceMultiplier: multiplier,
+      min10: true,
+      colorsAvailable: ['white'],
+    };
   }
   // Exterior Only
-  if(colorExteriorCode !== '0' && colorInteriorCode === '0'){
-    const multiplier = (colorPriceMultipliersExteriorOnly[selectedProfileKey]?.find(
-            (mulp) => mulp.colorCode === colorExteriorCode
-          )?.priceMultiplier ?? 0) / 100;
-    return {colouringPriceMultiplier: multiplier, colorsAvailable: [{colorKey: 'white', priceMultiplier: 0 }] }
+  if (colorExteriorCode !== '0' && colorInteriorCode === '0') {
+    // no mid color price multiplier here
+    const multiplier =
+      (colorPriceMultipliersExteriorOnly[selectedProfileKey]?.find(
+        (mulp) => mulp.colorCode === colorExteriorCode
+      )?.priceMultiplier ?? 0) / 100;
+    return {
+      colouringPriceMultiplier: multiplier,
+      colorsAvailable: ['white'],
+    };
   }
   // Exterior and Interior (Same Color)
-  if(colorExteriorCode !== '0' && colorInteriorCode !== '0' && colorExteriorCode === colorInteriorCode){
-      const multiplier =  (colorPriceMultipliersInteriorExteriorSame[selectedProfileKey]?.find(
-          (mulp) => mulp.colorCode === colorExteriorCode
-        )?.priceMultiplier ?? 0) / 100 * 2;
-      alert('check pdf for colorsAvailable');
-      return {colouringPriceMultiplier: multiplier }
+  if (
+    colorExteriorCode !== '0' &&
+    colorInteriorCode !== '0' &&
+    colorExteriorCode === colorInteriorCode
+  ) {
+    const colorMidPriceMultiplier = colorMidKey === 'white' ? 0 : 0.02;
+
+    const multiplier =
+      ((colorPriceMultipliersInteriorExteriorSame[selectedProfileKey]?.find(
+        (mulp) => mulp.colorCode === colorExteriorCode
+      )?.priceMultiplier ?? 0) /
+        100) *
+      2;
+    
+    // exctract available middle colors
+    const midColorsAvailable:MidColor[] = midColorsForAussenEqualsInnen[colorInteriorCode];
+    return { colouringPriceMultiplier: multiplier + colorMidPriceMultiplier, colorsAvailable: midColorsAvailable };
   }
   // Exterior and Interior (Different Colors)
-  if(colorExteriorCode !== '0' && colorInteriorCode !== '0' && colorExteriorCode !== colorInteriorCode){
-    // +0.02 is for midSectionColouring
-    return {colouringPriceMultiplier: 0.21 + 0.02, min10: true, colorsAvailable: [
-      {colorKey: 'white', priceMultiplier: 2 },
-      {colorKey: 'dark-brown', priceMultiplier: 2 },
-      {colorKey: 'antrasite', priceMultiplier: 2 }
-    ] }
+  if (
+    colorExteriorCode !== '0' &&
+    colorInteriorCode !== '0' &&
+    colorExteriorCode !== colorInteriorCode
+  ) {
+    // +0.02 is static mid color price multiplier
+    return {
+      colouringPriceMultiplier: 0.21 + 0.02,
+      min10: true,
+      colorsAvailable: [ 'white', 'dark-brown','antrasite'],
+    };
   }
-  return {colouringPriceMultiplier: 999 }
-}
+  return { colouringPriceMultiplier: 999 };
+};
+
+

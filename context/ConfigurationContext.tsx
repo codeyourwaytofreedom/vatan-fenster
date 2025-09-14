@@ -1,6 +1,7 @@
 import { initialConfiguration, initialSubstyle } from '@/data/configurationData';
 import { minMaxSizes } from '@/data/minMaxSizes/minMaxSizes';
 import { priceLists } from '@/data/priceLists/priceLists';
+import { ColorCode } from '@/data/selectionItems/farbenData';
 import { sonnenschutzStepPacks, steps } from '@/data/steps';
 import {
   Config,
@@ -16,6 +17,20 @@ import {
 } from '@/types/Configurator';
 import { calculateGlassPriceByM2, extractPriceFromTable, getColoringMultiplier } from '@/utils';
 import { createContext, useState, ReactNode, useContext } from 'react';
+
+type PriceDeterminants = {
+  selectedMaterialKey: WindowMaterial;
+  selectedProfileKey: string;
+  selectedWindowStyleKey: WindowStyle;
+  selectedTypeKey: string;
+  width: number;
+  height: number;
+  multiWidth: Record<string, number> | undefined;
+  colorExteriorCode: ColorCode;
+  colorInteriorCode: ColorCode;
+  colorMidKey: string;
+  direction?: 'oben' | 'unten';
+};
 
 // Define the context type
 interface ConfigurationContextType {
@@ -36,18 +51,19 @@ interface ConfigurationContextType {
   movePreviousGroup: () => void;
   moveNextGroup: () => void;
   getStepsForGroup: (key: GroupKey) => Step[];
-  calculateTotalPrice: (
-    selectedMaterialKey: WindowMaterial,
-    selectedProfileKey: string,
-    selectedWindowStyleKey: WindowStyle,
-    selectedTypeKey: string,
-    width: number,
-    height: number,
-    multiWidth: Record<string, number> | undefined,
-    colorExteriorCode: string,
-    colorInteriorCode: string,
-    direction?: 'oben' | 'unten'
-  ) => number | null | undefined;
+  calculateTotalPrice: ({
+    selectedMaterialKey,
+    selectedProfileKey,
+    selectedWindowStyleKey,
+    selectedTypeKey,
+    width,
+    height,
+    multiWidth,
+    colorExteriorCode,
+    colorInteriorCode,
+    colorMidKey,
+    direction,
+  }: PriceDeterminants) => number | null | undefined;
   getMinMaxSizes: (
     selectedMaterial: SelectionItem<WindowMaterial>,
     selectedStyle: SelectionItem,
@@ -148,30 +164,31 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
       moveNextGroup();
     }
   };
-
-  const calculateTotalPrice = (
-    selectedMaterialKey: WindowMaterial,
-    selectedProfileKey: string,
-    selectedWindowStyleKey: WindowStyle,
-    selectedTypeKey: string,
-    width: number = 0,
-    height: number = 0,
-    multiWidth: Record<string, number> | undefined,
-    colorExteriorCode: string,
-    colorInteriorCode: string,
-    direction?: 'oben' | 'unten'
-  ) => {
+  const calculateTotalPrice = ({
+    selectedMaterialKey,
+    selectedProfileKey,
+    selectedWindowStyleKey,
+    selectedTypeKey,
+    width,
+    height,
+    multiWidth,
+    colorExteriorCode,
+    colorInteriorCode,
+    colorMidKey,
+    direction,
+  }: PriceDeterminants) => {
     const priceListForSelectedWindowStyle = priceLists[selectedWindowStyleKey][selectedMaterialKey];
 
     if (width === 0 || height === 0) {
       return;
     }
 
-    const { colouringPriceMultiplier } = getColoringMultiplier(
+    const { colouringPriceMultiplier } = getColoringMultiplier({
       colorExteriorCode,
       colorInteriorCode,
-      selectedProfileKey
-    );
+      colorMidKey,
+      selectedProfileKey,
+    });
 
     // additional calculation for the glass
     // deafult is 2 layer of glass so multiply by 2

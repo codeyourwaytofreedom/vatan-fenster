@@ -318,6 +318,7 @@ export default function SummaryDisplayer() {
         if (!configuration.size) return;
         const colorCodeExt = configuration.colorExt.colorCode;
         const colorCodeInt = configuration.colorInt.colorCode;
+        const colorMidKey = configuration.sealInt?.key;
 
         let totalPrice: number = 0;
         setTotalPrice(totalPrice);
@@ -338,18 +339,19 @@ export default function SummaryDisplayer() {
                 : windowStyles.find((st) => st.key === 'flugel3');
           const windowProfileOben = configuration.profile;
           const windowTypeOben = configuration.type.oben!;
-          const obenPrice = calculateTotalPrice(
-            configuration.material.key,
-            windowProfileOben.key,
-            windowStyleOben!.key,
-            windowTypeOben.key,
-            Number((size as Size).w),
-            Number(configuration.multiHeight!['obenHeight']),
-            configuration.obenMultiWidth,
-            colorCodeExt!,
-            colorCodeInt!,
-            'oben'
-          );
+          const obenPrice = calculateTotalPrice({
+            selectedMaterialKey: configuration.material.key,
+            selectedProfileKey: windowProfileOben.key,
+            selectedWindowStyleKey: windowStyleOben!.key,
+            selectedTypeKey: windowTypeOben.key,
+            width: Number((size as Size).w),
+            height: Number(configuration.multiHeight!['obenHeight']),
+            multiWidth: configuration.obenMultiWidth,
+            colorExteriorCode: colorCodeExt!,
+            colorInteriorCode: colorCodeInt!,
+            colorMidKey,
+            direction: 'oben',
+          });
           /* Calculate unten part */
           const sectionNumberUnten = configuration.type.unten?.sectionNumber || 1;
           const windowStyleUnten =
@@ -360,18 +362,19 @@ export default function SummaryDisplayer() {
                 : windowStyles.find((st) => st.key === 'flugel3');
           const windowProfileUnten = configuration.profile;
           const windowTypeUnten = configuration.type.unten!;
-          const untenPrice = calculateTotalPrice(
-            configuration.material.key,
-            windowProfileUnten.key,
-            windowStyleUnten!.key,
-            windowTypeUnten.key,
-            Number((size as Size).w),
-            Number(configuration.multiHeight!['untenHeight']),
-            configuration.untenMultiWidth,
-            colorCodeExt!,
-            colorCodeInt!,
-            'unten'
-          );
+          const untenPrice = calculateTotalPrice({
+            selectedMaterialKey: configuration.material.key,
+            selectedProfileKey: windowProfileUnten.key,
+            selectedWindowStyleKey: windowStyleUnten!.key,
+            selectedTypeKey: windowTypeUnten.key,
+            width: Number((size as Size).w),
+            height: Number(configuration.multiHeight!['untenHeight']),
+            multiWidth: configuration.untenMultiWidth,
+            colorExteriorCode: colorCodeExt!,
+            colorInteriorCode: colorCodeInt!,
+            colorMidKey,
+            direction: 'unten',
+          });
           totalPrice = (obenPrice ?? 0) + (untenPrice ?? 0);
         }
 
@@ -391,18 +394,19 @@ export default function SummaryDisplayer() {
                 : windowStyles.find((st) => st.key === 'flugel3');
           const windowProfileOben = configuration.profile;
           const windowTypeOben = configuration.type.unten!;
-          const obenPrice = calculateTotalPrice(
-            configuration.material.key,
-            windowProfileOben.key,
-            windowStyleOben!.key,
-            windowTypeOben.key,
-            Number((size as Size).w),
-            Number(configuration.multiHeight!['obenHeight']),
-            configuration.obenMultiWidth,
-            colorCodeExt!,
-            colorCodeInt!,
-            'unten'
-          );
+          const obenPrice = calculateTotalPrice({
+            selectedMaterialKey: configuration.material.key,
+            selectedProfileKey: windowProfileOben.key,
+            selectedWindowStyleKey: windowStyleOben!.key,
+            selectedTypeKey: windowTypeOben.key,
+            width: Number((size as Size).w),
+            height: Number(configuration.multiHeight!['obenHeight']),
+            multiWidth: configuration.obenMultiWidth,
+            colorExteriorCode: colorCodeExt!,
+            colorInteriorCode: colorCodeInt!,
+            colorMidKey,
+            direction: 'unten',
+          });
 
           /* Calculate unten part */
           const sectionNumberUnten = configuration.type.oben?.sectionNumber || 1;
@@ -414,35 +418,37 @@ export default function SummaryDisplayer() {
                 : windowStyles.find((st) => st.key === 'flugel3');
           const windowProfileUnten = configuration.profile;
           const windowTypeUnten = configuration.type.oben!;
-          const untenPrice = calculateTotalPrice(
-            configuration.material.key,
-            windowProfileUnten.key,
-            windowStyleUnten!.key,
-            windowTypeUnten.key,
-            Number((size as Size).w),
-            Number(configuration.multiHeight!['untenHeight']),
-            configuration.untenMultiWidth,
-            colorCodeExt!,
-            colorCodeInt!,
-            'oben'
-          );
+          const untenPrice = calculateTotalPrice({
+            selectedMaterialKey: configuration.material.key,
+            selectedProfileKey: windowProfileUnten.key,
+            selectedWindowStyleKey: windowStyleUnten!.key,
+            selectedTypeKey: windowTypeUnten.key,
+            width: Number((size as Size).w),
+            height: Number(configuration.multiHeight!['untenHeight']),
+            multiWidth: configuration.untenMultiWidth,
+            colorExteriorCode: colorCodeExt!,
+            colorInteriorCode: colorCodeInt!,
+            colorMidKey,
+            direction: 'oben',
+          });
 
           totalPrice = (obenPrice ?? 0) + (untenPrice ?? 0);
         }
 
         if (['flugel1', 'flugel2', 'flugel3'].includes(configuration.style.key)) {
           totalPrice =
-            calculateTotalPrice(
-              configuration.material.key,
-              configuration.profile.key,
-              configuration.style.key,
-              (configuration.type as SelectionItem).key,
-              Number((size as Size).w),
-              Number((size as Size).h),
-              configuration.multiWidth,
-              colorCodeExt!,
-              colorCodeInt!
-            ) || 0;
+            calculateTotalPrice({
+              selectedMaterialKey: configuration.material.key,
+              selectedProfileKey: configuration.profile.key,
+              selectedWindowStyleKey: configuration.style.key,
+              selectedTypeKey: (configuration.type as SelectionItem).key,
+              width: Number((size as Size).w),
+              height: Number((size as Size).h),
+              multiWidth: configuration.multiWidth,
+              colorExteriorCode: colorCodeExt!,
+              colorInteriorCode: colorCodeInt!,
+              colorMidKey,
+            }) || 0;
         }
 
         // round for 2 decimal points
@@ -468,14 +474,16 @@ export default function SummaryDisplayer() {
     configuration.multiHeight,
     configuration.colorExt.colorCode,
     configuration.colorInt.colorCode,
+    configuration.sealInt,
   ]);
 
   useEffect(() => {
-    const { min10 } = getColoringMultiplier(
-      configuration.colorExt.colorCode!,
-      configuration.colorInt.colorCode!,
-      configuration.profile.key
-    );
+    const { min10 } = getColoringMultiplier({
+      colorExteriorCode: configuration.colorExt.colorCode!,
+      colorInteriorCode: configuration.colorInt.colorCode!,
+      colorMidKey: configuration.sealInt?.key,
+      selectedProfileKey: configuration.profile.key,
+    });
     if (min10) {
       openModal(
         <Infobox
@@ -486,7 +494,7 @@ export default function SummaryDisplayer() {
         />
       );
     }
-  }, [configuration.colorExt, configuration.colorInt]);
+  }, []);
 
   return (
     <div id={styles.summary}>
