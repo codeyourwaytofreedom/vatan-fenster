@@ -190,6 +190,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
       selectedProfileKey,
     });
 
+    console.log(colouringPriceMultiplier);
     // additional calculation for the glass
     // deafult is 2 layer of glass so multiply by 2
     let additionalWindowPrice = calculateGlassPriceByM2(8, width, height);

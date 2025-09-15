@@ -32,7 +32,7 @@
 .container .frame_option .oben::before,
 .container .frame_option .unten::before {
   position: absolute;
-  content: '';
+  content: "";
   width: 20px;
   height: 200px;
   background-color: var(--color-2);
@@ -53,4 +53,4 @@
 
 .label {
   font-weight: 500 !important;
-} /*# sourceMappingURL=StepRahmenverbreiterungAuswahlen.module.css.map */
+}/*# sourceMappingURL=StepRahmenverbreiterungAuswahlen.module.css.map */
