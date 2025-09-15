@@ -3,7 +3,7 @@ import style from '../../styles/KonfiguratorPage.module.css';
 import Stepper from '../Stepper/Stepper';
 import OptionHolder from '../Product_Holder/Option_Holder';
 import { categoryItems } from '@/data/configurationData';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useConfiguration } from '@/context/ConfigurationContext';
 import StepGlassPaket from '../StepGlassPaket/StepGlassPaket';
 import GroupBottomActions from '../GroupBottomActions/GroupBottomActions';
@@ -72,7 +72,7 @@ export default function Configuration_Group({ groupTitle }: GroupProps) {
         }
       }
       if (Array.isArray(visibleSection.items)) {
-        setItemsToDisplay(visibleSection?.items);
+        setItemsToDisplay(visibleSection?.items.sort((a, b) => a.name.localeCompare(b.name)));
       }
     }
   }, [groupActive, visibleSection]);
@@ -146,6 +146,18 @@ export default function Configuration_Group({ groupTitle }: GroupProps) {
     return step && 'component' in step && step.component !== undefined;
   };
 
+  const switcherRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const el = switcherRef.current;
+    if (!el) return;
+
+    el.classList.remove(style.switcher);
+    // force reflow so the browser restarts the animation
+    void el.offsetWidth;
+    el.classList.add(style.switcher);
+  });
+
   if (coverNotAvailable) return null;
 
   return (
@@ -154,6 +166,7 @@ export default function Configuration_Group({ groupTitle }: GroupProps) {
         <div>
           {<Stepper />}
           <div className={style.group}>
+            <div className={style.switcher} ref={switcherRef}></div>
             {currentStep?.key === 'glasspaket' ? (
               <StepGlassPaket items={itemsToDisplay || []} expanded={expanded!} />
             ) : Component && stepHasCustomComponent(currentStep!) && currentStep?.props ? (

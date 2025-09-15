@@ -22,7 +22,6 @@
   -moz-column-gap: 20px;
        column-gap: 20px;
   padding-top: 10px;
-  min-height: 99vh;
   align-items: start;
   margin-top: 10px;
 }
@@ -32,6 +31,16 @@
   animation: rise 0.7s ease forwards;
   padding-bottom: 10px;
   position: relative;
+}
+.config .group .switcher {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: whitesmoke;
+  z-index: 9;
+  animation: showandhide 1s ease-in-out forwards;
 }
 .config_wrapper {
   width: 100%;
@@ -255,5 +264,15 @@
   }
   to {
     grid-template-rows: 1fr;
+  }
+}
+@keyframes showandhide {
+  from {
+    opacity: 1;
+    z-index: 9;
+  }
+  to {
+    opacity: 0;
+    display: none;
   }
 }/*# sourceMappingURL=KonfiguratorPage.module.css.map */
