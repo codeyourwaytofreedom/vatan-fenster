@@ -16,9 +16,12 @@
   justify-self: flex-end;
   align-items: center;
   justify-content: space-around;
+  background-color: silver;
+  animation: noticeme 0.6s infinite;
   &:hover {
     filter: brightness(1.2);
     background-color: var(--color-2);
+    animation: none;
     color: white;
   }
 }
@@ -27,4 +30,16 @@
   position: absolute;
   align-self: center;
   right: 10px;
+}
+
+@keyframes noticeme {
+  0% {
+    background-color: silver;
+  }
+  50% {
+    background-color: gold;
+  }
+  0% {
+    background-color: silver;
+  }
 }
