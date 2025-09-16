@@ -72,7 +72,7 @@ export default function Configuration_Group({ groupTitle }: GroupProps) {
         }
       }
       if (Array.isArray(visibleSection.items)) {
-        setItemsToDisplay(visibleSection?.items.sort((a, b) => a.name.localeCompare(b.name)));
+        setItemsToDisplay(visibleSection?.items);
       }
     }
   }, [groupActive, visibleSection]);
@@ -107,7 +107,7 @@ export default function Configuration_Group({ groupTitle }: GroupProps) {
     colorsAvailable,
     configuration.colorExt,
     configuration.colorInt,
-    configuration.profile.key,
+    configuration.profile,
     configuration.sealInt,
     setConfiguration,
     visibleSection,
@@ -148,6 +148,7 @@ export default function Configuration_Group({ groupTitle }: GroupProps) {
 
   const switcherRef = useRef<HTMLDivElement | null>(null);
 
+  // show step switch noticer
   useEffect(() => {
     const el = switcherRef.current;
     if (!el) return;
@@ -156,7 +157,7 @@ export default function Configuration_Group({ groupTitle }: GroupProps) {
     // force reflow so the browser restarts the animation
     void el.offsetWidth;
     el.classList.add(style.switcher);
-  });
+  }, [currentStep]);
 
   if (coverNotAvailable) return null;
 

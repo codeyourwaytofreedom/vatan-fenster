@@ -1,10 +1,9 @@
 import { ColorCode } from "@/data/selectionItems/farbenData";
 
-export const colorPriceMultipliersExteriorOnly: Record<
-  string,
+export const colorPriceMultipliersExteriorOnly: 
   { name: string; colorCode: ColorCode; priceMultiplier: number }[]
-> = {
-  I5: [
+ = 
+   [
     {
       name: 'Weiss (ohne Dekorfarbe)',
       colorCode: '0',
@@ -78,7 +77,7 @@ export const colorPriceMultipliersExteriorOnly: Record<
     {
       name: 'Oregon',
       colorCode: '2115008167',
-      priceMultiplier: 8,
+      priceMultiplier: 14,
     },
     {
       name: 'Anthrazitgrau Glatt',
@@ -103,7 +102,7 @@ export const colorPriceMultipliersExteriorOnly: Record<
     {
       name: 'Schiefergrau Glatt',
       colorCode: 'S0040097',
-      priceMultiplier: 8,
+      priceMultiplier: 14,
     },
     {
       name: 'Anthrazitgrau Ulti Matt',
@@ -215,14 +214,11 @@ export const colorPriceMultipliersExteriorOnly: Record<
       colorCode: 'P001195',
       priceMultiplier: 19,
     },
-  ],
-};
+  ];
 
-export const colorPriceMultipliersInteriorOnly: Record<
-  string,
+export const colorPriceMultipliersInteriorOnly: 
   { name: string; colorCode: ColorCode; priceMultiplier: number }[]
-> = {
-  I5: [
+ =  [
     {
       name: 'Weiss (ohne Dekorfarbe)',
       colorCode: '0',
@@ -269,14 +265,11 @@ export const colorPriceMultipliersInteriorOnly: Record<
     { name: 'Turner Oak Toffee', colorCode: '4703004', priceMultiplier: 21 },
     { name: 'Turner Oak Walnut', colorCode: '4709036', priceMultiplier: 21 },
     { name: 'Shine Deep Bronze Mattex CC', colorCode: '4701029', priceMultiplier: 21 },
-  ],
-};
+  ];
 
-export const colorPriceMultipliersInteriorExteriorSame: Record<
-  string,
+export const colorPriceMultipliersInteriorExteriorSame: 
   { name: string; colorCode: ColorCode; priceMultiplier: number }[]
-> = {
-  I5: [
+ =  [
     { name: 'Anthrazitgrau', colorCode: '1701605167', priceMultiplier: 5.5 },
     { name: 'Weiss FX', colorCode: '915205168', priceMultiplier: 5.5 },
     { name: 'Schokobraun', colorCode: '887505167', priceMultiplier: 5.5 },
@@ -311,12 +304,11 @@ export const colorPriceMultipliersInteriorExteriorSame: Record<
     { name: 'Crown Platin', colorCode: '93001195', priceMultiplier: 8 },
     { name: 'Eisingerminen Schiefer DB703', colorCode: '65002097', priceMultiplier: 8 },
     { name: 'Schiefergrau Glatt', colorCode: 'S0040097', priceMultiplier: 8 },
-    { name: 'Turner Oak', colorCode: 'F4703001', priceMultiplier: 5 },
+    { name: 'Turner Oak', colorCode: 'F4703001', priceMultiplier: 5.5 },
     { name: 'White Sand Ulti Matt PX', colorCode: 'PX9152', priceMultiplier: 8 },
     { name: 'Graphit Sandmatt', colorCode: '4366023', priceMultiplier: 8 },
     { name: 'Turner Oak Toffee', colorCode: '4703004', priceMultiplier: 8 },
     { name: 'Turner Oak Walnut', colorCode: '4709036', priceMultiplier: 8 },
     { name: 'Shine Deep Bronze Mattex CC', colorCode: '4701029', priceMultiplier: 8 },
     { name: 'Pyrit', colorCode: 'P001195', priceMultiplier: 10.5 },
-  ],
-};
+  ];

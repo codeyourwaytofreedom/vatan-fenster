@@ -107,7 +107,7 @@ export const getColoringMultiplier = (
   if (colorExteriorCode === '0' && colorInteriorCode !== '0') {
     // no mid color price multiplier here
     const multiplier =
-      (colorPriceMultipliersInteriorOnly[selectedProfileKey]?.find(
+      (colorPriceMultipliersInteriorOnly?.find(
         (mulp) => mulp.colorCode === colorInteriorCode
       )?.priceMultiplier ?? 0) / 100;
     return {
@@ -120,7 +120,7 @@ export const getColoringMultiplier = (
   if (colorExteriorCode !== '0' && colorInteriorCode === '0') {
     // no mid color price multiplier here
     const multiplier =
-      (colorPriceMultipliersExteriorOnly[selectedProfileKey]?.find(
+      (colorPriceMultipliersExteriorOnly?.find(
         (mulp) => mulp.colorCode === colorExteriorCode
       )?.priceMultiplier ?? 0) / 100;
     return {
@@ -137,14 +137,14 @@ export const getColoringMultiplier = (
     const colorMidPriceMultiplier = colorMidKey === 'white' ? 0 : 0.02;
 
     const multiplier =
-      ((colorPriceMultipliersInteriorExteriorSame[selectedProfileKey]?.find(
+      ((colorPriceMultipliersInteriorExteriorSame?.find(
         (mulp) => mulp.colorCode === colorExteriorCode
       )?.priceMultiplier ?? 0) /
         100) *
       2;
     
     // exctract available middle colors
-    const midColorsAvailable:MidColor[] = midColorsForAussenEqualsInnen[colorInteriorCode];
+    const midColorsAvailable:MidColor[] = midColorsForAussenEqualsInnen(selectedProfileKey)[colorInteriorCode];
     return { colouringPriceMultiplier: multiplier + colorMidPriceMultiplier, colorsAvailable: midColorsAvailable };
   }
   // Exterior and Interior (Different Colors)
