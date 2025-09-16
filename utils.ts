@@ -98,7 +98,6 @@ export const getColoringMultiplier = (
   selectedProfileKey}: Readonly<ColoringMultiplierParams>
 ) => {
   // No Colours
-
   if (colorExteriorCode === '0' && colorInteriorCode === '0') {
     // no color multplier
     return { colouringPriceMultiplier: 0, colorsAvailable: ['white'] };

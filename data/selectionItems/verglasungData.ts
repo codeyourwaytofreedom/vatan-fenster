@@ -212,7 +212,7 @@ export const verglasung = {
       image: no,
     },
     {
-      key: 'rb6',
+      key: 'reflektofloatBraun6',
       name: 'Reflektofloat: Braun 6',
       image: rb6,
     },
@@ -222,7 +222,7 @@ export const verglasung = {
       image: ab6,
     },
     {
-      key: 'ab4',
+      key: 'antisolBraun4',
       name: 'Antisol: Braun 4',
       image: ab4,
     },
