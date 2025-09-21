@@ -23,6 +23,7 @@ type PriceDeterminants = {
   selectedProfileKey: string;
   selectedWindowStyleKey: WindowStyle;
   selectedTypeKey: string;
+  selectedOrnamentKey: string;
   width: number;
   height: number;
   multiWidth: Record<string, number> | undefined;
@@ -56,6 +57,7 @@ interface ConfigurationContextType {
     selectedProfileKey,
     selectedWindowStyleKey,
     selectedTypeKey,
+    selectedOrnamentKey,
     width,
     height,
     multiWidth,
@@ -169,6 +171,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     selectedProfileKey,
     selectedWindowStyleKey,
     selectedTypeKey,
+    selectedOrnamentKey,
     width,
     height,
     multiWidth,
@@ -192,7 +195,11 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
 
     // additional calculation for the glass
     // deafult is 2 layer of glass so multiply by 2
-    let additionalWindowPrice = calculateGlassPriceByM2(8, width, height);
+    let additionalWindowPrice = calculateGlassPriceByM2({
+      w: width,
+      h: height,
+      selectedOrnamentKey,
+    });
 
     // adjust for overlicht and unterlicht
     const priceListKey = `${selectedProfileKey}_${selectedTypeKey}`;
@@ -229,9 +236,15 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
         return 0;
       }
 
+      // we provide the multiWidth only when there is no priceTable for the selected windowType
       if (multiWidth) {
         let totalPrice = 0;
-        additionalWindowPrice = calculateGlassPriceByM2(8, width, height, multiWidth);
+        additionalWindowPrice = calculateGlassPriceByM2({
+          w: width,
+          h: width,
+          multiWidth,
+          selectedOrnamentKey,
+        });
 
         for (let index = 0; index < individualSectionTypeKeys.length; index++) {
           const typeKey = individualSectionTypeKeys?.[index];

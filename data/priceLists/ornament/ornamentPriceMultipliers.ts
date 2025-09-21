@@ -1,14 +1,30 @@
-export const ornamentPriceMultipliers = (ornamentKey: string, m2: number) => {
-    switch (ornamentKey) {
-        case 'nein':
-            return 0;
-        case 'reflektofloatBraun6':
-            return extractOrnamentMultiplier(m2,[509, 687.15,738.05, 814.40]);
-        case 'antisolBraun4':
-            return extractOrnamentMultiplier(m2,[85,114.75,123.25,136]);
-    }
-}
-
-function extractOrnamentMultiplier(m2: number, multipliers: number[]) {
-    return m2 <= 4 ? multipliers[0] : m2 > 4 && m2<= 5 ?  multipliers[1] : m2 > 5 && m2 <= 7 ? multipliers[2] :  multipliers[3]; 
-}
+export const ornamentPriceMultipliers = (ornamentKey: string) => {
+  switch (ornamentKey) {
+    case 'nein':
+      return [];
+    case 'reflektofloatBraun6':
+      return [509, 687.15, 738.05, 814.4];
+    case 'antisolBlau6':
+      return [8, 10.8, 11.6, 12.8];
+    case 'antisolBraun4':
+      return [85, 114.75, 123.25, 136];
+    case 'antisolGrun4':
+      return [85, 114.75, 123.25, 136];
+    case 'ornamentglasCathedral':
+      return [67, 90.45, 97.15, 107.2];
+    case 'ornamentglasDelta':
+      return [67, 90.45, 97.15, 107.2];
+    case 'ornamentglasStreifen':
+      return [67, 90.45, 97.15, 107.2];
+    case 'milchglas':
+      return [136, 183.6, 197.2, 217.6];
+    case 'ornamentglasMasterCarre':
+      return [129, 174.15, 187.05, 206.4];
+    case 'ornamentglasSilvit':
+      return [67, 90.45, 97.15, 107.2];
+    case 'ornamentglasChinchilla':
+      return [67, 90.45, 97.15, 107.2];
+    default:
+      return [];
+  }
+};

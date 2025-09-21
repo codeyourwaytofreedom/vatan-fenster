@@ -3,7 +3,12 @@ import {
   colorPriceMultipliersInteriorExteriorSame,
   colorPriceMultipliersInteriorOnly,
 } from './data/priceLists/colors/colorPriceMultipliers';
-import { ColorCode, MidColor, midColorsForAussenEqualsInnen } from './data/selectionItems/farbenData';
+import { ornamentPriceMultipliers } from './data/priceLists/ornament/ornamentPriceMultipliers';
+import {
+  ColorCode,
+  MidColor,
+  midColorsForAussenEqualsInnen,
+} from './data/selectionItems/farbenData';
 
 export const scrollToElement = (elementId: string, delay: number = 0, offset: number = 150) => {
   setTimeout(() => {
@@ -41,47 +46,59 @@ export const extractPriceFromTable = (
   } catch {}
 };
 
-export const calculateGlassPriceByM2 = (
-  m2Price: number = 8,
-  w: number,
-  h: number,
-  multiWidth?: Record<string, number>
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-) => {
-  // if multiWidth, check each section's area and if any area is greater than 3.6 m2
-  // then take m2 price as 59 instead of 8 because thicker glass is used
+interface GlassPriceDeterminants {
+  selectedOrnamentKey: string;
+  w: number;
+  h: number;
+  multiWidth?: Record<string, number>;
+}
+export const calculateGlassPriceByM2 = ({
+  w,
+  h,
+  multiWidth,
+  selectedOrnamentKey,
+}: GlassPriceDeterminants) => {
+  const basicGlassM2PriceMultipliers = [8, 10.8, 11.6, 12.8];
+  const ornamentAvailable = selectedOrnamentKey !== 'nein';
+  const ornamentGlassPriceMultipliers = ornamentPriceMultipliers(selectedOrnamentKey);
+
+  /* MULTIPLE SECTION_WINDOW */
+
+  // if multiWidth, ONLY when there is no priceTable for the selected windowType, check each section's area
+  //  and according to the section area, get the m2 price and calculate that section's glass price
   if (multiWidth) {
-    const additionalWindowGlassPrice = Object.values(multiWidth).reduce((acc, sectionWidth) => {
-      const sectionArea = (sectionWidth * h) / 1_000_000;
-      m2Price =
-        sectionArea < 4
-          ? 8
-          : sectionArea > 4 && sectionArea <= 5
-            ? 10.8
-            : sectionArea > 5 && sectionArea <= 7
-              ? 11.6
-              : 12.8;
-      const sectionGlassPrice = (sectionWidth * h * m2Price * 2) / 1_000_000;
-      return acc + sectionGlassPrice;
-    }, 0);
-    //const truncatedAdditionalWindowPrice = Math.floor(additionalWindowGlassPrice * 100) / 100;
-    return additionalWindowGlassPrice;
+    // first layer of glass for multi-section window type --> basicGlassM2PriceMultipliers
+    const additionalWindowGlassPriceLayer1 = calculateLayerGlassPrice({
+      multiWidth,
+      multipliers: basicGlassM2PriceMultipliers,
+      w,
+      h,
+    });
+    // second layer, checks if ornament glass is selected
+    const additionalWindowGlassPriceLayer2 = ornamentAvailable
+      ? calculateLayerGlassPrice({ multiWidth, multipliers: ornamentGlassPriceMultipliers, w, h })
+      : additionalWindowGlassPriceLayer1;
+    return additionalWindowGlassPriceLayer1 + additionalWindowGlassPriceLayer2;
   }
-  // for single section window
-  const sectionArea = (w * h) / 1_000_000;
-  m2Price =
-    sectionArea < 4
-      ? 8
-      : sectionArea > 4 && sectionArea <= 5
-        ? 10.8
-        : sectionArea > 5 && sectionArea <= 7
-          ? 11.6
-          : 12.8;
-  const additionalWindowGlassPrice = (w * h * m2Price * 2) / 1_000_000;
-  return additionalWindowGlassPrice;
+
+  /* SINGLE SECTION_WINDOW */
+
+  // first layer of glass for single window --> basicGlassM2PriceMultipliers
+  const additionalWindowGlassPriceLayer1 = calculateLayerGlassPrice({
+    multipliers: basicGlassM2PriceMultipliers,
+    w,
+    h,
+  });
+  // second layer, checks if ornament glass is selected
+  const additionalWindowGlassPriceLayer2 = ornamentAvailable
+    ? calculateLayerGlassPrice({
+        multipliers: ornamentGlassPriceMultipliers,
+        w,
+        h,
+      })
+    : additionalWindowGlassPriceLayer1;
+  return additionalWindowGlassPriceLayer1 + additionalWindowGlassPriceLayer2;
 };
-
-
 
 type ColoringMultiplierParams = {
   colorExteriorCode: ColorCode;
@@ -90,13 +107,12 @@ type ColoringMultiplierParams = {
   selectedProfileKey: string;
 };
 
-
-export const getColoringMultiplier = (
-  {colorExteriorCode,
+export const getColoringMultiplier = ({
+  colorExteriorCode,
   colorInteriorCode,
   colorMidKey,
-  selectedProfileKey}: Readonly<ColoringMultiplierParams>
-) => {
+  selectedProfileKey,
+}: Readonly<ColoringMultiplierParams>) => {
   // No Colours
   if (colorExteriorCode === '0' && colorInteriorCode === '0') {
     // no color multplier
@@ -106,9 +122,8 @@ export const getColoringMultiplier = (
   if (colorExteriorCode === '0' && colorInteriorCode !== '0') {
     // no mid color price multiplier here
     const multiplier =
-      (colorPriceMultipliersInteriorOnly?.find(
-        (mulp) => mulp.colorCode === colorInteriorCode
-      )?.priceMultiplier ?? 0) / 100;
+      (colorPriceMultipliersInteriorOnly?.find((mulp) => mulp.colorCode === colorInteriorCode)
+        ?.priceMultiplier ?? 0) / 100;
     return {
       colouringPriceMultiplier: multiplier,
       min10: true,
@@ -119,9 +134,8 @@ export const getColoringMultiplier = (
   if (colorExteriorCode !== '0' && colorInteriorCode === '0') {
     // no mid color price multiplier here
     const multiplier =
-      (colorPriceMultipliersExteriorOnly?.find(
-        (mulp) => mulp.colorCode === colorExteriorCode
-      )?.priceMultiplier ?? 0) / 100;
+      (colorPriceMultipliersExteriorOnly?.find((mulp) => mulp.colorCode === colorExteriorCode)
+        ?.priceMultiplier ?? 0) / 100;
     return {
       colouringPriceMultiplier: multiplier,
       colorsAvailable: ['white'],
@@ -141,10 +155,14 @@ export const getColoringMultiplier = (
       )?.priceMultiplier ?? 0) /
         100) *
       2;
-    
+
     // exctract available middle colors
-    const midColorsAvailable:MidColor[] = midColorsForAussenEqualsInnen(selectedProfileKey)[colorInteriorCode];
-    return { colouringPriceMultiplier: multiplier + colorMidPriceMultiplier, colorsAvailable: midColorsAvailable };
+    const midColorsAvailable: MidColor[] =
+      midColorsForAussenEqualsInnen(selectedProfileKey)[colorInteriorCode];
+    return {
+      colouringPriceMultiplier: multiplier + colorMidPriceMultiplier,
+      colorsAvailable: midColorsAvailable,
+    };
   }
   // Exterior and Interior (Different Colors)
   if (
@@ -156,10 +174,39 @@ export const getColoringMultiplier = (
     return {
       colouringPriceMultiplier: 0.21 + 0.02,
       min10: true,
-      colorsAvailable: [ 'white', 'dark-brown','antrasite'],
+      colorsAvailable: ['white', 'dark-brown', 'antrasite'],
     };
   }
   return { colouringPriceMultiplier: 999 };
 };
 
+function extractGlassM2Price(m2: number, multipliers: number[]) {
+  return m2 <= 4
+    ? multipliers[0]
+    : m2 > 4 && m2 <= 5
+      ? multipliers[1]
+      : m2 > 5 && m2 <= 7
+        ? multipliers[2]
+        : multipliers[3];
+}
 
+interface GlassLayerPriceDeterminants {
+  h: number;
+  w: number;
+  multiWidth?: Record<string, number>;
+  multipliers: number[];
+}
+
+function calculateLayerGlassPrice({ multiWidth, multipliers, w, h }: GlassLayerPriceDeterminants) {
+  if (multiWidth) {
+    return Object.values(multiWidth).reduce((acc, sectionWidth) => {
+      const sectionArea = (sectionWidth * h) / 1_000_000;
+      const m2Price = extractGlassM2Price(sectionArea, multipliers);
+      const sectionGlassPrice = (sectionWidth * h * m2Price) / 1_000_000;
+      return acc + sectionGlassPrice;
+    }, 0);
+  }
+  const m2 = (w * h) / 1_000_000;
+  const m2Price = extractGlassM2Price(m2, multipliers);
+  return m2 * m2Price;
+}

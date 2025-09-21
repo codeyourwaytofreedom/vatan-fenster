@@ -1,4 +1,4 @@
-import {  SelectionItem } from '@/types/Configurator';
+import { SelectionItem } from '@/types/Configurator';
 
 // Common images
 import color3 from '@/assets/common/color3.jpg';
@@ -564,7 +564,6 @@ export type ColorCode =
   | '4366023'
   | '4701029';
 
-
 export const farbenOptions: Record<string, SelectionItem[]> = {
   colorExt: farbenAussenInnenOptions,
   colorInt: farbenAussenInnenOptions,
@@ -658,102 +657,100 @@ export const fenstergriffeOptions: Record<string, SelectionItem[]> = {
 
 export type MidColor = 'white' | 'dark-brown' | 'antrasite';
 
-export const midColorsForAussenEqualsInnen = (profileKey:   string) => {
-  if(profileKey === 'IEC'){
+export const midColorsForAussenEqualsInnen = (profileKey: string) => {
+  if (profileKey === 'IEC') {
     return {
-  //Schokobraun
-  887505167: ['dark-brown'],
-  2052089167: ['dark-brown'],
-  2097013167: ['dark-brown'],
-  1701605167: ['white', 'dark-brown', 'antrasite'],
-  2178001167: ['dark-brown'],
-  //Nussbaum
-  2178007167: ['dark-brown'],
-  3162002167: ['dark-brown'],
-  2115008167: ['dark-brown'],
-  3152009167: ['dark-brown'],
-  3118076167: ['white', 'dark-brown'],
-  137905167: ['white'],
-  715505167: ['white', 'antrasite'],
-  //Schwarzbraun
-  851805167: ['dark-brown'],
-  612505167: ['white'],
-  600505167: ['white'],
-  308105167: ['white'],
-  703905167: ['white', 'dark-brown', 'antrasite'],
-  49240015148: ['dark-brown'],
-  703905_097: ['white', 'dark-brown', 'antrasite'],
-  //Basaltgrau
-  701205167: ['white', 'dark-brown', 'antrasite'],
-  725105167: ['white', 'antrasite'],
-  915205168: ['white'],
-  701205097: ['white', 'dark-brown', 'antrasite'],
-  701605097: ['white', 'dark-brown', 'antrasite'],
-  702305167: ['white', 'dark-brown', 'antrasite'],
-  //Sheffield Oak
-  F4563081: ['white'],
-  93001195: ['white', 'dark-brown', 'antrasite'],
-  65002097: ['white', 'dark-brown', 'antrasite'],
-  S0040097: ['white', 'dark-brown', 'antrasite'],
-  504700047: ['white', 'dark-brown', 'antrasite'],
-  50470047: ['white', 'dark-brown', 'antrasite'],
-  F4703001: ['dark-brown'],
-  F4766062: ['white', 'dark-brown', 'antrasite'],
-  P001195: ['white'],
-  PX9152: [],
-  4709036: [],
-  4703004: [],
-  4366023: [],
-  4701029: []
- } satisfies Partial<Record<ColorCode, MidColor[]>>;
+      //Schokobraun
+      887505167: ['dark-brown'],
+      2052089167: ['dark-brown'],
+      2097013167: ['dark-brown'],
+      1701605167: ['white', 'dark-brown', 'antrasite'],
+      2178001167: ['dark-brown'],
+      //Nussbaum
+      2178007167: ['dark-brown'],
+      3162002167: ['dark-brown'],
+      2115008167: ['dark-brown'],
+      3152009167: ['dark-brown'],
+      3118076167: ['white', 'dark-brown'],
+      137905167: ['white'],
+      715505167: ['white', 'antrasite'],
+      //Schwarzbraun
+      851805167: ['dark-brown'],
+      612505167: ['white'],
+      600505167: ['white'],
+      308105167: ['white'],
+      703905167: ['white', 'dark-brown', 'antrasite'],
+      49240015148: ['dark-brown'],
+      703905_097: ['white', 'dark-brown', 'antrasite'],
+      //Basaltgrau
+      701205167: ['white', 'dark-brown', 'antrasite'],
+      725105167: ['white', 'antrasite'],
+      915205168: ['white'],
+      701205097: ['white', 'dark-brown', 'antrasite'],
+      701605097: ['white', 'dark-brown', 'antrasite'],
+      702305167: ['white', 'dark-brown', 'antrasite'],
+      //Sheffield Oak
+      F4563081: ['white'],
+      93001195: ['white', 'dark-brown', 'antrasite'],
+      65002097: ['white', 'dark-brown', 'antrasite'],
+      S0040097: ['white', 'dark-brown', 'antrasite'],
+      504700047: ['white', 'dark-brown', 'antrasite'],
+      50470047: ['white', 'dark-brown', 'antrasite'],
+      F4703001: ['dark-brown'],
+      F4766062: ['white', 'dark-brown', 'antrasite'],
+      P001195: ['white'],
+      PX9152: [],
+      4709036: [],
+      4703004: [],
+      4366023: [],
+      4701029: [],
+    } satisfies Partial<Record<ColorCode, MidColor[]>>;
+  } else {
+    return {
+      //Schokobraun
+      887505167: ['dark-brown'],
+      2052089167: ['dark-brown'],
+      2097013167: ['dark-brown'],
+      1701605167: ['white', 'dark-brown'],
+      2178001167: ['dark-brown'],
+      //Nussbaum
+      2178007167: ['dark-brown'],
+      3162002167: ['dark-brown'],
+      2115008167: ['dark-brown'],
+      3152009167: ['dark-brown'],
+      3118076167: ['white', 'dark-brown'],
+      137905167: ['white'],
+      715505167: ['white', 'antrasite'],
+      //Schwarzbraun
+      851805167: ['dark-brown'],
+      612505167: ['white'],
+      600505167: ['white'],
+      308105167: ['white'],
+      703905167: ['white', 'dark-brown'],
+      49240015148: ['dark-brown'],
+      703905_097: ['white', 'dark-brown'],
+      //Basaltgrau
+      701205167: ['white', 'dark-brown'],
+      725105167: ['white', 'antrasite'],
+      915205168: ['white'],
+      701205097: ['white', 'dark-brown'],
+      701605097: ['white', 'dark-brown'],
+      702305167: ['white', 'dark-brown'],
+      //Sheffield Oak
+      F4563081: ['white'],
+      93001195: ['white', 'dark-brown'],
+      65002097: ['white', 'dark-brown'],
+      S0040097: ['white', 'dark-brown'],
+      504700047: ['white', 'dark-brown'],
+      50470047: ['white', 'dark-brown'],
+      F4703001: ['dark-brown'],
+      F4766062: ['white', 'dark-brown'],
+      P001195: ['white'],
+      PX9152: [],
+      4709036: [],
+      4703004: [],
+      4366023: [],
+      4701029: [],
+    } satisfies Partial<Record<ColorCode, MidColor[]>>;
   }
-  else{
-     return {
-  //Schokobraun
-  887505167: ['dark-brown'],
-  2052089167: ['dark-brown'],
-  2097013167: ['dark-brown'],
-  1701605167: ['white', 'dark-brown'],
-  2178001167: ['dark-brown'],
-  //Nussbaum
-  2178007167: ['dark-brown'],
-  3162002167: ['dark-brown'],
-  2115008167: ['dark-brown'],
-  3152009167: ['dark-brown'],
-  3118076167: ['white', 'dark-brown'],
-  137905167: ['white'],
-  715505167: ['white', 'antrasite'],
-  //Schwarzbraun
-  851805167: ['dark-brown'],
-  612505167: ['white'],
-  600505167: ['white'],
-  308105167: ['white'],
-  703905167: ['white', 'dark-brown'],
-  49240015148: ['dark-brown'],
-  703905_097: ['white', 'dark-brown'],
-  //Basaltgrau
-  701205167: ['white', 'dark-brown'],
-  725105167: ['white', 'antrasite'],
-  915205168: ['white'],
-  701205097: ['white', 'dark-brown'],
-  701605097: ['white', 'dark-brown'],
-  702305167: ['white', 'dark-brown'],
-  //Sheffield Oak
-  F4563081: ['white'],
-  93001195: ['white', 'dark-brown'],
-  65002097: ['white', 'dark-brown'],
-  S0040097: ['white', 'dark-brown'],
-  504700047: ['white', 'dark-brown'],
-  50470047: ['white', 'dark-brown'],
-  F4703001: ['dark-brown'],
-  F4766062: ['white', 'dark-brown'],
-  P001195: ['white'],
-  PX9152: [],
-  4709036: [],
-  4703004: [],
-  4366023: [],
-  4701029: []
- } satisfies Partial<Record<ColorCode, MidColor[]>>;
-  }
-
-}
+};

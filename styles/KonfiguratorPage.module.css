@@ -20,7 +20,7 @@
   display: grid;
   grid-template-columns: calc(100% - 370px) 350px;
   -moz-column-gap: 20px;
-       column-gap: 20px;
+  column-gap: 20px;
   padding-top: 10px;
   align-items: start;
   margin-top: 10px;
@@ -46,7 +46,7 @@
   width: 100%;
   display: flex;
   -moz-column-gap: 40px;
-       column-gap: 40px;
+  column-gap: 40px;
   padding: 5px;
 }
 .config_wrapper_option_holders {
@@ -221,7 +221,8 @@
     flex-wrap: wrap;
     justify-content: center;
   }
-  .config_wrapper_option_holders, .config_wrapper_subcategories {
+  .config_wrapper_option_holders,
+  .config_wrapper_subcategories {
     order: 2;
   }
   .config_wrapper #summary {
@@ -275,4 +276,4 @@
     opacity: 0;
     display: none;
   }
-}/*# sourceMappingURL=KonfiguratorPage.module.css.map */
+} /*# sourceMappingURL=KonfiguratorPage.module.css.map */
