@@ -1,4 +1,4 @@
-import { faChevronDown, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import style from './GroupBottomActions.module.css';
 
@@ -29,7 +29,8 @@ export default function GroupBottomActions({
       {isLastStep && (
         <button onClick={nextGroupAction} className={style.next_group}>
           <span>
-            <FontAwesomeIcon icon={faChevronDown} size={'1x'} beat /> &nbsp; Nächster Schritt
+            <FontAwesomeIcon icon={faChevronRight} size={'1x'} beat />
+            <FontAwesomeIcon icon={faChevronRight} size={'1x'} beat /> &nbsp; Nächster Schritt
           </span>
         </button>
       )}
