@@ -47,7 +47,7 @@ $summary-shade: rgb(230, 227, 227);
   }
   &_wrapper {
     width: 100%;
-    display: flex;
+    display: grid;
     column-gap: 40px;
     padding: 5px;
     &_option_holders {

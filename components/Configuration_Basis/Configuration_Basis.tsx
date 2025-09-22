@@ -11,7 +11,13 @@ import { useConfiguration } from '@/context/ConfigurationContext';
 import { useOrderDetailsReady } from '@/context/OrderDetailsContext';
 import GroupBottomActions from '../GroupBottomActions/GroupBottomActions';
 import { farbenOptions, fenstergriffeOptions } from '@/data/selectionItems/farbenData';
-import { brands, subStyleOptions, windowStyles } from '@/data/selectionItems/basisData';
+import {
+  brands,
+  customProfileHeights,
+  subStyleOptions,
+  windowStyles,
+} from '@/data/selectionItems/basisData';
+import { scrollToElement } from '@/utils';
 
 export default function Basis_Configuration() {
   const [itemsToDisplay, setItemsToDisplay] = useState<SelectionItem[]>();
@@ -33,6 +39,9 @@ export default function Basis_Configuration() {
   const { setSize } = useOrderDetailsReady();
   const visibleSection = categoryItems.find((cat) => cat.key === currentStep?.key);
 
+  const showProfileHeight =
+    ['I5', 'I5C', 'IL'].includes(configuration.profile.key) && currentStep?.key === 'profile';
+
   const showDefaultProductHolders =
     currentStep &&
     currentStep?.key !== 'size' &&
@@ -40,9 +49,11 @@ export default function Basis_Configuration() {
       ['Oberlicht', 'Unterlicht'].includes(configuration.style.name) && currentStep?.key === 'type'
     );
 
-  const isSelected = (name: string) => {
+  const isSelected = (name: string, key?: string) => {
     if (currentStep) {
-      return (configuration[currentStep?.key as keyof Config] as SelectionItem).name === name;
+      return (
+        (configuration[(key ?? currentStep?.key) as keyof Config] as SelectionItem)?.name === name
+      );
     }
     return false;
   };
@@ -169,6 +180,10 @@ export default function Basis_Configuration() {
         ...prevConfig,
         [key ?? (currentStep?.key as keyof Config)]: item,
       }));
+    }
+    if (['I5', 'I5C', 'IL'].includes(item.key) && currentStep?.key === 'profile' && !key) {
+      scrollToElement('profileHeights');
+      return;
     }
     moveToNextStep();
   };
@@ -342,16 +357,33 @@ export default function Basis_Configuration() {
         <div className={style.group}>
           <div className={style.config_wrapper}>
             {showDefaultProductHolders && (
-              <div className={style.config_wrapper_option_holders}>
-                {itemsToDisplay?.map((item, index) => (
-                  <OptionHolder
-                    item={item}
-                    selected={isSelected(item.name)}
-                    action={() => updateConfiguration(item)}
-                    key={index}
-                  />
-                ))}
-              </div>
+              <>
+                <div className={style.config_wrapper_option_holders}>
+                  {itemsToDisplay?.map((item, index) => (
+                    <OptionHolder
+                      item={item}
+                      selected={isSelected(item.name)}
+                      action={() => updateConfiguration(item)}
+                      key={index}
+                    />
+                  ))}
+                </div>
+                <div
+                  className={style.config_wrapper_option_holders}
+                  style={{ marginTop: 20 }}
+                  id="profileHeights"
+                >
+                  {showProfileHeight &&
+                    customProfileHeights?.map((item, index) => (
+                      <OptionHolder
+                        item={item}
+                        selected={isSelected(item.name, 'profileHeight')}
+                        action={() => updateConfiguration(item, 'profileHeight')}
+                        key={index}
+                      />
+                    ))}
+                </div>
+              </>
             )}
             {showSubstyleStepper && <Substyle_Stepper />}
 

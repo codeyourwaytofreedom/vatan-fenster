@@ -236,3 +236,16 @@ export const subStyleOptions: SubStyleOptions = {
   oberlicht: oberlicht_substyle,
   unterlicht: unterlicht_substyle,
 };
+
+export const customProfileHeights: SelectionItem[] = [
+  {
+  key: 'height66',
+  name: '66 mm',
+  image: no,
+},
+{
+  key: 'height77',
+  name: '77 mm',
+  image: no,
+}
+]

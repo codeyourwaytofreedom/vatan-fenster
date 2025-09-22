@@ -44,7 +44,7 @@
 }
 .config_wrapper {
   width: 100%;
-  display: flex;
+  display: grid;
   -moz-column-gap: 40px;
        column-gap: 40px;
   padding: 5px;
