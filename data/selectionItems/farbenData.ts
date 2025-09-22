@@ -603,12 +603,12 @@ export const farbenOptions: Record<string, SelectionItem[]> = {
   ],
   sealInt: [
     {
-      name: 'white',
+      name: 'Kern Weiss',
       image: color3,
       key: 'white',
     },
     {
-      name: 'Dark Brown',
+      name: 'Kern Braun',
       image: color3,
       key: 'dark-brown',
     },
@@ -618,7 +618,7 @@ export const farbenOptions: Record<string, SelectionItem[]> = {
       key: 'whitesmoke',
     },
     {
-      name: 'Antrasite',
+      name: 'Kern Antrazit',
       image: color3,
       key: 'antrasite',
     },

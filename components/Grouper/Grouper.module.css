@@ -45,7 +45,7 @@
   align-items: center;
   justify-content: center;
   -moz-column-gap: 10px;
-  column-gap: 10px;
+       column-gap: 10px;
   font-size: calc(11px + 0.1vw);
   position: relative;
   padding: 5px 10px;
@@ -108,4 +108,4 @@
 }
 .config_steps .inactive svg {
   filter: none;
-} /*# sourceMappingURL=Grouper.module.css.map */
+}/*# sourceMappingURL=Grouper.module.css.map */
