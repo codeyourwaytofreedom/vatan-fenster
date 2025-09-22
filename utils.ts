@@ -64,8 +64,7 @@ export const calculateGlassPriceByM2 = ({
 
   /* MULTIPLE SECTION_WINDOW */
 
-  // if multiWidth, ONLY when there is no priceTable for the selected windowType, check each section's area
-  //  and according to the section area, get the m2 price and calculate that section's glass price
+  //  according to the section area, get the m2 price and calculate that section's glass price
   if (multiWidth) {
     // first layer of glass for multi-section window type --> basicGlassM2PriceMultipliers
     const additionalWindowGlassPriceLayer1 = calculateLayerGlassPrice({
@@ -80,6 +79,7 @@ export const calculateGlassPriceByM2 = ({
       : additionalWindowGlassPriceLayer1;
     return additionalWindowGlassPriceLayer1 + additionalWindowGlassPriceLayer2;
   }
+  else{
 
   /* SINGLE SECTION_WINDOW */
 
@@ -98,6 +98,8 @@ export const calculateGlassPriceByM2 = ({
       })
     : additionalWindowGlassPriceLayer1;
   return additionalWindowGlassPriceLayer1 + additionalWindowGlassPriceLayer2;
+  }
+
 };
 
 type ColoringMultiplierParams = {
@@ -205,8 +207,9 @@ function calculateLayerGlassPrice({ multiWidth, multipliers, w, h }: GlassLayerP
       const sectionGlassPrice = (sectionWidth * h * m2Price) / 1_000_000;
       return acc + sectionGlassPrice;
     }, 0);
-  }
+  }else{
   const m2 = (w * h) / 1_000_000;
   const m2Price = extractGlassM2Price(m2, multipliers);
   return m2 * m2Price;
+  }
 }

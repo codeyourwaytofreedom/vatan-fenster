@@ -241,7 +241,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
         let totalPrice = 0;
         additionalWindowPrice = calculateGlassPriceByM2({
           w: width,
-          h: width,
+          h: height,
           multiWidth,
           selectedOrnamentKey,
         });
