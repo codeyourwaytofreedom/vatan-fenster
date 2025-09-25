@@ -101,6 +101,7 @@ export interface Config {
   material: SelectionItem<WindowMaterial>;
   brand: SelectionItem;
   profile: SelectionItem<WindowProfilePlastic | WindowProfileAluminium>;
+  profileHeight: SelectionItem;
   style: SelectionItem<WindowStyle>;
   type: SelectionItem | SubStyle;
   cover: SelectionItem;

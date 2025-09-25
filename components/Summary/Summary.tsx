@@ -320,6 +320,8 @@ export default function SummaryDisplayer() {
         const colorCodeInt = configuration.colorInt.colorCode;
         const colorMidKey = configuration.sealInt?.key;
 
+        const profileHeightKey = configuration.profileHeight?.key;
+
         let totalPrice: number = 0;
         setTotalPrice(totalPrice);
 
@@ -351,6 +353,7 @@ export default function SummaryDisplayer() {
             colorExteriorCode: colorCodeExt!,
             colorInteriorCode: colorCodeInt!,
             colorMidKey,
+            profileHeightKey,
             direction: 'oben',
           });
           /* Calculate unten part */
@@ -375,6 +378,7 @@ export default function SummaryDisplayer() {
             colorExteriorCode: colorCodeExt!,
             colorInteriorCode: colorCodeInt!,
             colorMidKey,
+            profileHeightKey,
             direction: 'unten',
           });
           totalPrice = (obenPrice ?? 0) + (untenPrice ?? 0);
@@ -408,6 +412,7 @@ export default function SummaryDisplayer() {
             colorExteriorCode: colorCodeExt!,
             colorInteriorCode: colorCodeInt!,
             colorMidKey,
+            profileHeightKey,
             direction: 'unten',
           });
 
@@ -433,6 +438,7 @@ export default function SummaryDisplayer() {
             colorExteriorCode: colorCodeExt!,
             colorInteriorCode: colorCodeInt!,
             colorMidKey,
+            profileHeightKey,
             direction: 'oben',
           });
 
@@ -453,6 +459,7 @@ export default function SummaryDisplayer() {
               colorExteriorCode: colorCodeExt!,
               colorInteriorCode: colorCodeInt!,
               colorMidKey,
+              profileHeightKey,
             }) || 0;
         }
 
@@ -480,6 +487,8 @@ export default function SummaryDisplayer() {
     configuration.colorExt.colorCode,
     configuration.colorInt.colorCode,
     configuration.sealInt,
+    configuration.profileHeight?.key,
+    configuration.ornament.key,
   ]);
 
   useEffect(() => {

@@ -72,6 +72,22 @@ export default function Basis_Configuration() {
     return selectedType?.image;
   };
 
+  // if profile changes, check if 75mm is available in the new profile
+  // if not, default back to 66 mm
+  useEffect(() => {
+    if (!['I5', 'I5C', 'IL'].includes(configuration.profile.key)) {
+      if (configuration.profileHeight?.key === 'height75') {
+        alert(999);
+        setConfiguration((pr) => {
+          return {
+            ...pr,
+            profileHeight: customProfileHeights[0],
+          };
+        });
+      }
+    }
+  }, [configuration.profile]);
+
   // determine what items are to be displayed for current step
   useEffect(() => {
     if (currentStep) {

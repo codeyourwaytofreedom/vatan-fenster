@@ -30,6 +30,7 @@ type PriceDeterminants = {
   colorExteriorCode: ColorCode;
   colorInteriorCode: ColorCode;
   colorMidKey: string;
+  profileHeightKey: string | undefined;
   direction?: 'oben' | 'unten';
 };
 
@@ -178,6 +179,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     colorExteriorCode,
     colorInteriorCode,
     colorMidKey,
+    profileHeightKey,
     direction,
   }: PriceDeterminants) => {
     const priceListForSelectedWindowStyle = priceLists[selectedWindowStyleKey][selectedMaterialKey];
@@ -192,6 +194,11 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
       colorMidKey,
       selectedProfileKey,
     });
+
+    // calculate additional cost when 77mm profile is selected
+    const perimeterInMeter = ((width + height) * 2) / 1000;
+    const profileHeightRelatedAdditionalCost =
+      profileHeightKey === 'height75' ? perimeterInMeter * 16 : 0;
 
     // additional calculation for the glass
     // deafult is 2 layer of glass so multiply by 2
@@ -211,7 +218,12 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     if (priceFromTable) {
       // additional price from colorSelection for Exterior
       const colorPriceExterior = priceFromTable * colouringPriceMultiplier;
-      return additionalWindowPrice + priceFromTable + colorPriceExterior;
+      return (
+        additionalWindowPrice +
+        priceFromTable +
+        colorPriceExterior +
+        profileHeightRelatedAdditionalCost
+      );
     }
 
     // csv table does not exist for the selected type
@@ -269,7 +281,12 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
 
         // additional price from colorSelection for Exterior
         const colorPriceExterior = totalPrice * colouringPriceMultiplier;
-        return totalPrice + additionalWindowPrice + colorPriceExterior;
+        return (
+          totalPrice +
+          additionalWindowPrice +
+          colorPriceExterior +
+          profileHeightRelatedAdditionalCost
+        );
       }
     }
   };

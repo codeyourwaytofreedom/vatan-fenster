@@ -240,12 +240,12 @@ export const subStyleOptions: SubStyleOptions = {
 export const customProfileHeights: SelectionItem[] = [
   {
   key: 'height66',
-  name: '66 mm',
+  name: 'Standard - 66 mm',
   image: no,
 },
 {
-  key: 'height77',
-  name: '77 mm',
+  key: 'height75',
+  name: 'Blendrahmen - 75 mm',
   image: no,
 }
 ]

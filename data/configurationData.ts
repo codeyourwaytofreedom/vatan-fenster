@@ -2,7 +2,7 @@
 import { Config, SelectionItem, Size, WindowProfilePlastic } from '@/types/Configurator';
 
 import { farbenOptions } from './selectionItems/farbenData';
-import { brands, covers, materials, windowStyles } from './selectionItems/basisData';
+import { brands, covers, customProfileHeights, materials, windowStyles } from './selectionItems/basisData';
 import { verglasung } from './selectionItems/verglasungData';
 import { sonnenschutzItems } from './selectionItems/sonnenschutzData';
 
@@ -122,6 +122,7 @@ export const initialConfiguration: Config = {
   brand: brands[0],
   // adjust the type here
   profile: brands[0].children!.profile!.plastic[0] as SelectionItem<WindowProfilePlastic>,
+  profileHeight: customProfileHeights[0],
   style: windowStyles[0],
   type: windowStyles[0].children!.type![0]!,
   cover: covers[0],
