@@ -77,7 +77,6 @@ export default function Basis_Configuration() {
   useEffect(() => {
     if (!['I5', 'I5C', 'IL'].includes(configuration.profile.key)) {
       if (configuration.profileHeight?.key === 'height75') {
-        alert(999);
         setConfiguration((pr) => {
           return {
             ...pr,
