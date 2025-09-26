@@ -320,7 +320,8 @@ export default function SummaryDisplayer() {
         const colorCodeInt = configuration.colorInt.colorCode;
         const colorMidKey = configuration.sealInt?.key;
 
-        const profileHeightKey = configuration.profileHeight?.key;
+        const profileHeightKey = configuration.profileHeight.key;
+        const glasspaketKey = configuration.glasspaket.key;
 
         let totalPrice: number = 0;
         setTotalPrice(totalPrice);
@@ -354,6 +355,7 @@ export default function SummaryDisplayer() {
             colorInteriorCode: colorCodeInt!,
             colorMidKey,
             profileHeightKey,
+            glasspaketKey,
             direction: 'oben',
           });
           /* Calculate unten part */
@@ -379,6 +381,7 @@ export default function SummaryDisplayer() {
             colorInteriorCode: colorCodeInt!,
             colorMidKey,
             profileHeightKey,
+            glasspaketKey,
             direction: 'unten',
           });
           totalPrice = (obenPrice ?? 0) + (untenPrice ?? 0);
@@ -413,6 +416,7 @@ export default function SummaryDisplayer() {
             colorInteriorCode: colorCodeInt!,
             colorMidKey,
             profileHeightKey,
+            glasspaketKey,
             direction: 'unten',
           });
 
@@ -439,6 +443,7 @@ export default function SummaryDisplayer() {
             colorInteriorCode: colorCodeInt!,
             colorMidKey,
             profileHeightKey,
+            glasspaketKey,
             direction: 'oben',
           });
 
@@ -460,6 +465,7 @@ export default function SummaryDisplayer() {
               colorInteriorCode: colorCodeInt!,
               colorMidKey,
               profileHeightKey,
+              glasspaketKey,
             }) || 0;
         }
 
@@ -487,8 +493,9 @@ export default function SummaryDisplayer() {
     configuration.colorExt.colorCode,
     configuration.colorInt.colorCode,
     configuration.sealInt,
-    configuration.profileHeight?.key,
+    configuration.profileHeight.key,
     configuration.ornament.key,
+    configuration.glasspaket.key,
   ]);
 
   useEffect(() => {

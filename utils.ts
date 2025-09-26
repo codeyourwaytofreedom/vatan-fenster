@@ -50,22 +50,42 @@ interface GlassPriceDeterminants {
   selectedOrnamentKey: string;
   w: number;
   h: number;
+  is3Layered: boolean;
   multiWidth?: Record<string, number>;
 }
 export const calculateGlassPriceByM2 = ({
   w,
   h,
   multiWidth,
+  is3Layered,
   selectedOrnamentKey,
 }: GlassPriceDeterminants) => {
   const basicGlassM2PriceMultipliers = [8, 10.8, 11.6, 12.8];
   const ornamentAvailable = selectedOrnamentKey !== 'nein';
   const ornamentGlassPriceMultipliers = ornamentPriceMultipliers(selectedOrnamentKey);
 
+  const _3LayerGlassPriceMultipliers = {
+    interior: [8, 10.8, 11.6, 12.8],
+    middle: [41, 55.35, 59.45, 65.6],
+    exterior: [29, 39.15, 42.05, 46.40]
+  }
+
   /* MULTIPLE SECTION_WINDOW */
 
   //  according to the section area, get the m2 price and calculate that section's glass price
   if (multiWidth) {
+
+    if(is3Layered){
+      return Object.values(_3LayerGlassPriceMultipliers).reduce((sum, currentValue)=>{
+        return sum + calculateLayerGlassPrice({
+          multiWidth,
+          multipliers: currentValue,
+          w,
+          h,
+        })
+      },0)
+    }
+
     // first layer of glass for multi-section window type --> basicGlassM2PriceMultipliers
     const additionalWindowGlassPriceLayer1 = calculateLayerGlassPrice({
       multiWidth,
@@ -77,11 +97,23 @@ export const calculateGlassPriceByM2 = ({
     const additionalWindowGlassPriceLayer2 = ornamentAvailable
       ? calculateLayerGlassPrice({ multiWidth, multipliers: ornamentGlassPriceMultipliers, w, h })
       : additionalWindowGlassPriceLayer1;
-    return additionalWindowGlassPriceLayer1 + additionalWindowGlassPriceLayer2;
+    
+    const additionalWindowGlassPriceLayer3 = is3Layered ? additionalWindowGlassPriceLayer1 : 0;
+    return additionalWindowGlassPriceLayer1 + additionalWindowGlassPriceLayer2 + additionalWindowGlassPriceLayer3;
   }
   else{
 
   /* SINGLE SECTION_WINDOW */
+
+      if(is3Layered){
+      return Object.values(_3LayerGlassPriceMultipliers).reduce((sum, currentValue)=>{
+        return sum + calculateLayerGlassPrice({
+          multipliers: currentValue,
+          w,
+          h,
+        })
+      },0)
+    }
 
   // first layer of glass for single window --> basicGlassM2PriceMultipliers
   const additionalWindowGlassPriceLayer1 = calculateLayerGlassPrice({
@@ -97,7 +129,10 @@ export const calculateGlassPriceByM2 = ({
         h,
       })
     : additionalWindowGlassPriceLayer1;
-  return additionalWindowGlassPriceLayer1 + additionalWindowGlassPriceLayer2;
+
+  const additionalWindowGlassPriceLayer3 = is3Layered ? additionalWindowGlassPriceLayer1 : 0;
+
+  return additionalWindowGlassPriceLayer1 + additionalWindowGlassPriceLayer2 + additionalWindowGlassPriceLayer3;
   }
 
 };

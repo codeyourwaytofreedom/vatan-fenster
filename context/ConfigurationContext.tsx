@@ -31,6 +31,7 @@ type PriceDeterminants = {
   colorInteriorCode: ColorCode;
   colorMidKey: string;
   profileHeightKey: string | undefined;
+  glasspaketKey: string;
   direction?: 'oben' | 'unten';
 };
 
@@ -180,6 +181,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     colorInteriorCode,
     colorMidKey,
     profileHeightKey,
+    glasspaketKey,
     direction,
   }: PriceDeterminants) => {
     const priceListForSelectedWindowStyle = priceLists[selectedWindowStyleKey][selectedMaterialKey];
@@ -187,6 +189,8 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     if (width === 0 || height === 0) {
       return;
     }
+
+    const is3Layered = glasspaketKey.includes('3');
 
     const { colouringPriceMultiplier } = getColoringMultiplier({
       colorExteriorCode,
@@ -205,6 +209,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     let additionalWindowPrice = calculateGlassPriceByM2({
       w: width,
       h: height,
+      is3Layered,
       selectedOrnamentKey,
     });
 
@@ -255,6 +260,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
           w: width,
           h: height,
           multiWidth,
+          is3Layered,
           selectedOrnamentKey,
         });
 
