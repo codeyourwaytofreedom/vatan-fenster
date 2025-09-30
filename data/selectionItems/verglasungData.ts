@@ -13,7 +13,7 @@ import _3fvwk from '@/assets/configurator/verglasung/glasspaket/3-f-v-w-k.webp';
 
 // Verglasung Ornament
 import ab4 from '@/assets/configurator/verglasung/ornament/ab4.webp';
-import ab6 from '@/assets/configurator/verglasung/ornament/ab6.webp';
+//import ab6 from '@/assets/configurator/verglasung/ornament/ab6.webp';
 import ag4 from '@/assets/configurator/verglasung/ornament/ag4.webp';
 import m from '@/assets/configurator/verglasung/ornament/m.webp';
 import oc from '@/assets/configurator/verglasung/ornament/oc.webp';
@@ -106,12 +106,12 @@ const _2fv_sicherheitsverglasungItems = [
     image: Innen_VSG_8mm,
   },
   {
-    key: 'aussen_VSG_6mm_innen_ESG_6mm',
+    key: 'aussen_VSG_6mm_innen_ESG_6mm_doubleConfig',
     name: 'Aussen VSG 6mm / Innen ESG 6mm',
     image: Aussen_VSG_6mm_Innen_ESG_6mm,
   },
   {
-    key: 'aussen_VSG_6mm_innen_VSG_8mm',
+    key: 'aussen_VSG_6mm_innen_VSG_8mm_doubleConfig',
     name: 'Aussen VSG 6mm / Innen VSG 8mm',
     image: Aussen_VSG_6mm_Innen_VSG_8mm,
   },
@@ -121,7 +121,7 @@ const _2fv_sicherheitsverglasungItems = [
     image: Aussen_ESG_6mm,
   },
   {
-    key: 'aussen_ESG_6mm_innen_ESG_6mm',
+    key: 'aussen_ESG_6mm_innen_ESG_6mm_doubleConfig',
     name: 'Aussen ESG 6mm / Innen ESG 6mm',
     image: Aussen_ESG_6mm_Innen_ESG_6mm,
   },
@@ -210,61 +210,73 @@ export const verglasung = {
       key: 'nein',
       name: 'Nein',
       image: no,
+      zoomable: true
     },
     {
       key: 'reflektofloatBraun6',
       name: 'Reflektofloat: Braun 6',
       image: rb6,
+      zoomable: true
     },
     {
-      key: 'antisolBlau6',
-      name: 'Antisol: Blau 6',
-      image: ab6,
+      key: 'satinovo',
+      name: 'Satinovo',
+      image: no,
+      zoomable: true
     },
     {
       key: 'antisolBraun4',
       name: 'Antisol: Braun 4',
       image: ab4,
+      zoomable: true
     },
     {
       key: 'antisolGrun4',
       name: 'Antisol: Grün 4',
       image: ag4,
+      zoomable: true
     },
     {
       key: 'ornamentglasCathedral',
       name: 'Ornamentglas: Cathedral',
       image: oc,
+      zoomable: true
     },
     {
       key: 'ornamentglasDelta',
       name: 'Ornamentglas: Delta',
       image: od,
+      zoomable: true
     },
     {
       key: 'ornamentglasStreifen',
       name: 'Ornamentglas: Streifen',
       image: os,
+      zoomable: true
     },
     {
       key: 'milchglas',
       name: 'Milchglas: (Sicherheitsglas mit matter Folie)',
       image: m,
+      zoomable: true
     },
     {
       key: 'ornamentglasMasterCarre',
       name: 'Ornamentglas: Master-Carre',
       image: omc,
+      zoomable: true
     },
     {
       key: 'ornamentglasSilvit',
       name: 'Ornamentglas: Silvit',
       image: osil,
+      zoomable: true
     },
     {
       key: 'ornamentglasChinchilla',
       name: 'Ornamentglas: Chinchilla',
       image: ochin,
+      zoomable: true
     },
   ],
   sicherheitsverglasung: sicherheitsverglasungDynamicItems,

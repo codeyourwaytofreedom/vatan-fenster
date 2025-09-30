@@ -4,8 +4,8 @@ export const ornamentPriceMultipliers = (ornamentKey: string) => {
       return [];
     case 'reflektofloatBraun6':
       return [509, 687.15, 738.05, 814.4];
-    case 'antisolBlau6':
-      return [8, 10.8, 11.6, 12.8];
+    case 'satinovo':
+      return [94, 94, 94, 94];
     case 'antisolBraun4':
       return [85, 114.75, 123.25, 136];
     case 'antisolGrun4':

@@ -32,6 +32,7 @@ type PriceDeterminants = {
   colorMidKey: string;
   profileHeightKey: string | undefined;
   glasspaketKey: string;
+  druckausgleichsventilKey: string;
   direction?: 'oben' | 'unten';
 };
 
@@ -66,6 +67,7 @@ interface ConfigurationContextType {
     colorExteriorCode,
     colorInteriorCode,
     colorMidKey,
+    druckausgleichsventilKey,
     direction,
   }: PriceDeterminants) => number | null | undefined;
   getMinMaxSizes: (
@@ -182,9 +184,12 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     colorMidKey,
     profileHeightKey,
     glasspaketKey,
+    druckausgleichsventilKey,
     direction,
   }: PriceDeterminants) => {
     const priceListForSelectedWindowStyle = priceLists[selectedWindowStyleKey][selectedMaterialKey];
+
+    const druckausgleichsventilPrice = druckausgleichsventilKey === 'ja' ? 15 : 0;
 
     if (width === 0 || height === 0) {
       return;
@@ -227,7 +232,8 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
         additionalWindowPrice +
         priceFromTable +
         colorPriceExterior +
-        profileHeightRelatedAdditionalCost
+        profileHeightRelatedAdditionalCost +
+        druckausgleichsventilPrice
       );
     }
 
@@ -291,7 +297,8 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
           totalPrice +
           additionalWindowPrice +
           colorPriceExterior +
-          profileHeightRelatedAdditionalCost
+          profileHeightRelatedAdditionalCost +
+          druckausgleichsventilPrice
         );
       }
     }

@@ -322,6 +322,7 @@ export default function SummaryDisplayer() {
 
         const profileHeightKey = configuration.profileHeight.key;
         const glasspaketKey = configuration.glasspaket.key;
+        const druckausgleichsventilKey = configuration.druckausgleichsventil.key;
 
         let totalPrice: number = 0;
         setTotalPrice(totalPrice);
@@ -356,6 +357,7 @@ export default function SummaryDisplayer() {
             colorMidKey,
             profileHeightKey,
             glasspaketKey,
+            druckausgleichsventilKey,
             direction: 'oben',
           });
           /* Calculate unten part */
@@ -382,6 +384,7 @@ export default function SummaryDisplayer() {
             colorMidKey,
             profileHeightKey,
             glasspaketKey,
+            druckausgleichsventilKey,
             direction: 'unten',
           });
           totalPrice = (obenPrice ?? 0) + (untenPrice ?? 0);
@@ -417,6 +420,7 @@ export default function SummaryDisplayer() {
             colorMidKey,
             profileHeightKey,
             glasspaketKey,
+            druckausgleichsventilKey,
             direction: 'unten',
           });
 
@@ -444,6 +448,7 @@ export default function SummaryDisplayer() {
             colorMidKey,
             profileHeightKey,
             glasspaketKey,
+            druckausgleichsventilKey,
             direction: 'oben',
           });
 
@@ -466,6 +471,7 @@ export default function SummaryDisplayer() {
               colorMidKey,
               profileHeightKey,
               glasspaketKey,
+              druckausgleichsventilKey,
             }) || 0;
         }
 
@@ -496,6 +502,7 @@ export default function SummaryDisplayer() {
     configuration.profileHeight.key,
     configuration.ornament.key,
     configuration.glasspaket.key,
+    configuration.druckausgleichsventil.key,
   ]);
 
   useEffect(() => {

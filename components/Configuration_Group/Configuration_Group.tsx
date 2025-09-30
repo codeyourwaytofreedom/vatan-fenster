@@ -55,7 +55,13 @@ export default function Configuration_Group({ groupTitle }: GroupProps) {
         switch (visibleSection.key) {
           case 'sicherheitsverglasung':
             const items = sicherheitsverglasungDynamicItems[configuration.glasspaket.key];
-            return setItemsToDisplay(items);
+            const isOrnamentAvailable = configuration.ornament.key !== 'nein';
+            const is2Layered = configuration.glasspaket.key.includes('2');
+            if (isOrnamentAvailable && is2Layered) {
+              return setItemsToDisplay(items.filter((it) => !it.key.includes('doubleConfig')));
+            } else {
+              return setItemsToDisplay(items);
+            }
           case 'sealInt':
             const { colorsAvailable } = getColoringMultiplier({
               colorExteriorCode: configuration.colorExt.colorCode!,
