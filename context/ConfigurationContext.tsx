@@ -204,11 +204,6 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
       selectedProfileKey,
     });
 
-    // calculate additional cost when 77mm profile is selected
-    const perimeterInMeter = ((width + height) * 2) / 1000;
-    const profileHeightRelatedAdditionalCost =
-      profileHeightKey === 'height75' ? perimeterInMeter * 16 : 0;
-
     // additional calculation for the glass
     // deafult is 2 layer of glass so multiply by 2
     let additionalWindowPrice = calculateGlassPriceByM2({
@@ -228,6 +223,11 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     if (priceFromTable) {
       // additional price from colorSelection for Exterior
       const colorPriceExterior = priceFromTable * colouringPriceMultiplier;
+
+      // calculate additional cost when 77mm profile is selected
+      const perimeterInMeter = ((width + height) * 2) / 1000;
+      const profileHeightRelatedAdditionalCost =
+        profileHeightKey === 'height75' ? perimeterInMeter * 16 : 0;
       return (
         additionalWindowPrice +
         priceFromTable +
@@ -293,11 +293,22 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
 
         // additional price from colorSelection for Exterior
         const colorPriceExterior = totalPrice * colouringPriceMultiplier;
+
+        const totalProfileHeightRelatedAdditionalCost = Object.values(multiWidth).reduce(
+          (acc, sectionWidth) => {
+            const perimeterInMeter = ((sectionWidth + height) * 2) / 1000;
+            const profileHeightRelatedAdditionalCost =
+              profileHeightKey === 'height75' ? perimeterInMeter * 16 : 0;
+            return acc + profileHeightRelatedAdditionalCost;
+          },
+          0
+        );
+
         return (
           totalPrice +
           additionalWindowPrice +
           colorPriceExterior +
-          profileHeightRelatedAdditionalCost +
+          totalProfileHeightRelatedAdditionalCost +
           druckausgleichsventilPrice
         );
       }

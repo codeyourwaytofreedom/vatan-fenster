@@ -10,9 +10,20 @@ import {
   midColorsForAussenEqualsInnen,
 } from './data/selectionItems/farbenData';
 
-export const scrollToElement = (elementId: string, delay: number = 0, offset: number = 150) => {
+interface ScrollProps {
+  elementId?: string, 
+  delay?: number , 
+  offset?: number, 
+  htmlElement?:HTMLElement
+}
+export const scrollToElement = ( {
+  elementId = '',
+  delay = 0,
+  offset = 150,
+  htmlElement,
+}: ScrollProps) => {
   setTimeout(() => {
-    const targetElement = document.getElementById(elementId);
+    const targetElement = htmlElement ?? document.getElementById(elementId);
     if (targetElement) {
       const elementPosition = targetElement.getBoundingClientRect().top + window.scrollY;
       const offsetPosition = elementPosition - offset;

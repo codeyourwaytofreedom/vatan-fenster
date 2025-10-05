@@ -25,7 +25,7 @@ $summary-shade: rgb(230, 227, 227);
   grid-template-columns: calc(100% - 370px) 350px;
   column-gap: 20px;
   padding-top: 10px;
-  //min-height: 99vh;
+  min-height: 100vh;
   align-items: start;
   margin-top: 10px;
   .group {
@@ -80,8 +80,7 @@ $summary-shade: rgb(230, 227, 227);
   #summary {
     width: 350px;
     position: sticky !important;
-    position: -webkit-sticky !important;
-    top: 100px;
+    top: 100px !important;
     height: fit-content;
     border: 2px solid var(--color-1);
     h2 {

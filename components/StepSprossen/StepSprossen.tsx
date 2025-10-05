@@ -30,7 +30,7 @@ export default function StepSprossen() {
     if (itemName === 'Nein') {
       return moveToNextStep();
     }
-    scrollToElement('bereite');
+    scrollToElement({ elementId: 'bereite' });
     const newItems = sprossenCards.find((sp) => sp.name === itemName)?.items;
     // handle color and width trasnfer to the new selection
     if (itemName !== 'Nein') {
@@ -59,13 +59,13 @@ export default function StepSprossen() {
 
   const handleSelectBereite = (item: SelectionItem) => {
     setSprossen({ width: item.name, color: item.colors![0].name, pattern: sprossen?.pattern });
-    scrollToElement('colors');
+    scrollToElement({ elementId: 'colors' });
   };
 
   const handleSelectColor = (item: SelectionItem) => {
     const color = item.name;
     setSprossen({ width: sprossen?.width, color: color, pattern: sprossen?.pattern });
-    scrollToElement('type');
+    scrollToElement({ elementId: 'type' });
   };
 
   const handleSelectPattern = (pattern: string) => {

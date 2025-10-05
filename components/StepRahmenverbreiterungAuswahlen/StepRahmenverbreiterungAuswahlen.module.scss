@@ -3,6 +3,8 @@
   justify-content: center;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 20px;
+  animation: pop 1s forwards;
+  animation-delay: 500;
   .frame_option {
     display: grid;
     justify-items: center;
@@ -55,4 +57,13 @@
 }
 .label {
   font-weight: 500 !important;
+}
+
+@keyframes pop {
+  from {
+    scale: 0;
+  }
+  to {
+    scale: 1;
+  }
 }

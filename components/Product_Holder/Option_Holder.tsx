@@ -83,7 +83,7 @@ export default function OptionHolder({ item, selected, action }: ProductHolderPr
         onClick={action}
       >
         {item.image && <Image src={item.image} alt={item.name} width={220} height={220} />}
-        {!withoutDetails && (
+        {!withoutDetails && item.details && (
           <div id={style.details}>Keep up good work! Remember why you started!</div>
         )}
         <p /* style={{ border: minMaxSizesAvailableForType ? 'none' : '3px solid crimson' }} */>

@@ -197,7 +197,7 @@ export default function Basis_Configuration() {
       }));
     }
     if (['I5', 'I5C', 'IL'].includes(item.key) && currentStep?.key === 'profile' && !key) {
-      scrollToElement('profileHeights');
+      scrollToElement({ elementId: 'profileHeights' });
       return;
     }
     moveToNextStep();

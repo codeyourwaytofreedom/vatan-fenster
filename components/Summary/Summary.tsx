@@ -269,14 +269,14 @@ export default function SummaryDisplayer() {
       if (['oben', 'unten'].includes(key)) {
         setCurrentStep(allSteps[currentGroup].find((st) => st.key === 'type') || null);
         if (configuration.style.name === 'Oberlicht') {
-          scrollToElement(key, 50);
+          scrollToElement({ elementId: key, offset: 50 });
         }
         if (configuration.style.name === 'Unterlicht') {
           if (key === 'oben') {
-            scrollToElement('unten', 50);
+            scrollToElement({ elementId: 'unten', offset: 50 });
           }
           if (key === 'unten') {
-            scrollToElement('oben', 50);
+            scrollToElement({ elementId: 'oben', offset: 50 });
           }
         }
         return;

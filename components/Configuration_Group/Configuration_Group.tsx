@@ -9,6 +9,7 @@ import StepGlassPaket from '../StepGlassPaket/StepGlassPaket';
 import GroupBottomActions from '../GroupBottomActions/GroupBottomActions';
 import { sicherheitsverglasungDynamicItems } from '@/data/selectionItems/verglasungData';
 import { getColoringMultiplier } from '@/utils';
+import ZusatzeGroup from '../ZusatzeGroup/ZusatzeGroup';
 
 interface GroupProps {
   groupTitle: GroupKey;
@@ -168,49 +169,55 @@ export default function Configuration_Group({ groupTitle }: GroupProps) {
   if (coverNotAvailable) return null;
 
   return (
-    <div>
-      {groupActive && (
+    <>
+      {currentGroup === 'zusatze' && groupActive ? (
+        <ZusatzeGroup />
+      ) : (
         <div>
-          {<Stepper />}
-          <div className={style.group}>
-            <div className={style.switcher} ref={switcherRef}></div>
-            {currentStep?.key === 'glasspaket' ? (
-              <StepGlassPaket items={itemsToDisplay || []} expanded={expanded!} />
-            ) : Component && stepHasCustomComponent(currentStep!) && currentStep?.props ? (
-              <Component {...currentStep?.props} />
-            ) : Component ? (
-              <Component />
-            ) : (
-              <>
-                <div className={style.config_wrapper}>
-                  <div className={style.config_wrapper_option_holders}>
-                    {itemsToDisplay
-                      ?.slice(0, !expanded ? 10 : itemsToDisplay.length)
-                      .map((item, index) => (
-                        <OptionHolder
-                          key={index}
-                          item={item}
-                          selected={isSelected(item.name)}
-                          action={() => updateConfiguration(item)}
-                        />
-                      ))}
-                  </div>
-                </div>
-                {currentGroup === groupTitle && (
-                  <GroupBottomActions
-                    itemNumber={itemsToDisplay?.length || 0}
-                    expandable={Boolean(expandable)}
-                    toggleExpand={toggleExpand}
-                    isLastStep={isLastStepInGroup}
-                    nextGroupAction={moveNextGroup}
-                  />
+          {groupActive && (
+            <div>
+              {<Stepper />}
+              <div className={style.group}>
+                <div className={style.switcher} ref={switcherRef}></div>
+                {currentStep?.key === 'glasspaket' ? (
+                  <StepGlassPaket items={itemsToDisplay || []} expanded={expanded!} />
+                ) : Component && stepHasCustomComponent(currentStep!) && currentStep?.props ? (
+                  <Component {...currentStep?.props} />
+                ) : Component ? (
+                  <Component />
+                ) : (
+                  <>
+                    <div className={style.config_wrapper}>
+                      <div className={style.config_wrapper_option_holders}>
+                        {itemsToDisplay
+                          ?.slice(0, !expanded ? 10 : itemsToDisplay.length)
+                          .map((item, index) => (
+                            <OptionHolder
+                              key={index}
+                              item={item}
+                              selected={isSelected(item.name)}
+                              action={() => updateConfiguration(item)}
+                            />
+                          ))}
+                      </div>
+                    </div>
+                    {currentGroup === groupTitle && (
+                      <GroupBottomActions
+                        itemNumber={itemsToDisplay?.length || 0}
+                        expandable={Boolean(expandable)}
+                        toggleExpand={toggleExpand}
+                        isLastStep={isLastStepInGroup}
+                        nextGroupAction={moveNextGroup}
+                      />
+                    )}
+                  </>
                 )}
-              </>
-            )}
-          </div>
-          <br />
+              </div>
+              <br />
+            </div>
+          )}
         </div>
       )}
-    </div>
+    </>
   );
 }

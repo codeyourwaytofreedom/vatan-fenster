@@ -17,10 +17,10 @@ export default function Substyle_Section({ title, items, configKey, comesFirst }
   const moveToSection = () => {
     switch (comesFirst) {
       case 'Oberlicht':
-        scrollToElement('oben');
+        scrollToElement({ elementId: 'oben' });
         break;
       case 'Unterlicht':
-        scrollToElement('unten');
+        scrollToElement({ elementId: 'unten' });
         break;
       default:
         break;
@@ -37,7 +37,7 @@ export default function Substyle_Section({ title, items, configKey, comesFirst }
       moveToSection();
     }
     if (key === 'oben' && comesFirst === 'Oberlicht') {
-      scrollToElement('unten');
+      scrollToElement({ elementId: 'unten' });
     }
     if (key === 'unten' && comesFirst === 'Oberlicht') {
       setTimeout(() => {
@@ -45,7 +45,7 @@ export default function Substyle_Section({ title, items, configKey, comesFirst }
       }, 300);
     }
     if (key === 'unten' && comesFirst === 'Unterlicht') {
-      scrollToElement('oben');
+      scrollToElement({ elementId: 'oben' });
     }
     if (key === 'oben' && comesFirst === 'Unterlicht') {
       setTimeout(() => {

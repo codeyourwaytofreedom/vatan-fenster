@@ -60,6 +60,124 @@ import empty from '@/assets/common/empty.jpg';
 import Kastenart from '@/components/Kastenart/Kastenart';
 import KastenartVorsatzraffstore from '@/components/KastenartVorsatzraffstore/KastenartVorsatzraffstore';
 
+export const zusatzeSteps: Step[] = [
+    {
+      key: 'sicherheitsbeschlage',
+      name: 'Sicherheitsbeschlage',
+      icon: faSun,
+      component: DoubleStepper,
+      withoutDetails: true,
+      stepDetails:
+        'Dummy details for Zuzatse steps...\n\n Actual step explanation details will replace this dummy text!',
+      props: {
+        label: 'Möchten Sie Sicherheitsbeschläge hinzufügen?',
+        subCategoryItems: {
+          ja: [
+            {
+              key: 'test1',
+              name: 'Test1',
+              image: empty,
+            },
+            {
+              key: 'test2',
+              name: 'Test2',
+              image: empty,
+            },
+          ],
+          nein: [],
+        },
+        categoryItems: yesNoOptions,
+        configurationKey: 'sicherheitsbeschlage',
+      },
+    },
+    {
+      key: 'verdecktLiegenderBeschlag',
+      name: 'Verdeckt Liegender Beschlag',
+      icon: faSun,
+      component: YesNoSelector,
+      withoutDetails: true,
+      stepDetails:
+        'Dummy details for Zuzatse steps...\n\n Actual step explanation details will replace this dummy text!',
+      props: {
+        label: 'Möchten Sie verdeckt liegende Beschläge hinzufügen?',
+      },
+    },
+    {
+      key: 'dünneSchweißnahtVPerfect',
+      name: 'Schweißnaht',
+      icon: faSun,
+      component: YesNoSelector,
+      withoutDetails: true,
+      stepDetails:
+        'Dummy details for Zuzatse steps...\n\n Actual step explanation details will replace this dummy text!',
+      props: {
+        label: 'Möchten Sie für das Kunststoffprofil eine dünne Schweißnaht?',
+      },
+    },
+    {
+      key: 'reedKontakt',
+      name: 'Reedkontakt',
+      icon: faSun,
+      component: YesNoSelector,
+      withoutDetails: true,
+      stepDetails:
+        'Dummy details for Zuzatse steps...\n\n Actual step explanation details will replace this dummy text!',
+      props: {
+        label: 'Möchten Sie Reedkontakte hinzufügen?',
+      },
+    },
+    {
+      key: 'montagevorbohrungen',
+      name: 'Montagevorbohrungen',
+      icon: faSun,
+      component: YesNoSelector,
+      withoutDetails: true,
+      stepDetails:
+        'Dummy details for Zuzatse steps...\n\n Actual step explanation details will replace this dummy text!',
+      props: {
+        label: 'Möchten Sie Montagevorbohrungen hinzufügen?',
+      },
+    },
+    {
+      key: 'lüftungssysteme',
+      name: 'Lüftungssysteme',
+      icon: faSun,
+      component: DoubleStepper,
+      withoutDetails: true,
+      stepDetails:
+        'Dummy details for Zuzatse steps...\n\n Actual step explanation details will replace this dummy text!',
+      props: {
+        label: 'Möchten Sie ein Lüftungssystem hinzufügen?',
+        subCategoryItems: {
+          ja: [
+            {
+              key: 'test1',
+              name: 'Lüftungssysteme1',
+              image: empty,
+            },
+            {
+              key: 'test2',
+              name: 'Lüftungssysteme2',
+              image: empty,
+            },
+          ],
+          nein: [],
+        },
+        categoryItems: yesNoOptions,
+        configurationKey: 'lüftungssysteme',
+      },
+    },
+    {
+      key: 'rahmenverbreiterung',
+      name: 'Rahmenverbreiterung',
+      icon: faSun,
+      component: StepRahmenverbreiterung,
+      withoutDetails: true,
+      stepDetails:
+        'Dummy details for Zuzatse steps...\n\n Actual step explanation details will replace this dummy text!',
+    },
+  ]
+
 export const steps: Record<GroupKey | string, Step[]> = {
   basis: [
     {
@@ -212,123 +330,7 @@ export const steps: Record<GroupKey | string, Step[]> = {
         'Dummy details for Verglasung steps...\n\n Actual step explanation details will replace this dummy text!',
     },
   ],
-  zusatze: [
-    {
-      key: 'sicherheitsbeschlage',
-      name: 'Sicherheitsbeschlage',
-      icon: faSun,
-      component: DoubleStepper,
-      withoutDetails: true,
-      stepDetails:
-        'Dummy details for Zuzatse steps...\n\n Actual step explanation details will replace this dummy text!',
-      props: {
-        label: 'Möchten Sie Sicherheitsbeschläge hinzufügen?',
-        subCategoryItems: {
-          ja: [
-            {
-              key: 'test1',
-              name: 'Test1',
-              image: empty,
-            },
-            {
-              key: 'test2',
-              name: 'Test2',
-              image: empty,
-            },
-          ],
-          nein: [],
-        },
-        categoryItems: yesNoOptions,
-        configurationKey: 'sicherheitsbeschlage',
-      },
-    },
-    {
-      key: 'verdecktLiegenderBeschlag',
-      name: 'Verdeckt Liegender Beschlag',
-      icon: faSun,
-      component: YesNoSelector,
-      withoutDetails: true,
-      stepDetails:
-        'Dummy details for Zuzatse steps...\n\n Actual step explanation details will replace this dummy text!',
-      props: {
-        label: 'Möchten Sie verdeckt liegende Beschläge hinzufügen?',
-      },
-    },
-    {
-      key: 'dünneSchweißnahtVPerfect',
-      name: 'Schweißnaht',
-      icon: faSun,
-      component: YesNoSelector,
-      withoutDetails: true,
-      stepDetails:
-        'Dummy details for Zuzatse steps...\n\n Actual step explanation details will replace this dummy text!',
-      props: {
-        label: 'Möchten Sie für das Kunststoffprofil eine dünne Schweißnaht?',
-      },
-    },
-    {
-      key: 'reedKontakt',
-      name: 'Reedkontakt',
-      icon: faSun,
-      component: YesNoSelector,
-      withoutDetails: true,
-      stepDetails:
-        'Dummy details for Zuzatse steps...\n\n Actual step explanation details will replace this dummy text!',
-      props: {
-        label: 'Möchten Sie Reedkontakte hinzufügen?',
-      },
-    },
-    {
-      key: 'montagevorbohrungen',
-      name: 'Montagevorbohrungen',
-      icon: faSun,
-      component: YesNoSelector,
-      withoutDetails: true,
-      stepDetails:
-        'Dummy details for Zuzatse steps...\n\n Actual step explanation details will replace this dummy text!',
-      props: {
-        label: 'Möchten Sie Montagevorbohrungen hinzufügen?',
-      },
-    },
-    {
-      key: 'lüftungssysteme',
-      name: 'Lüftungssysteme',
-      icon: faSun,
-      component: DoubleStepper,
-      withoutDetails: true,
-      stepDetails:
-        'Dummy details for Zuzatse steps...\n\n Actual step explanation details will replace this dummy text!',
-      props: {
-        label: 'Möchten Sie ein Lüftungssystem hinzufügen?',
-        subCategoryItems: {
-          ja: [
-            {
-              key: 'test1',
-              name: 'Lüftungssysteme1',
-              image: empty,
-            },
-            {
-              key: 'test2',
-              name: 'Lüftungssysteme2',
-              image: empty,
-            },
-          ],
-          nein: [],
-        },
-        categoryItems: yesNoOptions,
-        configurationKey: 'lüftungssysteme',
-      },
-    },
-    {
-      key: 'rahmenverbreiterung',
-      name: 'Rahmenverbreiterung',
-      icon: faSun,
-      component: StepRahmenverbreiterung,
-      withoutDetails: true,
-      stepDetails:
-        'Dummy details for Zuzatse steps...\n\n Actual step explanation details will replace this dummy text!',
-    },
-  ],
+  zusatze: zusatzeSteps,
   sonnenschutz: [],
 };
 

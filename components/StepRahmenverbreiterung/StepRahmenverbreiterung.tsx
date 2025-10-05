@@ -4,9 +4,13 @@ import style from './StepRahmenverbreiterung.module.css';
 import { Config, SelectionItem } from '@/types/Configurator';
 import { yesNoOptions } from '@/data/configurationData';
 import StepRahmenverbreiterungAuswahlen from '../StepRahmenverbreiterungAuswahlen/StepRahmenverbreiterungAuswahlen';
+import { useRef } from 'react';
+import { scrollToElement } from '@/utils';
 
 export default function StepRahmenverbreiterung() {
-  const { configuration, setConfiguration, moveToNextStep } = useConfiguration();
+  const { configuration, setConfiguration } = useConfiguration();
+
+  const nextContainer = useRef<HTMLDivElement>(null);
 
   const isSelected = (item: SelectionItem, key: keyof Config) => {
     return (configuration[key] as SelectionItem).key === item.key;
@@ -18,28 +22,27 @@ export default function StepRahmenverbreiterung() {
       name: string;
     },
     key: keyof Config,
-    moveNext: boolean
+    moveToElemnt?: boolean
   ) => {
     setConfiguration((prevConfig) => ({
       ...prevConfig,
       [key]: item,
     }));
-    if (moveNext) {
-      moveToNextStep();
+    if (moveToElemnt) {
+      setTimeout(() => {
+        scrollToElement({ htmlElement: nextContainer.current! });
+      }, 300);
     }
   };
 
   return (
     <>
-      <br />
-      <h4 className={style.label}>Möchten Sie Rahmenverbreitung hinzufügen?</h4>
-      <br />
       <div className={style.container}>
         {yesNoOptions.map((option, i) => (
           <OptionHolder
             item={option}
             key={i}
-            action={() => updateConfiguration(option, 'rahmenverbreiterung', false)}
+            action={() => updateConfiguration(option, 'rahmenverbreiterung', true)}
             selected={isSelected(option, 'rahmenverbreiterung')}
           />
         ))}
@@ -54,7 +57,7 @@ export default function StepRahmenverbreiterung() {
               <OptionHolder
                 item={option}
                 key={i}
-                action={() => updateConfiguration(option, 'rahmenverbreitungMontiert', false)}
+                action={() => updateConfiguration(option, 'rahmenverbreitungMontiert')}
                 selected={isSelected(option, 'rahmenverbreitungMontiert')}
               />
             ))}
@@ -63,7 +66,9 @@ export default function StepRahmenverbreiterung() {
       )}
       {configuration.rahmenverbreiterung.key === 'ja' && (
         <>
-          <StepRahmenverbreiterungAuswahlen />
+          <div ref={nextContainer}>
+            <StepRahmenverbreiterungAuswahlen />
+          </div>
         </>
       )}
     </>
