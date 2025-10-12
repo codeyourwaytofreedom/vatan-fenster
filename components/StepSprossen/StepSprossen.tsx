@@ -5,6 +5,8 @@ import { useConfiguration } from '@/context/ConfigurationContext';
 import { scrollToElement } from '@/utils';
 import { SelectionItem } from '@/types/Configurator';
 import { sprossenCards, sprossenPatterns } from '@/data/selectionItems/verglasungData';
+import color2 from '@/assets/common/color2.png';
+import { innenAussenCompatibleText } from '@/data/priceLists/sprossen/sprossen';
 
 export default function StepSprossen() {
   const { configuration, setConfiguration, moveToNextStep } = useConfiguration();
@@ -22,8 +24,28 @@ export default function StepSprossen() {
     pattern: configuration.sprossen.split('-')[3],
   });
 
+  const colorCodeExt = configuration.colorExt.colorCode;
+  const colorCodeInt = configuration.colorInt.colorCode;
+
+  // when innen and aussen farben are different and not white, additional option is injected
+  // this additional option is not available for 8mm
+  const intExtDifferent =
+    colorCodeExt !== '0' &&
+    colorCodeInt !== '0' &&
+    colorCodeExt !== colorCodeInt &&
+    sprossen?.width !== '8';
+
+  const innenAussenComptabileOption = {
+    key: 'double',
+    name: innenAussenCompatibleText,
+    image: color2,
+  };
+
   const sprossenWidthItems = sprossenCards.find((sp) => sp.name === selectedSprossen)?.items;
-  const colors = sprossenWidthItems?.find((it) => it.name === sprossen?.width)?.colors;
+  const defaultColors = sprossenWidthItems?.find((it) => it.name === sprossen?.width)?.colors;
+  const colors = intExtDifferent
+    ? [...(defaultColors ?? []), innenAussenComptabileOption]
+    : defaultColors;
 
   const handleSelectSprossen = (itemName: string) => {
     setSelectedSprossen(itemName);

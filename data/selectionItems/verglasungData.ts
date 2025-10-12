@@ -387,79 +387,6 @@ export const sprossenItems: Record<
   ],
 };
 
-export const sprossenPatterns = [
-  {
-    key: 'type1',
-    name: 'Type 1',
-    image: type1,
-  },
-  {
-    key: 'type2',
-    name: 'Type 2',
-    image: type2,
-  },
-  {
-    key: 'type3',
-    name: 'Type 3',
-    image: type3,
-  },
-  {
-    key: 'type4',
-    name: 'Type 4',
-    image: type4,
-  },
-  {
-    key: 'type5',
-    name: 'Type 5',
-    image: type5,
-  },
-  {
-    key: 'type6',
-    name: 'Type 6',
-    image: type6,
-  },
-  {
-    key: 'type7',
-    name: 'Type 7',
-    image: type7,
-  },
-  {
-    key: 'type8',
-    name: 'Type 8',
-    image: type8,
-  },
-  {
-    key: 'type9',
-    name: 'Type 9',
-    image: type9,
-  },
-  {
-    key: 'type10',
-    name: 'Type 10',
-    image: type10,
-  },
-  {
-    key: 'type11',
-    name: 'Type 11',
-    image: type11,
-  },
-  {
-    key: 'type12',
-    name: 'Type 12',
-    image: type12,
-  },
-  {
-    key: 'type13',
-    name: 'Type 13',
-    image: type13,
-  },
-  {
-    key: 'type14',
-    name: 'Type 14',
-    image: type14,
-  },
-];
-
 export const sprossenCards: SelectionItem[] = [
   {
     key: 'nein',
@@ -486,17 +413,28 @@ export const sprossenCards: SelectionItem[] = [
         name: '18',
         image: width,
         colors: [
-          { key: 'white', name: 'Weiß', image: color2 },
+          { key: 'weiss', name: 'Weiß', image: color2 },
           { key: 'gold', name: 'Gold', image: color2 },
-          { key: 'golden-oak', name: 'Golden oak', image: color2 },
+          { key: 'anthrazitgrau', name: 'Anthrazitgrau', image: color2 },
+          { key: 'weiss-fx', name: 'Weiß FX', image: color2 },
+          { key: 'schokobraun', name: 'Schokobraun', image: color2 },
           { key: 'eiche-dunkel', name: 'Eiche Dunkel', image: color2 },
+          { key: 'macore', name: 'Macore', image: color2 },
           { key: 'mahagoni', name: 'Mahagoni', image: color2 },
           { key: 'nussbaum', name: 'Nussbaum', image: color2 },
-          { key: 'schwarzbraun', name: 'Schwarzbraun', image: color2 },
-          { key: 'schokobraun', name: 'Schokobraun', image: color2 },
-          { key: 'macore', name: 'Macore', image: color2 },
+          { key: 'sheffield-oak-light', name: 'Sheffield Oak Light', image: color2 },
+          { key: 'grau', name: 'Grau', image: color2 },
           { key: 'winchester', name: 'Winchester', image: color2 },
-          { key: 'anthrazitgrau', name: 'Anthrazitgrau', image: color2 },
+          { key: 'golden-oak', name: 'Golden Oak', image: color2 },
+          { key: 'cremeweiss', name: 'Cremeweiss', image: color2 },
+          { key: 'quarzgrau', name: 'Quarzgrau', image: color2 },
+          { key: 'anthrazitgrau-glatt', name: 'Anthrazitgrau Glatt', image: color2 },
+          { key: 'schwarz-ulti-matt', name: 'Schwarz Ulti-Matt', image: color2 },
+          { key: 'lichtgrau', name: 'Lichtgrau', image: color2 },
+          { key: 'quarzgrau-glatt', name: 'Quarzgrau Glatt', image: color2 },
+          { key: 'anthrazitgrau-ulti-matt', name: 'Anthrazitgrau Ulti-Matt', image: color2 },
+          { key: 'turner-oak', name: 'Turner Oak', image: color2 },
+          { key: 'schwarzbraun', name: 'Schwarzbraun', image: color2 },
         ],
       },
       {
@@ -504,17 +442,28 @@ export const sprossenCards: SelectionItem[] = [
         name: '26',
         image: width,
         colors: [
-          { key: 'white', name: 'Weiß', image: color2 },
+          { key: 'weiss', name: 'Weiß', image: color2 },
           { key: 'gold', name: 'Gold', image: color2 },
-          { key: 'golden-oak', name: 'Golden oak', image: color2 },
+          { key: 'anthrazitgrau', name: 'Anthrazitgrau', image: color2 },
+          { key: 'weiss-fx', name: 'Weiß FX', image: color2 },
+          { key: 'schokobraun', name: 'Schokobraun', image: color2 },
           { key: 'eiche-dunkel', name: 'Eiche Dunkel', image: color2 },
+          { key: 'macore', name: 'Macore', image: color2 },
           { key: 'mahagoni', name: 'Mahagoni', image: color2 },
           { key: 'nussbaum', name: 'Nussbaum', image: color2 },
-          { key: 'schwarzbraun', name: 'Schwarzbraun', image: color2 },
-          { key: 'schokobraun', name: 'Schokobraun', image: color2 },
-          { key: 'macore', name: 'Macore', image: color2 },
+          { key: 'sheffield-oak-light', name: 'Sheffield Oak Light', image: color2 },
+          { key: 'grau', name: 'Grau', image: color2 },
           { key: 'winchester', name: 'Winchester', image: color2 },
-          { key: 'anthrazitgrau', name: 'Anthrazitgrau', image: color2 },
+          { key: 'golden-oak', name: 'Golden Oak', image: color2 },
+          { key: 'cremeweiss', name: 'Cremeweiss', image: color2 },
+          { key: 'quarzgrau', name: 'Quarzgrau', image: color2 },
+          { key: 'anthrazitgrau-glatt', name: 'Anthrazitgrau Glatt', image: color2 },
+          { key: 'schwarz-ulti-matt', name: 'Schwarz Ulti-Matt', image: color2 },
+          { key: 'lichtgrau', name: 'Lichtgrau', image: color2 },
+          { key: 'quarzgrau-glatt', name: 'Quarzgrau Glatt', image: color2 },
+          { key: 'anthrazitgrau-ulti-matt', name: 'Anthrazitgrau Ulti-Matt', image: color2 },
+          { key: 'turner-oak', name: 'Turner Oak', image: color2 },
+          { key: 'schwarzbraun', name: 'Schwarzbraun', image: color2 },
         ],
       },
       {
@@ -549,5 +498,92 @@ export const sprossenCards: SelectionItem[] = [
         colors: [{ key: 'white', name: 'Weiß', image: color2 }],
       },
     ],
+  },
+];
+
+export const sprossenPatterns = [
+  {
+    key: 'type1',
+    name: 'Type 1',
+    image: type1,
+    numberOfSections: 2
+  },
+  {
+    key: 'type2',
+    name: 'Type 2',
+    image: type2,
+    numberOfSections: 3
+  },
+  {
+    key: 'type3',
+    name: 'Type 3',
+    image: type3,
+    numberOfSections: 2
+  },
+  {
+    key: 'type4',
+    name: 'Type 4',
+    image: type4,
+    numberOfSections: 4
+  },
+  {
+    key: 'type5',
+    name: 'Type 5',
+    image: type5,
+    numberOfSections: 6
+  },
+  {
+    key: 'type6',
+    name: 'Type 6',
+    image: type6,
+    numberOfSections: 8
+  },
+  {
+    key: 'type7',
+    name: 'Type 7',
+    image: type7,
+    numberOfSections: 2
+  },
+  {
+    key: 'type8',
+    name: 'Type 8',
+    image: type8,
+    numberOfSections: 3
+  },
+  {
+    key: 'type9',
+    name: 'Type 9',
+    image: type9,
+    numberOfSections: 4
+  },
+  {
+    key: 'type10',
+    name: 'Type 10',
+    image: type10,
+    numberOfSections: 3
+  },
+  {
+    key: 'type11',
+    name: 'Type 11',
+    image: type11,
+    numberOfSections: 4
+  },
+  {
+    key: 'type12',
+    name: 'Type 12',
+    image: type12,
+    numberOfSections: 5
+  },
+  {
+    key: 'type13',
+    name: 'Type 13',
+    image: type13,
+    numberOfSections: 6
+  },
+  {
+    key: 'type14',
+    name: 'Type 14',
+    image: type14,
+    numberOfSections: 9
   },
 ];

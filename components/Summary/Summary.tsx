@@ -36,6 +36,7 @@ export default function SummaryDisplayer() {
     material,
     brand,
     profile,
+    profileHeight,
     style,
     type,
     cover,
@@ -76,6 +77,7 @@ export default function SummaryDisplayer() {
     material,
     brand,
     profile,
+    profileHeight,
     style,
     type,
     cover,
@@ -234,6 +236,10 @@ export default function SummaryDisplayer() {
       return 'Breite';
     }
 
+    if (key === 'profileHeight') {
+      return 'Profile Height';
+    }
+
     const flatSteps = Object.values(allSteps).flat();
 
     const stepLabel = flatSteps.find((st) => st.key === key)?.name || '--';
@@ -324,6 +330,8 @@ export default function SummaryDisplayer() {
         const glasspaketKey = configuration.glasspaket.key;
         const druckausgleichsventilKey = configuration.druckausgleichsventil.key;
 
+        const sprossen = configuration.sprossen;
+
         let totalPrice: number = 0;
         setTotalPrice(totalPrice);
 
@@ -358,6 +366,7 @@ export default function SummaryDisplayer() {
             profileHeightKey,
             glasspaketKey,
             druckausgleichsventilKey,
+            sprossen,
             direction: 'oben',
           });
           /* Calculate unten part */
@@ -385,6 +394,7 @@ export default function SummaryDisplayer() {
             profileHeightKey,
             glasspaketKey,
             druckausgleichsventilKey,
+            sprossen,
             direction: 'unten',
           });
           totalPrice = (obenPrice ?? 0) + (untenPrice ?? 0);
@@ -421,6 +431,7 @@ export default function SummaryDisplayer() {
             profileHeightKey,
             glasspaketKey,
             druckausgleichsventilKey,
+            sprossen,
             direction: 'unten',
           });
 
@@ -449,6 +460,7 @@ export default function SummaryDisplayer() {
             profileHeightKey,
             glasspaketKey,
             druckausgleichsventilKey,
+            sprossen,
             direction: 'oben',
           });
 
@@ -472,6 +484,7 @@ export default function SummaryDisplayer() {
               profileHeightKey,
               glasspaketKey,
               druckausgleichsventilKey,
+              sprossen,
             }) || 0;
         }
 
@@ -503,6 +516,7 @@ export default function SummaryDisplayer() {
     configuration.ornament.key,
     configuration.glasspaket.key,
     configuration.druckausgleichsventil.key,
+    configuration.sprossen,
   ]);
 
   useEffect(() => {

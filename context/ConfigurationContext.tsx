@@ -1,7 +1,13 @@
 import { initialConfiguration, initialSubstyle } from '@/data/configurationData';
 import { minMaxSizes } from '@/data/minMaxSizes/minMaxSizes';
 import { priceLists } from '@/data/priceLists/priceLists';
+import {
+  innenAussenCompatibleText,
+  sprossenPricingList,
+  sprossenPricingList3LayerGlassAufgesetzte,
+} from '@/data/priceLists/sprossen/sprossen';
 import { ColorCode } from '@/data/selectionItems/farbenData';
+import { sprossenCards, sprossenPatterns } from '@/data/selectionItems/verglasungData';
 import { sonnenschutzStepPacks, steps } from '@/data/steps';
 import {
   Config,
@@ -16,7 +22,7 @@ import {
   WindowStyle,
 } from '@/types/Configurator';
 import { calculateGlassPriceByM2, extractPriceFromTable, getColoringMultiplier } from '@/utils';
-import { createContext, useState, ReactNode, useContext } from 'react';
+import { createContext, useState, ReactNode, useContext, useEffect } from 'react';
 
 type PriceDeterminants = {
   selectedMaterialKey: WindowMaterial;
@@ -33,6 +39,7 @@ type PriceDeterminants = {
   profileHeightKey: string | undefined;
   glasspaketKey: string;
   druckausgleichsventilKey: string;
+  sprossen: string;
   direction?: 'oben' | 'unten';
 };
 
@@ -68,6 +75,7 @@ interface ConfigurationContextType {
     colorInteriorCode,
     colorMidKey,
     druckausgleichsventilKey,
+    sprossen,
     direction,
   }: PriceDeterminants) => number | null | undefined;
   getMinMaxSizes: (
@@ -170,6 +178,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
       moveNextGroup();
     }
   };
+
   const calculateTotalPrice = ({
     selectedMaterialKey,
     selectedProfileKey,
@@ -185,17 +194,42 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     profileHeightKey,
     glasspaketKey,
     druckausgleichsventilKey,
+    sprossen,
     direction,
   }: PriceDeterminants) => {
     const priceListForSelectedWindowStyle = priceLists[selectedWindowStyleKey][selectedMaterialKey];
 
     const druckausgleichsventilPrice = druckausgleichsventilKey === 'ja' ? 15 : 0;
 
+    const is3Layered = glasspaketKey.includes('3');
+
+    let sprossenPrice = 0;
+
+    if (sprossen !== 'Nein') {
+      const style = sprossen.split('-')[0].toLowerCase().includes('innenliegen')
+        ? 'innenliegen'
+        : 'aufgesetzte';
+      const thickhness = sprossen.split('-')[1].trim();
+      const color = sprossen.split('-')[2];
+      const type = sprossen.split('-')[3];
+
+      const sprossenPriceItems =
+        is3Layered && style === 'aufgesetzte'
+          ? sprossenPricingList3LayerGlassAufgesetzte[style]?.[thickhness]
+          : sprossenPricingList[style]?.[thickhness];
+
+      const sprossenPriceMultipiler =
+        sprossenPriceItems.find((it) => it.name === color)?.multiplier ?? 0;
+
+      const sectionNumber =
+        sprossenPatterns.find((pattern) => pattern.name === type)?.numberOfSections ?? 0;
+
+      sprossenPrice = sectionNumber * sprossenPriceMultipiler;
+    }
+
     if (width === 0 || height === 0) {
       return;
     }
-
-    const is3Layered = glasspaketKey.includes('3');
 
     const { colouringPriceMultiplier } = getColoringMultiplier({
       colorExteriorCode,
@@ -233,7 +267,8 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
         priceFromTable +
         colorPriceExterior +
         profileHeightRelatedAdditionalCost +
-        druckausgleichsventilPrice
+        druckausgleichsventilPrice +
+        sprossenPrice
       );
     }
 
@@ -309,7 +344,8 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
           additionalWindowPrice +
           colorPriceExterior +
           totalProfileHeightRelatedAdditionalCost +
-          druckausgleichsventilPrice
+          druckausgleichsventilPrice +
+          sprossenPrice
         );
       }
     }
@@ -404,6 +440,30 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
       sectionsMaxWidthPack,
     } as MinMaxSizes;
   };
+
+  // if sprossen color is custom-color for innen-aussen, when innen-aussen combination changes,
+  // reset the sprossen color
+  useEffect(() => {
+    const colorCodeExt = configuration.colorExt.colorCode;
+    const colorCodeInt = configuration.colorInt.colorCode;
+    const intExtDifferent =
+      colorCodeExt !== '0' && colorCodeInt !== '0' && colorCodeExt !== colorCodeInt;
+    if (!intExtDifferent && configuration.sprossen.includes(innenAussenCompatibleText)) {
+      const sprossenWidthItems = sprossenCards.find(
+        (sp) => sp.name === configuration.sprossen.split('-')[0]
+      )?.items;
+      const width = configuration.sprossen.split('-')[1];
+      const defaultColors = sprossenWidthItems?.find((it) => it.name === width)?.colors;
+      const newColor = defaultColors![0].name;
+      const newSprossen = configuration.sprossen.replace(innenAussenCompatibleText, newColor);
+      setConfiguration((pr) => {
+        return {
+          ...pr,
+          sprossen: newSprossen,
+        };
+      });
+    }
+  }, [configuration.colorExt, configuration.colorInt, configuration.sprossen]);
 
   return (
     <ConfiurationContext.Provider
