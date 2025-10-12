@@ -16,6 +16,7 @@ export const flugel2_oben: SelectionItem[] = [
     key: 'F_F',
     sectionNumber: 2,
     sections: ['F', 'F'],
+    thin: true
   },
   {
     name: 'Fester Flügel + Fester Flügel',
@@ -23,6 +24,7 @@ export const flugel2_oben: SelectionItem[] = [
     key: 'FF_FF',
     sectionNumber: 2,
     sections: ['FF', 'FF'],
+    thin: true
   },
   {
     name: 'Kipp + Kipp',
@@ -31,6 +33,7 @@ export const flugel2_oben: SelectionItem[] = [
     handleNumber: 2,
     sectionNumber: 2,
     sections: ['K', 'K'],
+    thin: true
   },
   {
     name: 'Dreh-Kipp + Fest',
@@ -39,6 +42,7 @@ export const flugel2_oben: SelectionItem[] = [
     handleNumber: 1,
     sectionNumber: 2,
     sections: ['DK', 'F'],
+    thin: true
   },
   {
     name: 'Fest + Dreh-Kipp',
@@ -47,6 +51,7 @@ export const flugel2_oben: SelectionItem[] = [
     handleNumber: 1,
     sectionNumber: 2,
     sections: ['F', 'DK'],
+    thin: true
   },
   {
     name: 'Dreh + Dreh-Kipp (pfosten)',
@@ -55,6 +60,7 @@ export const flugel2_oben: SelectionItem[] = [
     handleNumber: 2,
     sectionNumber: 2,
     sections: ['DL', 'DKR'],
+    thin: true
   },
   {
     name: 'Dreh-Kipp + Dreh (Pfosten)',
@@ -63,6 +69,7 @@ export const flugel2_oben: SelectionItem[] = [
     handleNumber: 2,
     sectionNumber: 2,
     sections: ['DKL', 'DR'],
+    thin: true
   },
   {
     name: 'Dreh-Kipp + Dreh-Kipp (pfosten)',
@@ -71,6 +78,7 @@ export const flugel2_oben: SelectionItem[] = [
     handleNumber: 2,
     sectionNumber: 2,
     sections: ['DKL', 'DKR'],
+    thin: true
   },
   {
     name: 'Dreh + Dreh-Kipp(Stulp)',
@@ -79,6 +87,7 @@ export const flugel2_oben: SelectionItem[] = [
     handleNumber: 2,
     sectionNumber: 2,
     sections: ['DL', 'DKR', 'LINE'],
+    thin: true
   },
   {
     name: 'Dreh-Kipp + Dreh (Stulp)',
@@ -87,6 +96,7 @@ export const flugel2_oben: SelectionItem[] = [
     handleNumber: 2,
     sectionNumber: 2,
     sections: ['DKL', 'DR', 'LINE'],
+    thin: true
   },
 ];
 

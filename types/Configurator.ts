@@ -236,6 +236,7 @@ export type SelectionItem<KEY extends string = string> = {
   colorCode?: ColorCode;
   colors?: SelectionItem[];
   zoomable?: boolean;
+  thin?: boolean;
   sectionNumber?: number;
   component?: ReactNode;
   items?: SelectionItem[];

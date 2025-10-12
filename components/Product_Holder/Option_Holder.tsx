@@ -82,7 +82,9 @@ export default function OptionHolder({ item, selected, action }: ProductHolderPr
         className={cardClass}
         onClick={action}
       >
-        {item.image && <Image src={item.image} alt={item.name} width={220} height={220} />}
+        {item.image && (
+          <Image src={item.image} alt={item.name} width={220} height={item.thin ? 80 : 220} />
+        )}
         {!withoutDetails && item.details && (
           <div id={style.details}>Keep up good work! Remember why you started!</div>
         )}

@@ -20,41 +20,49 @@ export const flugel1_oben: SelectionItem[] = [
     name: 'Fest',
     image: fest_o,
     key: 'F',
+    thin: true
   },
   {
     name: 'Fester Flügel',
     image: fester_flugel_o,
     key: 'FF',
+    thin: true
   },
   {
     name: 'Dreh Links',
     image: dreh_links_o,
     key: 'DL',
     handleNumber: 1,
+    thin: true
   },
   {
     name: 'Dreh Rechts',
     image: dreh_rechts_o,
     key: 'DR',
     handleNumber: 1,
+    thin: true
   },
   {
     name: 'Kipp',
     image: kipp_o,
     key: 'K',
     handleNumber: 1,
+    thin: true
   },
   {
     name: 'Dreh Kipp Links',
     image: dreh_kipp_links_o,
     key: 'DKL',
     handleNumber: 1,
+    thin: true
+
   },
   {
     name: 'Dreh Kipp Rechts',
     image: dreh_kipp_rechts_o,
     key: 'DKR',
     handleNumber: 1,
+    thin: true
   },
 ];
 
