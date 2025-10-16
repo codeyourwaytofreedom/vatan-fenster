@@ -40,6 +40,7 @@ type PriceDeterminants = {
   glasspaketKey: string;
   druckausgleichsventilKey: string;
   sprossen: string;
+  numberOfSections: number;
   direction?: 'oben' | 'unten';
 };
 
@@ -76,6 +77,7 @@ interface ConfigurationContextType {
     colorMidKey,
     druckausgleichsventilKey,
     sprossen,
+    numberOfSections,
     direction,
   }: PriceDeterminants) => number | null | undefined;
   getMinMaxSizes: (
@@ -195,6 +197,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     glasspaketKey,
     druckausgleichsventilKey,
     sprossen,
+    numberOfSections,
     direction,
   }: PriceDeterminants) => {
     const priceListForSelectedWindowStyle = priceLists[selectedWindowStyleKey][selectedMaterialKey];
@@ -221,10 +224,10 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
       const sprossenPriceMultipiler =
         sprossenPriceItems.find((it) => it.name === color)?.multiplier ?? 0;
 
-      const sectionNumber =
+      const sectionNumberInType =
         sprossenPatterns.find((pattern) => pattern.name === type)?.numberOfSections ?? 0;
 
-      sprossenPrice = sectionNumber * sprossenPriceMultipiler;
+      sprossenPrice = sectionNumberInType * sprossenPriceMultipiler * numberOfSections;
     }
 
     if (width === 0 || height === 0) {
@@ -448,7 +451,16 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     const colorCodeInt = configuration.colorInt.colorCode;
     const intExtDifferent =
       colorCodeExt !== '0' && colorCodeInt !== '0' && colorCodeExt !== colorCodeInt;
-    if (!intExtDifferent && configuration.sprossen.includes(innenAussenCompatibleText)) {
+
+    const ausfgesetzeSelected = configuration.sprossen.split('-')[0].includes('Aufgesetzte');
+    const intExtDifferentForAufgesetzte =
+      ausfgesetzeSelected && (colorCodeExt !== '0' || colorCodeInt !== '0');
+
+    if (
+      !intExtDifferent &&
+      !intExtDifferentForAufgesetzte &&
+      configuration.sprossen.includes(innenAussenCompatibleText)
+    ) {
       const sprossenWidthItems = sprossenCards.find(
         (sp) => sp.name === configuration.sprossen.split('-')[0]
       )?.items;

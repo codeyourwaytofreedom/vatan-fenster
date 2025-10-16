@@ -367,6 +367,7 @@ export default function SummaryDisplayer() {
             glasspaketKey,
             druckausgleichsventilKey,
             sprossen,
+            numberOfSections: sectionNumberOben,
             direction: 'oben',
           });
           /* Calculate unten part */
@@ -395,6 +396,7 @@ export default function SummaryDisplayer() {
             glasspaketKey,
             druckausgleichsventilKey,
             sprossen,
+            numberOfSections: sectionNumberUnten,
             direction: 'unten',
           });
           totalPrice = (obenPrice ?? 0) + (untenPrice ?? 0);
@@ -432,6 +434,7 @@ export default function SummaryDisplayer() {
             glasspaketKey,
             druckausgleichsventilKey,
             sprossen,
+            numberOfSections: sectionNumberOben,
             direction: 'unten',
           });
 
@@ -461,6 +464,7 @@ export default function SummaryDisplayer() {
             glasspaketKey,
             druckausgleichsventilKey,
             sprossen,
+            numberOfSections: sectionNumberUnten,
             direction: 'oben',
           });
 
@@ -468,6 +472,13 @@ export default function SummaryDisplayer() {
         }
 
         if (['flugel1', 'flugel2', 'flugel3'].includes(configuration.style.key)) {
+          const numberOfSections =
+            configuration.style.key === 'flugel1'
+              ? 1
+              : configuration.style.key === 'flugel2'
+                ? 2
+                : 3;
+
           totalPrice =
             calculateTotalPrice({
               selectedMaterialKey: configuration.material.key,
@@ -485,6 +496,7 @@ export default function SummaryDisplayer() {
               glasspaketKey,
               druckausgleichsventilKey,
               sprossen,
+              numberOfSections,
             }) || 0;
         }
 

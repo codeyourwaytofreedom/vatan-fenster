@@ -242,8 +242,9 @@ export const getColoringMultiplier = ({
     colorExteriorCode !== colorInteriorCode
   ) {
     // +0.02 is static mid color price multiplier
+    // cancelled for now
     return {
-      colouringPriceMultiplier: 0.21 + 0.02,
+      colouringPriceMultiplier: 0.21 /* + 0.02, */,
       min10: true,
       colorsAvailable: ['white', 'dark-brown', 'antrasite'],
     };

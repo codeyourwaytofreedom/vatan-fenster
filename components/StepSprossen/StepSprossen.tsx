@@ -35,6 +35,10 @@ export default function StepSprossen() {
     colorCodeExt !== colorCodeInt &&
     sprossen?.width !== '8';
 
+  const ausfgesetzeSelected = selectedSprossen.includes('Aufgesetzte');
+  const intExtDifferentForAufgesetzte =
+    ausfgesetzeSelected && (colorCodeExt !== '0' || colorCodeInt !== '0');
+
   const innenAussenComptabileOption = {
     key: 'double',
     name: innenAussenCompatibleText,
@@ -43,9 +47,10 @@ export default function StepSprossen() {
 
   const sprossenWidthItems = sprossenCards.find((sp) => sp.name === selectedSprossen)?.items;
   const defaultColors = sprossenWidthItems?.find((it) => it.name === sprossen?.width)?.colors;
-  const colors = intExtDifferent
-    ? [...(defaultColors ?? []), innenAussenComptabileOption]
-    : defaultColors;
+  const colors =
+    intExtDifferent || intExtDifferentForAufgesetzte
+      ? [...(defaultColors ?? []), innenAussenComptabileOption]
+      : defaultColors;
 
   const handleSelectSprossen = (itemName: string) => {
     setSelectedSprossen(itemName);
