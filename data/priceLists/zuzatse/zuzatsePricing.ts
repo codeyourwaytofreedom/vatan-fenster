@@ -45,3 +45,8 @@ export const reedKontaktPricing: Record<'nein' | 'ja', number> = {
     nein: 0,
     ja: 140
 }
+
+export const lüftungssystemePricing: Record<string, number> = {
+    fRegelAir: 60,
+    fMacoVent: 50
+}

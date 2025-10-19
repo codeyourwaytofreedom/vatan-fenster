@@ -2,13 +2,13 @@ import { Config, DobuleSelection, SelectionItem } from '@/types/Configurator';
 import OptionHolder from '../Product_Holder/Option_Holder';
 import StepRahmenverbreiterung from '../StepRahmenverbreiterung/StepRahmenverbreiterung';
 import style from './Zusatze.module.css';
-import empty from '@/assets/common/empty.jpg';
 import { useConfiguration } from '@/context/ConfigurationContext';
 import { useRef } from 'react';
 import { scrollToElement } from '@/utils';
 
 export default function ZusatzeGroup() {
   const { configuration, windowHandleNumber, setConfiguration } = useConfiguration();
+
   const options = [
     {
       key: 'nein',
@@ -19,16 +19,38 @@ export default function ZusatzeGroup() {
       name: 'Ja',
     },
   ];
-  const subOptions = [
+
+  const lüftungssystemeSubOptions = [
     {
-      key: 'nein',
-      name: 'Sub Option 1',
-      image: empty,
+      key: 'fRegelAir',
+      name: 'Fensterfalzventil REGEL - Air ',
     },
     {
-      key: 'ja',
-      name: 'Sub Option 2',
-      image: empty,
+      key: 'fMacoVent',
+      name: 'Fensterfalzventil MACO Vent',
+    },
+  ];
+
+  const paarOptions = [
+    {
+      key: '1',
+      name: '1 Paar',
+    },
+    {
+      key: '2',
+      name: '2 Paar',
+    },
+    {
+      key: '3',
+      name: '3 Paar',
+    },
+    {
+      key: '4',
+      name: '4 Paar',
+    },
+    {
+      key: '5',
+      name: '5 Paar',
     },
   ];
 
@@ -256,7 +278,12 @@ export default function ZusatzeGroup() {
                 item={option}
                 key={i}
                 action={() =>
-                  updateCategory('lüftungssysteme', option, subOptions, container6.current!)
+                  updateCategory(
+                    'lüftungssysteme',
+                    option,
+                    lüftungssystemeSubOptions,
+                    container6.current!
+                  )
                 }
                 selected={categorySelected(option, 'lüftungssysteme')}
               />
@@ -270,7 +297,25 @@ export default function ZusatzeGroup() {
             }}
             ref={container6}
           >
-            {subOptions.map((option, i) => (
+            {lüftungssystemeSubOptions.map((option, i) => (
+              <OptionHolder
+                item={option}
+                key={i}
+                action={() => updateSubcategory('lüftungssysteme', option, container7.current!)}
+                selected={subCategorySelected(option, 'lüftungssysteme')}
+              />
+            ))}
+          </div>
+          <div
+            className={style.container}
+            style={{
+              maxHeight: configuration['lüftungssysteme'].category.key === 'ja' ? '700px' : 0,
+              marginTop: 20,
+              marginBottom: configuration['lüftungssysteme'].category.key === 'ja' ? 20 : 0,
+            }}
+            ref={container6}
+          >
+            {paarOptions.map((option, i) => (
               <OptionHolder
                 item={option}
                 key={i}
@@ -281,8 +326,6 @@ export default function ZusatzeGroup() {
           </div>
         </>
       )}
-      <br />
-      <br />
       <h4 className={style.label}>Möchten Sie Rahmenverbreitung hinzufügen?</h4>
       <br />
       <div ref={container7}>

@@ -145,7 +145,7 @@ export const initialConfiguration: Config = {
   dünneSchweißnahtVPerfect: optionNo,
   reedKontakt: optionNo,
   montagevorbohrungen: optionNo,
-  lüftungssysteme: { category: optionNo, subCategory: {} as SelectionItem },
+  lüftungssysteme: { category: optionNo, subCategory: undefined, paar: undefined },
   rahmenverbreiterung: optionNo,
   rahmenverbreitungMontiert: optionNo,
   rahmenverbreiterungAuswahlen: {

@@ -153,7 +153,8 @@ export interface Config {
   montagevorbohrungen: SelectionItem;
   lüftungssysteme: {
     category: SelectionItem;
-    subCategory: SelectionItem;
+    subCategory: SelectionItem | undefined;
+    paar: number | undefined;
   };
   druckausgleichsventilZusatze: SelectionItem;
   rahmenverbreiterungAuswahlen: {
