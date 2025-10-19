@@ -93,11 +93,11 @@ export const categoryItems = [
   },
 ];
 
-const optionYes = {
+export const optionYes = {
   key: 'ja',
   name: 'Ja',
 };
-const optionNo = {
+export const optionNo = {
   key: 'nein',
   name: 'Nein',
 };
@@ -140,7 +140,7 @@ export const initialConfiguration: Config = {
   sprossen: 'Nein',
   druckausgleichsventil: verglasung.druckausgleichsventil[0],
   // adjust the type here
-  sicherheitsbeschlage: { category: optionNo, subCategory: {} as SelectionItem },
+  sicherheitsbeschlage: { category: optionNo, subCategory: undefined },
   verdecktLiegenderBeschlag: optionNo,
   dünneSchweißnahtVPerfect: optionNo,
   reedKontakt: optionNo,

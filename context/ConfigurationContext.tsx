@@ -1,4 +1,4 @@
-import { initialConfiguration, initialSubstyle } from '@/data/configurationData';
+import { initialConfiguration, initialSubstyle, optionNo } from '@/data/configurationData';
 import { minMaxSizes } from '@/data/minMaxSizes/minMaxSizes';
 import { priceLists } from '@/data/priceLists/priceLists';
 import {
@@ -6,6 +6,7 @@ import {
   sprossenPricingList,
   sprossenPricingList3LayerGlassAufgesetzte,
 } from '@/data/priceLists/sprossen/sprossen';
+import { sicherheitsbeschlagePricing } from '@/data/priceLists/zuzatse/zuzatsePricing';
 import { ColorCode } from '@/data/selectionItems/farbenData';
 import { sprossenCards, sprossenPatterns } from '@/data/selectionItems/verglasungData';
 import { sonnenschutzStepPacks, steps } from '@/data/steps';
@@ -19,6 +20,7 @@ import {
   Step,
   SubStyle,
   WindowMaterial,
+  WindowProfilePlastic,
   WindowStyle,
 } from '@/types/Configurator';
 import { calculateGlassPriceByM2, extractPriceFromTable, getColoringMultiplier } from '@/utils';
@@ -55,6 +57,8 @@ interface ConfigurationContextType {
   previousStep: Step;
   previousGroup: GroupKey;
   orderOfKeys: string[] | undefined;
+  windowSectionCount: number;
+  windowHandleNumber: number;
   setConfiguration: React.Dispatch<React.SetStateAction<Config>>;
   setCurrentGroup: React.Dispatch<React.SetStateAction<GroupKey>>;
   setCurrentStep: React.Dispatch<React.SetStateAction<Step | null>>;
@@ -148,6 +152,24 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
   const nextStep = currentStepPack[currentStepIndex + 1];
   const previousStep = currentStepPack[currentStepIndex - 1];
 
+  const windowSectionCount =
+    'oben' in configuration.type
+      ? (configuration.type.oben?.sectionNumber ?? 1) +
+        (configuration.type.unten?.sectionNumber ?? 1)
+      : (configuration.type.sectionNumber ?? 1);
+
+  const windowHandleNumber =
+    'oben' in configuration.type
+      ? (configuration.type.oben?.handleNumber ?? 0) + (configuration.type.unten?.handleNumber ?? 0)
+      : (configuration.type.handleNumber ?? 0);
+
+  const zusatzeOnlyOpeningWindowOptions: (keyof Config)[] = [
+    'sicherheitsbeschlage',
+    'verdecktLiegenderBeschlag',
+    'reedKontakt',
+    'lüftungssysteme',
+  ];
+
   const moveNextGroup = () => {
     const currentGroupIndex = visibleGroups.indexOf(group);
     const nextGroup = visibleGroups[currentGroupIndex + 1];
@@ -200,6 +222,10 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     numberOfSections,
     direction,
   }: PriceDeterminants) => {
+    if (width === 0 || height === 0) {
+      return;
+    }
+
     const priceListForSelectedWindowStyle = priceLists[selectedWindowStyleKey][selectedMaterialKey];
 
     const druckausgleichsventilPrice = druckausgleichsventilKey === 'ja' ? 15 : 0;
@@ -230,9 +256,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
       sprossenPrice = sectionNumberInType * sprossenPriceMultipiler * numberOfSections;
     }
 
-    if (width === 0 || height === 0) {
-      return;
-    }
+    const zuzatsePrice = calculateZusatzePrice();
 
     const { colouringPriceMultiplier } = getColoringMultiplier({
       colorExteriorCode,
@@ -271,7 +295,8 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
         colorPriceExterior +
         profileHeightRelatedAdditionalCost +
         druckausgleichsventilPrice +
-        sprossenPrice
+        sprossenPrice +
+        zuzatsePrice
       );
     }
 
@@ -348,11 +373,53 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
           colorPriceExterior +
           totalProfileHeightRelatedAdditionalCost +
           druckausgleichsventilPrice +
-          sprossenPrice
+          sprossenPrice +
+          zuzatsePrice
         );
       }
     }
   };
+
+  const calculateZusatzePrice = () => {
+    /* ---------- calculate sicherheitsbeschlage price ---------- */
+    const selectedProfileKey = configuration.profile.key as WindowProfilePlastic;
+    const sicherheitsbeschlageSubcategory =
+      configuration.sicherheitsbeschlage.subCategory?.key || '';
+
+    const sicherheitsbeschlagePricesForProfile = sicherheitsbeschlagePricing[selectedProfileKey];
+    const sicherheitsbeschlageMultiplier =
+      sicherheitsbeschlagePricesForProfile[sicherheitsbeschlageSubcategory] ?? 0;
+
+    const sicherheitsbeschlagePrice = sicherheitsbeschlageMultiplier * windowHandleNumber;
+
+    /* ---------- calculate verdecktLiegenderBeschlag price ---------- */
+    const selectedVerdecktLiegenderBeschlagKey = configuration.verdecktLiegenderBeschlag.key;
+    const verdecktLiegenderBeschlagMultiplier =
+      selectedVerdecktLiegenderBeschlagKey === 'ja' ? 160 : 0;
+
+    const verdecktLiegenderBeschlagPrice = verdecktLiegenderBeschlagMultiplier * windowHandleNumber;
+
+    /* ---------- calculate dünneSchweißnahtVPerfect price ---------- */
+    const dünneSchweißnahtVPerfectPrice = 0;
+
+    /* ---------- calculate reedKontakt price ---------- */
+    const selectedReedKontaktKey = configuration.reedKontakt.key;
+    const reedKontaktMultiplier = selectedReedKontaktKey === 'ja' ? 140 : 0;
+    const reedKontaktPrice = reedKontaktMultiplier * windowHandleNumber;
+
+    /* ---------- calculate montagevorbohrungen price ---------- */
+    const montagevorbohrungenPrice = 0;
+
+    return (
+      sicherheitsbeschlagePrice +
+      verdecktLiegenderBeschlagPrice +
+      dünneSchweißnahtVPerfectPrice +
+      reedKontaktPrice +
+      montagevorbohrungenPrice
+    );
+  };
+
+  calculateZusatzePrice();
 
   const getMinMaxSizes = (
     selectedMaterial: SelectionItem<WindowMaterial>,
@@ -477,6 +544,76 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     }
   }, [configuration.colorExt, configuration.colorInt, configuration.sprossen]);
 
+  // when type changes, if new type is single-flugel, reset sicherheitsbeschlage selection
+  useEffect(() => {
+    if (windowSectionCount < 2) {
+      if (configuration.sicherheitsbeschlage.category.key === 'ja') {
+        setConfiguration((pr) => {
+          return {
+            ...pr,
+            sicherheitsbeschlage: {
+              category: optionNo,
+              subCategory: undefined,
+            },
+          };
+        });
+      }
+    }
+  }, [configuration.type]);
+
+  // when profile changes, if aufbohrschutz is selected with IE or IEC profile, reset to basissicherheit
+  useEffect(() => {
+    if (
+      configuration.sicherheitsbeschlage.subCategory?.key === 'aufbohrschutz' &&
+      ['IE', 'IEC'].includes(configuration.profile.key)
+    ) {
+      setConfiguration((pr) => {
+        return {
+          ...pr,
+          sicherheitsbeschlage: {
+            category: pr.sicherheitsbeschlage.category,
+            subCategory: {
+              key: 'basissicherheit',
+              name: 'Basissicherheit',
+            },
+          },
+        };
+      });
+    }
+  }, [configuration.profile]);
+
+  // when window has no opening flugel, reset options which are only for opening windows in zusatze group
+  useEffect(() => {
+    if (windowHandleNumber === 0) {
+      zusatzeOnlyOpeningWindowOptions.forEach((optionKey) => {
+        if (
+          typeof configuration[optionKey] === 'object' &&
+          configuration[optionKey] &&
+          'category' in configuration[optionKey]
+        ) {
+          console.log('category ', optionKey);
+          setConfiguration((pr) => {
+            return {
+              ...pr,
+              [optionKey]: {
+                category: optionNo,
+                subCategory: undefined,
+              },
+            };
+          });
+        } else if ((configuration[optionKey] as SelectionItem).key === 'ja') {
+          console.log('selection item ', optionKey);
+          setConfiguration((pr) => {
+            return {
+              ...pr,
+              [optionKey]: optionNo,
+            };
+          });
+        }
+      });
+    }
+  }, [windowHandleNumber]);
+
   return (
     <ConfiurationContext.Provider
       value={{
@@ -489,6 +626,8 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
         orderOfKeys,
         previousStep,
         previousGroup,
+        windowSectionCount,
+        windowHandleNumber,
         getStepsForGroup,
         setConfiguration,
         setCurrentStep,

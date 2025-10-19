@@ -8,7 +8,7 @@ import { useRef } from 'react';
 import { scrollToElement } from '@/utils';
 
 export default function ZusatzeGroup() {
-  const { configuration, setConfiguration } = useConfiguration();
+  const { configuration, windowHandleNumber, setConfiguration } = useConfiguration();
   const options = [
     {
       key: 'nein',
@@ -31,6 +31,44 @@ export default function ZusatzeGroup() {
       image: empty,
     },
   ];
+
+  const selectedProfileKey = configuration.profile.key;
+
+  const sicherheitsbeschlageSubOptions = ['I5', 'I5C', 'IL'].includes(selectedProfileKey)
+    ? [
+        {
+          key: 'basissicherheit',
+          name: 'Basissicherheit',
+        },
+        {
+          key: 'aufbohrschutz',
+          name: 'Aufbohrschutz',
+        },
+        {
+          key: 'rc1n',
+          name: 'RC 1 N',
+        },
+        {
+          key: 'rc2n',
+          name: 'RC 2 N',
+        },
+      ]
+    : ['IE', 'IEC'].includes(selectedProfileKey)
+      ? [
+          {
+            key: 'basissicherheit',
+            name: 'Basissicherheit',
+          },
+          {
+            key: 'rc1n',
+            name: 'RC 1 N',
+          },
+          {
+            key: 'rc2n',
+            name: 'RC 2 N',
+          },
+        ]
+      : [];
 
   const container1 = useRef<HTMLDivElement>(null);
   const container2 = useRef<HTMLDivElement>(null);
@@ -101,52 +139,60 @@ export default function ZusatzeGroup() {
 
   return (
     <>
-      <br />
-      <br />
-      <h4>Möchten Sie Sicherheitsbeschläge hinzufügen?</h4>
-      <br />
-      <div className={style.container}>
-        {options.map((option, i) => (
-          <OptionHolder
-            item={option}
-            key={i}
-            action={() => updateCategory('sicherheitsbeschlage', option, subOptions)}
-            selected={categorySelected(option, 'sicherheitsbeschlage')}
-          />
-        ))}
-      </div>
-      {configuration['sicherheitsbeschlage'].category.key === 'ja' && <br />}
-      <div
-        className={style.container}
-        style={{
-          maxHeight: configuration['sicherheitsbeschlage'].category.key === 'ja' ? '700px' : 0,
-        }}
-      >
-        {subOptions.map((option, i) => (
-          <OptionHolder
-            item={option}
-            key={i}
-            action={() => updateSubcategory('sicherheitsbeschlage', option, container1.current!)}
-            selected={subCategorySelected(option, 'sicherheitsbeschlage')}
-          />
-        ))}
-      </div>
-      <br />
-      <br />
-      <h4 className={style.label}>Möchten Sie verdeckt liegende Beschläge hinzufügen?</h4>
-      <br />
-      <div className={style.container} ref={container1}>
-        {options.map((option, i) => (
-          <OptionHolder
-            item={option}
-            key={i}
-            action={() =>
-              updateConfiguration(option, 'verdecktLiegenderBeschlag', container2.current!)
-            }
-            selected={isSelected(option.name, 'verdecktLiegenderBeschlag')}
-          />
-        ))}
-      </div>
+      {Boolean(windowHandleNumber) && (
+        <>
+          <br />
+          <br />
+          <h4>Möchten Sie Sicherheitsbeschläge hinzufügen?</h4>
+          <br />
+          <div className={style.container}>
+            {options.map((option, i) => (
+              <OptionHolder
+                item={option}
+                key={i}
+                action={() =>
+                  updateCategory('sicherheitsbeschlage', option, sicherheitsbeschlageSubOptions)
+                }
+                selected={categorySelected(option, 'sicherheitsbeschlage')}
+              />
+            ))}
+          </div>
+          {configuration['sicherheitsbeschlage'].category.key === 'ja' && <br />}
+          <div
+            className={style.container}
+            style={{
+              maxHeight: configuration['sicherheitsbeschlage'].category.key === 'ja' ? '700px' : 0,
+            }}
+          >
+            {sicherheitsbeschlageSubOptions.map((option, i) => (
+              <OptionHolder
+                item={option}
+                key={i}
+                action={() =>
+                  updateSubcategory('sicherheitsbeschlage', option, container1.current!)
+                }
+                selected={subCategorySelected(option, 'sicherheitsbeschlage')}
+              />
+            ))}
+          </div>
+          <br />
+          <br />
+          <h4 className={style.label}>Möchten Sie verdeckt liegende Beschläge hinzufügen?</h4>
+          <br />
+          <div className={style.container} ref={container1}>
+            {options.map((option, i) => (
+              <OptionHolder
+                item={option}
+                key={i}
+                action={() =>
+                  updateConfiguration(option, 'verdecktLiegenderBeschlag', container2.current!)
+                }
+                selected={isSelected(option.name, 'verdecktLiegenderBeschlag')}
+              />
+            ))}
+          </div>
+        </>
+      )}
       <br />
       <br />
       <h4 className={style.label}>Möchten Sie für das Kunststoffprofil eine dünne Schweißnaht?</h4>
@@ -163,20 +209,26 @@ export default function ZusatzeGroup() {
           />
         ))}
       </div>
-      <br />
-      <br />
-      <h4 className={style.label}>Möchten Sie Reedkontakte hinzufügen?</h4>
-      <br />
-      <div className={style.container} ref={container3}>
-        {options.map((option, i) => (
-          <OptionHolder
-            item={option}
-            key={i}
-            action={() => updateConfiguration(option, 'reedKontakt', container4.current!)}
-            selected={isSelected(option.name, 'reedKontakt')}
-          />
-        ))}
-      </div>
+
+      {Boolean(windowHandleNumber) && (
+        <>
+          <br />
+          <br />
+          <h4 className={style.label}>Möchten Sie Reedkontakte hinzufügen?</h4>
+          <br />
+          <div className={style.container} ref={container3}>
+            {options.map((option, i) => (
+              <OptionHolder
+                item={option}
+                key={i}
+                action={() => updateConfiguration(option, 'reedKontakt', container4.current!)}
+                selected={isSelected(option.name, 'reedKontakt')}
+              />
+            ))}
+          </div>
+        </>
+      )}
+
       <br />
       <br />
       <h4 className={style.label}>Möchten Sie Montagevorbohrungen hinzufügen?</h4>
@@ -191,37 +243,44 @@ export default function ZusatzeGroup() {
           />
         ))}
       </div>
-      <br />
-      <br />
-      <h4>Möchten Sie ein Lüftungssystem hinzufügen?</h4>
-      <br />
-      <div className={style.container} ref={container5}>
-        {options.map((option, i) => (
-          <OptionHolder
-            item={option}
-            key={i}
-            action={() =>
-              updateCategory('lüftungssysteme', option, subOptions, container6.current!)
-            }
-            selected={categorySelected(option, 'lüftungssysteme')}
-          />
-        ))}
-      </div>
-      <br />
-      <div
-        className={style.container}
-        style={{ maxHeight: configuration['lüftungssysteme'].category.key === 'ja' ? '700px' : 0 }}
-        ref={container6}
-      >
-        {subOptions.map((option, i) => (
-          <OptionHolder
-            item={option}
-            key={i}
-            action={() => updateSubcategory('lüftungssysteme', option, container7.current!)}
-            selected={subCategorySelected(option, 'lüftungssysteme')}
-          />
-        ))}
-      </div>
+
+      {Boolean(windowHandleNumber) && (
+        <>
+          <br />
+          <br />
+          <h4>Möchten Sie ein Lüftungssystem hinzufügen?</h4>
+          <br />
+          <div className={style.container} ref={container5}>
+            {options.map((option, i) => (
+              <OptionHolder
+                item={option}
+                key={i}
+                action={() =>
+                  updateCategory('lüftungssysteme', option, subOptions, container6.current!)
+                }
+                selected={categorySelected(option, 'lüftungssysteme')}
+              />
+            ))}
+          </div>
+          <br />
+          <div
+            className={style.container}
+            style={{
+              maxHeight: configuration['lüftungssysteme'].category.key === 'ja' ? '700px' : 0,
+            }}
+            ref={container6}
+          >
+            {subOptions.map((option, i) => (
+              <OptionHolder
+                item={option}
+                key={i}
+                action={() => updateSubcategory('lüftungssysteme', option, container7.current!)}
+                selected={subCategorySelected(option, 'lüftungssysteme')}
+              />
+            ))}
+          </div>
+        </>
+      )}
       <br />
       <br />
       <h4 className={style.label}>Möchten Sie Rahmenverbreitung hinzufügen?</h4>

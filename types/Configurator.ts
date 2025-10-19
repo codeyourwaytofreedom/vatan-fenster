@@ -143,7 +143,7 @@ export interface Config {
   kastenheight?: SelectionItem;
   sicherheitsbeschlage: {
     category: SelectionItem;
-    subCategory: SelectionItem;
+    subCategory: SelectionItem | undefined;
   };
   verdecktLiegenderBeschlag: SelectionItem;
   rahmenverbreiterung: SelectionItem;
