@@ -255,7 +255,7 @@ export default function ZusatzeGroup() {
       <br />
       <h4 className={style.label}>Möchten Sie Montagevorbohrungen hinzufügen?</h4>
       <br />
-      <div className={style.container} ref={container4}>
+      <div className={style.container} ref={container4} style={{ marginBottom: 20 }}>
         {options.map((option, i) => (
           <OptionHolder
             item={option}
@@ -268,7 +268,6 @@ export default function ZusatzeGroup() {
 
       {Boolean(windowHandleNumber) && (
         <>
-          <br />
           <br />
           <h4>Möchten Sie ein Lüftungssystem hinzufügen?</h4>
           <br />

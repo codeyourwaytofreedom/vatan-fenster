@@ -60,6 +60,7 @@ export const materials: SelectionItem<WindowMaterial>[] = [
     key: 'aluminium',
     name: 'Aluminium',
     image: aluminium,
+    disabled: true
   },
   {
     key: 'holz',
