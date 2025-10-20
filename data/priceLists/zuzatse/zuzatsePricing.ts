@@ -33,7 +33,7 @@ export const sicherheitsbeschlagePricing: Record<WindowProfilePlastic , Record<s
 
 export const verdecktLiegenderBeschlagPricing: Record<'nein' | 'ja', number> = {
     nein: 0,
-    ja: 160
+    ja: 120
 }
 
 export const dünneSchweißnahtVPerfectPricing:Record<'nein' | 'ja', number> = {

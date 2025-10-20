@@ -91,7 +91,7 @@ export const sprossenPricingList3LayerGlassAufgesetzte: Record<string, Record<st
         ],
         65: [
             { key: 'weiss', name: 'Weiß',multiplier: 100 },
-            { key: 'double', name: innenAussenCompatibleText, multiplier: 119 },
+            { key: 'double', name: innenAussenCompatibleText, multiplier: 109 },
         ],
     } 
 }
