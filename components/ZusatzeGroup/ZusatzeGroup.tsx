@@ -181,6 +181,8 @@ export default function ZusatzeGroup() {
     (configuration[key as keyof Config] as DobuleSelection)?.subCategory?.key === item.key;
   const paarSelected = (paar: number) => paar === configuration.lüftungssysteme.paar;
 
+  const lüftungssystemeSelected = configuration['lüftungssysteme'].category.key === 'ja';
+
   return (
     <>
       {Boolean(windowHandleNumber) && (
@@ -315,7 +317,7 @@ export default function ZusatzeGroup() {
           <div
             className={style.container}
             style={{
-              maxHeight: configuration['lüftungssysteme'].category.key === 'ja' ? '700px' : 0,
+              maxHeight: lüftungssystemeSelected ? '700px' : 0,
             }}
             ref={container6}
           >
@@ -331,9 +333,9 @@ export default function ZusatzeGroup() {
           <div
             className={style.container}
             style={{
-              maxHeight: configuration['lüftungssysteme'].category.key === 'ja' ? '700px' : 0,
+              maxHeight: lüftungssystemeSelected ? '700px' : 0,
               marginTop: 20,
-              marginBottom: configuration['lüftungssysteme'].category.key === 'ja' ? 20 : 0,
+              marginBottom: lüftungssystemeSelected ? 20 : 0,
             }}
             ref={container6}
           >
@@ -346,7 +348,7 @@ export default function ZusatzeGroup() {
               />
             ))}
           </div>
-          {configuration['lüftungssysteme'].category.key === 'ja' && (
+          {lüftungssystemeSelected && (
             <>
               <h4 style={{ color: 'darkorange' }}>
                 Ein Paar der Fensterfalzlüfter besteht aus jeweils zwei Stück pro Flügel.
