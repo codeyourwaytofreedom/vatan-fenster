@@ -395,7 +395,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     /* ---------- calculate verdecktLiegenderBeschlag price ---------- */
     const selectedVerdecktLiegenderBeschlagKey = configuration.verdecktLiegenderBeschlag.key;
     const verdecktLiegenderBeschlagMultiplier =
-      selectedVerdecktLiegenderBeschlagKey === 'ja' ? 160 : 0;
+      selectedVerdecktLiegenderBeschlagKey === 'ja' ? 120 : 0;
 
     const verdecktLiegenderBeschlagPrice = verdecktLiegenderBeschlagMultiplier * windowHandleNumber;
 
