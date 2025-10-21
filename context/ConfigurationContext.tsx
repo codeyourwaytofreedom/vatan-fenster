@@ -6,7 +6,12 @@ import {
   sprossenPricingList,
   sprossenPricingList3LayerGlassAufgesetzte,
 } from '@/data/priceLists/sprossen/sprossen';
-import { sicherheitsbeschlagePricing } from '@/data/priceLists/zuzatse/zuzatsePricing';
+import {
+  lüftungssystemePricing,
+  reedKontaktPricing,
+  sicherheitsbeschlagePricing,
+  verdecktLiegenderBeschlagPricing,
+} from '@/data/priceLists/zuzatse/zuzatsePricing';
 import { ColorCode } from '@/data/selectionItems/farbenData';
 import { sprossenCards, sprossenPatterns } from '@/data/selectionItems/verglasungData';
 import { sonnenschutzStepPacks, steps } from '@/data/steps';
@@ -395,7 +400,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     /* ---------- calculate verdecktLiegenderBeschlag price ---------- */
     const selectedVerdecktLiegenderBeschlagKey = configuration.verdecktLiegenderBeschlag.key;
     const verdecktLiegenderBeschlagMultiplier =
-      selectedVerdecktLiegenderBeschlagKey === 'ja' ? 120 : 0;
+      verdecktLiegenderBeschlagPricing[selectedVerdecktLiegenderBeschlagKey];
 
     const verdecktLiegenderBeschlagPrice = verdecktLiegenderBeschlagMultiplier * windowHandleNumber;
 
@@ -404,22 +409,35 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
 
     /* ---------- calculate reedKontakt price ---------- */
     const selectedReedKontaktKey = configuration.reedKontakt.key;
-    const reedKontaktMultiplier = selectedReedKontaktKey === 'ja' ? 140 : 0;
+    const reedKontaktMultiplier = reedKontaktPricing[selectedReedKontaktKey];
     const reedKontaktPrice = reedKontaktMultiplier * windowHandleNumber;
 
     /* ---------- calculate montagevorbohrungen price ---------- */
     const montagevorbohrungenPrice = 0;
+
+    /* ---------- calculate lüftungssysteme price ---------- */
+
+    const selectedLüftungssystemeKey = configuration.lüftungssysteme.category.key;
+    const selectedLüftungssystemeSubcategoryKey =
+      configuration.lüftungssysteme.subCategory?.key || '';
+
+    const lüftungssystemePriceMultiplier =
+      selectedLüftungssystemeKey === 'nein'
+        ? 0
+        : lüftungssystemePricing[selectedLüftungssystemeSubcategoryKey];
+    const paar = configuration.lüftungssysteme.paar ?? 0;
+
+    const lüftungssystemePrice = lüftungssystemePriceMultiplier * paar * windowHandleNumber;
 
     return (
       sicherheitsbeschlagePrice +
       verdecktLiegenderBeschlagPrice +
       dünneSchweißnahtVPerfectPrice +
       reedKontaktPrice +
-      montagevorbohrungenPrice
+      montagevorbohrungenPrice +
+      lüftungssystemePrice
     );
   };
-
-  calculateZusatzePrice();
 
   const getMinMaxSizes = (
     selectedMaterial: SelectionItem<WindowMaterial>,

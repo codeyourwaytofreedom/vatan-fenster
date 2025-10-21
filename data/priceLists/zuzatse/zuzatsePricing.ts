@@ -31,7 +31,7 @@ export const sicherheitsbeschlagePricing: Record<WindowProfilePlastic , Record<s
     },
 }
 
-export const verdecktLiegenderBeschlagPricing: Record<'nein' | 'ja', number> = {
+export const verdecktLiegenderBeschlagPricing: Record<string, number> = {
     nein: 0,
     ja: 120
 }
@@ -41,7 +41,7 @@ export const dünneSchweißnahtVPerfectPricing:Record<'nein' | 'ja', number> = {
     ja: 0
 }
 
-export const reedKontaktPricing: Record<'nein' | 'ja', number> = {
+export const reedKontaktPricing: Record<string, number> = {
     nein: 0,
     ja: 140
 }

@@ -120,7 +120,8 @@ export default function ZusatzeGroup() {
     key: string,
     item: SelectionItem,
     subOptions: SelectionItem[],
-    nextContainer?: HTMLDivElement
+    nextContainer?: HTMLDivElement,
+    paar?: number
   ) => {
     setConfiguration((pr) => {
       return {
@@ -128,6 +129,7 @@ export default function ZusatzeGroup() {
         [key]: {
           category: item,
           subCategory: subOptions[0],
+          ...(paar ? { paar: paar } : {}),
         },
       };
     });
@@ -135,19 +137,38 @@ export default function ZusatzeGroup() {
       scrollToElement({ htmlElement: nextContainer, offset: 200 });
     }
   };
-  const updateSubcategory = (key: string, item: SelectionItem, nextContainer?: HTMLDivElement) => {
+  const updateSubcategory = (
+    key: string,
+    item: SelectionItem,
+    nextContainer?: HTMLDivElement,
+    paar?: number
+  ) => {
     setConfiguration((pr) => {
       return {
         ...pr,
         [key]: {
           category: (pr[key as keyof Config] as DobuleSelection)?.category,
           subCategory: item,
+          ...(paar ? { paar: configuration.lüftungssysteme.paar ?? paar } : {}),
         },
       };
     });
     if (nextContainer) {
       scrollToElement({ htmlElement: nextContainer, offset: 300 });
     }
+  };
+
+  const updateLüftungssystemePaar = (paar: number) => {
+    setConfiguration((pr) => {
+      return {
+        ...pr,
+        lüftungssysteme: {
+          category: pr.lüftungssysteme?.category,
+          subCategory: pr.lüftungssysteme?.subCategory,
+          paar: paar,
+        },
+      };
+    });
   };
 
   const isSelected = (name: string, key?: string) => {
@@ -158,6 +179,7 @@ export default function ZusatzeGroup() {
     (configuration[key as keyof Config] as DobuleSelection)?.category?.key === item.key;
   const subCategorySelected = (item: SelectionItem, key: string) =>
     (configuration[key as keyof Config] as DobuleSelection)?.subCategory?.key === item.key;
+  const paarSelected = (paar: number) => paar === configuration.lüftungssysteme.paar;
 
   return (
     <>
@@ -281,7 +303,8 @@ export default function ZusatzeGroup() {
                     'lüftungssysteme',
                     option,
                     lüftungssystemeSubOptions,
-                    container6.current!
+                    container6.current!,
+                    1
                   )
                 }
                 selected={categorySelected(option, 'lüftungssysteme')}
@@ -300,7 +323,7 @@ export default function ZusatzeGroup() {
               <OptionHolder
                 item={option}
                 key={i}
-                action={() => updateSubcategory('lüftungssysteme', option, container7.current!)}
+                action={() => updateSubcategory('lüftungssysteme', option, container7.current!, 1)}
                 selected={subCategorySelected(option, 'lüftungssysteme')}
               />
             ))}
@@ -318,8 +341,8 @@ export default function ZusatzeGroup() {
               <OptionHolder
                 item={option}
                 key={i}
-                action={() => updateSubcategory('lüftungssysteme', option, container7.current!)}
-                selected={subCategorySelected(option, 'lüftungssysteme')}
+                action={() => updateLüftungssystemePaar(parseInt(option.key))}
+                selected={paarSelected(parseInt(option.key))}
               />
             ))}
           </div>

@@ -147,7 +147,8 @@ export default function SummaryDisplayer() {
       if (doubleSelection.category.name === 'Nein') {
         return 'Nein';
       }
-      return `${doubleSelection.category.name} - ${doubleSelection.subCategory.name || ''}`;
+      const paar = 'paar' in value ? '-' + value.paar + ' Paar' : '';
+      return `${doubleSelection.category.name} - ${doubleSelection.subCategory.name || ''}${paar}`;
     }
 
     if (key === 'size') {
