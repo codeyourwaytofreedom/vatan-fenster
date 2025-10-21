@@ -346,6 +346,14 @@ export default function ZusatzeGroup() {
               />
             ))}
           </div>
+          {configuration['lüftungssysteme'].category.key === 'ja' && (
+            <>
+              <h4 style={{ color: 'darkorange' }}>
+                Ein Paar der Fensterfalzlüfter besteht aus jeweils zwei Stück pro Flügel.
+              </h4>
+              <br />
+            </>
+          )}
         </>
       )}
       <h4 className={style.label}>Möchten Sie Rahmenverbreitung hinzufügen?</h4>
