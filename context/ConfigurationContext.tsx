@@ -48,6 +48,7 @@ type PriceDeterminants = {
   druckausgleichsventilKey: string;
   sprossen: string;
   numberOfSections: number;
+  windowHandleNumber: number;
   direction?: 'oben' | 'unten';
 };
 
@@ -87,6 +88,7 @@ interface ConfigurationContextType {
     druckausgleichsventilKey,
     sprossen,
     numberOfSections,
+    windowHandleNumber,
     direction,
   }: PriceDeterminants) => number | null | undefined;
   getMinMaxSizes: (
@@ -163,7 +165,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
         (configuration.type.unten?.sectionNumber ?? 1)
       : (configuration.type.sectionNumber ?? 1);
 
-  const windowHandleNumber =
+  const windowHandleNumberTotal =
     'oben' in configuration.type
       ? (configuration.type.oben?.handleNumber ?? 0) + (configuration.type.unten?.handleNumber ?? 0)
       : (configuration.type.handleNumber ?? 0);
@@ -225,11 +227,14 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     druckausgleichsventilKey,
     sprossen,
     numberOfSections,
+    windowHandleNumber,
     direction,
   }: PriceDeterminants) => {
     if (width === 0 || height === 0) {
       return;
     }
+
+    console.log(windowHandleNumber);
 
     const priceListForSelectedWindowStyle = priceLists[selectedWindowStyleKey][selectedMaterialKey];
 
@@ -261,7 +266,9 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
       sprossenPrice = sectionNumberInType * sprossenPriceMultipiler * numberOfSections;
     }
 
-    const zuzatsePrice = calculateZusatzePrice();
+    const zuzatsePrice = calculateZusatzePrice(windowHandleNumber);
+
+    console.log(zuzatsePrice);
 
     const { colouringPriceMultiplier } = getColoringMultiplier({
       colorExteriorCode,
@@ -385,7 +392,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     }
   };
 
-  const calculateZusatzePrice = () => {
+  const calculateZusatzePrice = (windowHandleNumber: number) => {
     /* ---------- calculate sicherheitsbeschlage price ---------- */
     const selectedProfileKey = configuration.profile.key as WindowProfilePlastic;
     const sicherheitsbeschlageSubcategory =
@@ -602,7 +609,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
 
   // when window has no opening flugel, reset options which are only for opening windows in zusatze group
   useEffect(() => {
-    if (windowHandleNumber === 0) {
+    if (windowHandleNumberTotal === 0) {
       zusatzeOnlyOpeningWindowOptions.forEach((optionKey) => {
         if (
           typeof configuration[optionKey] === 'object' &&
@@ -630,7 +637,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
         }
       });
     }
-  }, [windowHandleNumber]);
+  }, [windowHandleNumberTotal]);
 
   return (
     <ConfiurationContext.Provider
@@ -645,7 +652,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
         previousStep,
         previousGroup,
         windowSectionCount,
-        windowHandleNumber,
+        windowHandleNumber: windowHandleNumberTotal,
         getStepsForGroup,
         setConfiguration,
         setCurrentStep,

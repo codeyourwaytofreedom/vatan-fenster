@@ -369,6 +369,7 @@ export default function SummaryDisplayer() {
             druckausgleichsventilKey,
             sprossen,
             numberOfSections: sectionNumberOben,
+            windowHandleNumber: configuration.type.oben?.handleNumber ?? 0,
             direction: 'oben',
           });
           /* Calculate unten part */
@@ -398,6 +399,7 @@ export default function SummaryDisplayer() {
             druckausgleichsventilKey,
             sprossen,
             numberOfSections: sectionNumberUnten,
+            windowHandleNumber: configuration.type.unten?.handleNumber ?? 0,
             direction: 'unten',
           });
           totalPrice = (obenPrice ?? 0) + (untenPrice ?? 0);
@@ -436,6 +438,7 @@ export default function SummaryDisplayer() {
             druckausgleichsventilKey,
             sprossen,
             numberOfSections: sectionNumberOben,
+            windowHandleNumber: configuration.type.oben?.handleNumber ?? 0,
             direction: 'unten',
           });
 
@@ -466,6 +469,7 @@ export default function SummaryDisplayer() {
             druckausgleichsventilKey,
             sprossen,
             numberOfSections: sectionNumberUnten,
+            windowHandleNumber: configuration.type.unten?.handleNumber ?? 0,
             direction: 'oben',
           });
 
@@ -497,6 +501,7 @@ export default function SummaryDisplayer() {
               glasspaketKey,
               druckausgleichsventilKey,
               sprossen,
+              windowHandleNumber: (configuration.type as SelectionItem)?.handleNumber ?? 0,
               numberOfSections,
             }) || 0;
         }
