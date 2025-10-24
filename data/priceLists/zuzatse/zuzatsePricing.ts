@@ -21,12 +21,12 @@ export const sicherheitsbeschlagePricing: Record<WindowProfilePlastic , Record<s
     },
     IE: {
         basissicherheit: 0,
-        rc1n: 40,
+        rc1n: 3,
         rc2n: 140
     },
     IEC: {
         basissicherheit: 0,
-        rc1n: 40,
+        rc1n: 3,
         rc2n: 140
     },
 }

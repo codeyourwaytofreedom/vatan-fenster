@@ -234,8 +234,6 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
       return;
     }
 
-    console.log(windowHandleNumber);
-
     const priceListForSelectedWindowStyle = priceLists[selectedWindowStyleKey][selectedMaterialKey];
 
     const druckausgleichsventilPrice = druckausgleichsventilKey === 'ja' ? 15 : 0;
@@ -267,8 +265,6 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     }
 
     const zuzatsePrice = calculateZusatzePrice(windowHandleNumber);
-
-    console.log(zuzatsePrice);
 
     const { colouringPriceMultiplier } = getColoringMultiplier({
       colorExteriorCode,
