@@ -2,6 +2,7 @@ import Image from 'next/image';
 import style from './StepRahmenverbreiterungAuswahlen.module.css';
 import window from '@/assets/configurator/style/flugel2/2-Flügel.png';
 import { useConfiguration } from '@/context/ConfigurationContext';
+import { rahmenverbreiterungOptions } from '@/data/selectionItems/zusatze';
 export default function StepRahmenverbreiterungAuswahlen() {
   const { configuration, setConfiguration } = useConfiguration();
 
@@ -54,9 +55,11 @@ export default function StepRahmenverbreiterungAuswahlen() {
               onChange={(e) => handleSelect(e, option.key)}
               value={configuration.rahmenverbreiterungAuswahlen[option.key]}
             >
-              <option value="0">0 mm</option>
-              <option value="5">5 mm</option>
-              <option value="10">10 mm</option>
+              {rahmenverbreiterungOptions.map((opt, ind) => (
+                <option key={ind} value={parseInt(opt.key)}>
+                  {opt.name} mm
+                </option>
+              ))}
             </select>
           </div>
         ))}

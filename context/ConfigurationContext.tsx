@@ -8,6 +8,7 @@ import {
 } from '@/data/priceLists/sprossen/sprossen';
 import {
   lüftungssystemePricing,
+  rahmenverbreiterungPricing,
   reedKontaktPricing,
   sicherheitsbeschlagePricing,
   verdecktLiegenderBeschlagPricing,
@@ -264,7 +265,13 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
       sprossenPrice = sectionNumberInType * sprossenPriceMultipiler * numberOfSections;
     }
 
-    const zuzatsePrice = calculateZusatzePrice(windowHandleNumber);
+    const zuzatsePrice = calculateZusatzePrice({
+      windowHandleNumber,
+      width,
+      height,
+      colorInteriorCode,
+      colorExteriorCode,
+    });
 
     const { colouringPriceMultiplier } = getColoringMultiplier({
       colorExteriorCode,
@@ -388,7 +395,19 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     }
   };
 
-  const calculateZusatzePrice = (windowHandleNumber: number) => {
+  const calculateZusatzePrice = ({
+    windowHandleNumber,
+    width,
+    height,
+    colorInteriorCode,
+    colorExteriorCode,
+  }: {
+    windowHandleNumber: number;
+    width: number;
+    height: number;
+    colorInteriorCode: ColorCode;
+    colorExteriorCode: ColorCode;
+  }) => {
     /* ---------- calculate sicherheitsbeschlage price ---------- */
     const selectedProfileKey = configuration.profile.key as WindowProfilePlastic;
     const sicherheitsbeschlageSubcategory =
@@ -432,14 +451,66 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
 
     const lüftungssystemePrice = lüftungssystemePriceMultiplier * paar * windowHandleNumber;
 
+    /* ---------- calculate rahmenverbreiterung price ---------- */
+    const rahmenverbreiterungPrice = calculateRahmenverbreiterungPrice({
+      width,
+      height,
+      colorInteriorCode,
+      colorExteriorCode,
+    });
+
     return (
       sicherheitsbeschlagePrice +
       verdecktLiegenderBeschlagPrice +
       dünneSchweißnahtVPerfectPrice +
       reedKontaktPrice +
       montagevorbohrungenPrice +
-      lüftungssystemePrice
+      lüftungssystemePrice +
+      rahmenverbreiterungPrice
     );
+  };
+
+  const calculateRahmenverbreiterungPrice = ({
+    width,
+    height,
+    colorInteriorCode,
+    colorExteriorCode,
+  }: {
+    width: number;
+    height: number;
+    colorInteriorCode: ColorCode;
+    colorExteriorCode: ColorCode;
+  }) => {
+    if (configuration.rahmenverbreiterung.key === 'nein') {
+      return 0;
+    }
+    const assemblySelected = configuration.rahmenverbreitungMontiert.key === 'ja';
+    const rahmenverbreiterungAuswahlen = configuration.rahmenverbreiterungAuswahlen;
+
+    const priceListKey =
+      colorExteriorCode === colorInteriorCode && colorInteriorCode === '0'
+        ? 'innenAndAussenWeiss'
+        : (colorInteriorCode === '0' || colorExteriorCode === '0') &&
+            colorInteriorCode !== colorExteriorCode
+          ? 'innenOrAussenWeiss'
+          : 'innenAndAussenDifferent';
+
+    const pricingList = rahmenverbreiterungPricing[priceListKey];
+
+    const total = Object.entries(rahmenverbreiterungAuswahlen).reduce((acc, [key, value]) => {
+      const measureToUse = (['links', 'rechts'].includes(key) ? height : width) / 1000;
+      if (value === 0) {
+        return acc;
+      }
+      const priceObj = pricingList[value];
+      const assemblyCost = assemblySelected ? priceObj.assembly : 0;
+
+      const individualPrice = priceObj.pricePerMeter * measureToUse + assemblyCost;
+
+      return acc + individualPrice;
+    }, 0);
+
+    return total;
   };
 
   const getMinMaxSizes = (
@@ -612,7 +683,6 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
           configuration[optionKey] &&
           'category' in configuration[optionKey]
         ) {
-          console.log('category ', optionKey);
           setConfiguration((pr) => {
             return {
               ...pr,
@@ -623,7 +693,6 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
             };
           });
         } else if ((configuration[optionKey] as SelectionItem).key === 'ja') {
-          console.log('selection item ', optionKey);
           setConfiguration((pr) => {
             return {
               ...pr,

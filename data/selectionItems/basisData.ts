@@ -60,7 +60,7 @@ export const materials: SelectionItem<WindowMaterial>[] = [
     key: 'aluminium',
     name: 'Aluminium',
     image: aluminium,
-    disabled: true
+    disabled: true,
   },
   {
     key: 'holz',
@@ -240,13 +240,13 @@ export const subStyleOptions: SubStyleOptions = {
 
 export const customProfileHeights: SelectionItem[] = [
   {
-  key: 'height66',
-  name: 'Standard - 66 mm',
-  image: no,
-},
-{
-  key: 'height75',
-  name: 'Blendrahmen - 75 mm',
-  image: no,
-}
-]
+    key: 'height66',
+    name: 'Standard - 66 mm',
+    image: no,
+  },
+  {
+    key: 'height75',
+    name: 'Blendrahmen - 75 mm',
+    image: no,
+  },
+];

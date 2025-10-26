@@ -2,7 +2,13 @@
 import { Config, SelectionItem, Size, WindowProfilePlastic } from '@/types/Configurator';
 
 import { farbenOptions } from './selectionItems/farbenData';
-import { brands, covers, customProfileHeights, materials, windowStyles } from './selectionItems/basisData';
+import {
+  brands,
+  covers,
+  customProfileHeights,
+  materials,
+  windowStyles,
+} from './selectionItems/basisData';
 import { verglasung } from './selectionItems/verglasungData';
 import { sonnenschutzItems } from './selectionItems/sonnenschutzData';
 

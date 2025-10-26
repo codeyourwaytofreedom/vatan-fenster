@@ -11,12 +11,12 @@ import {
 } from './data/selectionItems/farbenData';
 
 interface ScrollProps {
-  elementId?: string, 
-  delay?: number , 
-  offset?: number, 
-  htmlElement?:HTMLElement
+  elementId?: string;
+  delay?: number;
+  offset?: number;
+  htmlElement?: HTMLElement;
 }
-export const scrollToElement = ( {
+export const scrollToElement = ({
   elementId = '',
   delay = 0,
   offset = 150,
@@ -75,47 +75,52 @@ export const calculateGlassPriceByM2 = ({
   const ornamentAvailable = selectedOrnamentKey !== 'nein';
   const ornamentGlassPriceMultipliers = ornamentPriceMultipliers(selectedOrnamentKey, is3Layered);
 
-  const ornamentReplacedInFirstLayer = ['antisolBraun4', 'antisolGrun4'].includes(selectedOrnamentKey);
+  const ornamentReplacedInFirstLayer = ['antisolBraun4', 'antisolGrun4'].includes(
+    selectedOrnamentKey
+  );
 
   // if ornament is available and glass is 3Layered, the second layer is replaced by ornamentPriceMultipliers
   // if ornament is available and glass is 3Layered and ornament is antisolBraun4 or antisolGrun4
   // the first layer is replaced by ornamentPriceMultipliers
-  const _3LayerGlassPriceMultipliers = 
-  (ornamentAvailable && ornamentReplacedInFirstLayer) ? {
-    interior: ornamentGlassPriceMultipliers,
-    middle: [41, 55.35, 59.45, 65.6],
-    exterior: [29, 39.15, 42.05, 46.40]
-  } :
-  ornamentAvailable ? {
-    interior: [8, 10.8, 11.6, 12.8],
-    middle: ornamentGlassPriceMultipliers,
-    exterior: [29, 39.15, 42.05, 46.40]
-  } :
-  {
-    interior: [8, 10.8, 11.6, 12.8],
-    middle: [41, 55.35, 59.45, 65.6],
-    exterior: [29, 39.15, 42.05, 46.40]
-  };
+  const _3LayerGlassPriceMultipliers =
+    ornamentAvailable && ornamentReplacedInFirstLayer
+      ? {
+          interior: ornamentGlassPriceMultipliers,
+          middle: [41, 55.35, 59.45, 65.6],
+          exterior: [29, 39.15, 42.05, 46.4],
+        }
+      : ornamentAvailable
+        ? {
+            interior: [8, 10.8, 11.6, 12.8],
+            middle: ornamentGlassPriceMultipliers,
+            exterior: [29, 39.15, 42.05, 46.4],
+          }
+        : {
+            interior: [8, 10.8, 11.6, 12.8],
+            middle: [41, 55.35, 59.45, 65.6],
+            exterior: [29, 39.15, 42.05, 46.4],
+          };
 
   /* MULTIPLE SECTION_WINDOW */
 
   //  according to the section area, get the m2 price and calculate that section's glass price
   if (multiWidth) {
-
     /* 3 Layered Glass with MultiWidth */
-    if(is3Layered){
-      return Object.values(_3LayerGlassPriceMultipliers).reduce((sum, currentValue)=>{
-        return sum + calculateLayerGlassPrice({
-          multiWidth,
-          multipliers: currentValue,
-          w,
-          h,
-        })
-      },0)
+    if (is3Layered) {
+      return Object.values(_3LayerGlassPriceMultipliers).reduce((sum, currentValue) => {
+        return (
+          sum +
+          calculateLayerGlassPrice({
+            multiWidth,
+            multipliers: currentValue,
+            w,
+            h,
+          })
+        );
+      }, 0);
     }
 
     /* 2 Layered Glass with MultiWidth */
-
 
     // first layer of glass for multi-section window type --> basicGlassM2PriceMultipliers
     const additionalWindowGlassPriceLayer1 = calculateLayerGlassPrice({
@@ -128,47 +133,53 @@ export const calculateGlassPriceByM2 = ({
     const additionalWindowGlassPriceLayer2 = ornamentAvailable
       ? calculateLayerGlassPrice({ multiWidth, multipliers: ornamentGlassPriceMultipliers, w, h })
       : additionalWindowGlassPriceLayer1;
-    
+
     //const additionalWindowGlassPriceLayer3 = is3Layered ? additionalWindowGlassPriceLayer1 : 0;
-    return additionalWindowGlassPriceLayer1 + additionalWindowGlassPriceLayer2 /* + additionalWindowGlassPriceLayer3 */;
-  }
-  else{
+    return (
+      additionalWindowGlassPriceLayer1 +
+      additionalWindowGlassPriceLayer2 /* + additionalWindowGlassPriceLayer3 */
+    );
+  } else {
+    /* SINGLE SECTION_WINDOW */
 
-  /* SINGLE SECTION_WINDOW */
+    /* 3_LAYERED GLASS */
+    if (is3Layered) {
+      return Object.values(_3LayerGlassPriceMultipliers).reduce((sum, currentValue) => {
+        return (
+          sum +
+          calculateLayerGlassPrice({
+            multipliers: currentValue,
+            w,
+            h,
+          })
+        );
+      }, 0);
+    }
 
-  /* 3_LAYERED GLASS */
-    if(is3Layered){
-      return Object.values(_3LayerGlassPriceMultipliers).reduce((sum, currentValue)=>{
-        return sum + calculateLayerGlassPrice({
-          multipliers: currentValue,
+    /* 2_LAYERED GLASS */
+
+    // first layer of glass for single window --> basicGlassM2PriceMultipliers
+    const additionalWindowGlassPriceLayer1 = calculateLayerGlassPrice({
+      multipliers: basicGlassM2PriceMultipliers,
+      w,
+      h,
+    });
+    // second layer, checks if ornament glass is selected
+    const additionalWindowGlassPriceLayer2 = ornamentAvailable
+      ? calculateLayerGlassPrice({
+          multipliers: ornamentGlassPriceMultipliers,
           w,
           h,
         })
-      },0)
-    }
+      : additionalWindowGlassPriceLayer1;
 
-  /* 2_LAYERED GLASS */
+    //const additionalWindowGlassPriceLayer3 = is3Layered ? additionalWindowGlassPriceLayer1 : 0;
 
-  // first layer of glass for single window --> basicGlassM2PriceMultipliers
-  const additionalWindowGlassPriceLayer1 = calculateLayerGlassPrice({
-    multipliers: basicGlassM2PriceMultipliers,
-    w,
-    h,
-  });
-  // second layer, checks if ornament glass is selected
-  const additionalWindowGlassPriceLayer2 = ornamentAvailable
-    ? calculateLayerGlassPrice({
-        multipliers: ornamentGlassPriceMultipliers,
-        w,
-        h,
-      })
-    : additionalWindowGlassPriceLayer1;
-
-  //const additionalWindowGlassPriceLayer3 = is3Layered ? additionalWindowGlassPriceLayer1 : 0;
-
-  return additionalWindowGlassPriceLayer1 + additionalWindowGlassPriceLayer2 /* + additionalWindowGlassPriceLayer3 */;
+    return (
+      additionalWindowGlassPriceLayer1 +
+      additionalWindowGlassPriceLayer2 /* + additionalWindowGlassPriceLayer3 */
+    );
   }
-
 };
 
 type ColoringMultiplierParams = {
@@ -277,9 +288,9 @@ function calculateLayerGlassPrice({ multiWidth, multipliers, w, h }: GlassLayerP
       const sectionGlassPrice = (sectionWidth * h * m2Price) / 1_000_000;
       return acc + sectionGlassPrice;
     }, 0);
-  }else{
-  const m2 = (w * h) / 1_000_000;
-  const m2Price = extractGlassM2Price(m2, multipliers);
-  return m2 * m2Price;
+  } else {
+    const m2 = (w * h) / 1_000_000;
+    const m2Price = extractGlassM2Price(m2, multipliers);
+    return m2 * m2Price;
   }
 }

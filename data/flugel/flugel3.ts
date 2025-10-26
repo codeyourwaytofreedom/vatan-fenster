@@ -14,7 +14,7 @@ export const flugel3_oben: SelectionItem[] = [
     key: 'F_F_F',
     sectionNumber: 3,
     sections: ['F', 'F', 'F'],
-    thin: true
+    thin: true,
   },
   {
     name: 'Fester Flügel + Fester Flügel + Fester Flügel',
@@ -22,7 +22,7 @@ export const flugel3_oben: SelectionItem[] = [
     key: 'FF_FF_FF',
     sectionNumber: 3,
     sections: ['FF', 'FF', 'FF'],
-    thin: true
+    thin: true,
   },
   {
     name: 'Kipp + Kipp + Kipp',
@@ -31,7 +31,7 @@ export const flugel3_oben: SelectionItem[] = [
     handleNumber: 3,
     sectionNumber: 3,
     sections: ['K', 'K', 'K'],
-    thin: true
+    thin: true,
   },
   // no sections needed for the following since they have price tables
   {
@@ -40,7 +40,7 @@ export const flugel3_oben: SelectionItem[] = [
     key: 'DK_F_DK',
     handleNumber: 2,
     sectionNumber: 3,
-    thin: true
+    thin: true,
   },
   {
     name: 'Dreh-Kipp + Dreh links + Dreh Kipp (pfosten)',
@@ -48,7 +48,7 @@ export const flugel3_oben: SelectionItem[] = [
     key: 'DK_DL_DK_POS',
     handleNumber: 3,
     sectionNumber: 3,
-    thin: true
+    thin: true,
   },
   {
     name: 'Dreh-Kipp + Dreh rechts + Dreh Kipp (pfosten)',
@@ -56,7 +56,7 @@ export const flugel3_oben: SelectionItem[] = [
     key: 'DK_DR_DK_POS',
     handleNumber: 3,
     sectionNumber: 3,
-    thin: true
+    thin: true,
   },
   {
     name: 'Dreh-Kipp + Dreh links + Dreh Kipp (stulp)',
@@ -64,7 +64,7 @@ export const flugel3_oben: SelectionItem[] = [
     key: 'DK_DL_DK_STULP',
     handleNumber: 3,
     sectionNumber: 3,
-    thin: true
+    thin: true,
   },
   {
     name: 'Dreh-Kipp + Dreh rechts + Dreh Kipp (stulp)',
@@ -72,7 +72,7 @@ export const flugel3_oben: SelectionItem[] = [
     key: 'DK_DR_DK_STULP',
     handleNumber: 3,
     sectionNumber: 3,
-    thin: true
+    thin: true,
   },
 ];
 

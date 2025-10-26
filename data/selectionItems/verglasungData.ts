@@ -210,73 +210,73 @@ export const verglasung = {
       key: 'nein',
       name: 'Nein',
       image: no,
-      zoomable: true
+      zoomable: true,
     },
     {
       key: 'reflektofloatBraun6',
       name: 'Reflektofloat: Braun 6',
       image: rb6,
-      zoomable: true
+      zoomable: true,
     },
     {
       key: 'satinovo',
       name: 'Satinovo',
       image: no,
-      zoomable: true
+      zoomable: true,
     },
     {
       key: 'antisolBraun4',
       name: 'Antisol: Braun 4',
       image: ab4,
-      zoomable: true
+      zoomable: true,
     },
     {
       key: 'antisolGrun4',
       name: 'Antisol: Grün 4',
       image: ag4,
-      zoomable: true
+      zoomable: true,
     },
     {
       key: 'ornamentglasCathedral',
       name: 'Ornamentglas: Cathedral',
       image: oc,
-      zoomable: true
+      zoomable: true,
     },
     {
       key: 'ornamentglasDelta',
       name: 'Ornamentglas: Delta',
       image: od,
-      zoomable: true
+      zoomable: true,
     },
     {
       key: 'ornamentglasStreifen',
       name: 'Ornamentglas: Streifen',
       image: os,
-      zoomable: true
+      zoomable: true,
     },
     {
       key: 'milchglas',
       name: 'Milchglas: (Sicherheitsglas mit matter Folie)',
       image: m,
-      zoomable: true
+      zoomable: true,
     },
     {
       key: 'ornamentglasMasterCarre',
       name: 'Ornamentglas: Master-Carre',
       image: omc,
-      zoomable: true
+      zoomable: true,
     },
     {
       key: 'ornamentglasSilvit',
       name: 'Ornamentglas: Silvit',
       image: osil,
-      zoomable: true
+      zoomable: true,
     },
     {
       key: 'ornamentglasChinchilla',
       name: 'Ornamentglas: Chinchilla',
       image: ochin,
-      zoomable: true
+      zoomable: true,
     },
   ],
   sicherheitsverglasung: sicherheitsverglasungDynamicItems,
@@ -506,84 +506,84 @@ export const sprossenPatterns = [
     key: 'type1',
     name: 'Type 1',
     image: type1,
-    numberOfSections: 2
+    numberOfSections: 2,
   },
   {
     key: 'type2',
     name: 'Type 2',
     image: type2,
-    numberOfSections: 3
+    numberOfSections: 3,
   },
   {
     key: 'type3',
     name: 'Type 3',
     image: type3,
-    numberOfSections: 2
+    numberOfSections: 2,
   },
   {
     key: 'type4',
     name: 'Type 4',
     image: type4,
-    numberOfSections: 4
+    numberOfSections: 4,
   },
   {
     key: 'type5',
     name: 'Type 5',
     image: type5,
-    numberOfSections: 6
+    numberOfSections: 6,
   },
   {
     key: 'type6',
     name: 'Type 6',
     image: type6,
-    numberOfSections: 8
+    numberOfSections: 8,
   },
   {
     key: 'type7',
     name: 'Type 7',
     image: type7,
-    numberOfSections: 2
+    numberOfSections: 2,
   },
   {
     key: 'type8',
     name: 'Type 8',
     image: type8,
-    numberOfSections: 3
+    numberOfSections: 3,
   },
   {
     key: 'type9',
     name: 'Type 9',
     image: type9,
-    numberOfSections: 4
+    numberOfSections: 4,
   },
   {
     key: 'type10',
     name: 'Type 10',
     image: type10,
-    numberOfSections: 3
+    numberOfSections: 3,
   },
   {
     key: 'type11',
     name: 'Type 11',
     image: type11,
-    numberOfSections: 4
+    numberOfSections: 4,
   },
   {
     key: 'type12',
     name: 'Type 12',
     image: type12,
-    numberOfSections: 5
+    numberOfSections: 5,
   },
   {
     key: 'type13',
     name: 'Type 13',
     image: type13,
-    numberOfSections: 6
+    numberOfSections: 6,
   },
   {
     key: 'type14',
     name: 'Type 14',
     image: type14,
-    numberOfSections: 9
+    numberOfSections: 9,
   },
 ];
