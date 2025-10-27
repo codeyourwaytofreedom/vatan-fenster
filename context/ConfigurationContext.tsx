@@ -271,6 +271,8 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
       height,
       colorInteriorCode,
       colorExteriorCode,
+      // isOberLichtUnterlicht important to prevent double cost calculation for oben & unten rahmenverbreiterung
+      isOberLichtUnterlicht: ['oberlicht', 'unterlicht'].includes(configuration.style.key),
     });
 
     const { colouringPriceMultiplier } = getColoringMultiplier({
@@ -401,12 +403,14 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     height,
     colorInteriorCode,
     colorExteriorCode,
+    isOberLichtUnterlicht,
   }: {
     windowHandleNumber: number;
     width: number;
     height: number;
     colorInteriorCode: ColorCode;
     colorExteriorCode: ColorCode;
+    isOberLichtUnterlicht: boolean;
   }) => {
     /* ---------- calculate sicherheitsbeschlage price ---------- */
     const selectedProfileKey = configuration.profile.key as WindowProfilePlastic;
@@ -457,6 +461,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
       height,
       colorInteriorCode,
       colorExteriorCode,
+      isOberLichtUnterlicht,
     });
 
     return (
@@ -475,11 +480,13 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     height,
     colorInteriorCode,
     colorExteriorCode,
+    isOberLichtUnterlicht,
   }: {
     width: number;
     height: number;
     colorInteriorCode: ColorCode;
     colorExteriorCode: ColorCode;
+    isOberLichtUnterlicht: boolean;
   }) => {
     if (configuration.rahmenverbreiterung.key === 'nein') {
       return 0;
@@ -505,7 +512,12 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
       const priceObj = pricingList[value];
       const assemblyCost = assemblySelected ? priceObj.assembly : 0;
 
-      const individualPrice = priceObj.pricePerMeter * measureToUse + assemblyCost;
+      // because price is calculated for oben + unten separately when oberlicht or unterlicht is selected
+      // oben and unten rahmenverbreiterung leads to double pricing so /2 is
+      const individualPrice =
+        isOberLichtUnterlicht && ['oben', 'unten'].includes(key)
+          ? (priceObj.pricePerMeter * measureToUse + assemblyCost) / 2
+          : priceObj.pricePerMeter * measureToUse + assemblyCost;
 
       return acc + individualPrice;
     }, 0);

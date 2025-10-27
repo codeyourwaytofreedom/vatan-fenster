@@ -2,7 +2,7 @@
   display: grid;
   justify-items: center;
   -moz-column-gap: 90px;
-  column-gap: 90px;
+       column-gap: 90px;
 }
 .kasten .figure {
   position: relative;
@@ -102,4 +102,4 @@
   font-weight: 600;
   font-size: larger;
   margin-right: 10px;
-} /*# sourceMappingURL=KastenartVorsatzraffstore.module.css.map */
+}/*# sourceMappingURL=KastenartVorsatzraffstore.module.css.map */
