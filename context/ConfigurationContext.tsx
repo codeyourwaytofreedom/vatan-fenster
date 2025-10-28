@@ -510,13 +510,18 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
         return acc;
       }
       const priceObj = pricingList[value];
-      const assemblyCost = assemblySelected ? priceObj.assembly : 0;
+      const assemblyCost =
+        assemblySelected && isOberLichtUnterlicht
+          ? priceObj.assembly / 2
+          : assemblySelected && !isOberLichtUnterlicht
+            ? priceObj.assembly
+            : 0;
 
       // because price is calculated for oben + unten separately when oberlicht or unterlicht is selected
       // oben and unten rahmenverbreiterung leads to double pricing so /2 is
       const individualPrice =
         isOberLichtUnterlicht && ['oben', 'unten'].includes(key)
-          ? (priceObj.pricePerMeter * measureToUse + assemblyCost) / 2
+          ? (priceObj.pricePerMeter * measureToUse) / 2 + assemblyCost
           : priceObj.pricePerMeter * measureToUse + assemblyCost;
 
       return acc + individualPrice;
