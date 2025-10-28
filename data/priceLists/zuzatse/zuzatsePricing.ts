@@ -51,10 +51,8 @@ export const lüftungssystemePricing: Record<string, number> = {
   fMacoVent: 50,
 };
 
-export const rahmenverbreiterungPricing: Record<
-  'innenAndAussenWeiss' | 'innenOrAussenWeiss' | 'innenAndAussenDifferent',
-  Record<number, { pricePerMeter: number; assembly: number }>
-> = {
+
+const I5_I5C_IL = {
   innenAndAussenWeiss: {
     15: {
       pricePerMeter: 13,
@@ -289,4 +287,252 @@ export const rahmenverbreiterungPricing: Record<
       assembly: 66,
     },
   },
-};
+}
+
+const IE_IEC = {
+  innenAndAussenWeiss: {
+    15: {
+      pricePerMeter: 15,
+      assembly: 22,
+    },
+    30: {
+      pricePerMeter: 30,
+      assembly: 44,
+    },
+    35: {
+      pricePerMeter: 37,
+      assembly: 22,
+    },
+    50: {
+      pricePerMeter: 52,
+      assembly: 44,
+    },
+    60: {
+      pricePerMeter: 46,
+      assembly: 22,
+    },
+    70: {
+      pricePerMeter: 74,
+      assembly: 44,
+    },
+    95: {
+      pricePerMeter: 83,
+      assembly: 44,
+    },
+    100: {
+      pricePerMeter: 86,
+      assembly: 22,
+    },
+    115: {
+      pricePerMeter: 101,
+      assembly: 44,
+    },
+    120: {
+      pricePerMeter: 96,
+      assembly: 44,
+    },
+    135: {
+      pricePerMeter: 123,
+      assembly: 44,
+    },
+    150: {
+      pricePerMeter: 138,
+      assembly: 66,
+    },
+    160: {
+      pricePerMeter: 132,
+      assembly: 44,
+    },
+    180: {
+      pricePerMeter: 138,
+      assembly: 66,
+    },
+    200: {
+      pricePerMeter: 172,
+      assembly: 44,
+    },
+    215: {
+      pricePerMeter: 187,
+      assembly: 66,
+    },
+    235: {
+      pricePerMeter: 209,
+      assembly: 66,
+    },
+    250: {
+      pricePerMeter: 224,
+      assembly: 88,
+    },
+    300: {
+      pricePerMeter: 258,
+      assembly: 66,
+    },
+  },
+  innenOrAussenWeiss: {
+    15: {
+      pricePerMeter: 24,
+      assembly: 22,
+    },
+    30: {
+      pricePerMeter: 48,
+      assembly: 44,
+    },
+    35: {
+      pricePerMeter: 58,
+      assembly: 22,
+    },
+    50: {
+      pricePerMeter: 72,
+      assembly: 44,
+    },
+    60: {
+      pricePerMeter: 72,
+      assembly: 22,
+    },
+    70: {
+      pricePerMeter: 116,
+      assembly: 44,
+    },
+    95: {
+      pricePerMeter: 130,
+      assembly: 44,
+    },
+    100: {
+      pricePerMeter: 117,
+      assembly: 22,
+    },
+    115: {
+      pricePerMeter: 141,
+      assembly: 44,
+    },
+    120: {
+      pricePerMeter: 144,
+      assembly: 44,
+    },
+    135: {
+      pricePerMeter: 175,
+      assembly: 44,
+    },
+    150: {
+      pricePerMeter: 199,
+      assembly: 66,
+    },
+    160: {
+      pricePerMeter: 189,
+      assembly: 44,
+    },
+    180: {
+      pricePerMeter: 216,
+      assembly: 66,
+    },
+    200: {
+      pricePerMeter: 234,
+      assembly: 44,
+    },
+    215: {
+      pricePerMeter: 258,
+      assembly: 66,
+    },
+    235: {
+      pricePerMeter: 292,
+      assembly: 66,
+    },
+    250: {
+      pricePerMeter: 316,
+      assembly: 88,
+    },
+    300: {
+      pricePerMeter: 351,
+      assembly: 66,
+    },
+  },
+  innenAndAussenDifferent: {
+    15: {
+      pricePerMeter: 27,
+      assembly: 22,
+    },
+    30: {
+      pricePerMeter: 54,
+      assembly: 44,
+    },
+    35: {
+      pricePerMeter: 63,
+      assembly: 22,
+    },
+    50: {
+      pricePerMeter: 90,
+      assembly: 44,
+    },
+    60: {
+      pricePerMeter: 82,
+      assembly: 22,
+    },
+    70: {
+      pricePerMeter: 126,
+      assembly: 44,
+    },
+    95: {
+      pricePerMeter: 145,
+      assembly: 44,
+    },
+    100: {
+      pricePerMeter: 126,
+      assembly: 22,
+    },
+    115: {
+      pricePerMeter: 153,
+      assembly: 44,
+    },
+    120: {
+      pricePerMeter: 164,
+      assembly: 44,
+    },
+    135: {
+      pricePerMeter: 189,
+      assembly: 44,
+    },
+    150: {
+      pricePerMeter: 216,
+      assembly: 66,
+    },
+    160: {
+      pricePerMeter: 208,
+      assembly: 44,
+    },
+    180: {
+      pricePerMeter: 246,
+      assembly: 66,
+    },
+    200: {
+      pricePerMeter: 252,
+      assembly: 44,
+    },
+    215: {
+      pricePerMeter: 279,
+      assembly: 66,
+    },
+    235: {
+      pricePerMeter: 315,
+      assembly: 66,
+    },
+    250: {
+      pricePerMeter: 342,
+      assembly: 88,
+    },
+    300: {
+      pricePerMeter: 378,
+      assembly: 66,
+    },
+  },
+}
+
+export const rahmenverbreiterungPricing: Record<string, Record<
+  'innenAndAussenWeiss' | 'innenOrAussenWeiss' | 'innenAndAussenDifferent',
+  Record<number, { pricePerMeter: number; assembly: number }>
+>>  = {
+  I5: I5_I5C_IL,
+  I5C: I5_I5C_IL,
+  IL: I5_I5C_IL,
+  IE: IE_IEC,
+  IEC: IE_IEC
+}

@@ -271,6 +271,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
       height,
       colorInteriorCode,
       colorExteriorCode,
+      selectedProfileKey,
       // isOberLichtUnterlicht important to prevent double cost calculation for oben & unten rahmenverbreiterung
       isOberLichtUnterlicht: ['oberlicht', 'unterlicht'].includes(configuration.style.key),
     });
@@ -403,6 +404,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     height,
     colorInteriorCode,
     colorExteriorCode,
+    selectedProfileKey,
     isOberLichtUnterlicht,
   }: {
     windowHandleNumber: number;
@@ -410,14 +412,16 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     height: number;
     colorInteriorCode: ColorCode;
     colorExteriorCode: ColorCode;
+    selectedProfileKey: string;
     isOberLichtUnterlicht: boolean;
   }) => {
     /* ---------- calculate sicherheitsbeschlage price ---------- */
-    const selectedProfileKey = configuration.profile.key as WindowProfilePlastic;
+    //const selectedProfileKey = configuration.profile.key as WindowProfilePlastic;
     const sicherheitsbeschlageSubcategory =
       configuration.sicherheitsbeschlage.subCategory?.key || '';
 
-    const sicherheitsbeschlagePricesForProfile = sicherheitsbeschlagePricing[selectedProfileKey];
+    const sicherheitsbeschlagePricesForProfile =
+      sicherheitsbeschlagePricing[selectedProfileKey as WindowProfilePlastic];
     const sicherheitsbeschlageMultiplier =
       sicherheitsbeschlagePricesForProfile[sicherheitsbeschlageSubcategory] ?? 0;
 
@@ -461,6 +465,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
       height,
       colorInteriorCode,
       colorExteriorCode,
+      selectedProfileKey,
       isOberLichtUnterlicht,
     });
 
@@ -480,12 +485,14 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     height,
     colorInteriorCode,
     colorExteriorCode,
+    selectedProfileKey,
     isOberLichtUnterlicht,
   }: {
     width: number;
     height: number;
     colorInteriorCode: ColorCode;
     colorExteriorCode: ColorCode;
+    selectedProfileKey: string;
     isOberLichtUnterlicht: boolean;
   }) => {
     if (configuration.rahmenverbreiterung.key === 'nein') {
@@ -502,7 +509,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
           ? 'innenOrAussenWeiss'
           : 'innenAndAussenDifferent';
 
-    const pricingList = rahmenverbreiterungPricing[priceListKey];
+    const pricingList = rahmenverbreiterungPricing[selectedProfileKey][priceListKey];
 
     const total = Object.entries(rahmenverbreiterungAuswahlen).reduce((acc, [key, value]) => {
       const measureToUse = (['links', 'rechts'].includes(key) ? height : width) / 1000;
