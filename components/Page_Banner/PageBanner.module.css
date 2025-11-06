@@ -17,7 +17,7 @@
   display: flex;
   align-items: center;
   -moz-column-gap: 10px;
-       column-gap: 10px;
+  column-gap: 10px;
   color: var(--color-2);
 }
 .banner_actions #menu,
@@ -62,4 +62,4 @@
     filter: brightness(1.5);
     display: none;
   }
-}/*# sourceMappingURL=PageBanner.module.css.map */
+} /*# sourceMappingURL=PageBanner.module.css.map */

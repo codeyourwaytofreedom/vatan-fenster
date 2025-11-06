@@ -575,7 +575,9 @@ export default function UntenSizer({
             </div>
           )}
         </div>
-        {!summary && coverHeight && <h4>Rolladenkasten {size?.h && <span>{coverHeight}</span>}</h4>}
+        {!summary && coverHeight && (
+          <h4>Rollladenkasten {size?.h && <span>{coverHeight}</span>}</h4>
+        )}
 
         <div id={style.central_holder}>
           <div className={style.big}>

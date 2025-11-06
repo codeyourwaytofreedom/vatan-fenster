@@ -83,23 +83,22 @@ export default function OptionHolder({ item, selected, action }: ProductHolderPr
         onClick={action}
       >
         {item.image && (
-          <Image src={item.image} alt={item.name} width={220} height={item.thin ? 80 : 220} />
+          <Image
+            key={item.key}
+            src={item.image}
+            alt={item.name}
+            width={220}
+            height={item.thin ? 80 : 220}
+          />
         )}
         {!withoutDetails && item.details && (
           <div id={style.details}>Keep up good work! Remember why you started!</div>
         )}
-        <p /* style={{ border: minMaxSizesAvailableForType ? 'none' : '3px solid crimson' }} */>
+        <p>
           {item.name}
           {item.colorCode && <span>{item.colorCode}</span>}
         </p>
       </div>
-      <Image
-        style={{ display: 'none' }}
-        src={item.image!}
-        alt={item.name}
-        width={500}
-        height={500}
-      />
     </div>
   );
 }

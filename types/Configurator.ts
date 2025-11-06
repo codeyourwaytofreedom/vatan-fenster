@@ -97,6 +97,8 @@ export type ProfileTypeForWindowType2Aluminium = ProfileTypeMinMaxSizesAluminium
   'DK_D_STULP' | 'DK_D_POS' | 'D_DK_STULP' | 'D_DK_POS'
 >;
 
+export type SonnenschutzKey = 'nein' | 'auf215' | 'auf175' | 'styroporkasten150' | 'vorsatzrollladen' | 'aufStyroporkasten150' | 'vorsatzraffstore';
+
 export interface Config {
   material: SelectionItem<WindowMaterial>;
   brand: SelectionItem;
@@ -104,7 +106,7 @@ export interface Config {
   profileHeight: SelectionItem;
   style: SelectionItem<WindowStyle>;
   type: SelectionItem | SubStyle;
-  cover: SelectionItem;
+  cover: SelectionItem<SonnenschutzKey>;
   size: boolean | Size;
   colorExt: SelectionItem;
   colorInt: SelectionItem;

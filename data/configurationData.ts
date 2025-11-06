@@ -1,5 +1,5 @@
 //common images
-import { Config, SelectionItem, Size, WindowProfilePlastic } from '@/types/Configurator';
+import { Config, SelectionItem, Size, SonnenschutzKey, WindowProfilePlastic } from '@/types/Configurator';
 
 import { farbenOptions } from './selectionItems/farbenData';
 import {
@@ -131,7 +131,7 @@ export const initialConfiguration: Config = {
   profileHeight: customProfileHeights[0],
   style: windowStyles[0],
   type: windowStyles[0].children!.type![0]!,
-  cover: covers[0],
+  cover: covers[0] as SelectionItem<SonnenschutzKey>,
   size: false,
   colorExt: farbenOptions.colorExt[0],
   colorInt: farbenOptions.colorInt[0],

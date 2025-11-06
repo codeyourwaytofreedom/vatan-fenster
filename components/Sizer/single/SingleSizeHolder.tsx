@@ -397,7 +397,7 @@ export default function SingleSizer({
           <div id={style.single}>
             <div className={style.big}>
               {!summary && coverHeight && (
-                <h4>Rolladenkasten {size?.h && <span>{coverHeight}</span>}</h4>
+                <h4>Rollladenkasten {size?.h && <span>{coverHeight}</span>}</h4>
               )}
               <div className={style.big_shell}>
                 <Image src={displayedImageTwo!} alt="brand" width={230} height={230} />

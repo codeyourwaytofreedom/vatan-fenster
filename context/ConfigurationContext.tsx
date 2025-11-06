@@ -1,6 +1,7 @@
 import { initialConfiguration, initialSubstyle, optionNo } from '@/data/configurationData';
 import { minMaxSizes } from '@/data/minMaxSizes/minMaxSizes';
 import { priceLists } from '@/data/priceLists/priceLists';
+import { sonnenschutzPriceLists } from '@/data/priceLists/sonnenschutz/sonnenschutzPrices';
 import {
   innenAussenCompatibleText,
   sprossenPricingList,
@@ -276,6 +277,8 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
       isOberLichtUnterlicht: ['oberlicht', 'unterlicht'].includes(configuration.style.key),
     });
 
+    const sonnenschutzPrice = calculateSonnenschutzPrice(width, height);
+
     const { colouringPriceMultiplier } = getColoringMultiplier({
       colorExteriorCode,
       colorInteriorCode,
@@ -314,7 +317,8 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
         profileHeightRelatedAdditionalCost +
         druckausgleichsventilPrice +
         sprossenPrice +
-        zuzatsePrice
+        zuzatsePrice +
+        sonnenschutzPrice
       );
     }
 
@@ -392,7 +396,8 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
           totalProfileHeightRelatedAdditionalCost +
           druckausgleichsventilPrice +
           sprossenPrice +
-          zuzatsePrice
+          zuzatsePrice +
+          sonnenschutzPrice
         );
       }
     }
@@ -535,6 +540,32 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     }, 0);
 
     return total;
+  };
+
+  // adjustment needed for oberlicht and unterlicht
+  const calculateSonnenschutzPrice = (width: number, height: number) => {
+    const selectedCoverKey = configuration.cover.key;
+    const insektenschutzKey = configuration.revisionsöffnung?.key.includes('insektenschutz')
+      ? 'withInsektenschutz'
+      : 'withoutInsektenschutz';
+
+    if (selectedCoverKey === 'nein') {
+      return 0;
+    }
+    const priceTableForSelectedSonnenschutz =
+      sonnenschutzPriceLists[selectedCoverKey][insektenschutzKey];
+
+    const additionalSonnenschutzHeight =
+      'height' in configuration.cover ? (configuration.cover.height as number) : 0;
+
+    const totalHeight = height + additionalSonnenschutzHeight;
+
+    const sonnenschutzPrice = extractPriceFromTable(
+      priceTableForSelectedSonnenschutz,
+      width,
+      totalHeight
+    );
+    return sonnenschutzPrice ?? 0;
   };
 
   const getMinMaxSizes = (

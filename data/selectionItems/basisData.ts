@@ -206,7 +206,7 @@ export const covers: (SelectionItem & { height?: number })[] = [
     height: 175,
   },
   {
-    key: 'styroporkasten',
+    key: 'styroporkasten150',
     name: 'Aufsatzrollladen\n(Styroporkasten)',
     image: Aufsatzrolladen_Styroporkasten,
     details: dummyDetail,
@@ -219,7 +219,7 @@ export const covers: (SelectionItem & { height?: number })[] = [
     details: dummyDetail,
   },
   {
-    key: 'aufStyroporkasten',
+    key: 'aufStyroporkasten150',
     name: 'Aufsatzraffstore\n(Styroporkasten)',
     image: Aufsatzraffstore_Styroporkasten,
     details: dummyDetail,

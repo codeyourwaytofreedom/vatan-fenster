@@ -77,20 +77,15 @@ export const sonnenschutzItems: Record<
       image: soon,
     },
     {
-      key: 'rvu_i',
+      key: 'rvu_i_insektenschutz',
       name: 'Revision von unten + Insektenschutz',
       image: soon,
     },
     {
-      key: 'rvdsi_i',
+      key: 'rvdsi_i_insektenschutz',
       name: 'Revision von der Seite (innen) + Insektenschutz',
       image: soon,
-    },
-    {
-      key: 'p_ms',
-      name: 'Pflicht (mecburi secenek)',
-      image: soon,
-    },
+    }
   ],
   lamellenart: [
     {

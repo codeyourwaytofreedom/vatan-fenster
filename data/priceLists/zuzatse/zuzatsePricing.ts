@@ -51,7 +51,6 @@ export const lüftungssystemePricing: Record<string, number> = {
   fMacoVent: 50,
 };
 
-
 const I5_I5C_IL = {
   innenAndAussenWeiss: {
     15: {
@@ -287,7 +286,7 @@ const I5_I5C_IL = {
       assembly: 66,
     },
   },
-}
+};
 
 const IE_IEC = {
   innenAndAussenWeiss: {
@@ -524,15 +523,18 @@ const IE_IEC = {
       assembly: 66,
     },
   },
-}
+};
 
-export const rahmenverbreiterungPricing: Record<string, Record<
-  'innenAndAussenWeiss' | 'innenOrAussenWeiss' | 'innenAndAussenDifferent',
-  Record<number, { pricePerMeter: number; assembly: number }>
->>  = {
+export const rahmenverbreiterungPricing: Record<
+  string,
+  Record<
+    'innenAndAussenWeiss' | 'innenOrAussenWeiss' | 'innenAndAussenDifferent',
+    Record<number, { pricePerMeter: number; assembly: number }>
+  >
+> = {
   I5: I5_I5C_IL,
   I5C: I5_I5C_IL,
   IL: I5_I5C_IL,
   IE: IE_IEC,
-  IEC: IE_IEC
-}
+  IEC: IE_IEC,
+};
