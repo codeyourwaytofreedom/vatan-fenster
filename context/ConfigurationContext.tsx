@@ -277,7 +277,11 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
       isOberLichtUnterlicht: ['oberlicht', 'unterlicht'].includes(configuration.style.key),
     });
 
-    const sonnenschutzPrice = calculateSonnenschutzPrice(width, height);
+    const sonnenschutzPrice = calculateSonnenschutzPrice({
+      width,
+      height,
+      isOberLichtUnterlicht: ['oberlicht', 'unterlicht'].includes(configuration.style.key),
+    });
 
     const { colouringPriceMultiplier } = getColoringMultiplier({
       colorExteriorCode,
@@ -543,7 +547,15 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
   };
 
   // adjustment needed for oberlicht and unterlicht
-  const calculateSonnenschutzPrice = (width: number, height: number) => {
+  const calculateSonnenschutzPrice = ({
+    width,
+    height,
+    isOberLichtUnterlicht,
+  }: {
+    width: number;
+    height: number;
+    isOberLichtUnterlicht: boolean;
+  }) => {
     const selectedCoverKey = configuration.cover.key;
     const insektenschutzKey = configuration.revisionsöffnung?.key.includes('insektenschutz')
       ? 'withInsektenschutz'
@@ -558,13 +570,20 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     const additionalSonnenschutzHeight =
       'height' in configuration.cover ? (configuration.cover.height as number) : 0;
 
-    const totalHeight = height + additionalSonnenschutzHeight;
+    const actualHeight = isOberLichtUnterlicht
+      ? (configuration.multiHeight?.obenHeight ?? 0) + (configuration.multiHeight?.untenHeight ?? 0)
+      : height;
+
+    const totalHeight = actualHeight + additionalSonnenschutzHeight;
 
     const sonnenschutzPrice = extractPriceFromTable(
       priceTableForSelectedSonnenschutz,
       width,
       totalHeight
     );
+    if (isOberLichtUnterlicht) {
+      return (sonnenschutzPrice ?? 0) / 2;
+    }
     return sonnenschutzPrice ?? 0;
   };
 
