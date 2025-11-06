@@ -89,7 +89,7 @@ export default function OptionHolder({ item, selected, action }: ProductHolderPr
             alt={item.name}
             width={220}
             placeholder="blur"
-            blurDataURL="/assets/common/blur.png"
+            blurDataURL="../../assets/placeholder.png"
             height={item.thin ? 80 : 220}
           />
         )}
