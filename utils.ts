@@ -1,3 +1,4 @@
+import { StaticImageData } from 'next/image';
 import {
   colorPriceMultipliersExteriorOnly,
   colorPriceMultipliersInteriorExteriorSame,
@@ -9,6 +10,7 @@ import {
   MidColor,
   midColorsForAussenEqualsInnen,
 } from './data/selectionItems/farbenData';
+import { Config } from './types/Configurator';
 
 interface ScrollProps {
   elementId?: string;
@@ -293,4 +295,30 @@ function calculateLayerGlassPrice({ multiWidth, multipliers, w, h }: GlassLayerP
     const m2Price = extractGlassM2Price(m2, multipliers);
     return m2 * m2Price;
   }
+}
+
+export function stripImageData(config: Config){
+  const strippedConfig = structuredClone(config);
+  Object.entries(strippedConfig).forEach(([sectionKey, sectionValue]) => {
+    if(sectionValue && typeof sectionValue === 'object' && 'image' in sectionValue){
+      delete ((strippedConfig)[sectionKey as keyof Config] as { image?: StaticImageData }).image;
+    }
+  });
+  return strippedConfig;
+}
+
+export function stripChildren(config: Config){
+  const strippedConfig = structuredClone(config);
+  Object.entries(strippedConfig).forEach(([sectionKey, sectionValue]) => {
+    if(sectionValue && typeof sectionValue === 'object' && 'children' in sectionValue){
+      delete ((strippedConfig)[sectionKey as keyof Config] as { children: unknown }).children;
+    }
+  });
+  return strippedConfig;
+}
+
+export function purifyConfig(config: Config){
+  let purifiedConfig = stripImageData(config);
+  purifiedConfig = stripChildren(purifiedConfig);
+  return purifiedConfig;
 }

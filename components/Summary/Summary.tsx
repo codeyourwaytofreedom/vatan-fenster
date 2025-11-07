@@ -1,5 +1,5 @@
 import styles from '../.././styles/KonfiguratorPage.module.css';
-import { getColoringMultiplier, scrollToElement } from '@/utils';
+import { getColoringMultiplier, purifyConfig, scrollToElement } from '@/utils';
 import { steps } from '@/data/steps';
 import { useConfiguration } from '@/context/ConfigurationContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -137,7 +137,11 @@ export default function SummaryDisplayer() {
     expandableGroups.push({ key: 'sonnenschutz', content: groupSonnenschutz });
   }
 
-  const valueExtractor = (key: keyof Config, value: object | boolean | string) => {
+  const valueExtractor = (key: keyof Config, value: object | boolean | string | undefined) => {
+    if (value === undefined) {
+      return '--';
+    }
+
     if (typeof value === 'boolean' || typeof value === 'string') {
       return value;
     }
@@ -314,6 +318,27 @@ export default function SummaryDisplayer() {
       (typ) => typ.key === (configuration.type as SelectionItem).key
     );
     return selectedType?.image;
+  };
+
+  const addToBasket = async () => {
+    try {
+      const response = await fetch('/api/basket/addToBasket', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(purifyConfig(configuration)),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to add to basket');
+      }
+
+      const data = await response.json();
+      console.log('Added to basket:', data);
+    } catch (error) {
+      console.error('Error adding to basket:', error);
+    }
   };
 
   const [totalPrice, setTotalPrice] = useState<number>();
@@ -616,7 +641,7 @@ export default function SummaryDisplayer() {
         <textarea name="note" placeholder="Geben Sie hier Ihre Sonderwünsche ein"></textarea>
       </div>
       <div id={styles.actions}>
-        <button id={styles.add_to_chart}>
+        <button id={styles.add_to_chart} onClick={addToBasket}>
           <>
             <FontAwesomeIcon icon={faShoppingCart} />
             <span style={{ marginLeft: '20px' }}>In den Warenkorb</span>

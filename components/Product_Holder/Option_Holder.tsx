@@ -39,7 +39,7 @@ export default function OptionHolder({ item, selected, action }: ProductHolderPr
   const handleShowFullSize = () => {
     openModal(
       <div className={style.glow}>
-        <Image src={item.image!} alt={item.name} width={500} height={500} />
+        <Image src={item.image!} placeholder="blur" alt={item.name} width={500} height={500} />
         <p>{item.name}</p>
       </div>
     );

@@ -99,7 +99,20 @@ export type ProfileTypeForWindowType2Aluminium = ProfileTypeMinMaxSizesAluminium
 
 export type SonnenschutzKey = 'nein' | 'auf215' | 'auf175' | 'styroporkasten150' | 'vorsatzrollladen' | 'aufStyroporkasten150' | 'vorsatzraffstore';
 
+
+export interface BasisConfiuration {
+  material: SelectionItem<WindowMaterial>[];
+  brands: SelectionItem[];
+  profile: SelectionItem<WindowProfilePlastic | WindowProfileAluminium>;
+  profileHeights: SelectionItem[];
+  style: SelectionItem<WindowStyle>;
+  type: SelectionItem[];
+  cover: SelectionItem<SonnenschutzKey>;
+  size: boolean | Size;
+}
+
 export interface Config {
+  // basis
   material: SelectionItem<WindowMaterial>;
   brand: SelectionItem;
   profile: SelectionItem<WindowProfilePlastic | WindowProfileAluminium>;
@@ -108,11 +121,14 @@ export interface Config {
   type: SelectionItem | SubStyle;
   cover: SelectionItem<SonnenschutzKey>;
   size: boolean | Size;
+  // farben
   colorExt: SelectionItem;
   colorInt: SelectionItem;
   dichtungAussen: SelectionItem;
   dichtungInnen: SelectionItem;
   sealInt: SelectionItem;
+
+  // verglasung
   fenstergriffe?: { type: SelectionItem; choice: SelectionItem };
   glasspaket: SelectionItem;
   glasspaketWarmeKante: SelectionItem | 'Nein';

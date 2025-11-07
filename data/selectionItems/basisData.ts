@@ -1,7 +1,7 @@
 import { SelectionItem, SubStyleOptions, WindowMaterial, WindowStyle } from '@/types/Configurator';
 
 // Brands
-import drutex from '@/assets/configurator/brands/drutex.svg';
+import drutex from '@/assets/configurator/brands/drutex.png';
 
 // Common images
 import no from '@/assets/common/no.jpeg';
