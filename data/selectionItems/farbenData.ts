@@ -601,7 +601,7 @@ export const farbenOptions: Record<string, SelectionItem[]> = {
       key: 'schwarze',
     },
   ],
-  sealInt: [
+  colorMid: [
     {
       name: 'Kern Weiss',
       image: color3,

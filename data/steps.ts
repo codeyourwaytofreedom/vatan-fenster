@@ -245,7 +245,7 @@ export const steps: Record<GroupKey | string, Step[]> = {
               \nAbweichen`,
     },
     {
-      key: 'sealInt',
+      key: 'colorMid',
       name: 'Kernfarbe',
       icon: faToolbox,
       withHoverZoom: true,

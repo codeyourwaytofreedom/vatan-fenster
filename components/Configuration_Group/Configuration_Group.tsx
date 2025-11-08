@@ -63,19 +63,19 @@ export default function Configuration_Group({ groupTitle }: GroupProps) {
             } else {
               return setItemsToDisplay(items);
             }
-          case 'sealInt':
+          case 'colorMid':
             const { colorsAvailable } = getColoringMultiplier({
               colorExteriorCode: configuration.colorExt.colorCode!,
               colorInteriorCode: configuration.colorInt.colorCode!,
-              colorMidKey: configuration.sealInt?.key,
+              colorMidKey: configuration.colorMid?.key,
               selectedProfileKey: configuration.profile.key,
             });
-            const dynamicSealIntColors = Array.isArray(visibleSection.items)
+            const dynamiColorMidColors = Array.isArray(visibleSection.items)
               ? visibleSection.items.filter((item) =>
                   colorsAvailable?.some((it) => it === item.key)
                 )
               : [];
-            return setItemsToDisplay(dynamicSealIntColors);
+            return setItemsToDisplay(dynamiColorMidColors);
         }
       }
       if (Array.isArray(visibleSection.items)) {
@@ -87,25 +87,25 @@ export default function Configuration_Group({ groupTitle }: GroupProps) {
   const { colorsAvailable } = getColoringMultiplier({
     colorExteriorCode: configuration.colorExt.colorCode!,
     colorInteriorCode: configuration.colorInt.colorCode!,
-    colorMidKey: configuration.sealInt?.key,
+    colorMidKey: configuration.colorMid?.key,
     selectedProfileKey: configuration.profile.key,
   });
 
   // make selection from dynamic midColorOptions
   useEffect(() => {
-    const dynamicSealIntColors = Array.isArray(visibleSection?.items)
+    const dynamicColorMidColors = Array.isArray(visibleSection?.items)
       ? visibleSection.items.filter((item) => colorsAvailable?.some((it) => it === item.key))
       : [];
-    if (dynamicSealIntColors?.[0]) {
-      if (!configuration.sealInt) {
+    if (dynamicColorMidColors?.[0]) {
+      if (!configuration.colorMid) {
         setConfiguration((pr) => {
-          return { ...pr, sealInt: dynamicSealIntColors[0] };
+          return { ...pr, colorMid: dynamicColorMidColors[0] };
         });
       }
-      if (configuration.sealInt) {
-        if (!dynamicSealIntColors.some((it) => it.key == configuration.sealInt.key)) {
+      if (configuration.colorMid) {
+        if (!dynamicColorMidColors.some((it) => it.key == configuration.colorMid.key)) {
           setConfiguration((pr) => {
-            return { ...pr, sealInt: dynamicSealIntColors[0] };
+            return { ...pr, colorMid: dynamicColorMidColors[0] };
           });
         }
       }
@@ -115,7 +115,7 @@ export default function Configuration_Group({ groupTitle }: GroupProps) {
     configuration.colorExt,
     configuration.colorInt,
     configuration.profile,
-    configuration.sealInt,
+    configuration.colorMid,
     setConfiguration,
     visibleSection,
   ]);

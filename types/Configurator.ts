@@ -109,27 +109,22 @@ export interface BasisConfiuration {
   type: SelectionItem[];
   cover: SelectionItem<SonnenschutzKey>;
   size: boolean | Size;
+  multiWidth?: Record<string, number>;
+  multiHeight?: Record<string, number>;
+  obenMultiWidth?: Record<string, number>;
+  untenMultiWidth?: Record<string, number>;
 }
 
-export interface Config {
-  // basis
-  material: SelectionItem<WindowMaterial>;
-  brand: SelectionItem;
-  profile: SelectionItem<WindowProfilePlastic | WindowProfileAluminium>;
-  profileHeight: SelectionItem;
-  style: SelectionItem<WindowStyle>;
-  type: SelectionItem | SubStyle;
-  cover: SelectionItem<SonnenschutzKey>;
-  size: boolean | Size;
-  // farben
+export interface FarbenConfiuration {
   colorExt: SelectionItem;
   colorInt: SelectionItem;
+  colorMid: SelectionItem;
   dichtungAussen: SelectionItem;
   dichtungInnen: SelectionItem;
-  sealInt: SelectionItem;
-
-  // verglasung
   fenstergriffe?: { type: SelectionItem; choice: SelectionItem };
+}
+
+export interface VerglasungConfiuration {
   glasspaket: SelectionItem;
   glasspaketWarmeKante: SelectionItem | 'Nein';
   ornament: SelectionItem;
@@ -137,6 +132,9 @@ export interface Config {
   schallschutz: SelectionItem;
   sprossen: string | 'Nein';
   druckausgleichsventil: SelectionItem;
+}
+
+export interface SonnenschutzConfiuration {
   adapter?: SelectionItem;
   revisionsöffnung?: SelectionItem;
   lamellenart?: {
@@ -154,11 +152,12 @@ export interface Config {
   farbeFührungsschiene?: SelectionItem;
   putzträger?: SelectionItem;
   schrägschnitt?: SelectionItem;
-  multiWidth?: Record<string, number>;
-  multiHeight?: Record<string, number>;
-  obenMultiWidth?: Record<string, number>;
-  untenMultiWidth?: Record<string, number>;
   kastenheight?: SelectionItem;
+  kastenart?: SelectionItem;
+  kastenDimensions?: Size | null;
+}
+
+export interface ZusatzeConfiguration {
   sicherheitsbeschlage: {
     category: SelectionItem;
     subCategory: SelectionItem | undefined;
@@ -181,8 +180,92 @@ export interface Config {
     oben: number;
     unten: number;
   };
+}
+
+export interface FensterConfig {
+  basis: BasisConfiuration;
+  farben: FarbenConfiuration;
+  verglasung: VerglasungConfiuration;
+  sonnenschutz: SonnenschutzConfiuration;
+  zusatze: ZusatzeConfiguration;
+}
+
+export interface Config {
+  // basis
+  material: SelectionItem<WindowMaterial>;
+  brand: SelectionItem;
+  profile: SelectionItem<WindowProfilePlastic | WindowProfileAluminium>;
+  profileHeight: SelectionItem;
+  style: SelectionItem<WindowStyle>;
+  type: SelectionItem | SubStyle;
+  cover: SelectionItem<SonnenschutzKey>;
+  size: boolean | Size;
+  multiWidth?: Record<string, number>;
+  multiHeight?: Record<string, number>;
+  obenMultiWidth?: Record<string, number>;
+  untenMultiWidth?: Record<string, number>;
+  // farben
+  colorExt: SelectionItem;
+  colorInt: SelectionItem;
+  colorMid: SelectionItem;
+  dichtungAussen: SelectionItem;
+  dichtungInnen: SelectionItem;
+  fenstergriffe?: { type: SelectionItem; choice: SelectionItem };
+
+  // verglasung
+  glasspaket: SelectionItem;
+  glasspaketWarmeKante: SelectionItem | 'Nein';
+  ornament: SelectionItem;
+  sicherheitsverglasung: SelectionItem;
+  schallschutz: SelectionItem;
+  sprossen: string | 'Nein';
+  druckausgleichsventil: SelectionItem;
+
+  // sonnenschutz
+  adapter?: SelectionItem;
+  revisionsöffnung?: SelectionItem;
+  lamellenart?: {
+    category: SelectionItem;
+    subCategory: SelectionItem;
+  };
+  verlangerung?: SelectionItem;
+  antriebsart?: SelectionItem;
+  farbeRollladenkasten?: {
+    category: SelectionItem;
+    subCategory: SelectionItem;
+  };
+  farbeRollladenPanzer?: SelectionItem;
+  farbeEndschiene?: SelectionItem;
+  farbeFührungsschiene?: SelectionItem;
+  putzträger?: SelectionItem;
+  schrägschnitt?: SelectionItem;
+  kastenheight?: SelectionItem;
   kastenart?: SelectionItem;
   kastenDimensions?: Size | null;
+
+  // zusatze
+  sicherheitsbeschlage: {
+    category: SelectionItem;
+    subCategory: SelectionItem | undefined;
+  };
+  verdecktLiegenderBeschlag: SelectionItem;
+  rahmenverbreiterung: SelectionItem;
+  rahmenverbreitungMontiert: SelectionItem;
+  dünneSchweißnahtVPerfect: SelectionItem;
+  reedKontakt: SelectionItem;
+  montagevorbohrungen: SelectionItem;
+  lüftungssysteme: {
+    category: SelectionItem;
+    subCategory: SelectionItem | undefined;
+    paar: number | undefined;
+  };
+  druckausgleichsventilZusatze: SelectionItem;
+  rahmenverbreiterungAuswahlen: {
+    links: number;
+    rechts: number;
+    oben: number;
+    unten: number;
+  };
 }
 
 export type DobuleSelection = {
@@ -195,7 +278,7 @@ export interface ExtraConfig {
   colorInt: string;
   dichtungAussen: string;
   dichtungInnen: string;
-  sealInt: string;
+  colorMid: string;
   handle: string;
 }
 

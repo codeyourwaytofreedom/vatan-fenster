@@ -47,7 +47,7 @@ export default function SummaryDisplayer() {
     untenMultiWidth,
   } = configuration;
   // group farben
-  const { colorExt, colorInt, dichtungAussen, dichtungInnen, sealInt, fenstergriffe } =
+  const { colorExt, colorInt, dichtungAussen, dichtungInnen, colorMid, fenstergriffe } =
     configuration;
   // group verglasung
   const {
@@ -93,7 +93,7 @@ export default function SummaryDisplayer() {
     colorInt,
     dichtungAussen,
     dichtungInnen,
-    sealInt,
+    colorMid,
     fenstergriffe,
   };
 
@@ -350,7 +350,7 @@ export default function SummaryDisplayer() {
         if (!configuration.size) return;
         const colorCodeExt = configuration.colorExt.colorCode;
         const colorCodeInt = configuration.colorInt.colorCode;
-        const colorMidKey = configuration.sealInt?.key;
+        const colorMidKey = configuration.colorMid?.key;
 
         const profileHeightKey = configuration.profileHeight.key;
         const glasspaketKey = configuration.glasspaket.key;
@@ -554,7 +554,7 @@ export default function SummaryDisplayer() {
     configuration.multiHeight,
     configuration.colorExt.colorCode,
     configuration.colorInt.colorCode,
-    configuration.sealInt,
+    configuration.colorMid,
     configuration.profileHeight.key,
     configuration.ornament.key,
     configuration.glasspaket.key,
@@ -566,7 +566,7 @@ export default function SummaryDisplayer() {
     const { min10 } = getColoringMultiplier({
       colorExteriorCode: configuration.colorExt.colorCode!,
       colorInteriorCode: configuration.colorInt.colorCode!,
-      colorMidKey: configuration.sealInt?.key,
+      colorMidKey: configuration.colorMid?.key,
       selectedProfileKey: configuration.profile.key,
     });
     if (min10) {
