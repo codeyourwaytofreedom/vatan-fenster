@@ -1,5 +1,5 @@
 //common images
-import { Config, SelectionItem, Size, SonnenschutzKey, WindowProfilePlastic } from '@/types/Configurator';
+import { FensterConfig, SelectionItem, Size, SonnenschutzKey, WindowProfilePlastic, ZusatzeConfiguration } from '@/types/Configurator';
 
 import { farbenOptions } from './selectionItems/farbenData';
 import {
@@ -123,42 +123,58 @@ export const initialSize: Size = {
 //
 // initial deafult configuration
 //
-export const initialConfiguration: Config = {
-  material: materials[0],
-  brand: brands[0],
-  // adjust the type here
-  profile: brands[0].children!.profile!.plastic[0] as SelectionItem<WindowProfilePlastic>,
-  profileHeight: customProfileHeights[0],
-  style: windowStyles[0],
-  type: windowStyles[0].children!.type![0]!,
-  cover: covers[0] as SelectionItem<SonnenschutzKey>,
-  size: false,
-  colorExt: farbenOptions.colorExt[0],
-  colorInt: farbenOptions.colorInt[0],
-  dichtungAussen: farbenOptions.dichtungAussen[0],
-  dichtungInnen: farbenOptions.dichtungInnen[0],
-  colorMid: farbenOptions.colorMid[0],
-  glasspaket: verglasung.glasspaket[0],
-  glasspaketWarmeKante: 'Nein',
-  ornament: verglasung.ornament[0],
-  sicherheitsverglasung: verglasung.sicherheitsverglasung['2-f-v'][0],
-  schallschutz: verglasung.schallschutz[0],
-  sprossen: 'Nein',
-  druckausgleichsventil: verglasung.druckausgleichsventil[0],
-  // adjust the type here
-  sicherheitsbeschlage: { category: optionNo, subCategory: undefined },
-  verdecktLiegenderBeschlag: optionNo,
-  dünneSchweißnahtVPerfect: optionNo,
-  reedKontakt: optionNo,
-  montagevorbohrungen: optionNo,
-  lüftungssysteme: { category: optionNo, subCategory: undefined, paar: undefined },
-  rahmenverbreiterung: optionNo,
-  rahmenverbreitungMontiert: optionNo,
-  rahmenverbreiterungAuswahlen: {
-    links: 0,
-    rechts: 0,
-    oben: 0,
-    unten: 0,
+export const initialConfiguration: FensterConfig = {
+  basis: {
+    material: materials[0],
+    brand: brands[0],
+    // adjust the type here
+    profile: brands[0].children!.profile!.plastic[0] as SelectionItem<WindowProfilePlastic>,
+    profileHeight: customProfileHeights[0],
+    style: windowStyles[0],
+    type: windowStyles[0].children!.type![0]!,
+    cover: covers[0] as SelectionItem<SonnenschutzKey>,
+    size: false,
   },
-  druckausgleichsventilZusatze: optionNo,
+  farben: {
+    colorExt: farbenOptions.colorExt[0],
+    colorInt: farbenOptions.colorInt[0],
+    dichtungAussen: farbenOptions.dichtungAussen[0],
+    dichtungInnen: farbenOptions.dichtungInnen[0],
+    colorMid: farbenOptions.colorMid[0],
+  },
+  verglasung: {
+    glasspaket: verglasung.glasspaket[0],
+    glasspaketWarmeKante: 'Nein',
+    ornament: verglasung.ornament[0],
+    sicherheitsverglasung: verglasung.sicherheitsverglasung['2-f-v'][0],
+    schallschutz: verglasung.schallschutz[0],
+    sprossen: 'Nein',
+    druckausgleichsventil: verglasung.druckausgleichsventil[0],
+  },
+  zusatze: {
+    sicherheitsbeschlage: { category: optionNo, subCategory: undefined },
+    verdecktLiegenderBeschlag: optionNo,
+    dünneSchweißnahtVPerfect: optionNo,
+    reedKontakt: optionNo,
+    montagevorbohrungen: optionNo,
+    lüftungssysteme: { category: optionNo, subCategory: undefined, paar: undefined },
+    rahmenverbreiterung: optionNo,
+    rahmenverbreitungMontiert: optionNo,
+    rahmenverbreiterungAuswahlen: {
+      links: 0,
+      rechts: 0,
+      oben: 0,
+      unten: 0,
+    },
+    druckausgleichsventilZusatze: optionNo,
+  },
+  sonnenschutz: {}
 };
+
+
+export const zusatzeOnlyOpeningWindowOptions: (keyof ZusatzeConfiguration)[] = [
+    'sicherheitsbeschlage',
+    'verdecktLiegenderBeschlag',
+    'reedKontakt',
+    'lüftungssysteme',
+  ];

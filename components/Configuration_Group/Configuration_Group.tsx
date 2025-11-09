@@ -1,4 +1,11 @@
-import { Config, GroupKey, SelectionItem, Step, StepWithProps } from '@/types/Configurator';
+import {
+  ConfigGroup,
+  FensterConfig,
+  GroupKey,
+  SelectionItem,
+  Step,
+  StepWithProps,
+} from '@/types/Configurator';
 import style from '../../styles/KonfiguratorPage.module.css';
 import Stepper from '../Stepper/Stepper';
 import OptionHolder from '../Product_Holder/Option_Holder';
@@ -16,13 +23,6 @@ interface GroupProps {
 }
 
 export default function Configuration_Group({ groupTitle }: GroupProps) {
-  const isSelected = (name: string) => {
-    if (currentStep) {
-      return (configuration[currentStep?.key as keyof Config] as SelectionItem)?.name === name;
-    }
-    return false;
-  };
-
   const {
     currentStep,
     currentGroup,
@@ -33,11 +33,32 @@ export default function Configuration_Group({ groupTitle }: GroupProps) {
     moveNextGroup,
   } = useConfiguration();
 
+  function hasGroupKey<G extends ConfigGroup>(
+    group: G,
+    key: PropertyKey
+  ): key is keyof FensterConfig[G] {
+    return key in (configuration[group] as object);
+  }
+
+  // to be studied
+  const isSelected = (name: string) => {
+    if (!currentStep || !currentGroup) return false;
+
+    const group = currentGroup as ConfigGroup;
+    const key = currentStep.key as PropertyKey;
+
+    if (!hasGroupKey(group, key)) return false;
+
+    const v = configuration[group][key] as unknown;
+    return !!(v && typeof v === 'object' && 'name' in v && v.name === name);
+  };
+
   const visibleSection = categoryItems.find((cat) => cat.key === currentStep?.key);
 
   const [itemsToDisplay, setItemsToDisplay] = useState<SelectionItem[]>();
   const groupActive = currentGroup === groupTitle;
-  const coverNotAvailable = configuration.cover.key === 'nein' && groupTitle === 'sonnenschutz';
+  const coverNotAvailable =
+    configuration.basis.cover.key === 'nein' && groupTitle === 'sonnenschutz';
   const [expandedSteps, setExpandedSteps] = useState<string[]>([]);
 
   const expanded = currentStep && expandedSteps.includes(currentStep?.key);
@@ -55,9 +76,10 @@ export default function Configuration_Group({ groupTitle }: GroupProps) {
       if (visibleSection.dynamic) {
         switch (visibleSection.key) {
           case 'sicherheitsverglasung':
-            const items = sicherheitsverglasungDynamicItems[configuration.glasspaket.key];
-            const isOrnamentAvailable = configuration.ornament.key !== 'nein';
-            const is2Layered = configuration.glasspaket.key.includes('2');
+            const items =
+              sicherheitsverglasungDynamicItems[configuration.verglasung.glasspaket.key];
+            const isOrnamentAvailable = configuration.verglasung.ornament.key !== 'nein';
+            const is2Layered = configuration.verglasung.glasspaket.key.includes('2');
             if (isOrnamentAvailable && is2Layered) {
               return setItemsToDisplay(items.filter((it) => !it.key.includes('doubleConfig')));
             } else {
@@ -65,10 +87,10 @@ export default function Configuration_Group({ groupTitle }: GroupProps) {
             }
           case 'colorMid':
             const { colorsAvailable } = getColoringMultiplier({
-              colorExteriorCode: configuration.colorExt.colorCode!,
-              colorInteriorCode: configuration.colorInt.colorCode!,
-              colorMidKey: configuration.colorMid?.key,
-              selectedProfileKey: configuration.profile.key,
+              colorExteriorCode: configuration.farben.colorExt.colorCode!,
+              colorInteriorCode: configuration.farben.colorInt.colorCode!,
+              colorMidKey: configuration.farben.colorMid?.key,
+              selectedProfileKey: configuration.basis.profile.key,
             });
             const dynamiColorMidColors = Array.isArray(visibleSection.items)
               ? visibleSection.items.filter((item) =>
@@ -85,10 +107,10 @@ export default function Configuration_Group({ groupTitle }: GroupProps) {
   }, [groupActive, visibleSection]);
 
   const { colorsAvailable } = getColoringMultiplier({
-    colorExteriorCode: configuration.colorExt.colorCode!,
-    colorInteriorCode: configuration.colorInt.colorCode!,
-    colorMidKey: configuration.colorMid?.key,
-    selectedProfileKey: configuration.profile.key,
+    colorExteriorCode: configuration.farben.colorExt.colorCode!,
+    colorInteriorCode: configuration.farben.colorInt.colorCode!,
+    colorMidKey: configuration.farben.colorMid?.key,
+    selectedProfileKey: configuration.basis.profile.key,
   });
 
   // make selection from dynamic midColorOptions
@@ -97,47 +119,77 @@ export default function Configuration_Group({ groupTitle }: GroupProps) {
       ? visibleSection.items.filter((item) => colorsAvailable?.some((it) => it === item.key))
       : [];
     if (dynamicColorMidColors?.[0]) {
-      if (!configuration.colorMid) {
+      if (!configuration.farben.colorMid) {
         setConfiguration((pr) => {
-          return { ...pr, colorMid: dynamicColorMidColors[0] };
+          return {
+            ...pr,
+            farben: {
+              ...pr.farben,
+              colorMid: dynamicColorMidColors[0],
+            },
+          };
         });
       }
-      if (configuration.colorMid) {
-        if (!dynamicColorMidColors.some((it) => it.key == configuration.colorMid.key)) {
+      if (configuration.farben.colorMid) {
+        if (!dynamicColorMidColors.some((it) => it.key == configuration.farben.colorMid.key)) {
           setConfiguration((pr) => {
-            return { ...pr, colorMid: dynamicColorMidColors[0] };
+            return {
+              ...pr,
+              farben: {
+                ...pr.farben,
+                colorMid: dynamicColorMidColors[0],
+              },
+            };
           });
         }
       }
     }
   }, [
     colorsAvailable,
-    configuration.colorExt,
-    configuration.colorInt,
-    configuration.profile,
-    configuration.colorMid,
+    configuration.farben.colorExt,
+    configuration.farben.colorInt,
+    configuration.basis.profile,
+    configuration.farben.colorMid,
     setConfiguration,
     visibleSection,
   ]);
 
   // autoselect sicherheitsverglasung's first option when glasspaket changes
   useEffect(() => {
-    const items = sicherheitsverglasungDynamicItems[configuration.glasspaket.key];
+    const items = sicherheitsverglasungDynamicItems[configuration.verglasung.glasspaket.key];
     setConfiguration((pr) => {
       return {
         ...pr,
-        sicherheitsverglasung: items[0],
+        verglasung: {
+          ...pr.verglasung,
+          sicherheitsverglasung: items[0],
+        },
       };
     });
-  }, [configuration.glasspaket]);
+  }, [configuration.verglasung.glasspaket]);
 
-  const updateConfiguration = (item: SelectionItem, key?: string) => {
-    if (currentStep) {
-      setConfiguration((prevConfig) => ({
-        ...prevConfig,
-        [key ?? (currentStep?.key as keyof Config)]: item,
-      }));
+  const updateConfiguration = (item: SelectionItem, keyOverride?: PropertyKey) => {
+    if (!currentStep || !currentGroup) {
+      moveToNextStep();
+      return;
     }
+
+    const group = currentGroup as ConfigGroup;
+    const key = (keyOverride ?? currentStep.key) as PropertyKey;
+
+    if (!hasGroupKey(group, key)) {
+      moveToNextStep();
+      return;
+    }
+
+    setConfiguration((prev) => ({
+      ...prev,
+      [group]: {
+        ...prev[group],
+        [key]: item, // key is now narrowed to keyof FensterConfig[group]
+      } as FensterConfig[typeof group],
+    }));
+
     moveToNextStep();
   };
 

@@ -11,23 +11,39 @@ export default function DoubleStepper({
   configurationKey,
   label,
 }: DoubleStepperProps) {
-  const { configuration, moveToNextStep, setConfiguration } = useConfiguration();
+  const { configuration, currentGroup, currentStep, moveToNextStep, setConfiguration } =
+    useConfiguration();
 
   const items = useRef<HTMLDivElement>(null);
 
-  const categorySelected = (item: SelectionItem) =>
-    (configuration[configurationKey] as DobuleSelection)?.category?.key === item.key;
-  const subCategorySelected = (item: SelectionItem) =>
-    (configuration[configurationKey] as DobuleSelection)?.subCategory?.key === item.key;
+  const categorySelected = (item: SelectionItem) => {
+    const currentGroupConfig = configuration[currentGroup];
+    const currentValue = currentGroupConfig[currentStep?.key as keyof typeof currentGroupConfig];
+    return (currentValue as DobuleSelection)?.category?.key === item.key;
+  };
 
-  const itemsToDisplay =
-    subCategoryItems[(configuration[configurationKey] as DobuleSelection)?.category?.key];
+  const subCategorySelected = (item: SelectionItem) => {
+    const currentGroupConfig = configuration[currentGroup];
+    const currentValue = currentGroupConfig[currentStep?.key as keyof typeof currentGroupConfig];
+    return (currentValue as DobuleSelection)?.subCategory?.key === item.key;
+  };
+
+  const itemsToDisplay = () => {
+    const currentGroupConfig = configuration[currentGroup];
+    return subCategoryItems[
+      (currentGroupConfig[configurationKey as keyof typeof currentGroupConfig] as DobuleSelection)
+        ?.category?.key
+    ];
+  };
+
   const expandable = itemsToDisplay?.length > 10;
 
   const [expanded, setExpanded] = useState(false);
 
   const handleSelectCategory = (item: SelectionItem) => {
-    if (item.key === (configuration[configurationKey] as DobuleSelection).category.key) {
+    const currentGroupConfig = configuration[currentGroup];
+    const currentValue = currentGroupConfig[configurationKey as keyof typeof currentGroupConfig];
+    if (item.key === (currentValue as DobuleSelection).category.key) {
       return setTimeout(() => {
         items?.current?.scrollIntoView({ behavior: 'smooth' });
       }, 300);
@@ -35,9 +51,12 @@ export default function DoubleStepper({
     setConfiguration((pr) => {
       return {
         ...pr,
-        [configurationKey]: {
-          category: item,
-          subCategory: subCategoryItems[item.key][0],
+        [currentGroup]: {
+          ...pr[currentGroup],
+          [configurationKey]: {
+            category: item,
+            subCategory: subCategoryItems[item.key][0],
+          },
         },
       };
     });
@@ -48,11 +67,18 @@ export default function DoubleStepper({
 
   const handleSelectSubCategory = (item: SelectionItem) => {
     setConfiguration((pr) => {
+      const currentConfig = pr[currentGroup];
+      const currentCategory = (
+        currentConfig[configurationKey as keyof typeof currentConfig] as DobuleSelection
+      ).category;
       return {
         ...pr,
-        [configurationKey]: {
-          category: (configuration[configurationKey] as DobuleSelection).category,
-          subCategory: item,
+        [currentGroup]: {
+          ...pr[currentGroup],
+          [configurationKey]: {
+            category: currentCategory,
+            subCategory: item,
+          },
         },
       };
     });
@@ -82,7 +108,7 @@ export default function DoubleStepper({
       </div>
       <br />
       <div className={style.config_wrapper_option_holders} ref={items}>
-        {itemsToDisplay
+        {itemsToDisplay()
           ?.slice(0, !expanded ? 10 : itemsToDisplay.length)
           .map((item, index) => (
             <OptionHolder

@@ -1,4 +1,9 @@
-import { initialConfiguration, initialSubstyle, optionNo } from '@/data/configurationData';
+import {
+  initialConfiguration,
+  initialSubstyle,
+  optionNo,
+  zusatzeOnlyOpeningWindowOptions,
+} from '@/data/configurationData';
 import { minMaxSizes } from '@/data/minMaxSizes/minMaxSizes';
 import { priceLists } from '@/data/priceLists/priceLists';
 import { sonnenschutzPriceLists } from '@/data/priceLists/sonnenschutz/sonnenschutzPrices';
@@ -18,7 +23,7 @@ import { ColorCode } from '@/data/selectionItems/farbenData';
 import { sprossenCards, sprossenPatterns } from '@/data/selectionItems/verglasungData';
 import { sonnenschutzStepPacks, steps } from '@/data/steps';
 import {
-  Config,
+  FensterConfig,
   GroupKey,
   MinMaxSet,
   MinMaxSize,
@@ -56,7 +61,7 @@ type PriceDeterminants = {
 
 // Define the context type
 interface ConfigurationContextType {
-  configuration: Config;
+  configuration: FensterConfig;
   currentGroup: GroupKey;
   currentStep: Step | null;
   currentStepGroup: Step[];
@@ -67,7 +72,7 @@ interface ConfigurationContextType {
   orderOfKeys: string[] | undefined;
   windowSectionCount: number;
   windowHandleNumber: number;
-  setConfiguration: React.Dispatch<React.SetStateAction<Config>>;
+  setConfiguration: React.Dispatch<React.SetStateAction<FensterConfig>>;
   setCurrentGroup: React.Dispatch<React.SetStateAction<GroupKey>>;
   setCurrentStep: React.Dispatch<React.SetStateAction<Step | null>>;
   setSubStyle: React.Dispatch<React.SetStateAction<SubStyle>>;
@@ -106,15 +111,15 @@ const ConfiurationContext = createContext<ConfigurationContextType | undefined>(
 
 // Provider component
 export const ConfigurationProvider = ({ children }: { children: ReactNode }) => {
-  const [configuration, setConfiguration] = useState<Config>(initialConfiguration);
+  const [configuration, setConfiguration] = useState<FensterConfig>(initialConfiguration);
   const [group, setCurrentGroup] = useState<GroupKey>('basis');
   const [currentStep, setCurrentStep] = useState<Step | null>(null);
   const [substyle, setSubStyle] = useState<SubStyle>(initialSubstyle);
 
   const orderOfKeys =
-    configuration.style.name === 'Oberlicht'
+    configuration.basis.style.name === 'Oberlicht'
       ? ['oben', 'unten']
-      : configuration.style.name === 'Unterlicht'
+      : configuration.basis.style.name === 'Unterlicht'
         ? ['unten', 'oben']
         : undefined;
 
@@ -122,21 +127,28 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     // for sonnenschutz group, steps are built dynamically according to cover selection in Basis
     if (group === 'sonnenschutz') {
       return (
-        sonnenschutzStepPacks[configuration.cover.key as keyof typeof sonnenschutzStepPacks] || []
+        sonnenschutzStepPacks[
+          configuration.basis.cover.key as keyof typeof sonnenschutzStepPacks
+        ] || []
       );
     }
     // farben steps changge if the window type has no handle
     if (group === 'farben') {
       let handleExists;
-      if ('option' in configuration.type) {
+      if (
+        'option' in configuration.basis.type &&
+        'oben' in configuration.basis.type &&
+        'unten' in configuration.basis.type
+      ) {
         handleExists =
-          configuration.type.oben?.handleNumber && configuration.type.unten?.handleNumber;
+          configuration.basis.type.oben?.handleNumber &&
+          configuration.basis.type.unten?.handleNumber;
         if (!handleExists) {
           return steps[group].filter((st) => st.key !== 'fenstergriffe');
         }
       }
-      if (!Boolean('option' in configuration.type)) {
-        handleExists = (configuration.type as SelectionItem).handleNumber;
+      if (!Boolean('option' in configuration.basis.type)) {
+        handleExists = (configuration.basis.type as SelectionItem).handleNumber;
       }
       if (!handleExists) {
         return steps[group].filter((st) => st.key !== 'fenstergriffe');
@@ -152,7 +164,9 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
 
   const allGroups: GroupKey[] = ['basis', 'farben', 'verglasung', 'zusatze', 'sonnenschutz'];
   const visibleGroups: GroupKey[] =
-    configuration.cover.key === 'nein' ? allGroups.filter((g) => g !== 'sonnenschutz') : allGroups;
+    configuration.basis.cover.key === 'nein'
+      ? allGroups.filter((g) => g !== 'sonnenschutz')
+      : allGroups;
 
   const currentGroupIndex = visibleGroups.indexOf(group);
   const previousGroup = visibleGroups[currentGroupIndex - 1];
@@ -162,22 +176,16 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
   const previousStep = currentStepPack[currentStepIndex - 1];
 
   const windowSectionCount =
-    'oben' in configuration.type
-      ? (configuration.type.oben?.sectionNumber ?? 1) +
-        (configuration.type.unten?.sectionNumber ?? 1)
-      : (configuration.type.sectionNumber ?? 1);
+    'oben' in configuration.basis.type
+      ? (configuration.basis.type.oben?.sectionNumber ?? 1) +
+        (configuration.basis.type.unten?.sectionNumber ?? 1)
+      : (configuration.basis.type.sectionNumber ?? 1);
 
   const windowHandleNumberTotal =
-    'oben' in configuration.type
-      ? (configuration.type.oben?.handleNumber ?? 0) + (configuration.type.unten?.handleNumber ?? 0)
-      : (configuration.type.handleNumber ?? 0);
-
-  const zusatzeOnlyOpeningWindowOptions: (keyof Config)[] = [
-    'sicherheitsbeschlage',
-    'verdecktLiegenderBeschlag',
-    'reedKontakt',
-    'lüftungssysteme',
-  ];
+    'oben' in configuration.basis.type
+      ? (configuration.basis.type.oben?.handleNumber ?? 0) +
+        (configuration.basis.type.unten?.handleNumber ?? 0)
+      : (configuration.basis.type.handleNumber ?? 0);
 
   const moveNextGroup = () => {
     const currentGroupIndex = visibleGroups.indexOf(group);
@@ -274,13 +282,13 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
       colorExteriorCode,
       selectedProfileKey,
       // isOberLichtUnterlicht important to prevent double cost calculation for oben & unten rahmenverbreiterung
-      isOberLichtUnterlicht: ['oberlicht', 'unterlicht'].includes(configuration.style.key),
+      isOberLichtUnterlicht: ['oberlicht', 'unterlicht'].includes(configuration.basis.style.key),
     });
 
     const sonnenschutzPrice = calculateSonnenschutzPrice({
       width,
       height,
-      isOberLichtUnterlicht: ['oberlicht', 'unterlicht'].includes(configuration.style.key),
+      isOberLichtUnterlicht: ['oberlicht', 'unterlicht'].includes(configuration.basis.style.key),
     });
 
     const { colouringPriceMultiplier } = getColoringMultiplier({
@@ -329,15 +337,15 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     // csv table does not exist for the selected type
     // so build the price based on sections
     if (!priceListForSelectedType) {
-      const selectedMaterial = configuration.material.key;
+      const selectedMaterial = configuration.basis.material.key;
       const priceListFor1Flugel = priceLists['flugel1'][selectedMaterial];
       let selectedType: SelectionItem;
       if (direction === 'oben') {
-        selectedType = (configuration.type as SubStyle).oben!;
+        selectedType = (configuration.basis.type as unknown as SubStyle).oben!;
       } else if (direction === 'unten') {
-        selectedType = (configuration.type as SubStyle).unten!;
+        selectedType = (configuration.basis.type as unknown as SubStyle).unten!;
       } else {
-        selectedType = configuration.type as SelectionItem;
+        selectedType = configuration.basis.type as SelectionItem;
       }
 
       if (!selectedType) alert('cant extract selectedType');
@@ -361,7 +369,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
 
         for (let index = 0; index < individualSectionTypeKeys.length; index++) {
           const typeKey = individualSectionTypeKeys?.[index];
-          const priceKey = `${(configuration.profile as SelectionItem).key}_${typeKey}`;
+          const priceKey = `${(configuration.basis.profile as SelectionItem).key}_${typeKey}`;
           const priceListForSectionType = priceListFor1Flugel[priceKey];
           if (!priceListForSectionType) {
             return 0;
@@ -427,7 +435,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     /* ---------- calculate sicherheitsbeschlage price ---------- */
     //const selectedProfileKey = configuration.profile.key as WindowProfilePlastic;
     const sicherheitsbeschlageSubcategory =
-      configuration.sicherheitsbeschlage.subCategory?.key || '';
+      configuration.zusatze.sicherheitsbeschlage.subCategory?.key || '';
 
     const sicherheitsbeschlagePricesForProfile =
       sicherheitsbeschlagePricing[selectedProfileKey as WindowProfilePlastic];
@@ -437,7 +445,8 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     const sicherheitsbeschlagePrice = sicherheitsbeschlageMultiplier * windowHandleNumber;
 
     /* ---------- calculate verdecktLiegenderBeschlag price ---------- */
-    const selectedVerdecktLiegenderBeschlagKey = configuration.verdecktLiegenderBeschlag.key;
+    const selectedVerdecktLiegenderBeschlagKey =
+      configuration.zusatze.verdecktLiegenderBeschlag.key;
     const verdecktLiegenderBeschlagMultiplier =
       verdecktLiegenderBeschlagPricing[selectedVerdecktLiegenderBeschlagKey];
 
@@ -447,7 +456,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     const dünneSchweißnahtVPerfectPrice = 0;
 
     /* ---------- calculate reedKontakt price ---------- */
-    const selectedReedKontaktKey = configuration.reedKontakt.key;
+    const selectedReedKontaktKey = configuration.zusatze.reedKontakt.key;
     const reedKontaktMultiplier = reedKontaktPricing[selectedReedKontaktKey];
     const reedKontaktPrice = reedKontaktMultiplier * windowHandleNumber;
 
@@ -456,15 +465,15 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
 
     /* ---------- calculate lüftungssysteme price ---------- */
 
-    const selectedLüftungssystemeKey = configuration.lüftungssysteme.category.key;
+    const selectedLüftungssystemeKey = configuration.zusatze.lüftungssysteme.category.key;
     const selectedLüftungssystemeSubcategoryKey =
-      configuration.lüftungssysteme.subCategory?.key || '';
+      configuration.zusatze.lüftungssysteme.subCategory?.key || '';
 
     const lüftungssystemePriceMultiplier =
       selectedLüftungssystemeKey === 'nein'
         ? 0
         : lüftungssystemePricing[selectedLüftungssystemeSubcategoryKey];
-    const paar = configuration.lüftungssysteme.paar ?? 0;
+    const paar = configuration.zusatze.lüftungssysteme.paar ?? 0;
 
     const lüftungssystemePrice = lüftungssystemePriceMultiplier * paar * windowHandleNumber;
 
@@ -504,11 +513,11 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     selectedProfileKey: string;
     isOberLichtUnterlicht: boolean;
   }) => {
-    if (configuration.rahmenverbreiterung.key === 'nein') {
+    if (configuration.zusatze.rahmenverbreiterung.key === 'nein') {
       return 0;
     }
-    const assemblySelected = configuration.rahmenverbreitungMontiert.key === 'ja';
-    const rahmenverbreiterungAuswahlen = configuration.rahmenverbreiterungAuswahlen;
+    const assemblySelected = configuration.zusatze.rahmenverbreitungMontiert.key === 'ja';
+    const rahmenverbreiterungAuswahlen = configuration.zusatze.rahmenverbreiterungAuswahlen;
 
     const priceListKey =
       colorExteriorCode === colorInteriorCode && colorInteriorCode === '0'
@@ -556,8 +565,10 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     height: number;
     isOberLichtUnterlicht: boolean;
   }) => {
-    const selectedCoverKey = configuration.cover.key;
-    const insektenschutzKey = configuration.revisionsöffnung?.key.includes('insektenschutz')
+    const selectedCoverKey = configuration.basis.cover.key;
+    const insektenschutzKey = configuration.sonnenschutz.revisionsöffnung?.key.includes(
+      'insektenschutz'
+    )
       ? 'withInsektenschutz'
       : 'withoutInsektenschutz';
 
@@ -568,10 +579,11 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
       sonnenschutzPriceLists[selectedCoverKey][insektenschutzKey];
 
     const additionalSonnenschutzHeight =
-      'height' in configuration.cover ? (configuration.cover.height as number) : 0;
+      'height' in configuration.basis.cover ? (configuration.basis.cover.height as number) : 0;
 
     const actualHeight = isOberLichtUnterlicht
-      ? (configuration.multiHeight?.obenHeight ?? 0) + (configuration.multiHeight?.untenHeight ?? 0)
+      ? (configuration.basis.multiHeight?.obenHeight ?? 0) +
+        (configuration.basis.multiHeight?.untenHeight ?? 0)
       : height;
 
     const totalHeight = actualHeight + additionalSonnenschutzHeight;
@@ -680,64 +692,79 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
   // if sprossen color is custom-color for innen-aussen, when innen-aussen combination changes,
   // reset the sprossen color
   useEffect(() => {
-    const colorCodeExt = configuration.colorExt.colorCode;
-    const colorCodeInt = configuration.colorInt.colorCode;
+    const colorCodeExt = configuration.farben.colorExt.colorCode;
+    const colorCodeInt = configuration.farben.colorInt.colorCode;
     const intExtDifferent =
       colorCodeExt !== '0' && colorCodeInt !== '0' && colorCodeExt !== colorCodeInt;
 
-    const ausfgesetzeSelected = configuration.sprossen.split('-')[0].includes('Aufgesetzte');
+    const ausfgesetzeSelected = configuration.verglasung.sprossen
+      .split('-')[0]
+      .includes('Aufgesetzte');
     const intExtDifferentForAufgesetzte =
       ausfgesetzeSelected && (colorCodeExt !== '0' || colorCodeInt !== '0');
 
     if (
       !intExtDifferent &&
       !intExtDifferentForAufgesetzte &&
-      configuration.sprossen.includes(innenAussenCompatibleText)
+      configuration.verglasung.sprossen.includes(innenAussenCompatibleText)
     ) {
       const sprossenWidthItems = sprossenCards.find(
-        (sp) => sp.name === configuration.sprossen.split('-')[0]
+        (sp) => sp.name === configuration.verglasung.sprossen.split('-')[0]
       )?.items;
-      const width = configuration.sprossen.split('-')[1];
+      const width = configuration.verglasung.sprossen.split('-')[1];
       const defaultColors = sprossenWidthItems?.find((it) => it.name === width)?.colors;
       const newColor = defaultColors![0].name;
-      const newSprossen = configuration.sprossen.replace(innenAussenCompatibleText, newColor);
+      const newSprossen = configuration.verglasung.sprossen.replace(
+        innenAussenCompatibleText,
+        newColor
+      );
       setConfiguration((pr) => {
         return {
           ...pr,
-          sprossen: newSprossen,
+          verglasung: {
+            ...pr.verglasung,
+            sprossen: newSprossen,
+          },
         };
       });
     }
-  }, [configuration.colorExt, configuration.colorInt, configuration.sprossen]);
+  }, [
+    configuration.farben.colorExt,
+    configuration.farben.colorInt,
+    configuration.verglasung.sprossen,
+  ]);
 
   // when type changes, if new type is single-flugel, reset sicherheitsbeschlage selection
   useEffect(() => {
     if (windowSectionCount < 2) {
-      if (configuration.sicherheitsbeschlage.category.key === 'ja') {
+      if (configuration.zusatze.sicherheitsbeschlage.category.key === 'ja') {
         setConfiguration((pr) => {
           return {
             ...pr,
-            sicherheitsbeschlage: {
-              category: optionNo,
-              subCategory: undefined,
+            zusatze: {
+              ...pr.zusatze,
+              sicherheitsbeschlage: {
+                category: optionNo,
+                subCategory: undefined,
+              },
             },
           };
         });
       }
     }
-  }, [configuration.type]);
+  }, [configuration.basis.type]);
 
   // when profile changes, if aufbohrschutz is selected with IE or IEC profile, reset to basissicherheit
   useEffect(() => {
     if (
-      configuration.sicherheitsbeschlage.subCategory?.key === 'aufbohrschutz' &&
-      ['IE', 'IEC'].includes(configuration.profile.key)
+      configuration.zusatze.sicherheitsbeschlage.subCategory?.key === 'aufbohrschutz' &&
+      ['IE', 'IEC'].includes(configuration.basis.profile.key)
     ) {
       setConfiguration((pr) => {
         return {
           ...pr,
           sicherheitsbeschlage: {
-            category: pr.sicherheitsbeschlage.category,
+            category: pr.zusatze.sicherheitsbeschlage.category,
             subCategory: {
               key: 'basissicherheit',
               name: 'Basissicherheit',
@@ -746,31 +773,37 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
         };
       });
     }
-  }, [configuration.profile]);
+  }, [configuration.basis.profile]);
 
   // when window has no opening flugel, reset options which are only for opening windows in zusatze group
   useEffect(() => {
     if (windowHandleNumberTotal === 0) {
       zusatzeOnlyOpeningWindowOptions.forEach((optionKey) => {
         if (
-          typeof configuration[optionKey] === 'object' &&
-          configuration[optionKey] &&
-          'category' in configuration[optionKey]
+          typeof configuration.zusatze[optionKey] === 'object' &&
+          configuration.zusatze[optionKey] &&
+          'category' in configuration.zusatze[optionKey]
         ) {
           setConfiguration((pr) => {
             return {
               ...pr,
-              [optionKey]: {
-                category: optionNo,
-                subCategory: undefined,
+              zusatze: {
+                ...pr.zusatze,
+                [optionKey]: {
+                  category: optionNo,
+                  subCategory: undefined,
+                },
               },
             };
           });
-        } else if ((configuration[optionKey] as SelectionItem).key === 'ja') {
+        } else if ((configuration.zusatze[optionKey] as SelectionItem).key === 'ja') {
           setConfiguration((pr) => {
             return {
               ...pr,
-              [optionKey]: optionNo,
+              zusatze: {
+                ...pr.zusatze,
+                [optionKey]: optionNo,
+              },
             };
           });
         }

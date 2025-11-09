@@ -50,33 +50,33 @@ export default function UntenSizer({
   const { size, setSize } = useOrderDetailsReady();
 
   const [obenMultiWidth, setObenMultiWidth] = useState<Record<string, number>>(
-    configuration.obenMultiWidth || {}
+    configuration.basis.obenMultiWidth || {}
   );
-  const obenMultiWidthConfig = configuration.obenMultiWidth;
+  const obenMultiWidthConfig = configuration.basis.obenMultiWidth;
 
   const [untenMultiWidth, setUntenMultiWidth] = useState<Record<string, number>>(
-    configuration.untenMultiWidth || {}
+    configuration.basis.untenMultiWidth || {}
   );
-  const untenMultiWidthConfig = configuration.untenMultiWidth;
+  const untenMultiWidthConfig = configuration.basis.untenMultiWidth;
 
   const [totalHeight, setTotalHeight] = useState(size?.h);
 
   const [multiHeight, setMultiHeight] = useState<Record<string, number>>(
-    configuration.multiHeight || {}
+    configuration.basis.multiHeight || {}
   );
 
   // flipped for Unterlicht
-  const untenSectionNumber = (configuration.type as SubStyle).oben?.sectionNumber || 1;
-  const obenSectionNumber = (configuration.type as SubStyle).unten?.sectionNumber || 1;
+  const untenSectionNumber = (configuration.basis.type as SubStyle).oben?.sectionNumber || 1;
+  const obenSectionNumber = (configuration.basis.type as SubStyle).unten?.sectionNumber || 1;
 
   const tHeight = useRef<HTMLInputElement>(null);
 
-  const coverHeight = (configuration.cover as SelectionItem & { height?: number }).height;
+  const coverHeight = (configuration.basis.cover as SelectionItem & { height?: number }).height;
   const widthManuallyChanged = useRef(false);
 
   const minMaxSizesUnten = (() => {
-    if ('oben' in configuration.type) {
-      const sectionNumberOben = configuration.type.oben?.sectionNumber || 1;
+    if ('oben' in configuration.basis.type) {
+      const sectionNumberOben = configuration.basis.type.oben?.sectionNumber || 1;
       const windowStyleOben =
         sectionNumberOben === 1
           ? windowStyles.find((st) => st.key === 'flugel1')
@@ -84,11 +84,11 @@ export default function UntenSizer({
             ? windowStyles.find((st) => st.key === 'flugel2')
             : windowStyles.find((st) => st.key === 'flugel3');
 
-      const windowProfileOben = configuration.profile;
-      const windowTypeOben = configuration.type.oben!;
+      const windowProfileOben = configuration.basis.profile;
+      const windowTypeOben = configuration.basis.type.oben!;
 
       return getMinMaxSizes(
-        configuration.material,
+        configuration.basis.material,
         windowStyleOben!,
         windowProfileOben,
         windowTypeOben
@@ -99,8 +99,8 @@ export default function UntenSizer({
   })();
 
   const minMaxSizesOben = (() => {
-    if ('unten' in configuration.type) {
-      const sectionNumberUnten = configuration.type.unten?.sectionNumber || 1;
+    if ('unten' in configuration.basis.type) {
+      const sectionNumberUnten = configuration.basis.type.unten?.sectionNumber || 1;
       const windowStyleUnten =
         sectionNumberUnten === 1
           ? windowStyles.find((st) => st.key === 'flugel1')
@@ -108,11 +108,11 @@ export default function UntenSizer({
             ? windowStyles.find((st) => st.key === 'flugel2')
             : windowStyles.find((st) => st.key === 'flugel3');
 
-      const windowProfileUnten = configuration.profile;
-      const windowTypeUnten = configuration.type.unten!;
+      const windowProfileUnten = configuration.basis.profile;
+      const windowTypeUnten = configuration.basis.type.unten!;
 
       return getMinMaxSizes(
-        configuration.material,
+        configuration.basis.material,
         windowStyleUnten!,
         windowProfileUnten,
         windowTypeUnten
@@ -127,12 +127,14 @@ export default function UntenSizer({
   const untenNeedsCustomSplit = Boolean(minMaxSizesUnten?.sectionsMinWidthPack);
 
   // flipped
-  const sectionsOben = 'unten' in configuration.type ? configuration.type.unten?.sections : [];
-  const sectionsUnten = 'oben' in configuration.type ? configuration.type.oben?.sections : [];
+  const sectionsOben =
+    'unten' in configuration.basis.type ? configuration.basis.type.unten?.sections : [];
+  const sectionsUnten =
+    'oben' in configuration.basis.type ? configuration.basis.type.oben?.sections : [];
 
   // flipped
-  const typeOben = (configuration.type as SubStyle).unten;
-  const typeUnten = (configuration.type as SubStyle).oben;
+  const typeOben = (configuration.basis.type as SubStyle).unten;
+  const typeUnten = (configuration.basis.type as SubStyle).oben;
 
   const minWidthTotal = Math.max(minMaxSizesOben?.minWidth ?? 0, minMaxSizesUnten?.minWidth ?? 0);
   const maxWidthTotal = Math.min(minMaxSizesOben?.maxWidth ?? 0, minMaxSizesUnten?.maxWidth ?? 0);
@@ -330,13 +332,25 @@ export default function UntenSizer({
     if (direction === 'oben') {
       setObenMultiWidth(updatedMultiWidth);
       setConfiguration((pr) => {
-        return { ...pr, obenMultiWidth: updatedMultiWidth };
+        return {
+          ...pr,
+          basis: {
+            ...pr.basis,
+            obenMultiWidth: updatedMultiWidth,
+          },
+        };
       });
     }
     if (direction === 'unten') {
       setUntenMultiWidth(updatedMultiWidth);
       setConfiguration((pr) => {
-        return { ...pr, untenMultiWidth: updatedMultiWidth };
+        return {
+          ...pr,
+          basis: {
+            ...pr.basis,
+            untenMultiWidth: updatedMultiWidth,
+          },
+        };
       });
     }
   };
@@ -449,7 +463,7 @@ export default function UntenSizer({
 
   // inject existing multiHeight
   useEffect(() => {
-    if (!configuration.multiHeight) {
+    if (!configuration.basis.multiHeight) {
       if (typeof size?.h === 'string' && typeof size.h !== 'undefined') {
         return;
       }
@@ -469,7 +483,10 @@ export default function UntenSizer({
   useEffect(() => {
     if (!size?.w || typeof size.w === 'string') return;
 
-    if (obenSectionNumber > 1 && (!configuration.obenMultiWidth || widthManuallyChanged.current)) {
+    if (
+      obenSectionNumber > 1 &&
+      (!configuration.basis.obenMultiWidth || widthManuallyChanged.current)
+    ) {
       const dividedWidthItems = obenNeedsCustomSplit
         ? buildCustomMultiWidth(
             size.w,
@@ -481,12 +498,18 @@ export default function UntenSizer({
           )
         : smartDivider(size.w, obenSectionNumber);
       setObenMultiWidth(dividedWidthItems);
-      setConfiguration((pr) => ({ ...pr, obenMultiWidth: dividedWidthItems }));
+      setConfiguration((pr) => ({
+        ...pr,
+        basis: {
+          ...pr.basis,
+          obenMultiWidth: dividedWidthItems,
+        },
+      }));
     }
 
     if (
       untenSectionNumber > 1 &&
-      (!configuration.untenMultiWidth || widthManuallyChanged.current)
+      (!configuration.basis.untenMultiWidth || widthManuallyChanged.current)
     ) {
       const dividedWidthItems = untenNeedsCustomSplit
         ? buildCustomMultiWidth(
@@ -499,7 +522,13 @@ export default function UntenSizer({
           )
         : smartDivider(size.w, untenSectionNumber);
       setUntenMultiWidth(dividedWidthItems);
-      setConfiguration((pr) => ({ ...pr, untenMultiWidth: dividedWidthItems }));
+      setConfiguration((pr) => ({
+        ...pr,
+        basis: {
+          ...pr.basis,
+          untenMultiWidth: dividedWidthItems,
+        },
+      }));
     }
 
     // reset the manual update flag
@@ -511,7 +540,10 @@ export default function UntenSizer({
     setConfiguration((pr) => {
       return {
         ...pr,
-        multiHeight: multiHeight,
+        basis: {
+          ...pr.basis,
+          multiHeight: multiHeight,
+        },
       };
     });
   }, [multiHeight]);
@@ -554,7 +586,7 @@ export default function UntenSizer({
                   min={extractMinWidthForSection(
                     index,
                     minWidthTotal,
-                    (configuration.type as SubStyle).oben!,
+                    (configuration.basis.type as SubStyle).oben!,
                     minMaxSizesOben!.sectionsMinWidthPack!,
                     obenSectionNumber
                   )}
@@ -562,7 +594,7 @@ export default function UntenSizer({
                     index,
                     minWidthTotal,
                     maxWidthTotal,
-                    (configuration.type as SubStyle).unten!,
+                    (configuration.basis.type as SubStyle).unten!,
                     minMaxSizesUnten!.sectionsMaxWidthPack!,
                     untenSectionNumber
                   )}
@@ -593,8 +625,12 @@ export default function UntenSizer({
           <div id={style.heights} style={{ width: size?.h && !summary ? '75px' : '10px' }}>
             {summary && size?.h && (
               <div className={style.lines}>
-                <span className={style.lines_top}>{configuration.multiHeight?.obenHeight} </span>
-                <span className={style.lines_bottom}>{configuration.multiHeight?.untenHeight}</span>
+                <span className={style.lines_top}>
+                  {configuration.basis.multiHeight?.obenHeight}{' '}
+                </span>
+                <span className={style.lines_bottom}>
+                  {configuration.basis.multiHeight?.untenHeight}
+                </span>
               </div>
             )}
             <div id={style.right_line} className={style.obenunten_rightline}></div>
@@ -713,7 +749,7 @@ export default function UntenSizer({
                   min={extractMinWidthForSection(
                     index,
                     minWidthTotal,
-                    (configuration.type as SubStyle).unten!,
+                    (configuration.basis.type as SubStyle).unten!,
                     minMaxSizesOben!.sectionsMinWidthPack!,
                     untenSectionNumber
                   )}
@@ -721,7 +757,7 @@ export default function UntenSizer({
                     index,
                     minWidthTotal,
                     maxWidthTotal,
-                    (configuration.type as SubStyle).unten!,
+                    (configuration.basis.type as SubStyle).unten!,
                     minMaxSizesUnten!.sectionsMaxWidthPack!,
                     untenSectionNumber
                   )}

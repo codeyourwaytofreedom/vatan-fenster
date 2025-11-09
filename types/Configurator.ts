@@ -101,12 +101,12 @@ export type SonnenschutzKey = 'nein' | 'auf215' | 'auf175' | 'styroporkasten150'
 
 
 export interface BasisConfiuration {
-  material: SelectionItem<WindowMaterial>[];
-  brands: SelectionItem[];
+  material: SelectionItem<WindowMaterial>;
+  brand: SelectionItem;
   profile: SelectionItem<WindowProfilePlastic | WindowProfileAluminium>;
-  profileHeights: SelectionItem[];
+  profileHeight: SelectionItem;
   style: SelectionItem<WindowStyle>;
-  type: SelectionItem[];
+  type: SelectionItem | SubStyle;
   cover: SelectionItem<SonnenschutzKey>;
   size: boolean | Size;
   multiWidth?: Record<string, number>;
@@ -190,7 +190,10 @@ export interface FensterConfig {
   zusatze: ZusatzeConfiguration;
 }
 
-export interface Config {
+export type ConfigGroup = keyof FensterConfig; // 'basis' | 'farben' | 'verglasung' | 'sonnenschutz' | 'zusatze'
+export type ConfigKeysByGroup = { [G in ConfigGroup]: keyof FensterConfig[G] };
+
+/* export interface Config {
   // basis
   material: SelectionItem<WindowMaterial>;
   brand: SelectionItem;
@@ -266,7 +269,7 @@ export interface Config {
     oben: number;
     unten: number;
   };
-}
+} */
 
 export type DobuleSelection = {
   category: SelectionItem;
@@ -290,7 +293,7 @@ export interface Summary {
 export interface DoubleStepperProps {
   categoryItems: SelectionItem[];
   subCategoryItems: Record<string, SelectionItem[]>;
-  configurationKey: keyof Config;
+  configurationKey: keyof BasisConfiuration | keyof FarbenConfiuration | keyof VerglasungConfiuration | keyof SonnenschutzConfiuration | keyof ZusatzeConfiguration;
   label?: string;
 }
 

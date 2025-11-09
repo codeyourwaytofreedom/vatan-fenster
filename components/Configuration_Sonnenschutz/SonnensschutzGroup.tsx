@@ -1,7 +1,8 @@
 import {
-  Config,
+  ConfigGroup,
   DobuleSelection,
   DoubleStepperProps,
+  FensterConfig,
   SelectionItem,
   Size,
   Step,
@@ -20,19 +21,11 @@ import {
 } from '@/data/selectionItems/sonnenschutzData';
 import DoubleStepper from '../DoubleStepper/DoubleStepper';
 import StepVerlangerung from '../StepVerlängerung/StepVerlangerung';
-import PlaceHolder from '../PlaceHolder/PlaceHolder';
 import Kastenart, { kastenartSizeOptions } from '../Kastenart/Kastenart';
 import KastenartVorsatzraffstore from '../KastenartVorsatzraffstore/KastenartVorsatzraffstore';
 import { useOrderDetailsReady } from '@/context/OrderDetailsContext';
 
 export default function Sonnenschutz_Group() {
-  const isSelected = (name: string) => {
-    if (currentStep) {
-      return (configuration[currentStep?.key as keyof Config] as SelectionItem)?.name === name;
-    }
-    return false;
-  };
-
   const {
     currentStep,
     currentGroup,
@@ -46,11 +39,31 @@ export default function Sonnenschutz_Group() {
 
   const { size } = useOrderDetailsReady();
 
+  function hasGroupKey<G extends ConfigGroup>(
+    group: G,
+    key: PropertyKey
+  ): key is keyof FensterConfig[G] {
+    return key in (configuration[group] as object);
+  }
+
+  const isSelected = (name: string) => {
+    if (currentStep) {
+      return (
+        (
+          configuration.sonnenschutz[
+            currentStep?.key as keyof typeof configuration.sonnenschutz
+          ] as SelectionItem
+        )?.name === name
+      );
+    }
+    return false;
+  };
+
   const visibleSection = categoryItems.find((cat) => cat.key === currentStep?.key);
 
   const [itemsToDisplay, setItemsToDisplay] = useState<SelectionItem[]>();
   const groupActive = currentGroup === 'sonnenschutz';
-  const coverNotAvailable = configuration.cover.key === 'nein';
+  const coverNotAvailable = configuration.basis.cover.key === 'nein';
   const [expandedSteps, setExpandedSteps] = useState<string[]>([]);
 
   const expanded = currentStep && expandedSteps.includes(currentStep?.key);
@@ -64,14 +77,16 @@ export default function Sonnenschutz_Group() {
     );
     const clearedConfiguration = { ...configuration };
     if (sonnenschutzConfigPropertiesExist) {
-      Object.keys(clearedConfiguration).forEach((key) => {
+      Object.keys(clearedConfiguration.sonnenschutz).forEach((key) => {
         if (allSonnenschutzStepsKeys.includes(key)) {
-          delete clearedConfiguration[key as keyof typeof clearedConfiguration];
+          delete clearedConfiguration.sonnenschutz[
+            key as keyof typeof clearedConfiguration.sonnenschutz
+          ];
         }
       });
     }
     // if sonnenschuts is removed, no need for default selection
-    if (configuration.cover.key === 'nein') {
+    if (configuration.basis.cover.key === 'nein') {
       setConfiguration(clearedConfiguration);
       return;
     }
@@ -95,9 +110,6 @@ export default function Sonnenschutz_Group() {
         if (step.component === StepVerlangerung) {
           sonnenschutzDefaultConfig[step.key] = { key: 'length', name: '0' };
         }
-        if (step.component === PlaceHolder) {
-          sonnenschutzDefaultConfig[step.key] = { key: 'ph', name: 'PlaceHolder' };
-        }
         if (step.component === Kastenart) {
           sonnenschutzDefaultConfig[step.key] = {
             key: 'ph',
@@ -113,8 +125,8 @@ export default function Sonnenschutz_Group() {
           sonnenschutzItems[step.key as keyof typeof sonnenschutzItems][0];
       }
     }
-    setConfiguration({ ...clearedConfiguration, ...sonnenschutzDefaultConfig });
-  }, [configuration.cover]);
+    setConfiguration({ ...clearedConfiguration, sonnenschutz: sonnenschutzDefaultConfig });
+  }, [configuration.basis.cover]);
 
   const expandable =
     itemsToDisplay &&
@@ -140,18 +152,28 @@ export default function Sonnenschutz_Group() {
     }
   }, [groupActive, visibleSection]);
 
-  /*   const handleSelectGroup = () => {
-    setCurrentGroup('sonnenschutz');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }; */
-
-  const updateConfiguration = (item: SelectionItem, key?: string) => {
-    if (currentStep) {
-      setConfiguration((prevConfig) => ({
-        ...prevConfig,
-        [key ?? (currentStep?.key as keyof Config)]: item,
-      }));
+  const updateConfiguration = (item: SelectionItem, keyOverride?: PropertyKey) => {
+    if (!currentStep || !currentGroup) {
+      moveToNextStep();
+      return;
     }
+
+    const group = currentGroup as ConfigGroup;
+    const key = (keyOverride ?? currentStep.key) as PropertyKey;
+
+    if (!hasGroupKey(group, key)) {
+      moveToNextStep();
+      return;
+    }
+
+    setConfiguration((prev) => ({
+      ...prev,
+      [group]: {
+        ...prev[group],
+        [key]: item, // key is now narrowed to keyof FensterConfig[group]
+      } as FensterConfig[typeof group],
+    }));
+
     moveToNextStep();
   };
 
@@ -168,11 +190,6 @@ export default function Sonnenschutz_Group() {
 
   return (
     <div>
-      {/*       <div className={style.layers}>
-        <button id={groupActive ? style.active : style.default} onClick={handleSelectGroup}>
-          <span>SONNENSCHUTZ</span>
-        </button>
-      </div> */}
       {groupActive && (
         <div>
           {<Stepper />}

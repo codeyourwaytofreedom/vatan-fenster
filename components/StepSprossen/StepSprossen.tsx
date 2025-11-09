@@ -11,7 +11,7 @@ import { innenAussenCompatibleText } from '@/data/priceLists/sprossen/sprossen';
 export default function StepSprossen() {
   const { configuration, setConfiguration, moveToNextStep } = useConfiguration();
   const [selectedSprossen, setSelectedSprossen] = useState<string>(
-    configuration.sprossen.split('-')[0]
+    configuration.verglasung.sprossen.split('-')[0]
   );
 
   const [sprossen, setSprossen] = useState<{
@@ -19,13 +19,13 @@ export default function StepSprossen() {
     color: string | undefined;
     pattern: string | undefined;
   } | null>({
-    width: configuration.sprossen.split('-')[1],
-    color: configuration.sprossen.split('-')[2],
-    pattern: configuration.sprossen.split('-')[3],
+    width: configuration.verglasung.sprossen.split('-')[1],
+    color: configuration.verglasung.sprossen.split('-')[2],
+    pattern: configuration.verglasung.sprossen.split('-')[3],
   });
 
-  const colorCodeExt = configuration.colorExt.colorCode;
-  const colorCodeInt = configuration.colorInt.colorCode;
+  const colorCodeExt = configuration.farben.colorExt.colorCode;
+  const colorCodeInt = configuration.farben.colorInt.colorCode;
 
   // when innen and aussen farben are different and not white, additional option is injected
   // this additional option is not available for 8mm
@@ -103,13 +103,22 @@ export default function StepSprossen() {
   useEffect(() => {
     if (selectedSprossen === 'Nein') {
       setConfiguration((pr) => {
-        return { ...pr, sprossen: 'Nein' };
+        return {
+          ...pr,
+          verglasung: {
+            ...pr.verglasung,
+            sprossen: 'Nein',
+          },
+        };
       });
     } else {
       setConfiguration((pr) => {
         return {
           ...pr,
-          sprossen: `${selectedSprossen}-${sprossen?.width}-${sprossen?.color}-${sprossen?.pattern}`,
+          verglasung: {
+            ...pr.verglasung,
+            sprossen: `${selectedSprossen}-${sprossen?.width}-${sprossen?.color}-${sprossen?.pattern}`,
+          },
         };
       });
     }

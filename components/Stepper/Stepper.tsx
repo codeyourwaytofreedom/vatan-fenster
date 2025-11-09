@@ -1,4 +1,4 @@
-import { Config, Step } from '@/types/Configurator';
+import { Step } from '@/types/Configurator';
 import style from './Stepper.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useConfiguration } from '@/context/ConfigurationContext';
@@ -12,9 +12,22 @@ export default function Stepper() {
   const { orderDetailsReady } = useOrderDetailsReady();
   const { openModal } = useModal();
 
+  const {
+    configuration,
+    currentStep,
+    currentGroup,
+    previousStep,
+    previousGroup,
+    currentStepGroup: steps,
+    setCurrentStep,
+    setCurrentGroup,
+    getStepsForGroup,
+  } = useConfiguration();
+
   const stepClass = (step: Step) => {
     const currentlySelected = step.key === currentStep?.key;
-    const completed = Boolean(configuration[step.key as keyof Config]);
+    const currentGroupConfig = configuration[currentGroup];
+    const completed = Boolean(currentGroupConfig[step.key as keyof typeof currentGroupConfig]);
     const stepIndex = steps.findIndex((st) => st.key == step.key);
     // selected_complete
     // selected_next
@@ -34,7 +47,10 @@ export default function Stepper() {
     }
     if (stepIndex !== 0) {
       const previousStepKey = steps[stepIndex - 1].key;
-      const previousStepComplete = Boolean(configuration[previousStepKey as keyof Config]);
+      const previousStepConfig = configuration[previousGroup];
+      const previousStepComplete = Boolean(
+        previousStepConfig?.[previousStepKey as keyof typeof previousStepConfig]
+      );
       if (previousStepComplete && !completed && !currentlySelected) {
         return style.next;
       }
@@ -50,16 +66,6 @@ export default function Stepper() {
     }
     return style.inactive;
   };
-  const {
-    configuration,
-    currentStep,
-    previousStep,
-    previousGroup,
-    currentStepGroup: steps,
-    setCurrentStep,
-    setCurrentGroup,
-    getStepsForGroup,
-  } = useConfiguration();
 
   const currentStepIndex = steps.findIndex((st) => st.key === currentStep?.key);
   const [showRightArrow, setShowRightArrow] = useState<boolean>(false);

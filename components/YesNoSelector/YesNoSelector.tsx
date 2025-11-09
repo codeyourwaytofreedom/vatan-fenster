@@ -2,13 +2,18 @@ import { YesNoSelectorProps } from '@/types/Configurator';
 import OptionHolder from '../Product_Holder/Option_Holder';
 import style from './YesNoSelector.module.css';
 import { useConfiguration } from '@/context/ConfigurationContext';
-import { Config, SelectionItem } from '@/types/Configurator';
+import { SelectionItem } from '@/types/Configurator';
 
 export default function YesNoSelector({ label }: YesNoSelectorProps) {
-  const { currentStep, configuration, setConfiguration, moveToNextStep } = useConfiguration();
+  const { currentStep, currentGroup, configuration, setConfiguration, moveToNextStep } =
+    useConfiguration();
   const isSelected = (name: string) => {
     if (currentStep) {
-      return (configuration[currentStep?.key as keyof Config] as SelectionItem).name === name;
+      const currentGroupConfig = configuration[currentGroup];
+      return (
+        (currentGroupConfig[currentStep?.key as keyof typeof currentGroupConfig] as SelectionItem)
+          .name === name
+      );
     }
     return false;
   };
@@ -26,7 +31,10 @@ export default function YesNoSelector({ label }: YesNoSelectorProps) {
     if (currentStep) {
       setConfiguration((prevConfig) => ({
         ...prevConfig,
-        [currentStep?.key as keyof Config]: item,
+        [currentGroup]: {
+          ...prevConfig[currentGroup],
+          [currentStep.key]: item,
+        },
       }));
     }
     moveToNextStep();

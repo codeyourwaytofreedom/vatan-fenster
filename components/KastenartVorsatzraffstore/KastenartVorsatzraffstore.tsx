@@ -12,8 +12,8 @@ export const kastenartVorsatzraffstoreSizeOptions = [240, 300];
 export default function KastenartVorsatzraffstore() {
   const { size } = useOrderDetailsReady();
   const { configuration, setConfiguration } = useConfiguration();
-  const coverHeight = configuration.kastenheight?.name || '';
-  const existingKastenDimensions = configuration.kastenDimensions;
+  const coverHeight = configuration.sonnenschutz.kastenheight?.name || '';
+  const existingKastenDimensions = configuration.sonnenschutz.kastenDimensions;
   const [kastenDimensions, setKastenDimentions] = useState<Size | null | undefined>(
     existingKastenDimensions ?? size
   );
@@ -68,7 +68,10 @@ export default function KastenartVorsatzraffstore() {
       const timeout = setTimeout(() => {
         setConfiguration((prev) => ({
           ...prev,
-          kastenDimensions,
+          sonnenschutz: {
+            ...prev.sonnenschutz,
+            kastenDimensions,
+          },
         }));
       }, 300);
       return () => clearTimeout(timeout);
@@ -81,7 +84,10 @@ export default function KastenartVorsatzraffstore() {
 
       setConfiguration((prev) => ({
         ...prev,
-        kastenDimensions: partial as Size,
+        sonnenschutz: {
+          ...prev.sonnenschutz,
+          kastenDimensions: partial as Size,
+        },
       }));
     }
   }, [errors]);

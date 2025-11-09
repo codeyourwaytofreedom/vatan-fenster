@@ -1,7 +1,7 @@
 import style from '../../styles/KonfiguratorPage.module.css';
 import OptionHolder from '../Product_Holder/Option_Holder';
 import { useConfiguration } from '@/context/ConfigurationContext';
-import { Config, SelectionItem } from '@/types/Configurator';
+import { SelectionItem } from '@/types/Configurator';
 import { useEffect } from 'react';
 import { steps } from '@/data/steps';
 import { warmenKante } from '@/data/selectionItems/verglasungData';
@@ -12,33 +12,42 @@ export interface GlassPaketProps {
 }
 
 export default function StepGlassPaket({ items, expanded }: GlassPaketProps) {
-  const { currentStep, configuration, setConfiguration, setCurrentStep } = useConfiguration();
+  const { configuration, setConfiguration, setCurrentStep } = useConfiguration();
 
-  const updateGlassPaket = (item: SelectionItem, key?: string) => {
-    if (currentStep) {
-      setConfiguration((prevConfig) => ({
+  const stepGlassPaket = steps.verglasung[0];
+
+  const updateGlassPaket = (item: SelectionItem) => {
+    setConfiguration((prevConfig) => {
+      const currentVerglasungConfig = prevConfig.verglasung;
+      return {
         ...prevConfig,
-        [key ?? (currentStep?.key as keyof Config)]: item,
-      }));
-      if (!item.name.includes('warme')) {
-        setTimeout(() => {
-          setCurrentStep(steps.verglasung[1]);
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }, 300);
-      }
+        verglasung: {
+          ...currentVerglasungConfig,
+          [stepGlassPaket.key]: item,
+        },
+      };
+    });
+    if (!item.name.includes('warme')) {
       setTimeout(() => {
-        const colors = document.getElementById('warmeKante');
-        if (colors) {
-          colors.scrollIntoView({ behavior: 'smooth' });
-        }
+        setCurrentStep(steps.verglasung[1]);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       }, 300);
     }
+    setTimeout(() => {
+      const colors = document.getElementById('warmeKante');
+      if (colors) {
+        colors.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 300);
   };
 
   const updateWarmeKante = (item: SelectionItem | 'Nein') => {
     setConfiguration((prevConfig) => ({
       ...prevConfig,
-      glasspaketWarmeKante: item,
+      verglasung: {
+        ...prevConfig.verglasung,
+        glasspaketWarmeKante: item,
+      },
     }));
     setTimeout(() => {
       setCurrentStep(steps.verglasung[1]);
@@ -47,30 +56,36 @@ export default function StepGlassPaket({ items, expanded }: GlassPaketProps) {
   };
 
   const isSelected = (name: string) => {
-    if (currentStep) {
-      return (configuration[currentStep?.key as keyof Config] as SelectionItem)?.name === name;
-    }
-    return false;
+    return configuration.verglasung.glasspaket?.name === name;
   };
 
   const warmeKanteSelected = (name: string) => {
-    return (configuration.glasspaketWarmeKante as SelectionItem).name === name;
+    return (configuration.verglasung.glasspaketWarmeKante as SelectionItem)?.name === name;
   };
 
-  const showColorOptions = configuration.glasspaket.name.includes('warme');
+  const showColorOptions = configuration.verglasung.glasspaket?.name.includes('warme');
+
   useEffect(() => {
     if (showColorOptions) {
       const existingWarmeKante =
-        configuration.glasspaketWarmeKante !== 'Nein' ? configuration.glasspaketWarmeKante : null;
+        configuration.verglasung.glasspaketWarmeKante !== 'Nein'
+          ? configuration.verglasung.glasspaketWarmeKante
+          : null;
       setConfiguration((prevConfig) => ({
         ...prevConfig,
-        glasspaketWarmeKante: existingWarmeKante ?? warmenKante[0],
+        verglasung: {
+          ...prevConfig.verglasung,
+          glasspaketWarmeKante: existingWarmeKante ?? warmenKante[0],
+        },
       }));
     }
-    if (!showColorOptions && configuration.glasspaketWarmeKante !== 'Nein') {
+    if (!showColorOptions && configuration.verglasung.glasspaketWarmeKante !== 'Nein') {
       setConfiguration((prevConfig) => ({
         ...prevConfig,
-        glasspaketWarmeKante: 'Nein',
+        verglasung: {
+          ...prevConfig.verglasung,
+          glasspaketWarmeKante: 'Nein',
+        },
       }));
     }
   }, [showColorOptions]);

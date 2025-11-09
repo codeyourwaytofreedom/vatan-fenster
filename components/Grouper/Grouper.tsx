@@ -173,7 +173,9 @@ export default function Grouper() {
 
   const allGroups: GroupKey[] = ['basis', 'farben', 'verglasung', 'zusatze', 'sonnenschutz'];
   const visibleGroups: GroupKey[] =
-    configuration.cover.key === 'nein' ? allGroups.filter((g) => g !== 'sonnenschutz') : allGroups;
+    configuration.basis.cover.key === 'nein'
+      ? allGroups.filter((g) => g !== 'sonnenschutz')
+      : allGroups;
 
   const groups: Step[] = visibleGroups.map((g) => {
     return {

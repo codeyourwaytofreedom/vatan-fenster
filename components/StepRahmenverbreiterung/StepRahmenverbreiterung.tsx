@@ -1,7 +1,7 @@
 import { useConfiguration } from '@/context/ConfigurationContext';
 import OptionHolder from '../Product_Holder/Option_Holder';
 import style from './StepRahmenverbreiterung.module.css';
-import { Config, SelectionItem } from '@/types/Configurator';
+import { SelectionItem, ZusatzeConfiguration } from '@/types/Configurator';
 import { yesNoOptions } from '@/data/configurationData';
 import StepRahmenverbreiterungAuswahlen from '../StepRahmenverbreiterungAuswahlen/StepRahmenverbreiterungAuswahlen';
 import { useRef } from 'react';
@@ -12,8 +12,8 @@ export default function StepRahmenverbreiterung() {
 
   const nextContainer = useRef<HTMLDivElement>(null);
 
-  const isSelected = (item: SelectionItem, key: keyof Config) => {
-    return (configuration[key] as SelectionItem).key === item.key;
+  const isSelected = (item: SelectionItem, key: keyof ZusatzeConfiguration) => {
+    return (configuration.zusatze[key] as SelectionItem).key === item.key;
   };
 
   const updateConfiguration = (
@@ -21,12 +21,15 @@ export default function StepRahmenverbreiterung() {
       key: string;
       name: string;
     },
-    key: keyof Config,
+    key: keyof ZusatzeConfiguration,
     moveToElemnt?: boolean
   ) => {
     setConfiguration((prevConfig) => ({
       ...prevConfig,
-      [key]: item,
+      zusatze: {
+        ...prevConfig.zusatze,
+        [key]: item,
+      },
     }));
     if (moveToElemnt) {
       setTimeout(() => {
@@ -47,7 +50,7 @@ export default function StepRahmenverbreiterung() {
           />
         ))}
       </div>
-      {configuration.rahmenverbreiterung.key === 'ja' && (
+      {configuration.zusatze.rahmenverbreiterung.key === 'ja' && (
         <>
           <br />
           <h4 className={style.label}>Sollen die Rahmenverbreiterungen montiert werden?</h4>
@@ -64,7 +67,7 @@ export default function StepRahmenverbreiterung() {
           </div>
         </>
       )}
-      {configuration.rahmenverbreiterung.key === 'ja' && (
+      {configuration.zusatze.rahmenverbreiterung.key === 'ja' && (
         <>
           <div ref={nextContainer}>
             <StepRahmenverbreiterungAuswahlen />

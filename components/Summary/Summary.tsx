@@ -4,14 +4,7 @@ import { steps } from '@/data/steps';
 import { useConfiguration } from '@/context/ConfigurationContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
-import {
-  Config,
-  DobuleSelection,
-  GroupKey,
-  SelectionItem,
-  Size,
-  SubStyle,
-} from '@/types/Configurator';
+import { DobuleSelection, GroupKey, SelectionItem, Size, SubStyle } from '@/types/Configurator';
 import { useEffect, useState } from 'react';
 import Sizer from '../Sizer/Sizer';
 import { windowStyles } from '@/data/selectionItems/basisData';
@@ -28,94 +21,20 @@ export default function SummaryDisplayer() {
     setCurrentGroup,
     getStepsForGroup,
   } = useConfiguration();
+
   const [expandedGroups, setExpandedGroups] = useState<string[]>([]);
   const slowAction = 100;
-
-  // group basis
-  const {
-    material,
-    brand,
-    profile,
-    profileHeight,
-    style,
-    type,
-    cover,
-    size,
-    multiHeight,
-    multiWidth,
-    obenMultiWidth,
-    untenMultiWidth,
-  } = configuration;
-  // group farben
-  const { colorExt, colorInt, dichtungAussen, dichtungInnen, colorMid, fenstergriffe } =
-    configuration;
-  // group verglasung
-  const {
-    glasspaket,
-    glasspaketWarmeKante,
-    ornament,
-    sicherheitsverglasung,
-    schallschutz,
-    sprossen,
-    druckausgleichsventil,
-  } = configuration;
-  // group zusatze
-  const {
-    sicherheitsbeschlage,
-    verdecktLiegenderBeschlag,
-    dünneSchweißnahtVPerfect,
-    reedKontakt,
-    montagevorbohrungen,
-    lüftungssysteme,
-    rahmenverbreiterung,
-  } = configuration;
 
   const { calculateTotalPrice } = useConfiguration();
   const { openModal } = useModal();
 
-  const groupBasis = {
-    material,
-    brand,
-    profile,
-    profileHeight,
-    style,
-    type,
-    cover,
-    size,
-    multiHeight,
-    multiWidth,
-    obenMultiWidth,
-    untenMultiWidth,
-  };
+  const groupBasis = configuration.basis;
 
-  const groupFarben = {
-    colorExt,
-    colorInt,
-    dichtungAussen,
-    dichtungInnen,
-    colorMid,
-    fenstergriffe,
-  };
+  const groupFarben = configuration.farben;
 
-  const groupVerglasung = {
-    glasspaket,
-    glasspaketWarmeKante,
-    ornament,
-    sicherheitsverglasung,
-    schallschutz,
-    sprossen,
-    druckausgleichsventil,
-  };
+  const groupVerglasung = configuration.verglasung;
 
-  const groupZusatze = {
-    sicherheitsbeschlage,
-    verdecktLiegenderBeschlag,
-    dünneSchweißnahtVPerfect,
-    reedKontakt,
-    montagevorbohrungen,
-    lüftungssysteme,
-    rahmenverbreiterung,
-  };
+  const groupZusatze = configuration.zusatze;
 
   const groupSonnenschutz = Object.fromEntries(
     Object.entries(configuration).filter(([key]) => allSonnenschutzStepsKeys.includes(key))
@@ -125,7 +44,9 @@ export default function SummaryDisplayer() {
 
   // include sonnenschutzSteps if cover is selected
   const allSteps =
-    configuration.cover.key !== 'nein' ? { ...steps, sonnenschutz: sonnenschutzSteps } : steps;
+    configuration.basis.cover.key !== 'nein'
+      ? { ...steps, sonnenschutz: sonnenschutzSteps }
+      : steps;
 
   const expandableGroups: { key: GroupKey; content: object }[] = [
     { key: 'farben', content: groupFarben },
@@ -133,11 +54,11 @@ export default function SummaryDisplayer() {
     { key: 'zusatze', content: groupZusatze },
   ];
 
-  if (configuration.cover.key !== 'nein') {
+  if (configuration.basis.cover.key !== 'nein') {
     expandableGroups.push({ key: 'sonnenschutz', content: groupSonnenschutz });
   }
 
-  const valueExtractor = (key: keyof Config, value: object | boolean | string | undefined) => {
+  const valueExtractor = (key: string, value: object | boolean | string | undefined) => {
     if (value === undefined) {
       return '--';
     }
@@ -160,10 +81,10 @@ export default function SummaryDisplayer() {
     }
 
     if (key === 'multiHeight' && 'untenHeight' in value && 'obenHeight' in value) {
-      if (configuration.style.name === 'Oberlicht') {
+      if (configuration.basis.style.name === 'Oberlicht') {
         return `Oben: ${value.obenHeight} - Unten: ${value.untenHeight}`;
       }
-      if (configuration.style.name === 'Unterlicht') {
+      if (configuration.basis.style.name === 'Unterlicht') {
         return `Oben: ${value.obenHeight} - Unten: ${value.untenHeight}`;
       }
     }
@@ -185,13 +106,12 @@ export default function SummaryDisplayer() {
         return 'Nein';
       }
 
-      const ausgewahlenText = Object.entries(configuration.rahmenverbreiterungAuswahlen).reduce(
-        (acc, [key, val]) => acc + `${key}: ${val} `,
-        ''
-      );
+      const ausgewahlenText = Object.entries(
+        configuration.zusatze.rahmenverbreiterungAuswahlen
+      ).reduce((acc, [key, val]) => acc + `${key}: ${val} `, '');
 
       return (
-        `${selection.name} - Montiert: ${configuration.rahmenverbreitungMontiert.name}\n` +
+        `${selection.name} - Montiert: ${configuration.zusatze.rahmenverbreitungMontiert.name}\n` +
         ausgewahlenText
       );
     }
@@ -279,10 +199,10 @@ export default function SummaryDisplayer() {
     setTimeout(() => {
       if (['oben', 'unten'].includes(key)) {
         setCurrentStep(allSteps[currentGroup].find((st) => st.key === 'type') || null);
-        if (configuration.style.name === 'Oberlicht') {
+        if (configuration.basis.style.name === 'Oberlicht') {
           scrollToElement({ elementId: key, offset: 50 });
         }
-        if (configuration.style.name === 'Unterlicht') {
+        if (configuration.basis.style.name === 'Unterlicht') {
           if (key === 'oben') {
             scrollToElement({ elementId: 'unten', offset: 50 });
           }
@@ -312,10 +232,10 @@ export default function SummaryDisplayer() {
   };
 
   const findSizeImage = () => {
-    const selectedStyle = windowStyles.find((sty) => sty.key === configuration['style'].key);
+    const selectedStyle = windowStyles.find((sty) => sty.key === configuration.basis['style'].key);
     const typesForSelectedStyle = selectedStyle?.children?.type;
     const selectedType = typesForSelectedStyle?.find(
-      (typ) => typ.key === (configuration.type as SelectionItem).key
+      (typ) => typ.key === (configuration.basis.type as SelectionItem).key
     );
     return selectedType?.image;
   };
@@ -347,45 +267,48 @@ export default function SummaryDisplayer() {
     const timeout = setTimeout(() => {
       try {
         // dont calculate price when no valid size is available
-        if (!configuration.size) return;
-        const colorCodeExt = configuration.colorExt.colorCode;
-        const colorCodeInt = configuration.colorInt.colorCode;
-        const colorMidKey = configuration.colorMid?.key;
+        if (!configuration.basis.size) {
+          setTotalPrice(undefined);
+          return;
+        }
+        const colorCodeExt = configuration.farben.colorExt.colorCode;
+        const colorCodeInt = configuration.farben.colorInt.colorCode;
+        const colorMidKey = configuration.farben.colorMid?.key;
 
-        const profileHeightKey = configuration.profileHeight.key;
-        const glasspaketKey = configuration.glasspaket.key;
-        const druckausgleichsventilKey = configuration.druckausgleichsventil.key;
+        const profileHeightKey = configuration.basis.profileHeight.key;
+        const glasspaketKey = configuration.verglasung.glasspaket.key;
+        const druckausgleichsventilKey = configuration.verglasung.druckausgleichsventil.key;
 
-        const sprossen = configuration.sprossen;
+        const sprossen = configuration.verglasung.sprossen;
 
         let totalPrice: number = 0;
         setTotalPrice(totalPrice);
 
         // if style is Oberlicht, calculate for 2 components seperately
         if (
-          configuration.style.key === 'oberlicht' &&
-          'oben' in configuration.type &&
-          'unten' in configuration.type
+          configuration.basis.style.key === 'oberlicht' &&
+          'oben' in configuration.basis.type &&
+          'unten' in configuration.basis.type
         ) {
           /* Calculate oben part */
-          const sectionNumberOben = configuration.type.oben?.sectionNumber || 1;
+          const sectionNumberOben = configuration.basis.type.oben?.sectionNumber || 1;
           const windowStyleOben =
             sectionNumberOben === 1
               ? windowStyles.find((st) => st.key === 'flugel1')
               : sectionNumberOben === 2
                 ? windowStyles.find((st) => st.key === 'flugel2')
                 : windowStyles.find((st) => st.key === 'flugel3');
-          const windowProfileOben = configuration.profile;
-          const windowTypeOben = configuration.type.oben!;
+          const windowProfileOben = configuration.basis.profile;
+          const windowTypeOben = configuration.basis.type.oben!;
           const obenPrice = calculateTotalPrice({
-            selectedMaterialKey: configuration.material.key,
+            selectedMaterialKey: configuration.basis.material.key,
             selectedProfileKey: windowProfileOben.key,
             selectedWindowStyleKey: windowStyleOben!.key,
             selectedTypeKey: windowTypeOben.key,
-            selectedOrnamentKey: configuration.ornament.key,
-            width: Number((size as Size).w),
-            height: Number(configuration.multiHeight!['obenHeight']),
-            multiWidth: configuration.obenMultiWidth,
+            selectedOrnamentKey: configuration.verglasung.ornament.key,
+            width: Number((configuration.basis.size as Size).w),
+            height: Number(configuration.basis.multiHeight!['obenHeight']),
+            multiWidth: configuration.basis.obenMultiWidth,
             colorExteriorCode: colorCodeExt!,
             colorInteriorCode: colorCodeInt!,
             colorMidKey,
@@ -394,28 +317,28 @@ export default function SummaryDisplayer() {
             druckausgleichsventilKey,
             sprossen,
             numberOfSections: sectionNumberOben,
-            windowHandleNumber: configuration.type.oben?.handleNumber ?? 0,
+            windowHandleNumber: configuration.basis.type.oben?.handleNumber ?? 0,
             direction: 'oben',
           });
           /* Calculate unten part */
-          const sectionNumberUnten = configuration.type.unten?.sectionNumber || 1;
+          const sectionNumberUnten = configuration.basis.type.unten?.sectionNumber || 1;
           const windowStyleUnten =
             sectionNumberUnten === 1
               ? windowStyles.find((st) => st.key === 'flugel1')
               : sectionNumberUnten === 2
                 ? windowStyles.find((st) => st.key === 'flugel2')
                 : windowStyles.find((st) => st.key === 'flugel3');
-          const windowProfileUnten = configuration.profile;
-          const windowTypeUnten = configuration.type.unten!;
+          const windowProfileUnten = configuration.basis.profile;
+          const windowTypeUnten = configuration.basis.type.unten!;
           const untenPrice = calculateTotalPrice({
-            selectedMaterialKey: configuration.material.key,
+            selectedMaterialKey: configuration.basis.material.key,
             selectedProfileKey: windowProfileUnten.key,
             selectedWindowStyleKey: windowStyleUnten!.key,
             selectedTypeKey: windowTypeUnten.key,
-            selectedOrnamentKey: configuration.ornament.key,
-            width: Number((size as Size).w),
-            height: Number(configuration.multiHeight!['untenHeight']),
-            multiWidth: configuration.untenMultiWidth,
+            selectedOrnamentKey: configuration.verglasung.ornament.key,
+            width: Number((configuration.basis.size as Size).w),
+            height: Number(configuration.basis.multiHeight!['untenHeight']),
+            multiWidth: configuration.basis.untenMultiWidth,
             colorExteriorCode: colorCodeExt!,
             colorInteriorCode: colorCodeInt!,
             colorMidKey,
@@ -424,7 +347,7 @@ export default function SummaryDisplayer() {
             druckausgleichsventilKey,
             sprossen,
             numberOfSections: sectionNumberUnten,
-            windowHandleNumber: configuration.type.unten?.handleNumber ?? 0,
+            windowHandleNumber: configuration.basis.type.unten?.handleNumber ?? 0,
             direction: 'unten',
           });
           totalPrice = (obenPrice ?? 0) + (untenPrice ?? 0);
@@ -432,29 +355,29 @@ export default function SummaryDisplayer() {
 
         // if style is Unterlicht, calculate for 2 components seperately
         if (
-          configuration.style.key === 'unterlicht' &&
-          'oben' in configuration.type &&
-          'unten' in configuration.type
+          configuration.basis.style.key === 'unterlicht' &&
+          'oben' in configuration.basis.type &&
+          'unten' in configuration.basis.type
         ) {
           /* Calculate oben part */
-          const sectionNumberOben = configuration.type.unten?.sectionNumber || 1;
+          const sectionNumberOben = configuration.basis.type.unten?.sectionNumber || 1;
           const windowStyleOben =
             sectionNumberOben === 1
               ? windowStyles.find((st) => st.key === 'flugel1')
               : sectionNumberOben === 2
                 ? windowStyles.find((st) => st.key === 'flugel2')
                 : windowStyles.find((st) => st.key === 'flugel3');
-          const windowProfileOben = configuration.profile;
-          const windowTypeOben = configuration.type.unten!;
+          const windowProfileOben = configuration.basis.profile;
+          const windowTypeOben = configuration.basis.type.unten!;
           const obenPrice = calculateTotalPrice({
-            selectedMaterialKey: configuration.material.key,
+            selectedMaterialKey: configuration.basis.material.key,
             selectedProfileKey: windowProfileOben.key,
             selectedWindowStyleKey: windowStyleOben!.key,
             selectedTypeKey: windowTypeOben.key,
-            selectedOrnamentKey: configuration.ornament.key,
-            width: Number((size as Size).w),
-            height: Number(configuration.multiHeight!['obenHeight']),
-            multiWidth: configuration.obenMultiWidth,
+            selectedOrnamentKey: configuration.verglasung.ornament.key,
+            width: Number((configuration.basis.size as Size).w),
+            height: Number(configuration.basis.multiHeight!['obenHeight']),
+            multiWidth: configuration.basis.obenMultiWidth,
             colorExteriorCode: colorCodeExt!,
             colorInteriorCode: colorCodeInt!,
             colorMidKey,
@@ -463,29 +386,29 @@ export default function SummaryDisplayer() {
             druckausgleichsventilKey,
             sprossen,
             numberOfSections: sectionNumberOben,
-            windowHandleNumber: configuration.type.oben?.handleNumber ?? 0,
+            windowHandleNumber: configuration.basis.type.oben?.handleNumber ?? 0,
             direction: 'unten',
           });
 
           /* Calculate unten part */
-          const sectionNumberUnten = configuration.type.oben?.sectionNumber || 1;
+          const sectionNumberUnten = configuration.basis.type.oben?.sectionNumber || 1;
           const windowStyleUnten =
             sectionNumberUnten === 1
               ? windowStyles.find((st) => st.key === 'flugel1')
               : sectionNumberUnten === 2
                 ? windowStyles.find((st) => st.key === 'flugel2')
                 : windowStyles.find((st) => st.key === 'flugel3');
-          const windowProfileUnten = configuration.profile;
-          const windowTypeUnten = configuration.type.oben!;
+          const windowProfileUnten = configuration.basis.profile;
+          const windowTypeUnten = configuration.basis.type.oben!;
           const untenPrice = calculateTotalPrice({
-            selectedMaterialKey: configuration.material.key,
+            selectedMaterialKey: configuration.basis.material.key,
             selectedProfileKey: windowProfileUnten.key,
             selectedWindowStyleKey: windowStyleUnten!.key,
             selectedTypeKey: windowTypeUnten.key,
-            selectedOrnamentKey: configuration.ornament.key,
-            width: Number((size as Size).w),
-            height: Number(configuration.multiHeight!['untenHeight']),
-            multiWidth: configuration.untenMultiWidth,
+            selectedOrnamentKey: configuration.verglasung.ornament.key,
+            width: Number((configuration.basis.size as Size).w),
+            height: Number(configuration.basis.multiHeight!['untenHeight']),
+            multiWidth: configuration.basis.untenMultiWidth,
             colorExteriorCode: colorCodeExt!,
             colorInteriorCode: colorCodeInt!,
             colorMidKey,
@@ -494,31 +417,31 @@ export default function SummaryDisplayer() {
             druckausgleichsventilKey,
             sprossen,
             numberOfSections: sectionNumberUnten,
-            windowHandleNumber: configuration.type.unten?.handleNumber ?? 0,
+            windowHandleNumber: configuration.basis.type.unten?.handleNumber ?? 0,
             direction: 'oben',
           });
 
           totalPrice = (obenPrice ?? 0) + (untenPrice ?? 0);
         }
 
-        if (['flugel1', 'flugel2', 'flugel3'].includes(configuration.style.key)) {
+        if (['flugel1', 'flugel2', 'flugel3'].includes(configuration.basis.style.key)) {
           const numberOfSections =
-            configuration.style.key === 'flugel1'
+            configuration.basis.style.key === 'flugel1'
               ? 1
-              : configuration.style.key === 'flugel2'
+              : configuration.basis.style.key === 'flugel2'
                 ? 2
                 : 3;
 
           totalPrice =
             calculateTotalPrice({
-              selectedMaterialKey: configuration.material.key,
-              selectedProfileKey: configuration.profile.key,
-              selectedWindowStyleKey: configuration.style.key,
-              selectedTypeKey: (configuration.type as SelectionItem).key,
-              selectedOrnamentKey: configuration.ornament.key,
-              width: Number((size as Size).w),
-              height: Number((size as Size).h),
-              multiWidth: configuration.multiWidth,
+              selectedMaterialKey: configuration.basis.material.key,
+              selectedProfileKey: configuration.basis.profile.key,
+              selectedWindowStyleKey: configuration.basis.style.key,
+              selectedTypeKey: (configuration.basis.type as SelectionItem).key,
+              selectedOrnamentKey: configuration.verglasung.ornament.key,
+              width: Number((configuration.basis.size as Size).w),
+              height: Number((configuration.basis.size as Size).h),
+              multiWidth: configuration.basis.multiWidth,
               colorExteriorCode: colorCodeExt!,
               colorInteriorCode: colorCodeInt!,
               colorMidKey,
@@ -526,7 +449,7 @@ export default function SummaryDisplayer() {
               glasspaketKey,
               druckausgleichsventilKey,
               sprossen,
-              windowHandleNumber: (configuration.type as SelectionItem)?.handleNumber ?? 0,
+              windowHandleNumber: (configuration.basis.type as SelectionItem)?.handleNumber ?? 0,
               numberOfSections,
             }) || 0;
         }
@@ -541,33 +464,32 @@ export default function SummaryDisplayer() {
 
     return () => clearTimeout(timeout);
   }, [
-    size,
-    configuration.material,
-    configuration.profile,
-    configuration.style,
-    configuration.type,
-    configuration.size,
     calculateTotalPrice,
-    configuration.multiWidth,
-    configuration.obenMultiWidth,
-    configuration.untenMultiWidth,
-    configuration.multiHeight,
-    configuration.colorExt.colorCode,
-    configuration.colorInt.colorCode,
-    configuration.colorMid,
-    configuration.profileHeight.key,
-    configuration.ornament.key,
-    configuration.glasspaket.key,
-    configuration.druckausgleichsventil.key,
-    configuration.sprossen,
+    configuration.basis.material.key,
+    configuration.basis.multiHeight,
+    configuration.basis.multiWidth,
+    configuration.basis.obenMultiWidth,
+    configuration.basis.profile,
+    configuration.basis.profileHeight.key,
+    configuration.basis.size,
+    configuration.basis.style.key,
+    configuration.basis.type,
+    configuration.basis.untenMultiWidth,
+    configuration.farben.colorExt.colorCode,
+    configuration.farben.colorInt.colorCode,
+    configuration.farben.colorMid?.key,
+    configuration.verglasung.druckausgleichsventil.key,
+    configuration.verglasung.glasspaket.key,
+    configuration.verglasung.ornament.key,
+    configuration.verglasung.sprossen,
   ]);
 
   useEffect(() => {
     const { min10 } = getColoringMultiplier({
-      colorExteriorCode: configuration.colorExt.colorCode!,
-      colorInteriorCode: configuration.colorInt.colorCode!,
-      colorMidKey: configuration.colorMid?.key,
-      selectedProfileKey: configuration.profile.key,
+      colorExteriorCode: configuration.farben.colorExt.colorCode!,
+      colorInteriorCode: configuration.farben.colorInt.colorCode!,
+      colorMidKey: configuration.farben.colorMid?.key,
+      selectedProfileKey: configuration.basis.profile.key,
     });
     if (min10) {
       openModal(
@@ -596,9 +518,7 @@ export default function SummaryDisplayer() {
             value && (
               <div key={key} className={styles.item} onClick={() => handleShowStep(key)} id={key}>
                 <span id={styles.title}>&#x2022; {labelExtractor(key)}</span>
-                <span id={styles.value}>
-                  {valueExtractor(key as keyof Config, value) as string}
-                </span>
+                <span id={styles.value}>{valueExtractor(key, value) as string}</span>
               </div>
             )
         )}
@@ -620,7 +540,7 @@ export default function SummaryDisplayer() {
                 <div
                   key={key}
                   className={
-                    (valueExtractor(key as keyof Config, value) as string).length < 25
+                    (valueExtractor(key, value) as string).length < 25
                       ? styles.item
                       : styles.itemGrid
                   }
@@ -628,9 +548,7 @@ export default function SummaryDisplayer() {
                   id={key}
                 >
                   <span id={styles.title}>&#x2022; {labelExtractor(key)}</span>
-                  <div id={styles.value}>
-                    {valueExtractor(key as keyof Config, value) as string}
-                  </div>
+                  <div id={styles.value}>{valueExtractor(key, value) as string}</div>
                 </div>
               )
           )}

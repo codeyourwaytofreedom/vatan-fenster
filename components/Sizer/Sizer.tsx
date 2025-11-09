@@ -26,13 +26,13 @@ export default function Sizer({ sizeImage, substyle, summary }: SizerProps) {
       timeoutId = setTimeout(() => {
         setOrderDetailsReady(true);
         setConfiguration((pr) => {
-          return { ...pr, size: size };
+          return { ...pr, basis: { ...pr.basis, size: size } };
         });
       }, 100);
     } else {
       setOrderDetailsReady(false);
       setConfiguration((pr) => {
-        return { ...pr, size: false };
+        return { ...pr, basis: { ...pr.basis, size: false } };
       });
     }
 

@@ -10,8 +10,7 @@ import {
   MidColor,
   midColorsForAussenEqualsInnen,
 } from './data/selectionItems/farbenData';
-import { Config } from './types/Configurator';
-
+import { FensterConfig } from './types/Configurator';
 interface ScrollProps {
   elementId?: string;
   delay?: number;
@@ -297,27 +296,41 @@ function calculateLayerGlassPrice({ multiWidth, multipliers, w, h }: GlassLayerP
   }
 }
 
-export function stripImageData(config: Config){
-  const strippedConfig = structuredClone(config);
-  Object.entries(strippedConfig).forEach(([sectionKey, sectionValue]) => {
-    if(sectionValue && typeof sectionValue === 'object' && 'image' in sectionValue){
-      delete ((strippedConfig)[sectionKey as keyof Config] as { image?: StaticImageData }).image;
-    }
+export function stripImageData(config: FensterConfig) {
+  const stripped = structuredClone(config);
+
+  (Object.keys(stripped) as (keyof FensterConfig)[]).forEach((section) => {
+    const sectionObj = stripped[section];
+    (Object.keys(sectionObj) as (keyof typeof sectionObj)[]).forEach((k) => {
+      const v = sectionObj[k];
+      if (v && typeof v === 'object' && 'image' in v ) {
+        delete (v as { image?: StaticImageData }).image;
+      }
+    });
   });
-  return strippedConfig;
+
+  return stripped;
 }
 
-export function stripChildren(config: Config){
-  const strippedConfig = structuredClone(config);
-  Object.entries(strippedConfig).forEach(([sectionKey, sectionValue]) => {
-    if(sectionValue && typeof sectionValue === 'object' && 'children' in sectionValue){
-      delete ((strippedConfig)[sectionKey as keyof Config] as { children: unknown }).children;
-    }
+
+export function stripChildren(config: FensterConfig) {
+  const stripped = structuredClone(config);
+
+  (Object.keys(stripped) as (keyof FensterConfig)[]).forEach((section) => {
+    const sectionObj = stripped[section];
+    (Object.keys(sectionObj) as (keyof typeof sectionObj)[]).forEach((k) => {
+      const v = sectionObj[k];
+      if (v && typeof v === 'object' && 'children' in v) {
+        delete (v as { children?: unknown }).children;
+      }
+    });
   });
-  return strippedConfig;
+
+  return stripped;
 }
 
-export function purifyConfig(config: Config){
+
+export function purifyConfig(config: FensterConfig){
   let purifiedConfig = stripImageData(config);
   purifiedConfig = stripChildren(purifiedConfig);
   return purifiedConfig;

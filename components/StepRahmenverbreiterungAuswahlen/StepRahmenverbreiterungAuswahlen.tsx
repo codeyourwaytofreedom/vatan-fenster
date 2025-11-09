@@ -29,12 +29,15 @@ export default function StepRahmenverbreiterungAuswahlen() {
     e: React.ChangeEvent<HTMLSelectElement>,
     key: 'links' | 'rechts' | 'oben' | 'unten'
   ) => {
-    const rahmenverbreitungAuswahlen = configuration.rahmenverbreiterungAuswahlen;
+    const rahmenverbreitungAuswahlen = configuration.zusatze.rahmenverbreiterungAuswahlen;
     rahmenverbreitungAuswahlen[key] = Number(e.target.value);
     setConfiguration((pr) => {
       return {
         ...pr,
-        rahmenverbreitungAuswahlen: rahmenverbreitungAuswahlen,
+        zusatze: {
+          ...pr.zusatze,
+          rahmenverbreiterungAuswahlen: rahmenverbreitungAuswahlen,
+        },
       };
     });
   };
@@ -53,7 +56,7 @@ export default function StepRahmenverbreiterungAuswahlen() {
             </div>
             <select
               onChange={(e) => handleSelect(e, option.key)}
-              value={configuration.rahmenverbreiterungAuswahlen[option.key]}
+              value={configuration.zusatze.rahmenverbreiterungAuswahlen[option.key]}
             >
               {rahmenverbreiterungOptions.map((opt, ind) => (
                 <option key={ind} value={parseInt(opt.key)}>

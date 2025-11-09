@@ -106,24 +106,24 @@ export default function SingleSizer({
   setSizeFeedback,
 }: SingleSizeRProps) {
   const { orderOfKeys, configuration, setConfiguration, getMinMaxSizes } = useConfiguration();
-  const numberOfSections = (configuration.type as SelectionItem).sectionNumber || 1;
+  const numberOfSections = (configuration.basis.type as SelectionItem).sectionNumber || 1;
   const { size, setSize } = useOrderDetailsReady();
 
   const [multiWidth, setMultiWidth] = useState<Record<string, number>>(
-    configuration.multiWidth || {}
+    configuration.basis.multiWidth || {}
   );
-  const multiWidthConfig = configuration.multiWidth;
+  const multiWidthConfig = configuration.basis.multiWidth;
 
   const [height, setHeight] = useState<number | string>(size?.h ?? '');
 
   const minMaxSizes = getMinMaxSizes(
-    configuration.material,
-    configuration.style,
-    configuration.profile,
-    configuration.type as SelectionItem
+    configuration.basis.material,
+    configuration.basis.style,
+    configuration.basis.profile,
+    configuration.basis.type as SelectionItem
   );
 
-  const sections = (configuration.type as SelectionItem).sections || [];
+  const sections = (configuration.basis.type as SelectionItem).sections || [];
 
   const minHeight = minMaxSizes?.minHeight;
   const maxHeight = minMaxSizes?.maxHeight;
@@ -139,13 +139,13 @@ export default function SingleSizer({
 
   const totalHeight = useRef<HTMLInputElement>(null);
 
-  const coverHeight = (configuration.cover as SelectionItem & { height?: number }).height;
+  const coverHeight = (configuration.basis.cover as SelectionItem & { height?: number }).height;
 
   const sectionHasProblems = (w: number, sectionIndex: number) => {
     const sectionMinWidth = extractMinWidthForSection(
       sectionIndex,
       minWidth,
-      configuration.type as SelectionItem,
+      configuration.basis.type as SelectionItem,
       minMaxSizes.sectionsMinWidthPack || {},
       numberOfSections
     );
@@ -153,7 +153,7 @@ export default function SingleSizer({
       sectionIndex,
       minWidth,
       maxWidth,
-      configuration.type as SelectionItem,
+      configuration.basis.type as SelectionItem,
       minMaxSizes.sectionsMaxWidthPack || {},
       numberOfSections
     );
@@ -219,7 +219,7 @@ export default function SingleSizer({
             minWidth,
             customSplitNeeded,
             sections,
-            configuration.type as SelectionItem,
+            configuration.basis.type as SelectionItem,
             minMaxSizes.sectionsMinWidthPack || {}
           )
         : smartDivider(value, numberOfSections);
@@ -232,7 +232,7 @@ export default function SingleSizer({
       const sectionMinWidth = extractMinWidthForSection(
         sectionIndex,
         minWidth,
-        configuration.type as SelectionItem,
+        configuration.basis.type as SelectionItem,
         minMaxSizes.sectionsMinWidthPack || {},
         numberOfSections
       );
@@ -240,7 +240,7 @@ export default function SingleSizer({
         sectionIndex,
         minWidth,
         maxWidth,
-        configuration.type as SelectionItem,
+        configuration.basis.type as SelectionItem,
         minMaxSizes.sectionsMaxWidthPack || {},
         numberOfSections
       );
@@ -332,7 +332,7 @@ export default function SingleSizer({
 
   useEffect(() => {
     // when minMaxSizes changes, multiWidth is removed to make sure partition fires again here
-    if (numberOfSections > 1 && !configuration.multiWidth) {
+    if (numberOfSections > 1 && !configuration.basis.multiWidth) {
       if (typeof size?.w === 'string' && typeof size.w !== 'undefined') {
         return;
       }
@@ -342,16 +342,16 @@ export default function SingleSizer({
             minWidth,
             customSplitNeeded,
             sections,
-            configuration.type as SelectionItem,
+            configuration.basis.type as SelectionItem,
             minMaxSizes.sectionsMinWidthPack || {}
           )
         : smartDivider(size?.w || 0, numberOfSections);
       setMultiWidth(dividedWidthItems);
       setConfiguration((pr) => {
-        return { ...pr, multiWidth: dividedWidthItems };
+        return { ...pr, basis: { ...pr.basis, multiWidth: dividedWidthItems } };
       });
     }
-  }, [numberOfSections, size, configuration.type]);
+  }, [numberOfSections, size, configuration.basis.type]);
 
   // handle initial load
   useEffect(() => {
@@ -360,7 +360,7 @@ export default function SingleSizer({
     }
     if (multiWidth) {
       setConfiguration((pr) => {
-        return { ...pr, multiWidth: multiWidth };
+        return { ...pr, basis: { ...pr.basis, multiWidth: multiWidth } };
       });
     }
   }, [multiWidth, numberOfSections]);
@@ -440,7 +440,7 @@ export default function SingleSizer({
                       min={extractMinWidthForSection(
                         parseInt(i),
                         minWidth,
-                        configuration.type as SelectionItem,
+                        configuration.basis.type as SelectionItem,
                         minMaxSizes.sectionsMinWidthPack || {},
                         numberOfSections
                       )}
@@ -448,7 +448,7 @@ export default function SingleSizer({
                         parseInt(i),
                         minWidth,
                         maxWidth,
-                        configuration.type as SelectionItem,
+                        configuration.basis.type as SelectionItem,
                         minMaxSizes.sectionsMaxWidthPack || {},
                         numberOfSections
                       )}

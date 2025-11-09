@@ -1,4 +1,4 @@
-import { Config, DobuleSelection, SelectionItem } from '@/types/Configurator';
+import { DobuleSelection, SelectionItem } from '@/types/Configurator';
 import OptionHolder from '../Product_Holder/Option_Holder';
 import StepRahmenverbreiterung from '../StepRahmenverbreiterung/StepRahmenverbreiterung';
 import style from './Zusatze.module.css';
@@ -54,7 +54,7 @@ export default function ZusatzeGroup() {
     },
   ];
 
-  const selectedProfileKey = configuration.profile.key;
+  const selectedProfileKey = configuration.basis.profile.key;
 
   const sicherheitsbeschlageSubOptions = ['I5', 'I5C', 'IL'].includes(selectedProfileKey)
     ? [
@@ -108,7 +108,10 @@ export default function ZusatzeGroup() {
     setConfiguration((pr) => {
       return {
         ...pr,
-        [key]: item,
+        zusatze: {
+          ...pr.zusatze,
+          [key]: item,
+        },
       };
     });
     if (nextContainer) {
@@ -126,10 +129,13 @@ export default function ZusatzeGroup() {
     setConfiguration((pr) => {
       return {
         ...pr,
-        [key]: {
-          category: item,
-          subCategory: subOptions[0],
-          ...(paar ? { paar: paar } : {}),
+        zusatze: {
+          ...pr.zusatze,
+          [key]: {
+            category: item,
+            subCategory: subOptions[0],
+            ...(paar ? { paar: paar } : {}),
+          },
         },
       };
     });
@@ -146,10 +152,14 @@ export default function ZusatzeGroup() {
     setConfiguration((pr) => {
       return {
         ...pr,
-        [key]: {
-          category: (pr[key as keyof Config] as DobuleSelection)?.category,
-          subCategory: item,
-          ...(paar ? { paar: configuration.lüftungssysteme.paar ?? paar } : {}),
+        zusatze: {
+          ...pr.zusatze,
+          [key]: {
+            category: (pr.zusatze[key as keyof typeof configuration.zusatze] as DobuleSelection)
+              ?.category,
+            subCategory: item,
+            ...(paar ? { paar: configuration.zusatze.lüftungssysteme.paar ?? paar } : {}),
+          },
         },
       };
     });
@@ -162,26 +172,34 @@ export default function ZusatzeGroup() {
     setConfiguration((pr) => {
       return {
         ...pr,
-        lüftungssysteme: {
-          category: pr.lüftungssysteme?.category,
-          subCategory: pr.lüftungssysteme?.subCategory,
-          paar: paar,
+        zusatze: {
+          ...pr.zusatze,
+          lüftungssysteme: {
+            category: pr.zusatze.lüftungssysteme?.category,
+            subCategory: pr.zusatze.lüftungssysteme?.subCategory,
+            paar: paar,
+          },
         },
       };
     });
   };
 
   const isSelected = (name: string, key?: string) => {
-    return (configuration[key as keyof Config] as SelectionItem)?.name === name;
+    return (
+      (configuration.zusatze[key as keyof typeof configuration.zusatze] as SelectionItem)?.name ===
+      name
+    );
   };
 
   const categorySelected = (item: SelectionItem, key: string) =>
-    (configuration[key as keyof Config] as DobuleSelection)?.category?.key === item.key;
+    (configuration.zusatze[key as keyof typeof configuration.zusatze] as DobuleSelection)?.category
+      ?.key === item.key;
   const subCategorySelected = (item: SelectionItem, key: string) =>
-    (configuration[key as keyof Config] as DobuleSelection)?.subCategory?.key === item.key;
-  const paarSelected = (paar: number) => paar === configuration.lüftungssysteme.paar;
+    (configuration.zusatze[key as keyof typeof configuration.zusatze] as DobuleSelection)
+      ?.subCategory?.key === item.key;
+  const paarSelected = (paar: number) => paar === configuration.zusatze.lüftungssysteme.paar;
 
-  const lüftungssystemeSelected = configuration['lüftungssysteme'].category.key === 'ja';
+  const lüftungssystemeSelected = configuration.zusatze['lüftungssysteme'].category.key === 'ja';
 
   return (
     <>
@@ -203,11 +221,12 @@ export default function ZusatzeGroup() {
               />
             ))}
           </div>
-          {configuration['sicherheitsbeschlage'].category.key === 'ja' && <br />}
+          {configuration.zusatze['sicherheitsbeschlage'].category.key === 'ja' && <br />}
           <div
             className={style.container}
             style={{
-              maxHeight: configuration['sicherheitsbeschlage'].category.key === 'ja' ? '700px' : 0,
+              maxHeight:
+                configuration.zusatze['sicherheitsbeschlage'].category.key === 'ja' ? '700px' : 0,
             }}
           >
             {sicherheitsbeschlageSubOptions.map((option, i) => (

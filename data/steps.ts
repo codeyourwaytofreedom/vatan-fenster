@@ -39,7 +39,6 @@ import {
 import { GroupKey, Step } from '@/types/Configurator';
 import StepSprossen from '@/components/StepSprossen/StepSprossen';
 import Fenstergriffe from '@/components/StepFenstergriffe/Fenstergriffe';
-import PlaceHolder from '@/components/PlaceHolder/PlaceHolder';
 import DoubleStepper from '@/components/DoubleStepper/DoubleStepper';
 import StepVerlangerung from '@/components/StepVerlängerung/StepVerlangerung';
 import {
@@ -481,7 +480,6 @@ export const sonnenschutzStepPacks: Record<
       key: 'farbeFührungsschiene',
       name: 'Farbe Führungsschiene',
       icon: faColonSign,
-      component: PlaceHolder,
     },
     {
       key: 'farbeRollladenPanzer',

@@ -10,21 +10,33 @@ export default function Fenstergriffe() {
   const { configuration, setConfiguration, setCurrentGroup, moveToNextStep } = useConfiguration();
   const handleOptions = farbenOptions.fenstergriffe;
   const subHandleOptions =
-    fenstergriffeOptions[configuration.fenstergriffe?.type.key as keyof SelectionItem];
+    fenstergriffeOptions[configuration.farben.fenstergriffe?.type.key as keyof SelectionItem] || [];
 
   const [expandedCategories, setExpandedCategories] = useState<string[]>([]);
   const core = useRef<HTMLDivElement>(null);
 
   const handleSelectHandleGroup = (item: SelectionItem) => {
     setConfiguration((pr) => {
-      return { ...pr, fenstergriffe: { type: item, choice: fenstergriffeOptions[item.key][0] } };
+      return {
+        ...pr,
+        farben: {
+          ...pr.farben,
+          fenstergriffe: { type: item, choice: fenstergriffeOptions[item.key][0] },
+        },
+      };
     });
     core.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   const handleSelectHandleType = (item: SelectionItem) => {
     setConfiguration((pr) => {
-      return { ...pr, fenstergriffe: { type: configuration.fenstergriffe!.type, choice: item } };
+      return {
+        ...pr,
+        farben: {
+          ...pr.farben,
+          fenstergriffe: { type: configuration.farben.fenstergriffe!.type, choice: item },
+        },
+      };
     });
     moveToNextStep();
     setTimeout(() => {
@@ -32,7 +44,9 @@ export default function Fenstergriffe() {
     }, 300);
   };
 
-  const expandable = !expandedCategories.includes(configuration.fenstergriffe?.type.name as string);
+  const expandable = !expandedCategories.includes(
+    configuration.farben.fenstergriffe?.type.name as string
+  );
 
   return (
     <>
@@ -40,7 +54,7 @@ export default function Fenstergriffe() {
         {handleOptions.map((item, key) => (
           <OptionHolder
             key={key}
-            selected={configuration.fenstergriffe?.type.key === item.key}
+            selected={configuration.farben.fenstergriffe?.type.key === item.key}
             action={() => handleSelectHandleGroup(item)}
             item={item}
           />
@@ -51,7 +65,7 @@ export default function Fenstergriffe() {
         {subHandleOptions.slice(0, !expandable ? subHandleOptions.length : 10).map((item, key) => (
           <OptionHolder
             key={key}
-            selected={configuration.fenstergriffe?.choice.key === item.key}
+            selected={configuration.farben.fenstergriffe?.choice.key === item.key}
             action={() => handleSelectHandleType(item)}
             item={item}
           />
@@ -64,7 +78,7 @@ export default function Fenstergriffe() {
         toggleExpand={() =>
           setExpandedCategories([
             ...expandedCategories,
-            configuration.fenstergriffe?.type.name as string,
+            configuration.farben.fenstergriffe?.type.name as string,
           ])
         }
         nextGroupAction={() => {

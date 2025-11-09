@@ -19,7 +19,10 @@ export default function Kastenart() {
     setConfiguration((pr) => {
       return {
         ...pr,
-        kastenart: { key: 'kastenart', name: o.toString() + 'mm' },
+        sonnenschutz: {
+          ...pr.sonnenschutz,
+          kastenart: { key: 'kastenart', name: o.toString() + 'mm' },
+        },
       };
     });
   };

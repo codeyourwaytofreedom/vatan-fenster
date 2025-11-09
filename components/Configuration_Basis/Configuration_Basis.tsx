@@ -1,6 +1,12 @@
 import { steps } from '@/data/steps';
 import style from '../../styles/KonfiguratorPage.module.css';
-import { Config, SelectionItem, SubStyle } from '@/types/Configurator';
+import {
+  BasisConfiuration,
+  ConfigGroup,
+  FensterConfig,
+  SelectionItem,
+  SubStyle,
+} from '@/types/Configurator';
 import Stepper from '../Stepper/Stepper';
 import { useEffect, useState } from 'react';
 import OptionHolder from '../Product_Holder/Option_Holder';
@@ -39,35 +45,46 @@ export default function Basis_Configuration() {
   const { setSize } = useOrderDetailsReady();
   const visibleSection = categoryItems.find((cat) => cat.key === currentStep?.key);
 
+  function hasGroupKey<G extends ConfigGroup>(
+    group: G,
+    key: PropertyKey
+  ): key is keyof FensterConfig[G] {
+    return key in (configuration[group] as object);
+  }
+
   const showProfileHeight =
-    ['I5', 'I5C', 'IL'].includes(configuration.profile.key) && currentStep?.key === 'profile';
+    ['I5', 'I5C', 'IL'].includes(configuration.basis.profile.key) && currentStep?.key === 'profile';
 
   const showDefaultProductHolders =
     currentStep &&
     currentStep?.key !== 'size' &&
     !(
-      ['Oberlicht', 'Unterlicht'].includes(configuration.style.name) && currentStep?.key === 'type'
+      ['Oberlicht', 'Unterlicht'].includes(configuration.basis.style.name) &&
+      currentStep?.key === 'type'
     );
 
   const isSelected = (name: string, key?: string) => {
     if (currentStep) {
       return (
-        (configuration[(key ?? currentStep?.key) as keyof Config] as SelectionItem)?.name === name
+        (configuration.basis[(key ?? currentStep?.key) as keyof BasisConfiuration] as SelectionItem)
+          ?.name === name
       );
     }
     return false;
   };
 
   const showSubstyleStepper =
-    configuration.style &&
-    ['Oberlicht', 'Unterlicht'].includes(configuration.style.name) &&
+    configuration.basis.style &&
+    ['Oberlicht', 'Unterlicht'].includes(configuration.basis.style.name) &&
     currentStep?.key === 'type';
 
   const findSizeImage = () => {
-    const selectedStyle = windowStyles.find((sty) => sty.name === configuration['style'].name);
+    const selectedStyle = windowStyles.find(
+      (sty) => sty.name === configuration.basis['style'].name
+    );
     const typesForSelectedStyle = selectedStyle?.children?.type;
     const selectedType = typesForSelectedStyle?.find(
-      (typ) => typ.name === (configuration.type as SelectionItem).name
+      (typ) => typ.name === (configuration.basis.type as SelectionItem).name
     );
     return selectedType?.image;
   };
@@ -75,17 +92,20 @@ export default function Basis_Configuration() {
   // if profile changes, check if 75mm is available in the new profile
   // if not, default back to 66 mm
   useEffect(() => {
-    if (!['I5', 'I5C', 'IL'].includes(configuration.profile.key)) {
-      if (configuration.profileHeight?.key === 'height75') {
+    if (!['I5', 'I5C', 'IL'].includes(configuration.basis.profile.key)) {
+      if (configuration.basis.profileHeight?.key === 'height75') {
         setConfiguration((pr) => {
           return {
             ...pr,
-            profileHeight: customProfileHeights[0],
+            basis: {
+              ...pr.basis,
+              profileHeight: customProfileHeights[0],
+            },
           };
         });
       }
     }
-  }, [configuration.profile]);
+  }, [configuration.basis.profile]);
 
   // determine what items are to be displayed for current step
   useEffect(() => {
@@ -96,10 +116,10 @@ export default function Basis_Configuration() {
           setItemsToDisplay(visibleSection?.items as SelectionItem[]);
           break;
         case 'profile':
-          const selectedBrand = brands.find((br) => br.key === configuration['brand'].key);
+          const selectedBrand = brands.find((br) => br.key === configuration.basis['brand'].key);
           const profilesOfBrand =
             selectedBrand?.children?.profile?.[
-              configuration.material.key as keyof typeof selectedBrand.children.profile
+              configuration.basis.material.key as keyof typeof selectedBrand.children.profile
             ];
           setItemsToDisplay(profilesOfBrand);
           break;
@@ -108,7 +128,7 @@ export default function Basis_Configuration() {
           break;
         case 'type':
           const selectedStyle = windowStyles.find(
-            (sty) => sty.name === configuration['style'].name
+            (sty) => sty.name === configuration.basis['style'].name
           );
           const typesForSelectedStyle = selectedStyle?.children?.type;
 
@@ -148,15 +168,23 @@ export default function Basis_Configuration() {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { children, ...optionRest } = option as SelectionItem;
       setConfiguration((pr) => {
-        return { ...pr, type: { unten, oben, option: optionRest } };
+        return {
+          ...pr,
+          basis: {
+            ...pr.basis,
+            type: { unten, oben, option: optionRest },
+          },
+        };
       });
     }
   }, [substyle]);
 
   const autoSelectFirstType = () => {
-    if (['Oberlicht', 'Unterlicht'].includes(configuration.style.name)) {
+    if (['Oberlicht', 'Unterlicht'].includes(configuration.basis.style.name)) {
       const subStyles =
-        subStyleOptions[configuration.style?.name.toLowerCase() as keyof typeof subStyleOptions];
+        subStyleOptions[
+          configuration.basis.style?.name.toLowerCase() as keyof typeof subStyleOptions
+        ];
       const firstSubstyle = subStyles[0];
       if (firstSubstyle) {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -171,7 +199,9 @@ export default function Basis_Configuration() {
         });
       }
     } else {
-      const selectedStyle = windowStyles.find((sty) => sty.name === configuration['style'].name);
+      const selectedStyle = windowStyles.find(
+        (sty) => sty.name === configuration.basis['style'].name
+      );
       const typesForSelectedStyle = selectedStyle?.children?.type;
       const firstTypeToSelect = typesForSelectedStyle![0];
 
@@ -180,26 +210,42 @@ export default function Basis_Configuration() {
   };
 
   const autoSelectProfile = () => {
-    const selectedBrand = brands.find((sty) => sty.name === configuration['brand'].name);
+    const selectedBrand = brands.find((sty) => sty.name === configuration.basis['brand'].name);
     const profiles = selectedBrand?.children?.profile;
     const profileForSelectedMaterial =
-      profiles![configuration.material.key as keyof typeof profiles];
+      profiles![configuration.basis.material.key as keyof typeof profiles];
     if (profileForSelectedMaterial && profileForSelectedMaterial[0]) {
       updateConfiguration(profileForSelectedMaterial[0], 'profile');
     }
   };
 
-  const updateConfiguration = (item: SelectionItem, key?: string) => {
-    if (currentStep) {
-      setConfiguration((prevConfig) => ({
-        ...prevConfig,
-        [key ?? (currentStep?.key as keyof Config)]: item,
-      }));
+  const updateConfiguration = (item: SelectionItem, keyOverride?: PropertyKey) => {
+    if (!currentStep || !currentGroup) {
+      moveToNextStep();
+      return;
     }
+
+    const group = currentGroup as ConfigGroup;
+    const key = (keyOverride ?? currentStep.key) as PropertyKey;
+
+    if (!hasGroupKey(group, key)) {
+      moveToNextStep();
+      return;
+    }
+
     if (['I5', 'I5C', 'IL'].includes(item.key) && currentStep?.key === 'profile' && !key) {
       scrollToElement({ elementId: 'profileHeights' });
       return;
     }
+
+    setConfiguration((prev) => ({
+      ...prev,
+      [group]: {
+        ...prev[group],
+        [key]: item, // key is now narrowed to keyof FensterConfig[group]
+      } as FensterConfig[typeof group],
+    }));
+
     moveToNextStep();
   };
 
@@ -215,29 +261,29 @@ export default function Basis_Configuration() {
     autoSelectFirstType();
     setConfiguration((pr) => {
       const refreshedConfig = { ...pr };
-      delete refreshedConfig.multiWidth;
-      delete refreshedConfig.multiHeight;
-      delete refreshedConfig.obenMultiWidth;
-      delete refreshedConfig.untenMultiWidth;
+      delete refreshedConfig.basis.multiWidth;
+      delete refreshedConfig.basis.multiHeight;
+      delete refreshedConfig.basis.obenMultiWidth;
+      delete refreshedConfig.basis.untenMultiWidth;
       return refreshedConfig;
     });
-  }, [configuration.style]);
+  }, [configuration.basis.style]);
 
   // autoselect for profiles
   useEffect(() => {
     autoSelectProfile();
-  }, [configuration.material]);
+  }, [configuration.basis.material]);
 
   // if selected window type has handle, update configuration and vice-versa
   useEffect(() => {
     let hasHandle = false;
-    if ((configuration.type as SelectionItem).handleNumber) {
+    if ((configuration.basis.type as SelectionItem).handleNumber) {
       hasHandle = true;
     }
-    if ((configuration.type as SubStyle).option) {
+    if ((configuration.basis.type as SubStyle).option) {
       if (
-        (configuration.type as SubStyle).oben?.handleNumber ||
-        (configuration.type as SubStyle).unten?.handleNumber
+        (configuration.basis.type as SubStyle).oben?.handleNumber ||
+        (configuration.basis.type as SubStyle).unten?.handleNumber
       ) {
         hasHandle = true;
       }
@@ -247,60 +293,64 @@ export default function Basis_Configuration() {
       setConfiguration((pr) => {
         return {
           ...pr,
-          fenstergriffe: {
-            type: farbenOptions.fenstergriffe[0],
-            choice: fenstergriffeOptions[farbenOptions.fenstergriffe[0].key][0],
+          farben: {
+            ...pr.farben,
+            fenstergriffe: {
+              type: farbenOptions.fenstergriffe[0],
+              choice: fenstergriffeOptions[farbenOptions.fenstergriffe[0].key][0],
+            },
           },
         };
       });
     } else {
       setConfiguration((pr) => {
+        const { farben, ...festerConfigRest } = pr;
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { fenstergriffe, ...rest } = pr;
-        return { ...rest };
+        const { fenstergriffe, ...farbenRest } = farben;
+        return { ...festerConfigRest, farben: { ...farbenRest } };
       });
     }
-  }, [configuration.type]);
+  }, [configuration.basis.type]);
 
   useEffect(() => {
     setTimeout(() => {
       if (
-        configuration.material &&
-        configuration.profile &&
-        configuration.style &&
-        configuration.type
+        configuration.basis.material &&
+        configuration.basis.profile &&
+        configuration.basis.style &&
+        configuration.basis.type
       ) {
         // provide Width and Height when oberlicht is selected
-        if (/* configuration.style.key === 'oberlicht' && */ 'oben' in configuration.type) {
-          const sectionNumberOben = configuration.type.oben?.sectionNumber || 1;
+        if (/* configuration.style.key === 'oberlicht' && */ 'oben' in configuration.basis.type) {
+          const sectionNumberOben = configuration.basis.type.oben?.sectionNumber || 1;
           const windowStyleOben =
             sectionNumberOben === 1
               ? windowStyles.find((st) => st.key === 'flugel1')
               : sectionNumberOben === 2
                 ? windowStyles.find((st) => st.key === 'flugel2')
                 : windowStyles.find((st) => st.key === 'flugel3');
-          const windowProfileOben = configuration.profile;
-          const windowTypeOben = configuration.type.oben!;
+          const windowProfileOben = configuration.basis.profile;
+          const windowTypeOben = configuration.basis.type.oben!;
 
           const minMaxSizesOben = getMinMaxSizes(
-            configuration.material,
+            configuration.basis.material,
             windowStyleOben!,
             windowProfileOben,
             windowTypeOben
           );
 
-          const sectionNumberUnten = configuration.type.unten?.sectionNumber || 1;
+          const sectionNumberUnten = configuration.basis.type.unten?.sectionNumber || 1;
           const windowStyleUnten =
             sectionNumberUnten === 1
               ? windowStyles.find((st) => st.key === 'flugel1')
               : sectionNumberUnten === 2
                 ? windowStyles.find((st) => st.key === 'flugel2')
                 : windowStyles.find((st) => st.key === 'flugel3');
-          const windowProfileUnten = configuration.profile;
-          const windowTypeUnten = configuration.type.unten!;
+          const windowProfileUnten = configuration.basis.profile;
+          const windowTypeUnten = configuration.basis.type.unten!;
 
           const minMaxSizesUnten = getMinMaxSizes(
-            configuration.material,
+            configuration.basis.material,
             windowStyleUnten!,
             windowProfileUnten,
             windowTypeUnten
@@ -315,19 +365,19 @@ export default function Basis_Configuration() {
           // to trigger re-division in sizer for types with sections
           setConfiguration((pr) => {
             const reserve = { ...pr };
-            delete reserve.multiWidth;
-            delete reserve.obenMultiWidth;
-            delete reserve.untenMultiWidth;
-            delete reserve.multiHeight;
-            if (configuration.style.key === 'oberlicht') {
-              reserve.multiHeight = {
+            delete reserve.basis.multiWidth;
+            delete reserve.basis.obenMultiWidth;
+            delete reserve.basis.untenMultiWidth;
+            delete reserve.basis.multiHeight;
+            if (configuration.basis.style.key === 'oberlicht') {
+              reserve.basis.multiHeight = {
                 obenHeight: minMaxSizesOben.minHeight,
                 untenHeight: minMaxSizesUnten.minHeight,
               };
             }
             //flip for unterlicht
-            if (configuration.style.key === 'unterlicht') {
-              reserve.multiHeight = {
+            if (configuration.basis.style.key === 'unterlicht') {
+              reserve.basis.multiHeight = {
                 obenHeight: minMaxSizesUnten.minHeight,
                 untenHeight: minMaxSizesOben.minHeight,
               };
@@ -335,35 +385,40 @@ export default function Basis_Configuration() {
             return reserve;
           });
         }
-        if (['flugel1', 'flugel2', 'flugel3'].includes(configuration.style.key)) {
+        if (['flugel1', 'flugel2', 'flugel3'].includes(configuration.basis.style.key)) {
           setSize({
             w: getMinMaxSizes(
-              configuration.material,
-              configuration.style,
-              configuration.profile,
-              configuration.type as SelectionItem
+              configuration.basis.material,
+              configuration.basis.style,
+              configuration.basis.profile,
+              configuration.basis.type as SelectionItem
             ).minWidth,
             h: getMinMaxSizes(
-              configuration.material,
-              configuration.style,
-              configuration.profile,
-              configuration.type as SelectionItem
+              configuration.basis.material,
+              configuration.basis.style,
+              configuration.basis.profile,
+              configuration.basis.type as SelectionItem
             ).minHeight,
           });
           // remove multiwidth,obenMultiWidth,untenMultiWidth,multiHeight
           // to trigger re-division in sizer for types with sections
           setConfiguration((pr) => {
             const reserve = { ...pr };
-            delete reserve.multiWidth;
-            delete reserve.obenMultiWidth;
-            delete reserve.untenMultiWidth;
-            delete reserve.multiHeight;
+            delete reserve.basis.multiWidth;
+            delete reserve.basis.obenMultiWidth;
+            delete reserve.basis.untenMultiWidth;
+            delete reserve.basis.multiHeight;
             return reserve;
           });
         }
       }
     }, 100);
-  }, [configuration.material, configuration.profile, configuration.style, configuration.type]);
+  }, [
+    configuration.basis.material,
+    configuration.basis.profile,
+    configuration.basis.style,
+    configuration.basis.type,
+  ]);
 
   return (
     <>
