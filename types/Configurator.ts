@@ -97,8 +97,14 @@ export type ProfileTypeForWindowType2Aluminium = ProfileTypeMinMaxSizesAluminium
   'DK_D_STULP' | 'DK_D_POS' | 'D_DK_STULP' | 'D_DK_POS'
 >;
 
-export type SonnenschutzKey = 'nein' | 'auf215' | 'auf175' | 'styroporkasten150' | 'vorsatzrollladen' | 'aufStyroporkasten150' | 'vorsatzraffstore';
-
+export type SonnenschutzKey =
+  | 'nein'
+  | 'auf215'
+  | 'auf175'
+  | 'styroporkasten150'
+  | 'vorsatzrollladen'
+  | 'aufStyroporkasten150'
+  | 'vorsatzraffstore';
 
 export interface BasisConfiuration {
   material: SelectionItem<WindowMaterial>;
@@ -193,84 +199,6 @@ export interface FensterConfig {
 export type ConfigGroup = keyof FensterConfig; // 'basis' | 'farben' | 'verglasung' | 'sonnenschutz' | 'zusatze'
 export type ConfigKeysByGroup = { [G in ConfigGroup]: keyof FensterConfig[G] };
 
-/* export interface Config {
-  // basis
-  material: SelectionItem<WindowMaterial>;
-  brand: SelectionItem;
-  profile: SelectionItem<WindowProfilePlastic | WindowProfileAluminium>;
-  profileHeight: SelectionItem;
-  style: SelectionItem<WindowStyle>;
-  type: SelectionItem | SubStyle;
-  cover: SelectionItem<SonnenschutzKey>;
-  size: boolean | Size;
-  multiWidth?: Record<string, number>;
-  multiHeight?: Record<string, number>;
-  obenMultiWidth?: Record<string, number>;
-  untenMultiWidth?: Record<string, number>;
-  // farben
-  colorExt: SelectionItem;
-  colorInt: SelectionItem;
-  colorMid: SelectionItem;
-  dichtungAussen: SelectionItem;
-  dichtungInnen: SelectionItem;
-  fenstergriffe?: { type: SelectionItem; choice: SelectionItem };
-
-  // verglasung
-  glasspaket: SelectionItem;
-  glasspaketWarmeKante: SelectionItem | 'Nein';
-  ornament: SelectionItem;
-  sicherheitsverglasung: SelectionItem;
-  schallschutz: SelectionItem;
-  sprossen: string | 'Nein';
-  druckausgleichsventil: SelectionItem;
-
-  // sonnenschutz
-  adapter?: SelectionItem;
-  revisionsöffnung?: SelectionItem;
-  lamellenart?: {
-    category: SelectionItem;
-    subCategory: SelectionItem;
-  };
-  verlangerung?: SelectionItem;
-  antriebsart?: SelectionItem;
-  farbeRollladenkasten?: {
-    category: SelectionItem;
-    subCategory: SelectionItem;
-  };
-  farbeRollladenPanzer?: SelectionItem;
-  farbeEndschiene?: SelectionItem;
-  farbeFührungsschiene?: SelectionItem;
-  putzträger?: SelectionItem;
-  schrägschnitt?: SelectionItem;
-  kastenheight?: SelectionItem;
-  kastenart?: SelectionItem;
-  kastenDimensions?: Size | null;
-
-  // zusatze
-  sicherheitsbeschlage: {
-    category: SelectionItem;
-    subCategory: SelectionItem | undefined;
-  };
-  verdecktLiegenderBeschlag: SelectionItem;
-  rahmenverbreiterung: SelectionItem;
-  rahmenverbreitungMontiert: SelectionItem;
-  dünneSchweißnahtVPerfect: SelectionItem;
-  reedKontakt: SelectionItem;
-  montagevorbohrungen: SelectionItem;
-  lüftungssysteme: {
-    category: SelectionItem;
-    subCategory: SelectionItem | undefined;
-    paar: number | undefined;
-  };
-  druckausgleichsventilZusatze: SelectionItem;
-  rahmenverbreiterungAuswahlen: {
-    links: number;
-    rechts: number;
-    oben: number;
-    unten: number;
-  };
-} */
-
 export type DobuleSelection = {
   category: SelectionItem;
   subCategory: SelectionItem;
@@ -293,7 +221,12 @@ export interface Summary {
 export interface DoubleStepperProps {
   categoryItems: SelectionItem[];
   subCategoryItems: Record<string, SelectionItem[]>;
-  configurationKey: keyof BasisConfiuration | keyof FarbenConfiuration | keyof VerglasungConfiuration | keyof SonnenschutzConfiuration | keyof ZusatzeConfiguration;
+  configurationKey:
+    | keyof BasisConfiuration
+    | keyof FarbenConfiuration
+    | keyof VerglasungConfiuration
+    | keyof SonnenschutzConfiuration
+    | keyof ZusatzeConfiguration;
   label?: string;
 }
 

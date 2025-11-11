@@ -1,4 +1,3 @@
-import { StaticImageData } from 'next/image';
 import {
   colorPriceMultipliersExteriorOnly,
   colorPriceMultipliersInteriorExteriorSame,
@@ -296,15 +295,19 @@ function calculateLayerGlassPrice({ multiWidth, multipliers, w, h }: GlassLayerP
   }
 }
 
-export function stripImageData(config: FensterConfig) {
+export function stripConfigKeys(config: FensterConfig, keysToDelete: string[] = []) {
   const stripped = structuredClone(config);
 
   (Object.keys(stripped) as (keyof FensterConfig)[]).forEach((section) => {
     const sectionObj = stripped[section];
     (Object.keys(sectionObj) as (keyof typeof sectionObj)[]).forEach((k) => {
       const v = sectionObj[k];
-      if (v && typeof v === 'object' && 'image' in v ) {
-        delete (v as { image?: StaticImageData }).image;
+      if (v && typeof v === 'object') {
+        keysToDelete.forEach((key) => {
+          if (key in v) {
+            delete (v as Record<string, unknown>)[key];
+          }
+        });
       }
     });
   });
@@ -313,25 +316,7 @@ export function stripImageData(config: FensterConfig) {
 }
 
 
-export function stripChildren(config: FensterConfig) {
-  const stripped = structuredClone(config);
-
-  (Object.keys(stripped) as (keyof FensterConfig)[]).forEach((section) => {
-    const sectionObj = stripped[section];
-    (Object.keys(sectionObj) as (keyof typeof sectionObj)[]).forEach((k) => {
-      const v = sectionObj[k];
-      if (v && typeof v === 'object' && 'children' in v) {
-        delete (v as { children?: unknown }).children;
-      }
-    });
-  });
-
-  return stripped;
-}
-
-
-export function purifyConfig(config: FensterConfig){
-  let purifiedConfig = stripImageData(config);
-  purifiedConfig = stripChildren(purifiedConfig);
+export function purifyConfig(config: FensterConfig, keysToDelete: string[] = []) {
+  const purifiedConfig = stripConfigKeys(config, keysToDelete);
   return purifiedConfig;
 }

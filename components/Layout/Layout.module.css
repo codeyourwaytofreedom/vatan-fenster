@@ -16,12 +16,12 @@
   align-items: center;
   padding-right: 4vw;
   -moz-column-gap: 10px;
-       column-gap: 10px;
+  column-gap: 10px;
   font-size: calc(12px + 0.3vw) !important;
 }
 #footer div {
   display: inherit;
   align-items: center;
   -moz-column-gap: 10px;
-       column-gap: 10px;
-}/*# sourceMappingURL=Layout.module.css.map */
+  column-gap: 10px;
+} /*# sourceMappingURL=Layout.module.css.map */

@@ -1,5 +1,12 @@
 //common images
-import { FensterConfig, SelectionItem, Size, SonnenschutzKey, WindowProfilePlastic, ZusatzeConfiguration } from '@/types/Configurator';
+import {
+  FensterConfig,
+  SelectionItem,
+  Size,
+  SonnenschutzKey,
+  WindowProfilePlastic,
+  ZusatzeConfiguration,
+} from '@/types/Configurator';
 
 import { farbenOptions } from './selectionItems/farbenData';
 import {
@@ -7,6 +14,7 @@ import {
   covers,
   customProfileHeights,
   materials,
+  profileOptionsByBrand,
   windowStyles,
 } from './selectionItems/basisData';
 import { verglasung } from './selectionItems/verglasungData';
@@ -128,7 +136,7 @@ export const initialConfiguration: FensterConfig = {
     material: materials[0],
     brand: brands[0],
     // adjust the type here
-    profile: brands[0].children!.profile!.plastic[0] as SelectionItem<WindowProfilePlastic>,
+    profile: profileOptionsByBrand.drutex.plastic[0] as SelectionItem<WindowProfilePlastic>,
     profileHeight: customProfileHeights[0],
     style: windowStyles[0],
     type: windowStyles[0].children!.type![0]!,
@@ -168,13 +176,12 @@ export const initialConfiguration: FensterConfig = {
     },
     druckausgleichsventilZusatze: optionNo,
   },
-  sonnenschutz: {}
+  sonnenschutz: {},
 };
 
-
 export const zusatzeOnlyOpeningWindowOptions: (keyof ZusatzeConfiguration)[] = [
-    'sicherheitsbeschlage',
-    'verdecktLiegenderBeschlag',
-    'reedKontakt',
-    'lüftungssysteme',
-  ];
+  'sicherheitsbeschlage',
+  'verdecktLiegenderBeschlag',
+  'reedKontakt',
+  'lüftungssysteme',
+];

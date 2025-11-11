@@ -85,7 +85,7 @@ export const sonnenschutzItems: Record<
       key: 'rvdsi_i_insektenschutz',
       name: 'Revision von der Seite (innen) + Insektenschutz',
       image: soon,
-    }
+    },
   ],
   lamellenart: [
     {

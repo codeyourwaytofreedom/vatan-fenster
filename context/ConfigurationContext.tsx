@@ -566,7 +566,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     isOberLichtUnterlicht: boolean;
   }) => {
     const selectedCoverKey = configuration.basis.cover.key;
-    const insektenschutzKey = configuration.sonnenschutz.revisionsöffnung?.key.includes(
+    const insektenschutzKey = configuration.sonnenschutz?.revisionsöffnung?.key.includes(
       'insektenschutz'
     )
       ? 'withInsektenschutz'

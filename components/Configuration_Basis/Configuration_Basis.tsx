@@ -18,8 +18,8 @@ import { useOrderDetailsReady } from '@/context/OrderDetailsContext';
 import GroupBottomActions from '../GroupBottomActions/GroupBottomActions';
 import { farbenOptions, fenstergriffeOptions } from '@/data/selectionItems/farbenData';
 import {
-  brands,
   customProfileHeights,
+  profileOptionsByBrand,
   subStyleOptions,
   windowStyles,
 } from '@/data/selectionItems/basisData';
@@ -116,12 +116,13 @@ export default function Basis_Configuration() {
           setItemsToDisplay(visibleSection?.items as SelectionItem[]);
           break;
         case 'profile':
-          const selectedBrand = brands.find((br) => br.key === configuration.basis['brand'].key);
           const profilesOfBrand =
-            selectedBrand?.children?.profile?.[
-              configuration.basis.material.key as keyof typeof selectedBrand.children.profile
+            profileOptionsByBrand[
+              configuration.basis['brand'].key as keyof typeof profileOptionsByBrand
             ];
-          setItemsToDisplay(profilesOfBrand);
+          const profilesForMaterial =
+            profilesOfBrand[configuration.basis.material.key as keyof typeof profilesOfBrand];
+          setItemsToDisplay(profilesForMaterial);
           break;
         case 'style':
           setItemsToDisplay(visibleSection?.items as SelectionItem[]);
@@ -210,8 +211,8 @@ export default function Basis_Configuration() {
   };
 
   const autoSelectProfile = () => {
-    const selectedBrand = brands.find((sty) => sty.name === configuration.basis['brand'].name);
-    const profiles = selectedBrand?.children?.profile;
+    const profiles =
+      profileOptionsByBrand[configuration.basis['brand'].key as keyof typeof profileOptionsByBrand];
     const profileForSelectedMaterial =
       profiles![configuration.basis.material.key as keyof typeof profiles];
     if (profileForSelectedMaterial && profileForSelectedMaterial[0]) {

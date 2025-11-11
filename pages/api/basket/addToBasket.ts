@@ -1,10 +1,33 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { getDb } from '@/lib/mongodb';
+//import { basisValidator } from '@/lib/models/basisModel';
 
 type Data = {
-  name: string;
+  message: string;
 };
 
-export default function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
-    console.log("addToBasket endpoint called");
-  res.status(200).json({ name: 'John Doe' });
+type Error = {
+  error: string;
+};
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse<Data | Error>) {
+  try {
+    const db = await getDb();
+    const { basis } = req.body ?? {};
+
+    /* await db.createCollection('fenster-orders', {
+      validator: basisValidator,
+      validationAction: 'error',
+      validationLevel: 'strict',
+    }); */
+
+    await db.collection('fenster-orders').insertOne({
+      basis,
+    });
+
+    res.status(200).json({ message: 'Order added successfully' });
+  } catch (error) {
+    console.dir(error, { depth: null });
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 }

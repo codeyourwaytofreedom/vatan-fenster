@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   -moz-column-gap: 10px;
-       column-gap: 10px;
+  column-gap: 10px;
   height: 50px;
   justify-content: center;
   position: relative;
@@ -46,4 +46,4 @@
   0% {
     background-color: silver;
   }
-}/*# sourceMappingURL=GroupBottomActions.module.css.map */
+} /*# sourceMappingURL=GroupBottomActions.module.css.map */

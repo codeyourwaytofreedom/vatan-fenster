@@ -11,12 +11,14 @@ import { windowStyles } from '@/data/selectionItems/basisData';
 import { allSonnenschutzStepsKeys } from '@/data/selectionItems/sonnenschutzData';
 import { useModal } from '@/context/ModalContext';
 import Infobox from '../1_General/Infobox/Infobox';
+import { zusatzeOnlyOpeningWindowOptions } from '@/data/configurationData';
 
 export default function SummaryDisplayer() {
   const {
     configuration,
     substyle,
     currentGroup,
+    windowHandleNumber,
     setCurrentStep,
     setCurrentGroup,
     getStepsForGroup,
@@ -34,7 +36,22 @@ export default function SummaryDisplayer() {
 
   const groupVerglasung = configuration.verglasung;
 
-  const groupZusatze = configuration.zusatze;
+  const groupZusatze = () => {
+    if (windowHandleNumber > 0) {
+      // no need to show rahmenverbreiterungAuswahlen in summary
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { rahmenverbreiterungAuswahlen, ...rest } = configuration.zusatze;
+      return rest;
+    }
+    const trimmedZusatze = { ...configuration.zusatze };
+    zusatzeOnlyOpeningWindowOptions.forEach((key) => {
+      delete trimmedZusatze[key];
+    });
+    // no need to show rahmenverbreiterungAuswahlen in summary
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { rahmenverbreiterungAuswahlen, ...rest } = trimmedZusatze;
+    return rest;
+  };
 
   const groupSonnenschutz = Object.fromEntries(
     Object.entries(configuration).filter(([key]) => allSonnenschutzStepsKeys.includes(key))
@@ -51,7 +68,7 @@ export default function SummaryDisplayer() {
   const expandableGroups: { key: GroupKey; content: object }[] = [
     { key: 'farben', content: groupFarben },
     { key: 'verglasung', content: groupVerglasung },
-    { key: 'zusatze', content: groupZusatze },
+    { key: 'zusatze', content: groupZusatze() },
   ];
 
   if (configuration.basis.cover.key !== 'nein') {
@@ -136,8 +153,6 @@ export default function SummaryDisplayer() {
 
       return '--';
     }
-
-    return '--';
   };
 
   const labelExtractor = (key: string) => {
@@ -247,7 +262,9 @@ export default function SummaryDisplayer() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(purifyConfig(configuration)),
+        body: JSON.stringify(
+          purifyConfig(configuration, ['image', 'details', 'children', 'isActive'])
+        ),
       });
 
       if (!response.ok) {

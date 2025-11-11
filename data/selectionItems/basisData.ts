@@ -82,68 +82,6 @@ export const brands: SelectionItem[] = [
     name: 'Drutex',
     image: drutex,
     isActive: true,
-    children: {
-      profile: {
-        plastic: [
-          {
-            key: 'I5',
-            name: 'Iglo 5',
-            image: Iglo5,
-            details: dummyDetail,
-          },
-          {
-            key: 'I5C',
-            name: 'Iglo 5 Classic',
-            image: Iglo5Classic,
-            details: dummyDetail,
-          },
-          {
-            key: 'IE',
-            name: 'Iglo Energy',
-            image: Iglo5Energy,
-            details: dummyDetail,
-          },
-          {
-            key: 'IEC',
-            name: 'Iglo Energy Classic',
-            image: Iglo5EnergyClassic,
-            details: dummyDetail,
-          },
-          {
-            key: 'IL',
-            name: 'Iglo Light',
-            image: IgloLight,
-            details: dummyDetail,
-          },
-        ],
-        aluminium: [
-          {
-            key: 'MB45',
-            name: 'MB45',
-            image: MB45,
-            details: dummyDetail,
-          },
-          {
-            key: 'MB70',
-            name: 'MB70',
-            image: MB70,
-            details: dummyDetail,
-          },
-          {
-            key: 'MB70HI',
-            name: 'MB70HI',
-            image: MB70HI,
-            details: dummyDetail,
-          },
-          {
-            key: 'MB86NSI',
-            name: 'MB86NSI',
-            image: MB86NSI,
-            details: dummyDetail,
-          },
-        ],
-      },
-    },
   },
 ];
 
@@ -250,3 +188,66 @@ export const customProfileHeights: SelectionItem[] = [
     image: no,
   },
 ];
+
+export const profileOptionsByBrand = {
+  drutex: {
+    plastic: [
+      {
+        key: 'I5',
+        name: 'Iglo 5',
+        image: Iglo5,
+        details: dummyDetail,
+      },
+      {
+        key: 'I5C',
+        name: 'Iglo 5 Classic',
+        image: Iglo5Classic,
+        details: dummyDetail,
+      },
+      {
+        key: 'IE',
+        name: 'Iglo Energy',
+        image: Iglo5Energy,
+        details: dummyDetail,
+      },
+      {
+        key: 'IEC',
+        name: 'Iglo Energy Classic',
+        image: Iglo5EnergyClassic,
+        details: dummyDetail,
+      },
+      {
+        key: 'IL',
+        name: 'Iglo Light',
+        image: IgloLight,
+        details: dummyDetail,
+      },
+    ],
+    aluminium: [
+      {
+        key: 'MB45',
+        name: 'MB45',
+        image: MB45,
+        details: dummyDetail,
+      },
+      {
+        key: 'MB70',
+        name: 'MB70',
+        image: MB70,
+        details: dummyDetail,
+      },
+      {
+        key: 'MB70HI',
+        name: 'MB70HI',
+        image: MB70HI,
+        details: dummyDetail,
+      },
+      {
+        key: 'MB86NSI',
+        name: 'MB86NSI',
+        image: MB86NSI,
+        details: dummyDetail,
+      },
+    ],
+  },
+};

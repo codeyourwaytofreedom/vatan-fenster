@@ -175,6 +175,21 @@ export const zusatzeSteps: Step[] = [
     stepDetails:
       'Dummy details for Zuzatse steps...\n\n Actual step explanation details will replace this dummy text!',
   },
+  {
+    key: 'rahmenverbreitungMontiert',
+    name: 'Rahmenverbreiterung montiert',
+    icon: faSun,
+  },
+  {
+    key: 'rahmenverbreiterungAuswahlen',
+    name: 'Rahmenverbreiterung auswählen',
+    icon: faSun,
+  },
+  {
+    key: 'druckausgleichsventilZusatze',
+    name: 'Druckausgleichsventil',
+    icon: faSun,
+  },
 ];
 
 export const steps: Record<GroupKey | string, Step[]> = {
