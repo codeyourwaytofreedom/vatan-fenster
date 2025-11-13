@@ -1,3 +1,4 @@
+import { sonnenschutzApplicabilitySizes } from '@/data/common/common';
 import {
   initialConfiguration,
   initialSubstyle,
@@ -104,6 +105,8 @@ interface ConfigurationContextType {
     selectedProfile: SelectionItem,
     selectedType: SelectionItem
   ) => MinMaxSizes;
+  showSonnenshutzNotApplicableWarning: () => boolean;
+  getSonnenschutzPartitionPossibilities: () => number[];
 }
 
 // Create the context with a default value
@@ -187,6 +190,13 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
         (configuration.basis.type.unten?.handleNumber ?? 0)
       : (configuration.basis.type.handleNumber ?? 0);
 
+  const {
+    sonnenschutzMinHeight,
+    sonnenschutzMaxHeight,
+    sonnenschutzSectionMinWidth,
+    sonnenschutzSectionMaxWidth,
+  } = sonnenschutzApplicabilitySizes;
+
   const moveNextGroup = () => {
     const currentGroupIndex = visibleGroups.indexOf(group);
     const nextGroup = visibleGroups[currentGroupIndex + 1];
@@ -219,6 +229,153 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
       moveNextGroup();
     }
   };
+
+  const getMinMaxSizes = (
+    selectedMaterial: SelectionItem<WindowMaterial>,
+    selectedStyle: SelectionItem,
+    selectedProfile: SelectionItem,
+    selectedType: SelectionItem
+  ) => {
+    const selectedMaterialKey = selectedMaterial.key;
+    const selectedStyleKey = selectedStyle.key;
+    const selectedProfileKey = selectedProfile.key;
+    const selectedTypeKey = (selectedType as SelectionItem).key;
+
+    const sizesByMaterial = minMaxSizes[selectedMaterialKey as keyof typeof minMaxSizes];
+    const sizesByStyle = sizesByMaterial?.[selectedStyleKey as keyof typeof sizesByMaterial];
+    const sizesByProfile = sizesByStyle?.[selectedProfileKey as keyof typeof sizesByStyle];
+    const sizesByType = sizesByProfile?.[selectedTypeKey];
+
+    if (selectedStyle.key)
+      if (sizesByType) {
+        // if price table exists for selected window type, extract the min-max sizes from the table
+        const { width, height } = sizesByType;
+
+        const minWidth = (width as MinMaxSet).min;
+        const maxWidth = (width as MinMaxSet).max;
+
+        const minHeight = (height as MinMaxSet).min;
+        const maxHeight = (height as MinMaxSet).max;
+        return {
+          minWidth,
+          maxWidth,
+          minHeight,
+          maxHeight,
+        } as MinMaxSizes;
+      }
+    // no price list available so can't extract minMaxSizes
+
+    // flugel1 min-max values for different types available for selected profile
+    // F, FF, K, DL, DR, DKL, DKR
+    // so calculate the min-max sizes via aggregating each section's min-max values
+    const minMaxSizesForSingleSections =
+      sizesByMaterial.flugel1[selectedProfileKey as keyof typeof sizesByMaterial.flugel1];
+
+    // selected type's sections --> ie F+F --> DK + DL
+    const selectedTypeSections = selectedType.sections;
+
+    // for each section in the selected type, get min-max sizes
+    let minWidthDerivedFromSections = 0;
+    let maxWidthDerivedFromSections = 0;
+    const minHeightForEachSection: number[] = [];
+    const maxHeightForEachSection: number[] = [];
+
+    const sectionsMinWidthPack: Record<string, number> = {};
+    const sectionsMaxWidthPack: Record<string, number> = {};
+
+    selectedTypeSections?.forEach((section) => {
+      const minMaxForSingleSectionInSelectedType = minMaxSizesForSingleSections[section];
+      const { width, height } = minMaxForSingleSectionInSelectedType as MinMaxSize;
+      const minWidthForSection = width.min;
+      const maxWidthForSection = width.max;
+
+      sectionsMinWidthPack[section] = minWidthForSection;
+      sectionsMaxWidthPack[section] = maxWidthForSection;
+
+      minHeightForEachSection.push(height.min);
+      maxHeightForEachSection.push(height.max);
+
+      // calculate minWidth by summing minWidth values for each section
+      minWidthDerivedFromSections += minWidthForSection;
+
+      // calculate maxWidth by summing maxWidth values for each section
+      maxWidthDerivedFromSections += maxWidthForSection;
+    });
+
+    // from all sections' minHeight, take the biggest
+    const minHeight = Math.max(...minHeightForEachSection);
+
+    // from all sections' maxHeight, take the smallest
+    const maxHeight = Math.min(...maxHeightForEachSection);
+
+    return {
+      // total window width can never be greater than 4800
+      minWidth: Math.min(minWidthDerivedFromSections, 4800),
+      maxWidth: Math.min(maxWidthDerivedFromSections, 4800),
+      minHeight: minHeight,
+      maxHeight: maxHeight,
+      // provide each section's minWidth so that sizer can use it an minSectionWidth
+      sectionsMinWidthPack,
+      sectionsMaxWidthPack,
+    } as MinMaxSizes;
+  };
+
+  const getSonnenschutzPartitionPossibilities = () => {
+    const possibilities = [];
+    const selectedStyleKey = configuration.basis.style.key;
+    const width = Number(configuration.basis.size?.w ?? 0);
+    const sectionValid = (w: number) =>
+      w > sonnenschutzSectionMinWidth && w <= sonnenschutzSectionMaxWidth;
+
+    if (selectedStyleKey === 'flugel1') {
+      if (sectionValid(width)) {
+        return [1];
+      }
+      return [];
+    }
+
+    if (!configuration.basis.multiWidth) {
+      return [];
+    }
+
+    const multiWidth = Object.values(configuration.basis.multiWidth);
+    const allSectionsValid = multiWidth.every((w) => sectionValid(w));
+
+    // if total width is valid, 1 Teilung is possible
+    if (width <= sonnenschutzSectionMaxWidth) {
+      possibilities.push(1);
+    }
+
+    // if all sections are valid
+    if (allSectionsValid) {
+      if (selectedStyleKey === 'flugel2') {
+        possibilities.push(2);
+      }
+      if (selectedStyleKey === 'flugel3') {
+        possibilities.push(3);
+      }
+    }
+
+    if (selectedStyleKey === 'flugel3') {
+      const left2 = multiWidth[0] + multiWidth[1];
+      const right1 = multiWidth[2];
+
+      const _2_1_Possible = sectionValid(left2) && sectionValid(right1);
+
+      const left1 = multiWidth[0];
+      const right2 = multiWidth[1] + multiWidth[2];
+
+      const _1_2_Possible = sectionValid(left1) && sectionValid(right2);
+
+      if (_1_2_Possible || _2_1_Possible) {
+        possibilities.push(2);
+      }
+    }
+
+    return possibilities;
+  };
+
+  /* ------------------------- PRICING ------------------------- */
 
   const calculateTotalPrice = ({
     selectedMaterialKey,
@@ -565,6 +722,17 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     height: number;
     isOberLichtUnterlicht: boolean;
   }) => {
+    // to be adjusted !!!!!
+    if (isOberLichtUnterlicht) {
+      return 0;
+    }
+    const sonnenschutzPricingNotApplicable = showSonnenshutzNotApplicableWarning();
+
+    if (sonnenschutzPricingNotApplicable) {
+      return 0;
+    }
+
+    const selectedStyleKey = configuration.basis.style.key;
     const selectedCoverKey = configuration.basis.cover.key;
     const insektenschutzKey = configuration.sonnenschutz?.revisionsöffnung?.key.includes(
       'insektenschutz'
@@ -580,114 +748,106 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
 
     const additionalSonnenschutzHeight =
       'height' in configuration.basis.cover ? (configuration.basis.cover.height as number) : 0;
+    const totalHeight = height + additionalSonnenschutzHeight;
 
-    const actualHeight = isOberLichtUnterlicht
-      ? (configuration.basis.multiHeight?.obenHeight ?? 0) +
-        (configuration.basis.multiHeight?.untenHeight ?? 0)
-      : height;
-
-    const totalHeight = actualHeight + additionalSonnenschutzHeight;
-
-    const sonnenschutzPrice = extractPriceFromTable(
-      priceTableForSelectedSonnenschutz,
-      width,
-      totalHeight
-    );
-    if (isOberLichtUnterlicht) {
-      return (sonnenschutzPrice ?? 0) / 2;
+    // single window
+    if (selectedStyleKey === 'flugel1') {
+      return extractPriceFromTable(priceTableForSelectedSonnenschutz, width, totalHeight) || 0;
     }
-    return sonnenschutzPrice ?? 0;
+
+    // sonnenschutz partition decision needed !!!
+    const partitionsPossible = getSonnenschutzPartitionPossibilities();
+    console.log(partitionsPossible);
+
+    // windows with multiwidth
+    if (['flugel2', 'flugel3'].includes(selectedStyleKey) && configuration.basis.multiWidth) {
+      const totalPrice = Object.values(configuration.basis.multiWidth).reduce(
+        (acc, sectionWidth) => {
+          const sectionPrice =
+            extractPriceFromTable(priceTableForSelectedSonnenschutz, sectionWidth, totalHeight) ||
+            0;
+          return acc + sectionPrice;
+        },
+        0
+      );
+      return totalPrice;
+    }
+
+    // to be revisited - make sure price is halved for oberlicht and unterlicht
+    /* if (isOberLichtUnterlicht) {
+      return (sonnenschutzPrice ?? 0) / 2;
+    } */
+    return 0;
   };
 
-  const getMinMaxSizes = (
-    selectedMaterial: SelectionItem<WindowMaterial>,
-    selectedStyle: SelectionItem,
-    selectedProfile: SelectionItem,
-    selectedType: SelectionItem
-  ) => {
-    const selectedMaterialKey = selectedMaterial.key;
-    const selectedStyleKey = selectedStyle.key;
-    const selectedProfileKey = selectedProfile.key;
-    const selectedTypeKey = (selectedType as SelectionItem).key;
+  // check if sonnenschutz is applicable for current SIZE
+  const showSonnenshutzNotApplicableWarning = () => {
+    const size = configuration.basis.size;
+    const noCover = configuration.basis.cover.key === 'nein';
 
-    const sizesByMaterial = minMaxSizes[selectedMaterialKey as keyof typeof minMaxSizes];
-    const sizesByStyle = sizesByMaterial?.[selectedStyleKey as keyof typeof sizesByMaterial];
-    const sizesByProfile = sizesByStyle?.[selectedProfileKey as keyof typeof sizesByStyle];
-    const sizesByType = sizesByProfile?.[selectedTypeKey];
+    if (!size || noCover) return false;
 
-    if (selectedStyle.key)
-      if (sizesByType) {
-        // if price table exists for selected window type, extract the min-max sizes from the table
-        const { width, height } = sizesByType;
+    const coverHeight =
+      'height' in configuration.basis.cover ? configuration.basis.cover.height : 0;
+    const totalHeight = Number(size.h) + Number(coverHeight);
 
-        const minWidth = (width as MinMaxSet).min;
-        const maxWidth = (width as MinMaxSet).max;
+    if (totalHeight > sonnenschutzMaxHeight) {
+      return true;
+    }
 
-        const minHeight = (height as MinMaxSet).min;
-        const maxHeight = (height as MinMaxSet).max;
-        return {
-          minWidth,
-          maxWidth,
-          minHeight,
-          maxHeight,
-        } as MinMaxSizes;
+    if (totalHeight < sonnenschutzMinHeight) {
+      return true;
+    }
+
+    const partitionsPossible = getSonnenschutzPartitionPossibilities();
+
+    if (partitionsPossible.length === 0) {
+      return true;
+    }
+    return false;
+  };
+
+  /* ------------------------- PRICING ------------------------- */
+
+  const sonnenschutPartitionPossibilities = getSonnenschutzPartitionPossibilities();
+
+  // for Lamellenart subcategory, select the first of possible partitions
+  useEffect(() => {
+    if (configuration.basis.cover.key !== 'nein') {
+      if (sonnenschutPartitionPossibilities?.length > 0 && !showSonnenshutzNotApplicableWarning()) {
+        const sonnenschutzSteps = getStepsForGroup('sonnenschutz');
+        const lamellenartStep = sonnenschutzSteps.find((st) => st.key === 'lamellenart');
+
+        if (!lamellenartStep || !('props' in lamellenartStep)) {
+          return;
+        }
+
+        if (!('subCategoryItems' in lamellenartStep.props!)) {
+          return;
+        }
+
+        const allPartitionOptions = Object.values(lamellenartStep.props?.subCategoryItems)[0];
+        const partitionsPossible = getSonnenschutzPartitionPossibilities();
+
+        const possibleOptions = allPartitionOptions.filter((o) =>
+          partitionsPossible.includes(Number(o.key))
+        );
+
+        setConfiguration((pr) => {
+          return {
+            ...pr,
+            sonnenschutz: {
+              ...pr.sonnenschutz,
+              lamellenart: {
+                category: pr.sonnenschutz.lamellenart!.category,
+                subCategory: possibleOptions[0],
+              },
+            },
+          };
+        });
       }
-    // no price list available so can't extract minMaxSizes
-
-    // flugel1 min-max values for different types available for selected profile
-    // F, FF, K, DL, DR, DKL, DKR
-    // so calculate the min-max sizes via aggregating each section's min-max values
-    const minMaxSizesForSingleSections =
-      sizesByMaterial.flugel1[selectedProfileKey as keyof typeof sizesByMaterial.flugel1];
-
-    // selected type's sections --> ie F+F --> DK + DL
-    const selectedTypeSections = selectedType.sections;
-
-    // for each section in the selected type, get min-max sizes
-    let minWidthDerivedFromSections = 0;
-    let maxWidthDerivedFromSections = 0;
-    const minHeightForEachSection: number[] = [];
-    const maxHeightForEachSection: number[] = [];
-
-    const sectionsMinWidthPack: Record<string, number> = {};
-    const sectionsMaxWidthPack: Record<string, number> = {};
-
-    selectedTypeSections?.forEach((section) => {
-      const minMaxForSingleSectionInSelectedType = minMaxSizesForSingleSections[section];
-      const { width, height } = minMaxForSingleSectionInSelectedType as MinMaxSize;
-      const minWidthForSection = width.min;
-      const maxWidthForSection = width.max;
-
-      sectionsMinWidthPack[section] = minWidthForSection;
-      sectionsMaxWidthPack[section] = maxWidthForSection;
-
-      minHeightForEachSection.push(height.min);
-      maxHeightForEachSection.push(height.max);
-
-      // calculate minWidth by summing minWidth values for each section
-      minWidthDerivedFromSections += minWidthForSection;
-
-      // calculate maxWidth by summing maxWidth values for each section
-      maxWidthDerivedFromSections += maxWidthForSection;
-    });
-
-    // from all sections' minHeight, take the biggest
-    const minHeight = Math.max(...minHeightForEachSection);
-
-    // from all sections' maxHeight, take the smallest
-    const maxHeight = Math.min(...maxHeightForEachSection);
-
-    return {
-      // total window width can never be greater than 4800
-      minWidth: Math.min(minWidthDerivedFromSections, 4800),
-      maxWidth: Math.min(maxWidthDerivedFromSections, 4800),
-      minHeight: minHeight,
-      maxHeight: maxHeight,
-      // provide each section's minWidth so that sizer can use it an minSectionWidth
-      sectionsMinWidthPack,
-      sectionsMaxWidthPack,
-    } as MinMaxSizes;
-  };
+    }
+  }, [configuration.basis.size]);
 
   // if sprossen color is custom-color for innen-aussen, when innen-aussen combination changes,
   // reset the sprossen color
@@ -835,6 +995,8 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
         moveNextGroup,
         calculateTotalPrice,
         getMinMaxSizes,
+        showSonnenshutzNotApplicableWarning,
+        getSonnenschutzPartitionPossibilities,
       }}
     >
       {children}

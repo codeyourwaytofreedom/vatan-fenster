@@ -103,7 +103,7 @@ export const sonnenschutzItems: Record<
       name: '2 Teilung',
       image: soon,
     },
-    {
+/*     {
       key: '2tlkrl',
       name: '2 Teilung links kurz rechts lang',
       image: soon,
@@ -112,7 +112,7 @@ export const sonnenschutzItems: Record<
       key: '2tllrk',
       name: '2 Teilung links lang rechts kurz',
       image: soon,
-    },
+    }, */
     {
       key: '3t',
       name: '3 Teilung',
@@ -416,16 +416,16 @@ export const _215_175_LamelleatProps = {
   subCategoryItems: {
     l37: [
       {
-        key: 'ot',
+        key: '1',
         name: 'Ohne Teilung',
         image: soon,
       },
       {
-        key: '2t',
+        key: '2',
         name: '2 Teilung',
         image: soon,
       },
-      {
+/*       {
         key: '2tlkrl',
         name: '2 Teilung links kurz rechts lang',
         image: soon,
@@ -434,9 +434,9 @@ export const _215_175_LamelleatProps = {
         key: '2tllrk',
         name: '2 Teilung links lang rechts kurz',
         image: soon,
-      },
+      }, */
       {
-        key: '3t',
+        key: '3',
         name: '3 Teilung',
         image: soon,
       },

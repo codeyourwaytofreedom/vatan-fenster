@@ -114,7 +114,7 @@ export interface BasisConfiuration {
   style: SelectionItem<WindowStyle>;
   type: SelectionItem | SubStyle;
   cover: SelectionItem<SonnenschutzKey>;
-  size: boolean | Size;
+  size: null | Size;
   multiWidth?: Record<string, number>;
   multiHeight?: Record<string, number>;
   obenMultiWidth?: Record<string, number>;

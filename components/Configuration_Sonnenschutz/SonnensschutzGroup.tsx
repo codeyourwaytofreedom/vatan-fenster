@@ -35,6 +35,7 @@ export default function Sonnenschutz_Group() {
     setConfiguration,
     getStepsForGroup,
     moveToNextStep,
+    getSonnenschutzPartitionPossibilities,
   } = useConfiguration();
 
   const { size } = useOrderDetailsReady();
@@ -186,6 +187,26 @@ export default function Sonnenschutz_Group() {
     return step && 'component' in step && step.component !== undefined;
   };
 
+  const purifyComponentProps = () => {
+    if (!currentStep || !('props' in currentStep)) {
+      return {};
+    }
+    if (currentStep.key === 'lamellenart' && 'subCategoryItems' in currentStep.props!) {
+      const allPartitionOptions = Object.values(currentStep.props.subCategoryItems)[0];
+      const partitionsPossible = getSonnenschutzPartitionPossibilities();
+
+      const possibleOptions = allPartitionOptions.filter((o) =>
+        partitionsPossible.includes(Number(o.key))
+      );
+
+      const newProps = structuredClone(currentStep.props);
+      // currently only L37 possible - temporary fix
+      newProps.subCategoryItems.l37 = possibleOptions;
+      return newProps;
+    }
+    return currentStep?.props;
+  };
+
   if (coverNotAvailable) return null;
 
   return (
@@ -195,7 +216,7 @@ export default function Sonnenschutz_Group() {
           {<Stepper />}
           <div className={style.group}>
             {Component && stepHasCustomComponent(currentStep!) && currentStep?.props ? (
-              <Component {...currentStep?.props} />
+              <Component {...purifyComponentProps()} />
             ) : Component ? (
               <Component />
             ) : (

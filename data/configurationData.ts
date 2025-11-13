@@ -141,7 +141,7 @@ export const initialConfiguration: FensterConfig = {
     style: windowStyles[0],
     type: windowStyles[0].children!.type![0]!,
     cover: covers[0] as SelectionItem<SonnenschutzKey>,
-    size: false,
+    size: null,
   },
   farben: {
     colorExt: farbenOptions.colorExt[0],

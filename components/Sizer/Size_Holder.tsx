@@ -20,7 +20,7 @@ export type SizeFeedback = {
   unten?: string[];
 };
 export default function Size_Holder({ sizeImage, subStyle, summary }: SizeHolderProps) {
-  const { orderOfKeys } = useConfiguration();
+  const { orderOfKeys, showSonnenshutzNotApplicableWarning } = useConfiguration();
   const image1 =
     orderOfKeys && subStyle ? subStyle[orderOfKeys[0] as keyof SubStyle]?.image : sizeImage;
   const image2 = orderOfKeys && subStyle ? subStyle[orderOfKeys[1] as keyof SubStyle]?.image : null;
@@ -39,6 +39,8 @@ export default function Size_Holder({ sizeImage, subStyle, summary }: SizeHolder
         : sizeImage;
 
   const [sizeFeedback, setSizeFeedback] = useState<SizeFeedback>({});
+
+  const showSonnenschutNotApplicableWarning = showSonnenshutzNotApplicableWarning();
 
   return (
     <div className={style.sizer}>
@@ -66,25 +68,43 @@ export default function Size_Holder({ sizeImage, subStyle, summary }: SizeHolder
         />
       )}
 
-      <div
-        className={style.errors}
-        style={{ height: Object.values(sizeFeedback).flat().length * 20 }}
-      >
-        {Object.values(sizeFeedback)
-          .flat()
-          .map((m, i) => (
-            <p
-              key={i}
-              style={{
-                color: 'crimson',
-                fontWeight: 'bold',
-                fontSize: 'small',
-              }}
-            >
-              &#x26A0; {m}
-            </p>
-          ))}
-      </div>
+      {!summary && (
+        <div
+          className={style.errors}
+          style={{ height: Object.values(sizeFeedback).flat().length * 20 }}
+        >
+          {Object.values(sizeFeedback)
+            .flat()
+            .map((m, i) => (
+              <p
+                key={i}
+                style={{
+                  color: 'crimson',
+                  fontWeight: 'bold',
+                  fontSize: 'small',
+                }}
+              >
+                &#x26A0; {m}
+              </p>
+            ))}
+        </div>
+      )}
+
+      {showSonnenschutNotApplicableWarning && !summary && (
+        <div className={style.errors}>
+          <p
+            style={{
+              color: 'darkorange',
+              fontWeight: 'bold',
+              fontSize: 'small',
+            }}
+          >
+            &#x26A0; Rolladenkasten might not be applicable for the current width and height. <br />
+            &#x26A0; Our team will check applicability. Current price does not include
+            Rolladenkasten
+          </p>
+        </div>
+      )}
     </div>
   );
 }

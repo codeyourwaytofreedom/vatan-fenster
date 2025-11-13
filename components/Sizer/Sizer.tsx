@@ -32,7 +32,7 @@ export default function Sizer({ sizeImage, substyle, summary }: SizerProps) {
     } else {
       setOrderDetailsReady(false);
       setConfiguration((pr) => {
-        return { ...pr, basis: { ...pr.basis, size: false } };
+        return { ...pr, basis: { ...pr.basis, size: null } };
       });
     }
 

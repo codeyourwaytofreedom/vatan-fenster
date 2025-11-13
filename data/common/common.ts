@@ -24,3 +24,12 @@ export const windowTypeKeys = [
   'DK_DL_DK_STULP',
   'DK_DL_DK_POS',
 ];
+
+
+export const sonnenschutzApplicabilitySizes = {
+  sonnenschutzMinHeight: 600,
+  sonnenschutzMaxHeight: 2900,
+  sonnenschutzSectionMaxWidth: 2000,
+  sonnenschutzSectionMinWidth: 450,
+  sonnenschutzMaxSectionArea: 4_600_000,
+};
