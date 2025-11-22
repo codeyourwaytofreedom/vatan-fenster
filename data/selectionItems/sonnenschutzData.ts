@@ -425,16 +425,16 @@ export const _215_175_LamelleatProps = {
         name: '2 Teilung',
         image: soon,
       },
-/*       {
-        key: '2tlkrl',
+      {
+        key: '12',
         name: '2 Teilung links kurz rechts lang',
         image: soon,
       },
       {
-        key: '2tllrk',
+        key: '21',
         name: '2 Teilung links lang rechts kurz',
         image: soon,
-      }, */
+      },
       {
         key: '3',
         name: '3 Teilung',

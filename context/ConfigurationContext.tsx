@@ -349,9 +349,32 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     // if all sections are valid
     if (allSectionsValid) {
       if (selectedStyleKey === 'flugel2') {
-        possibilities.push(2);
+        if (multiWidth[0] === multiWidth[1]) {
+          possibilities.push(2);
+        }
+        if (multiWidth[0] > multiWidth[1]) {
+          possibilities.push(21);
+        }
+        if (multiWidth[1] > multiWidth[0]) {
+          possibilities.push(12);
+        }
       }
       if (selectedStyleKey === 'flugel3') {
+        if (multiWidth[0] === multiWidth[1] && multiWidth[1] === multiWidth[2]) {
+          possibilities.push(3);
+        }
+        if (
+          sectionValid(multiWidth[0] + multiWidth[1]) &&
+          multiWidth[0] + multiWidth[1] > multiWidth[2]
+        ) {
+          possibilities.push(21);
+        }
+        if (
+          sectionValid(multiWidth[1] + multiWidth[2]) &&
+          multiWidth[1] + multiWidth[2] > multiWidth[0]
+        ) {
+          possibilities.push(12);
+        }
         possibilities.push(3);
       }
     }
@@ -360,12 +383,12 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
       const left2 = multiWidth[0] + multiWidth[1];
       const right1 = multiWidth[2];
 
-      const _2_1_Possible = sectionValid(left2) && sectionValid(right1);
+      const _2_1_Possible = sectionValid(left2) && sectionValid(right1) && right1 === left2;
 
       const left1 = multiWidth[0];
       const right2 = multiWidth[1] + multiWidth[2];
 
-      const _1_2_Possible = sectionValid(left1) && sectionValid(right2);
+      const _1_2_Possible = sectionValid(left1) && sectionValid(right2) && left1 === right2;
 
       if (_1_2_Possible || _2_1_Possible) {
         possibilities.push(2);
@@ -732,6 +755,8 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
       return 0;
     }
 
+    const selectedLamellenArtKey = configuration.sonnenschutz.lamellenart?.subCategory.key ?? '';
+
     const selectedStyleKey = configuration.basis.style.key;
     const selectedCoverKey = configuration.basis.cover.key;
     const insektenschutzKey = configuration.sonnenschutz?.revisionsöffnung?.key.includes(
@@ -750,34 +775,38 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
       'height' in configuration.basis.cover ? (configuration.basis.cover.height as number) : 0;
     const totalHeight = height + additionalSonnenschutzHeight;
 
-    // single window
-    if (selectedStyleKey === 'flugel1') {
+    // single window or one teilung selected
+    if (selectedStyleKey === 'flugel1' || selectedLamellenArtKey === '1') {
       return extractPriceFromTable(priceTableForSelectedSonnenschutz, width, totalHeight) || 0;
     }
 
-    // sonnenschutz partition decision needed !!!
-    const partitionsPossible = getSonnenschutzPartitionPossibilities();
-    console.log(partitionsPossible);
+    if (!configuration.basis.multiWidth) return 0;
 
-    // windows with multiwidth
-    if (['flugel2', 'flugel3'].includes(selectedStyleKey) && configuration.basis.multiWidth) {
-      const totalPrice = Object.values(configuration.basis.multiWidth).reduce(
-        (acc, sectionWidth) => {
-          const sectionPrice =
-            extractPriceFromTable(priceTableForSelectedSonnenschutz, sectionWidth, totalHeight) ||
-            0;
-          return acc + sectionPrice;
-        },
-        0
-      );
-      return totalPrice;
+    let sectionsByTeilung: number[] = [];
+    const allSectionWidths = Object.values(configuration.basis.multiWidth);
+
+    // flugel2 --> lamellenarts =  [2, 21, 12]
+    if (selectedStyleKey === 'flugel2') {
+      sectionsByTeilung = allSectionWidths;
     }
 
-    // to be revisited - make sure price is halved for oberlicht and unterlicht
-    /* if (isOberLichtUnterlicht) {
-      return (sonnenschutzPrice ?? 0) / 2;
-    } */
-    return 0;
+    if (selectedStyleKey === 'flugel3') {
+      if (selectedLamellenArtKey === '12') {
+        sectionsByTeilung = [allSectionWidths[0], allSectionWidths[1] + allSectionWidths[2]];
+      }
+      if (selectedLamellenArtKey === '21') {
+        sectionsByTeilung = [allSectionWidths[0] + allSectionWidths[1], allSectionWidths[2]];
+      }
+      if (selectedLamellenArtKey === '3') {
+        sectionsByTeilung = allSectionWidths;
+      }
+    }
+    const totalPrice = sectionsByTeilung.reduce((acc, sectionWidth) => {
+      const sectionPrice =
+        extractPriceFromTable(priceTableForSelectedSonnenschutz, sectionWidth, totalHeight) || 0;
+      return acc + sectionPrice;
+    }, 0);
+    return totalPrice;
   };
 
   // check if sonnenschutz is applicable for current SIZE

@@ -54,7 +54,9 @@ export default function SummaryDisplayer() {
   };
 
   const groupSonnenschutz = Object.fromEntries(
-    Object.entries(configuration).filter(([key]) => allSonnenschutzStepsKeys.includes(key))
+    Object.entries(configuration.sonnenschutz).filter(([key]) =>
+      allSonnenschutzStepsKeys.includes(key)
+    )
   );
 
   const sonnenschutzSteps = getStepsForGroup('sonnenschutz');
