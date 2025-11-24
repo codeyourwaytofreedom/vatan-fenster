@@ -25,11 +25,19 @@ export const windowTypeKeys = [
   'DK_DL_DK_POS',
 ];
 
-
 export const sonnenschutzApplicabilitySizes = {
-  sonnenschutzMinHeight: 600,
-  sonnenschutzMaxHeight: 2900,
-  sonnenschutzSectionMaxWidth: 2000,
-  sonnenschutzSectionMinWidth: 450,
-  sonnenschutzMaxSectionArea: 4_600_000,
-};
+  withInsektenschutz: {
+    sonnenschutzMinHeight: 1000,
+    sonnenschutzMaxHeight: 2700,
+    sonnenschutzSectionMaxWidth: 1800,
+    sonnenschutzSectionMinWidth: 800,
+    sonnenschutzMaxSectionArea: 4_600_000,
+  },
+  withoutInsektenschutz: {
+    sonnenschutzMinHeight: 1000,
+    sonnenschutzMaxHeight: 2900,
+    sonnenschutzSectionMaxWidth: 2600,
+    sonnenschutzSectionMinWidth: 800,
+    sonnenschutzMaxSectionArea: 4_600_000,
+  }
+}

@@ -121,13 +121,31 @@ export default function Sonnenschutz_Group() {
           sonnenschutzDefaultConfig[step.key] = size || ({} as Size);
         }
         //////////////////////////////////////////// if step has custom component
-      } else {
-        sonnenschutzDefaultConfig[step.key] =
-          sonnenschutzItems[step.key as keyof typeof sonnenschutzItems][0];
+      }
+
+      if (!('component' in step)) {
+        // choose the adapter compatible for the selected profile
+        if (step.key === 'adapter') {
+          const adapterOptions = sonnenschutzItems.adapter;
+          const selectedProfileKey = configuration.basis.profile.key;
+          console.log(adapterOptions);
+          console.log(selectedProfileKey);
+
+          const defaultSelection = adapterOptions.find((op) =>
+            op.key.includes(selectedProfileKey)
+          )!;
+
+          console.log(defaultSelection);
+
+          sonnenschutzDefaultConfig.adapter = defaultSelection;
+        } else {
+          sonnenschutzDefaultConfig[step.key] =
+            sonnenschutzItems[step.key as keyof typeof sonnenschutzItems][0];
+        }
       }
     }
     setConfiguration({ ...clearedConfiguration, sonnenschutz: sonnenschutzDefaultConfig });
-  }, [configuration.basis.cover]);
+  }, [configuration.basis.cover, configuration.basis.profile]);
 
   const expandable =
     itemsToDisplay &&
@@ -143,12 +161,13 @@ export default function Sonnenschutz_Group() {
 
   // determine what items are to be displayed for current step
   useEffect(() => {
-    // additional check prevents flicker in steps with custom compoent
-    if (
-      groupActive &&
-      visibleSection /* && visibleSection.items.length > 0 */ &&
-      Array.isArray(visibleSection.items)
-    ) {
+    if (groupActive && visibleSection && Array.isArray(visibleSection.items)) {
+      if (currentStep?.key === 'adapter') {
+        setItemsToDisplay(
+          visibleSection?.items.filter((it) => it.key === configuration.sonnenschutz.adapter?.key)
+        );
+        return;
+      }
       setItemsToDisplay(visibleSection?.items);
     }
   }, [groupActive, visibleSection]);

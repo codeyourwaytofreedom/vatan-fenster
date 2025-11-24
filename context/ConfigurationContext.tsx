@@ -190,12 +190,18 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
         (configuration.basis.type.unten?.handleNumber ?? 0)
       : (configuration.basis.type.handleNumber ?? 0);
 
+  const insektenschutzKey = configuration.sonnenschutz?.revisionsöffnung?.key.includes(
+    'insektenschutz'
+  )
+    ? 'withInsektenschutz'
+    : 'withoutInsektenschutz';
+
   const {
     sonnenschutzMinHeight,
     sonnenschutzMaxHeight,
     sonnenschutzSectionMinWidth,
     sonnenschutzSectionMaxWidth,
-  } = sonnenschutzApplicabilitySizes;
+  } = sonnenschutzApplicabilitySizes[insektenschutzKey];
 
   const moveNextGroup = () => {
     const currentGroupIndex = visibleGroups.indexOf(group);
@@ -759,11 +765,6 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
 
     const selectedStyleKey = configuration.basis.style.key;
     const selectedCoverKey = configuration.basis.cover.key;
-    const insektenschutzKey = configuration.sonnenschutz?.revisionsöffnung?.key.includes(
-      'insektenschutz'
-    )
-      ? 'withInsektenschutz'
-      : 'withoutInsektenschutz';
 
     if (selectedCoverKey === 'nein') {
       return 0;
@@ -862,6 +863,13 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
           partitionsPossible.includes(Number(o.key))
         );
 
+        const existingOption = configuration.sonnenschutz.lamellenart?.subCategory;
+
+        const optionToApply =
+          existingOption && possibleOptions.some((op) => op.key === existingOption?.key)
+            ? existingOption
+            : possibleOptions[0];
+
         setConfiguration((pr) => {
           return {
             ...pr,
@@ -869,7 +877,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
               ...pr.sonnenschutz,
               lamellenart: {
                 category: pr.sonnenschutz.lamellenart!.category,
-                subCategory: possibleOptions[0],
+                subCategory: optionToApply,
               },
             },
           };

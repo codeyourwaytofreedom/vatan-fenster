@@ -50,17 +50,17 @@ export const sonnenschutzItems: Record<
 > = {
   adapter: [
     {
-      key: 'adapt1',
+      key: 'I5-I5C-IL',
       name: 'Adapter für Profil: Iglo 5,Iglo 5 Classic, Iglo Light',
       image: soon,
     },
     {
-      key: 'adapt2',
+      key: 'IE-IEC-IED',
       name: 'Adapter für Profil: Iglo Energy,Iglo Energy Classic, Iglo EDGE',
       image: soon,
     },
     {
-      key: 'adapt3',
+      key: 'aluminium',
       name: 'Adapter universal für sonstige Syteme: Aluminium und diverse weitere Hersteller',
       image: soon,
     },
