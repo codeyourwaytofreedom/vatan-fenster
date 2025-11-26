@@ -36,7 +36,7 @@ export default function DoubleStepper({
     ];
   };
 
-  const expandable = itemsToDisplay?.length > 10;
+  const expandable = itemsToDisplay()?.length > 10;
 
   const [expanded, setExpanded] = useState(false);
 
@@ -109,7 +109,7 @@ export default function DoubleStepper({
       <br />
       <div className={style.config_wrapper_option_holders} ref={items}>
         {itemsToDisplay()
-          ?.slice(0, !expanded ? 10 : itemsToDisplay.length)
+          ?.slice(0, !expanded ? 10 : itemsToDisplay().length)
           .map((item, index) => (
             <OptionHolder
               key={index}
@@ -120,9 +120,9 @@ export default function DoubleStepper({
           ))}
       </div>
       <GroupBottomActions
-        toggleExpand={setExpanded ? () => setExpanded(true) : () => {}}
+        toggleExpand={!expanded ? () => setExpanded(true) : () => setExpanded(false)}
         expandable={expandable}
-        itemNumber={itemsToDisplay?.length || 0}
+        itemNumber={itemsToDisplay()?.length || 0}
       />
     </>
   );

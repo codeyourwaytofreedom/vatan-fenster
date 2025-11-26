@@ -7,6 +7,11 @@ import {
 } from '@/data/configurationData';
 import { minMaxSizes } from '@/data/minMaxSizes/minMaxSizes';
 import { priceLists } from '@/data/priceLists/priceLists';
+import {
+  farbenAussenInnenfarbenRolladenKastenPriceMultipliersLayer1,
+  farbenAussenInnenfarbenRolladenKastenPriceMultipliersLayer2,
+  farbenAussenInnenfarbenRolladenKastenPriceMultipliersLayer3,
+} from '@/data/priceLists/sonnenschutz/farbeRolladenKastenPrices';
 import { sonnenschutzPriceLists } from '@/data/priceLists/sonnenschutz/sonnenschutzPrices';
 import {
   innenAussenCompatibleText,
@@ -751,6 +756,9 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     height: number;
     isOberLichtUnterlicht: boolean;
   }) => {
+    if (configuration.basis.cover.key === 'nein') {
+      return 0;
+    }
     // to be adjusted !!!!!
     if (isOberLichtUnterlicht) {
       return 0;
@@ -761,14 +769,13 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
       return 0;
     }
 
+    let baseSonnentschutzPrice = 0;
+
     const selectedLamellenArtKey = configuration.sonnenschutz.lamellenart?.subCategory.key ?? '';
 
     const selectedStyleKey = configuration.basis.style.key;
     const selectedCoverKey = configuration.basis.cover.key;
 
-    if (selectedCoverKey === 'nein') {
-      return 0;
-    }
     const priceTableForSelectedSonnenschutz =
       sonnenschutzPriceLists[selectedCoverKey][insektenschutzKey];
 
@@ -778,7 +785,13 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
 
     // single window or one teilung selected
     if (selectedStyleKey === 'flugel1' || selectedLamellenArtKey === '1') {
-      return extractPriceFromTable(priceTableForSelectedSonnenschutz, width, totalHeight) || 0;
+      // RETURN SONNENSCHUTZ PRICE
+      baseSonnentschutzPrice =
+        extractPriceFromTable(priceTableForSelectedSonnenschutz, width, totalHeight) || 0;
+      const rolladenKastenPrice =
+        (calculateRolladenKastenPriceMultiplier() * baseSonnentschutzPrice) / 100;
+
+      return baseSonnentschutzPrice + rolladenKastenPrice;
     }
 
     if (!configuration.basis.multiWidth) return 0;
@@ -802,12 +815,48 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
         sectionsByTeilung = allSectionWidths;
       }
     }
-    const totalPrice = sectionsByTeilung.reduce((acc, sectionWidth) => {
+
+    // RETURN SONNENSCHUTZ PRICE
+    baseSonnentschutzPrice = sectionsByTeilung.reduce((acc, sectionWidth) => {
       const sectionPrice =
         extractPriceFromTable(priceTableForSelectedSonnenschutz, sectionWidth, totalHeight) || 0;
       return acc + sectionPrice;
     }, 0);
-    return totalPrice;
+
+    const rolladenKastenPrice =
+      (calculateRolladenKastenPriceMultiplier() * baseSonnentschutzPrice) / 100;
+
+    return baseSonnentschutzPrice + rolladenKastenPrice;
+  };
+
+  const calculateRolladenKastenPriceMultiplier = () => {
+    const selectedRolladenKasten = configuration.sonnenschutz.farbeRollladenkasten;
+    const rolladenKastenCategoryKey = selectedRolladenKasten?.category.key ?? '';
+    const rolladenKastenColorKey = selectedRolladenKasten?.subCategory.key ?? '';
+
+    const rolladenKastenPricingLayers =
+      rolladenKastenCategoryKey === 'ffa'
+        ? [farbenAussenInnenfarbenRolladenKastenPriceMultipliersLayer1]
+        : rolladenKastenCategoryKey === 'ffkaa'
+          ? [
+              farbenAussenInnenfarbenRolladenKastenPriceMultipliersLayer1,
+              farbenAussenInnenfarbenRolladenKastenPriceMultipliersLayer2,
+            ]
+          : rolladenKastenCategoryKey === 'ffkba'
+            ? [
+                farbenAussenInnenfarbenRolladenKastenPriceMultipliersLayer1,
+                farbenAussenInnenfarbenRolladenKastenPriceMultipliersLayer2,
+                farbenAussenInnenfarbenRolladenKastenPriceMultipliersLayer3,
+              ]
+            : [];
+
+    const rolladenKastenPriceMultiplier = rolladenKastenPricingLayers.reduce((acc, layer) => {
+      const multiplierInLayer =
+        layer.find((col) => col.key === rolladenKastenColorKey)?.multiplier ?? 0;
+      return acc + multiplierInLayer;
+    }, 0);
+
+    return rolladenKastenPriceMultiplier;
   };
 
   // check if sonnenschutz is applicable for current SIZE

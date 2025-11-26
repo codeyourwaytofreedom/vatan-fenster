@@ -2,7 +2,7 @@
   display: flex;
   justify-content: center;
   -moz-column-gap: 50px;
-       column-gap: 50px;
+  column-gap: 50px;
 }
 .kasten .figure {
   position: relative;
@@ -97,4 +97,4 @@
 .kasten .height .option:hover {
   background-color: var(--color-2);
   color: whitesmoke;
-}/*# sourceMappingURL=Kastenart.module.css.map */
+} /*# sourceMappingURL=Kastenart.module.css.map */

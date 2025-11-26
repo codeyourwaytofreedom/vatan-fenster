@@ -36,8 +36,8 @@ export const sonnenschutzApplicabilitySizes = {
   withoutInsektenschutz: {
     sonnenschutzMinHeight: 1000,
     sonnenschutzMaxHeight: 2900,
-    sonnenschutzSectionMaxWidth: 2600,
+    sonnenschutzSectionMaxWidth: 2200,
     sonnenschutzSectionMinWidth: 800,
     sonnenschutzMaxSectionArea: 4_600_000,
-  }
-}
+  },
+};

@@ -103,7 +103,7 @@ export const sonnenschutzItems: Record<
       name: '2 Teilung',
       image: soon,
     },
-/*     {
+    /*     {
       key: '2tlkrl',
       name: '2 Teilung links kurz rechts lang',
       image: soon,

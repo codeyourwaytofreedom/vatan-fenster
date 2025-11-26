@@ -262,16 +262,6 @@ export const farbenAussenInnenOptions: SelectionItem[] = [
     colorCode: '50470047',
     details: 'Dummy details for the Dekorfarben Aussen Options',
   },
-  // no price multiplier available yet for this
-  // to be activated later on
-  /*   {
-    name: 'Anthrazitgrau stylo',
-    image: Anthrazitgrau_stylo_F436_4003,
-    key: 'anthrazitgrau_stylo_f436_4003',
-    zoomable: true,
-    colorCode: 'F436_4003',
-    details: 'Dummy details for the Dekorfarben Aussen Options',
-  }, */
   {
     name: 'Schwarz ulti matt',
     image: Schwarz_ulti_matt_504700_047,

@@ -72,7 +72,7 @@ export const basisValidator = {
             additionalProperties: false,
             properties: {
               key: {
-                bsonType: 'string'
+                bsonType: 'string',
               },
               name: { bsonType: 'string' },
               handleNumber: { bsonType: 'int' },
@@ -106,7 +106,7 @@ export const basisValidator = {
               h: { bsonType: 'number' },
             },
           },
-        // OPTIONALS
+          // OPTIONALS
           multiWidth: {
             bsonType: 'object',
             additionalProperties: { bsonType: 'number' },

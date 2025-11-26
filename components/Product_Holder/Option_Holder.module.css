@@ -20,7 +20,9 @@
   cursor: zoom-in;
 }
 .expand svg {
-  filter: drop-shadow(1px 0 black) drop-shadow(-1px 0 black) drop-shadow(0 1px black) drop-shadow(0 -1px black) drop-shadow(1px 1px black) drop-shadow(-1px -1px black) drop-shadow(1px -1px black) drop-shadow(-1px 1px black);
+  filter: drop-shadow(1px 0 black) drop-shadow(-1px 0 black) drop-shadow(0 1px black)
+    drop-shadow(0 -1px black) drop-shadow(1px 1px black) drop-shadow(-1px -1px black)
+    drop-shadow(1px -1px black) drop-shadow(-1px 1px black);
 }
 
 .info {
@@ -65,7 +67,7 @@
   justify-content: center;
   align-items: center;
   -moz-column-gap: 10px;
-       column-gap: 10px;
+  column-gap: 10px;
   color: salmon;
   font-weight: 400;
 }
@@ -85,7 +87,7 @@
   display: flex;
   align-items: center;
   -moz-column-gap: 5px;
-       column-gap: 5px;
+  column-gap: 5px;
   font-size: larger;
   justify-content: center;
 }
@@ -169,4 +171,4 @@
 .option_withzoom:hover img,
 .option_selected_withzoom:hover img {
   scale: 1.05;
-}/*# sourceMappingURL=Option_Holder.module.css.map */
+} /*# sourceMappingURL=Option_Holder.module.css.map */

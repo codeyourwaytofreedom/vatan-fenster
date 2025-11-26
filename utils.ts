@@ -315,7 +315,6 @@ export function stripConfigKeys(config: FensterConfig, keysToDelete: string[] = 
   return stripped;
 }
 
-
 export function purifyConfig(config: FensterConfig, keysToDelete: string[] = []) {
   const purifiedConfig = stripConfigKeys(config, keysToDelete);
   return purifiedConfig;
