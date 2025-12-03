@@ -7,11 +7,14 @@ import {
 } from '@/data/configurationData';
 import { minMaxSizes } from '@/data/minMaxSizes/minMaxSizes';
 import { priceLists } from '@/data/priceLists/priceLists';
+import { farbeEndschienePrices } from '@/data/priceLists/sonnenschutz/farbeEndschienePrices';
 import {
   farbenAussenInnenfarbenRolladenKastenPriceMultipliersLayer1,
   farbenAussenInnenfarbenRolladenKastenPriceMultipliersLayer2,
   farbenAussenInnenfarbenRolladenKastenPriceMultipliersLayer3,
 } from '@/data/priceLists/sonnenschutz/farbeRolladenKastenPrices';
+import { farbeRollladenPanzerPrices } from '@/data/priceLists/sonnenschutz/farbeRollladenPanzerPrices';
+import { putztragerPrices } from '@/data/priceLists/sonnenschutz/putztragerPrices';
 import { sonnenschutzPriceLists } from '@/data/priceLists/sonnenschutz/sonnenschutzPrices';
 import {
   innenAussenCompatibleText,
@@ -771,7 +774,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
 
     let baseSonnentschutzPrice = 0;
 
-    const selectedLamellenArtKey = configuration.sonnenschutz.lamellenart?.subCategory.key ?? '';
+    const selectedTeilungKey = configuration.sonnenschutz.lamellenart?.subCategory.key ?? '';
 
     const selectedStyleKey = configuration.basis.style.key;
     const selectedCoverKey = configuration.basis.cover.key;
@@ -781,17 +784,32 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
 
     const additionalSonnenschutzHeight =
       'height' in configuration.basis.cover ? (configuration.basis.cover.height as number) : 0;
-    const totalHeight = height + additionalSonnenschutzHeight;
+    const totalSonnenschutzHeight = height + additionalSonnenschutzHeight;
+
+    const schragschnittPrice = calculateSchragschnittPrice(selectedTeilungKey);
 
     // single window or one teilung selected
-    if (selectedStyleKey === 'flugel1' || selectedLamellenArtKey === '1') {
+    if (selectedStyleKey === 'flugel1' || selectedTeilungKey === '1') {
       // RETURN SONNENSCHUTZ PRICE
       baseSonnentschutzPrice =
-        extractPriceFromTable(priceTableForSelectedSonnenschutz, width, totalHeight) || 0;
+        extractPriceFromTable(priceTableForSelectedSonnenschutz, width, totalSonnenschutzHeight) ||
+        0;
       const rolladenKastenPrice =
         (calculateRolladenKastenPriceMultiplier() * baseSonnentschutzPrice) / 100;
+      const rollladenPanzerPrice = calculateRollladenPanzerPrice(width, totalSonnenschutzHeight);
 
-      return baseSonnentschutzPrice + rolladenKastenPrice;
+      const farbeEndschienePrice = calculateFarbeEndschienePrice(width, totalSonnenschutzHeight);
+
+      const putztragerPrice = calculatePutztragerPrice(width);
+
+      return (
+        baseSonnentschutzPrice +
+        rolladenKastenPrice +
+        rollladenPanzerPrice +
+        farbeEndschienePrice +
+        putztragerPrice +
+        schragschnittPrice
+      );
     }
 
     if (!configuration.basis.multiWidth) return 0;
@@ -805,13 +823,13 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     }
 
     if (selectedStyleKey === 'flugel3') {
-      if (selectedLamellenArtKey === '12') {
+      if (selectedTeilungKey === '12') {
         sectionsByTeilung = [allSectionWidths[0], allSectionWidths[1] + allSectionWidths[2]];
       }
-      if (selectedLamellenArtKey === '21') {
+      if (selectedTeilungKey === '21') {
         sectionsByTeilung = [allSectionWidths[0] + allSectionWidths[1], allSectionWidths[2]];
       }
-      if (selectedLamellenArtKey === '3') {
+      if (selectedTeilungKey === '3') {
         sectionsByTeilung = allSectionWidths;
       }
     }
@@ -819,14 +837,42 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     // RETURN SONNENSCHUTZ PRICE
     baseSonnentschutzPrice = sectionsByTeilung.reduce((acc, sectionWidth) => {
       const sectionPrice =
-        extractPriceFromTable(priceTableForSelectedSonnenschutz, sectionWidth, totalHeight) || 0;
+        extractPriceFromTable(
+          priceTableForSelectedSonnenschutz,
+          sectionWidth,
+          totalSonnenschutzHeight
+        ) || 0;
       return acc + sectionPrice;
     }, 0);
 
     const rolladenKastenPrice =
       (calculateRolladenKastenPriceMultiplier() * baseSonnentschutzPrice) / 100;
+    const rollladenPanzerPrice = sectionsByTeilung.reduce((acc, sectionWidth) => {
+      const rollladenPanzerPricePerSection = calculateRollladenPanzerPrice(
+        sectionWidth,
+        totalSonnenschutzHeight
+      );
+      return acc + rollladenPanzerPricePerSection;
+    }, 0);
 
-    return baseSonnentschutzPrice + rolladenKastenPrice;
+    const farbeEndschienePrice = sectionsByTeilung.reduce((acc, sectionWidth) => {
+      const farbeEndschienePricePerSection = calculateFarbeEndschienePrice(
+        sectionWidth,
+        totalSonnenschutzHeight
+      );
+      return acc + farbeEndschienePricePerSection;
+    }, 0);
+
+    const putztragerPrice = calculatePutztragerPrice(width);
+
+    return (
+      baseSonnentschutzPrice +
+      rolladenKastenPrice +
+      rollladenPanzerPrice +
+      farbeEndschienePrice +
+      putztragerPrice +
+      schragschnittPrice
+    );
   };
 
   const calculateRolladenKastenPriceMultiplier = () => {
@@ -857,6 +903,40 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     }, 0);
 
     return rolladenKastenPriceMultiplier;
+  };
+
+  const calculateRollladenPanzerPrice = (width: number, height: number) => {
+    const selectedRollladenPanzerKey = configuration.sonnenschutz.farbeRollladenPanzer?.key || '';
+    const multiplier = farbeRollladenPanzerPrices[selectedRollladenPanzerKey] ?? 0;
+    const area = (width * height) / 1000_000;
+    return multiplier * area;
+  };
+
+  const calculateFarbeEndschienePrice = (width: number, height: number) => {
+    const selectedFarbeEndschieneKey = configuration.sonnenschutz.farbeEndschiene?.key ?? '';
+    const multiplier = farbeEndschienePrices[selectedFarbeEndschieneKey] ?? 0;
+    const area = (width * height) / 1000_000;
+    return multiplier * area;
+  };
+
+  const calculatePutztragerPrice = (width: number) => {
+    const putztrager = configuration.sonnenschutz.putztrager || {};
+    if ('category' in putztrager) {
+      const categoryKey = (putztrager.category as SelectionItem)?.key;
+      if (categoryKey === 'nein' || !('subCategory' in putztrager)) {
+        return 0;
+      }
+      const subcategoryKey = (putztrager.subCategory as SelectionItem)?.key;
+      const multiplier = putztragerPrices[categoryKey][subcategoryKey];
+      const putztragerPrice = multiplier * (width / 1000);
+      return putztragerPrice;
+    }
+    return 0;
+  };
+
+  const calculateSchragschnittPrice = (teilungKey: string) => {
+    const teilungCount = teilungKey === '1' ? 1 : teilungKey === '3' ? 3 : 2;
+    return teilungCount * 10;
   };
 
   // check if sonnenschutz is applicable for current SIZE

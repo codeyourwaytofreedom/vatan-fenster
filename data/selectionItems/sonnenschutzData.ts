@@ -13,14 +13,13 @@ export const sonnenschutzItems: Record<
   | 'lamellenartVorsatzrollladen'
   | 'farbeRollladenPanzer'
   | 'farbeEndschiene'
-  | 'putzträger'
+  | 'putztrager'
   | 'putzträgerStyroporkasten'
-  | 'schrägschnitt'
+  | 'schragschnitt'
   | 'antriebsart'
   | 'antriebsseite'
   | 'schallschutzmatte'
   | 'verlangerung'
-  | 'rollladen'
   | 'montageartRollladen'
   | 'stahlkonsole'
   | 'kastentiefeStyroporkasten'
@@ -132,34 +131,43 @@ export const sonnenschutzItems: Record<
     },
   ], */
   farbeRollladenPanzer: [
-    { key: 'silber', name: 'Silber', image: soon },
-    { key: 'weiss', name: 'Weiß', image: soon },
-    { key: 'grau', name: 'Grau', image: soon },
-    { key: 'braun', name: 'Braun', image: soon },
-    { key: 'dunkelbraun', name: 'Dunkelbraun', image: soon },
+    { key: 'silber', name: 'Silber RAL9006', image: soon },
+    { key: 'weiss', name: 'Weiß RAL9016', image: soon },
+    { key: 'grau', name: 'Grau RAL7038', image: soon },
+    { key: 'braun', name: 'Braun RAL8014', image: soon },
+    { key: 'beige', name: 'Beige RAL1001', image: soon },
+    { key: 'dunkelbraun', name: 'Dunkel Braun RAL8019', image: soon },
+    { key: 'schwarz', name: 'Schwarz RAL 9005', image: soon },
+    { key: 'anthrazit', name: 'Anthrazit RAL7016', image: soon },
     { key: 'golden_oak', name: 'Golden Oak', image: soon },
     { key: 'nussbaum', name: 'Nussbaum', image: soon },
-    { key: 'anthrazit', name: 'Anthrazit', image: soon },
-    { key: 'moosgruen', name: 'Moosgrün', image: soon },
-    { key: 'braun_metallic', name: 'Braun Metallic', image: soon },
-    { key: 'grau_aluminium', name: 'Grau Aluminium', image: soon },
-    { key: 'reine', name: 'Reine', image: soon },
+    { key: 'quarzgrau', name: 'Quarzgrau RAL7039', image: soon },
+    { key: 'turneroak', name: 'Turner Oak', image: soon },
+    { key: 'winchester', name: 'Winchester', image: soon },
+    { key: 'moosgrün', name: 'Moos Grün RAL6005', image: soon },
+    { key: 'graualuminium', name: 'Grau Aluminium RAL9007', image: soon },
+    { key: 'basaltgrau', name: 'Basaltgrau RAL7012', image: soon },
   ],
   farbeEndschiene: [
-    { key: 'silber', name: 'Silber', image: soon },
-    { key: 'weiss', name: 'Weiß', image: soon },
-    { key: 'grau', name: 'Grau', image: soon },
-    { key: 'braun', name: 'Braun', image: soon },
-    { key: 'dunkelbraun', name: 'Dunkelbraun', image: soon },
+    { key: 'silber', name: 'Silber RAL9006', image: soon },
+    { key: 'weiss', name: 'Weiß RAL9016', image: soon },
+    { key: 'grau', name: 'Grau RAL7038', image: soon },
+    { key: 'beige', name: 'Beige RAL1001', image: soon },
+    { key: 'braun', name: 'Braun RAL8014', image: soon },
+    { key: 'dunkelbraun', name: 'Dunkel Braun RAL8019', image: soon },
+    { key: 'schwarz', name: 'Schwarz RAL 9005', image: soon },
+    { key: 'anthrazit', name: 'Anthrazit RAL7016', image: soon },
     { key: 'golden_oak', name: 'Golden Oak', image: soon },
     { key: 'nussbaum', name: 'Nussbaum', image: soon },
-    { key: 'anthrazit', name: 'Anthrazit', image: soon },
-    { key: 'moosgruen', name: 'Moosgrün', image: soon },
-    { key: 'braun_metallic', name: 'Braun Metallic', image: soon },
-    { key: 'grau_aluminium', name: 'Grau Aluminium', image: soon },
-    { key: 'reine', name: 'Reine', image: soon },
+    { key: 'quarzgrau', name: 'Quarzgrau RAL7039', image: soon },
+    { key: 'turneroak', name: 'Turner Oak', image: soon },
+    { key: 'winchester', name: 'Winchester', image: soon },
+    { key: 'moosgrün', name: 'Moos Grün RAL6005', image: soon },
+    { key: 'graualuminium', name: 'Grau Aluminium RAL9007', image: soon },
+    { key: 'basaltgrau', name: 'Basaltgrau RAL7012', image: soon },
+    { key: 'elfenbein', name: 'Elfenbein RAL 1015', image: soon },
   ],
-  putzträger: [
+  putztrager: [
     { key: 'nein', name: 'Nein', image: soon },
     { key: 'innen', name: 'Innen', image: soon },
     { key: 'aussen', name: 'Außen', image: soon },
@@ -177,7 +185,7 @@ export const sonnenschutzItems: Record<
       image: soon,
     },
   ],
-  schrägschnitt: [
+  schragschnitt: [
     { key: 'nein', name: 'Nein', image: soon },
     { key: '5grad', name: '5°', image: soon },
     { key: '7grad', name: '7°', image: soon },
@@ -197,10 +205,6 @@ export const sonnenschutzItems: Record<
     { key: 'ja', name: 'Ja', image: yes },
   ],
   verlangerung: [],
-  rollladen: [
-    { key: 'nein', name: 'Nein', image: no },
-    { key: 'ja', name: 'Ja', image: yes },
-  ],
   montageartRollladen: [
     { key: 'mrf', name: 'Montage des Rollladenkastens auf dem Fenster', image: soon },
     { key: 'mrv', name: 'Montage des Rollladenkastens bündig mit der Verbreiterung', image: soon },
@@ -462,7 +466,7 @@ const optionsForPutzträgerSubcategories = [
   },
 ];
 
-export const _215_175_putzträgerProps = {
+export const _215_175_putztragerProps = {
   categoryItems: [
     {
       key: 'nein',

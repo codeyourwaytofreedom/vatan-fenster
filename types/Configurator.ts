@@ -156,8 +156,8 @@ export interface SonnenschutzConfiuration {
   farbeRollladenPanzer?: SelectionItem;
   farbeEndschiene?: SelectionItem;
   farbeFührungsschiene?: SelectionItem;
-  putzträger?: SelectionItem;
-  schrägschnitt?: SelectionItem;
+  putztrager?: SelectionItem;
+  schragschnitt?: SelectionItem;
   kastenheight?: SelectionItem;
   kastenart?: SelectionItem;
   kastenDimensions?: Size | null;
