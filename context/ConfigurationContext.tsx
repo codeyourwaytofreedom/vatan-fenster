@@ -870,6 +870,9 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
   };
 
   const calculateRolladenKastenPriceMultiplier = () => {
+    if (!('farbeRollladenkasten' in configuration.sonnenschutz)) {
+      return 0;
+    }
     const selectedRolladenKasten = configuration.sonnenschutz.farbeRollladenkasten;
     const rolladenKastenCategoryKey = selectedRolladenKasten?.category.key ?? '';
     const rolladenKastenColorKey = selectedRolladenKasten?.subCategory.key ?? '';
@@ -900,6 +903,9 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
   };
 
   const calculateRollladenPanzerPrice = (width: number, height: number) => {
+    if (!('farbeRollladenPanzer' in configuration.sonnenschutz)) {
+      return 0;
+    }
     const selectedRollladenPanzerKey = configuration.sonnenschutz.farbeRollladenPanzer?.key || '';
     const multiplier = farbeRollladenPanzerPrices[selectedRollladenPanzerKey] ?? 0;
     const area = (width * height) / 1000_000;
@@ -907,6 +913,9 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
   };
 
   const calculateFarbeEndschienePrice = (width: number, height: number) => {
+    if (!('farbeEndschiene' in configuration.sonnenschutz)) {
+      return 0;
+    }
     const selectedFarbeEndschieneKey = configuration.sonnenschutz.farbeEndschiene?.key ?? '';
     const multiplier = farbeEndschienePrices[selectedFarbeEndschieneKey] ?? 0;
     const area = (width * height) / 1000_000;
@@ -914,6 +923,9 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
   };
 
   const calculatePutztragerPrice = (width: number) => {
+    if (!('putztrager' in configuration.sonnenschutz)) {
+      return 0;
+    }
     const putztrager = configuration.sonnenschutz.putztrager || {};
     if ('category' in putztrager) {
       const categoryKey = (putztrager.category as SelectionItem)?.key;
@@ -929,6 +941,9 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
   };
 
   const calculateSchragschnittPrice = (schragschnittKey: string, teilungKey: string) => {
+    if (!('schragschnitt' in configuration.sonnenschutz)) {
+      return 0;
+    }
     if (schragschnittKey === 'nein') {
       return 0;
     }
@@ -937,6 +952,9 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
   };
 
   const calculateAntriebsartPrice = (teilungKey: string) => {
+    if (!('antriebsart' in configuration.sonnenschutz)) {
+      return 0;
+    }
     const count = teilungKey === '1' ? 1 : 2;
     if (
       configuration.sonnenschutz.antriebsart &&
