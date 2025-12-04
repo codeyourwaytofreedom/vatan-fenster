@@ -800,6 +800,8 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
 
     const schallschutzmattePrice = calculateSchallschutzmattePrice(width);
 
+    const montageartRollladenPrice = calculateMontageartRollladenPrice(width);
+
     // single window or one teilung selected
     if (selectedStyleKey === 'flugel1' || selectedTeilungKey === '1') {
       // RETURN SONNENSCHUTZ PRICE
@@ -817,7 +819,8 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
         putztragerPrice +
         schragschnittPrice +
         antriebsartPrice +
-        schallschutzmattePrice
+        schallschutzmattePrice +
+        montageartRollladenPrice
       );
     }
 
@@ -861,7 +864,8 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
       putztragerPrice +
       schragschnittPrice +
       antriebsartPrice +
-      schallschutzmattePrice
+      schallschutzmattePrice +
+      montageartRollladenPrice
     );
   };
 
@@ -956,6 +960,13 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
       return 0;
     }
     return (width / 1000) * 50;
+  };
+
+  const calculateMontageartRollladenPrice = (width: number) => {
+    if (!('montageartRollladen' in configuration.sonnenschutz)) {
+      return 0;
+    }
+    return (width / 1000) * 70;
   };
 
   // check if sonnenschutz is applicable for current SIZE
