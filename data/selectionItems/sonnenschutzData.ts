@@ -451,7 +451,7 @@ export const _215_175_LamelleatProps = {
 const optionsForPutzträgerSubcategories = [
   {
     key: 'ppa',
-    name: 'Putzträger+Putzl eiste Alu',
+    name: 'Putzträger + Putzleiste Alu',
     image: soon,
   },
   {

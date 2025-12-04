@@ -7,6 +7,7 @@ import {
 } from '@/data/configurationData';
 import { minMaxSizes } from '@/data/minMaxSizes/minMaxSizes';
 import { priceLists } from '@/data/priceLists/priceLists';
+import { antriebsartPrices } from '@/data/priceLists/sonnenschutz/antriebsartPrices';
 import { farbeEndschienePrices } from '@/data/priceLists/sonnenschutz/farbeEndschienePrices';
 import {
   farbenAussenInnenfarbenRolladenKastenPriceMultipliersLayer1,
@@ -782,25 +783,31 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     const priceTableForSelectedSonnenschutz =
       sonnenschutzPriceLists[selectedCoverKey][insektenschutzKey];
 
-    const additionalSonnenschutzHeight =
-      'height' in configuration.basis.cover ? (configuration.basis.cover.height as number) : 0;
-    const totalSonnenschutzHeight = height + additionalSonnenschutzHeight;
+    // steps that are priced same for single and multiple teilungs
 
-    const schragschnittPrice = calculateSchragschnittPrice(selectedTeilungKey);
+    const rollladenPanzerPrice = calculateRollladenPanzerPrice(width, height);
+
+    const farbeEndschienePrice = calculateFarbeEndschienePrice(width, height);
+
+    const schragschnittPrice = calculateSchragschnittPrice(
+      configuration.sonnenschutz.schragschnitt?.key ?? 'nein',
+      selectedTeilungKey
+    );
+
+    const putztragerPrice = calculatePutztragerPrice(width);
+
+    const antriebsartPrice = calculateAntriebsartPrice(selectedTeilungKey);
+
+    const schallschutzmattePrice = calculateSchallschutzmattePrice(width);
 
     // single window or one teilung selected
     if (selectedStyleKey === 'flugel1' || selectedTeilungKey === '1') {
       // RETURN SONNENSCHUTZ PRICE
       baseSonnentschutzPrice =
-        extractPriceFromTable(priceTableForSelectedSonnenschutz, width, totalSonnenschutzHeight) ||
-        0;
+        extractPriceFromTable(priceTableForSelectedSonnenschutz, width, height) || 0;
+
       const rolladenKastenPrice =
         (calculateRolladenKastenPriceMultiplier() * baseSonnentschutzPrice) / 100;
-      const rollladenPanzerPrice = calculateRollladenPanzerPrice(width, totalSonnenschutzHeight);
-
-      const farbeEndschienePrice = calculateFarbeEndschienePrice(width, totalSonnenschutzHeight);
-
-      const putztragerPrice = calculatePutztragerPrice(width);
 
       return (
         baseSonnentschutzPrice +
@@ -808,7 +815,9 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
         rollladenPanzerPrice +
         farbeEndschienePrice +
         putztragerPrice +
-        schragschnittPrice
+        schragschnittPrice +
+        antriebsartPrice +
+        schallschutzmattePrice
       );
     }
 
@@ -837,33 +846,12 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     // RETURN SONNENSCHUTZ PRICE
     baseSonnentschutzPrice = sectionsByTeilung.reduce((acc, sectionWidth) => {
       const sectionPrice =
-        extractPriceFromTable(
-          priceTableForSelectedSonnenschutz,
-          sectionWidth,
-          totalSonnenschutzHeight
-        ) || 0;
+        extractPriceFromTable(priceTableForSelectedSonnenschutz, sectionWidth, height) || 0;
       return acc + sectionPrice;
     }, 0);
 
     const rolladenKastenPrice =
       (calculateRolladenKastenPriceMultiplier() * baseSonnentschutzPrice) / 100;
-    const rollladenPanzerPrice = sectionsByTeilung.reduce((acc, sectionWidth) => {
-      const rollladenPanzerPricePerSection = calculateRollladenPanzerPrice(
-        sectionWidth,
-        totalSonnenschutzHeight
-      );
-      return acc + rollladenPanzerPricePerSection;
-    }, 0);
-
-    const farbeEndschienePrice = sectionsByTeilung.reduce((acc, sectionWidth) => {
-      const farbeEndschienePricePerSection = calculateFarbeEndschienePrice(
-        sectionWidth,
-        totalSonnenschutzHeight
-      );
-      return acc + farbeEndschienePricePerSection;
-    }, 0);
-
-    const putztragerPrice = calculatePutztragerPrice(width);
 
     return (
       baseSonnentschutzPrice +
@@ -871,7 +859,9 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
       rollladenPanzerPrice +
       farbeEndschienePrice +
       putztragerPrice +
-      schragschnittPrice
+      schragschnittPrice +
+      antriebsartPrice +
+      schallschutzmattePrice
     );
   };
 
@@ -934,9 +924,38 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     return 0;
   };
 
-  const calculateSchragschnittPrice = (teilungKey: string) => {
+  const calculateSchragschnittPrice = (schragschnittKey: string, teilungKey: string) => {
+    if (schragschnittKey === 'nein') {
+      return 0;
+    }
     const teilungCount = teilungKey === '1' ? 1 : teilungKey === '3' ? 3 : 2;
     return teilungCount * 10;
+  };
+
+  const calculateAntriebsartPrice = (teilungKey: string) => {
+    const count = teilungKey === '1' ? 1 : 2;
+    if (
+      configuration.sonnenschutz.antriebsart &&
+      'category' in configuration.sonnenschutz.antriebsart &&
+      'subCategory' in configuration.sonnenschutz.antriebsart
+    ) {
+      const categoryKey = (configuration.sonnenschutz.antriebsart?.category as SelectionItem)?.key;
+      const subcategoryKey = (configuration.sonnenschutz.antriebsart?.subCategory as SelectionItem)
+        ?.key;
+      const multiplier = antriebsartPrices[categoryKey][subcategoryKey];
+      return multiplier * count;
+    }
+    return 0;
+  };
+
+  const calculateSchallschutzmattePrice = (width: number) => {
+    if (!('schallschutzmatte' in configuration.sonnenschutz)) {
+      return 0;
+    }
+    if ((configuration.sonnenschutz.schallschutzmatte as SelectionItem)?.key === 'nein') {
+      return 0;
+    }
+    return (width / 1000) * 50;
   };
 
   // check if sonnenschutz is applicable for current SIZE

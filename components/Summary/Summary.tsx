@@ -73,6 +73,8 @@ export default function SummaryDisplayer() {
     { key: 'zusatze', content: groupZusatze() },
   ];
 
+  const excludedSteps = ['adapter'];
+
   if (configuration.basis.cover.key !== 'nein') {
     expandableGroups.push({ key: 'sonnenschutz', content: groupSonnenschutz });
   }
@@ -555,7 +557,8 @@ export default function SummaryDisplayer() {
           </button>
           {Object.entries(group.content).map(
             ([key, value]) =>
-              value && (
+              value &&
+              !excludedSteps.includes(key) && (
                 <div
                   key={key}
                   className={
