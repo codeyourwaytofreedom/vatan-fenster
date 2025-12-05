@@ -796,7 +796,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
 
     const putztragerPrice = calculatePutztragerPrice(width);
 
-    const antriebsartPrice = calculateAntriebsartPrice(selectedTeilungKey);
+    const antriebsartPrice = calculateAntriebsartPrice(selectedTeilungKey, width);
 
     const schallschutzmattePrice = calculateSchallschutzmattePrice(width);
 
@@ -951,11 +951,12 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     return teilungCount * 10;
   };
 
-  const calculateAntriebsartPrice = (teilungKey: string) => {
+  const calculateAntriebsartPrice = (teilungKey: string, width: number) => {
     if (!('antriebsart' in configuration.sonnenschutz)) {
       return 0;
     }
     const count = teilungKey === '1' ? 1 : 2;
+    const wellePrice = (width / 1000) * 5;
     if (
       configuration.sonnenschutz.antriebsart &&
       'category' in configuration.sonnenschutz.antriebsart &&
@@ -965,7 +966,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
       const subcategoryKey = (configuration.sonnenschutz.antriebsart?.subCategory as SelectionItem)
         ?.key;
       const multiplier = antriebsartPrices[categoryKey][subcategoryKey];
-      return multiplier * count;
+      return multiplier * count + wellePrice;
     }
     return 0;
   };
