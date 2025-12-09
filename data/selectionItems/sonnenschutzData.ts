@@ -206,6 +206,7 @@ export const sonnenschutzItems: Record<
   ],
   verlangerung: [],
   montageartRollladen: [
+    { key: 'nein', name: 'Ohne Rollladenmontage', image: soon },
     { key: 'mrf', name: 'Montage des Rollladenkastens auf dem Fenster', image: soon },
     { key: 'mrv', name: 'Montage des Rollladenkastens bündig mit der Verbreiterung', image: soon },
   ],

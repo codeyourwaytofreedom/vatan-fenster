@@ -697,6 +697,7 @@ export default function UntenSizer({
                 </h5>
                 <input
                   type="number"
+                  tabIndex={2}
                   onChange={(e) => updateTotalHeight(e)}
                   onKeyDown={(event) => suppressArrows(event)}
                   value={totalHeight}
@@ -784,6 +785,7 @@ export default function UntenSizer({
               </h5>
               <input
                 type="number"
+                tabIndex={1}
                 onChange={(e) => updateWidth(e)}
                 onKeyDown={(event) => suppressArrows(event)}
                 value={size?.w}

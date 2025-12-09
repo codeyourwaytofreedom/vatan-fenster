@@ -260,6 +260,8 @@ export default function Stepper() {
       </div>
     );
   };
+
+  const excludedSteps = ['adapter'];
   return (
     <>
       <div
@@ -268,16 +270,18 @@ export default function Stepper() {
         } /* style={{paddingRight: showRightArrow ? 30 : 0, paddingLeft: showLeftArrow ? 30 : 0}} */
       >
         <div className={style.config_steps} ref={stepsHolder}>
-          {steps.map((st, index) => (
-            <button key={index} className={stepClass(st)} onClick={() => selectStep(st)}>
-              <FontAwesomeIcon
-                icon={st.icon}
-                color="black"
-                beatFade={stepClass(st).includes('next')}
-              />
-              <p>{st.name}</p>
-            </button>
-          ))}
+          {steps
+            .filter((st) => !excludedSteps.includes(st.key))
+            .map((st, index) => (
+              <button key={index} className={stepClass(st)} onClick={() => selectStep(st)}>
+                <FontAwesomeIcon
+                  icon={st.icon}
+                  color="black"
+                  beatFade={stepClass(st).includes('next')}
+                />
+                <p>{st.name}</p>
+              </button>
+            ))}
         </div>
         {showRightArrow && (
           <div id={style.rightArrow}>

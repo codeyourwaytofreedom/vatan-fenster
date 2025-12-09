@@ -204,7 +204,8 @@ export default function SummaryDisplayer() {
       if (currentGroup !== groupKey) {
         setCurrentGroup(groupKey);
         const groupSteps = getStepsForGroup(groupKey);
-        setCurrentStep(groupSteps[0]);
+        const firstSelectableStep = groupSteps.find((st) => !excludedSteps.includes(st.key));
+        setCurrentStep(firstSelectableStep || groupSteps[0]);
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
       if (expandedGroups?.includes(groupKey)) {
@@ -557,8 +558,7 @@ export default function SummaryDisplayer() {
           </button>
           {Object.entries(group.content).map(
             ([key, value]) =>
-              value &&
-              !excludedSteps.includes(key) && (
+              value && (
                 <div
                   key={key}
                   className={
@@ -566,7 +566,7 @@ export default function SummaryDisplayer() {
                       ? styles.item
                       : styles.itemGrid
                   }
-                  onClick={() => handleShowStep(key)}
+                  onClick={!excludedSteps.includes(key) ? () => handleShowStep(key) : undefined}
                   id={key}
                 >
                   <span id={styles.title}>&#x2022; {labelExtractor(key)}</span>

@@ -780,6 +780,9 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     const selectedStyleKey = configuration.basis.style.key;
     const selectedCoverKey = configuration.basis.cover.key;
 
+    const verlangerung = configuration.sonnenschutz.verlangerung;
+    const extensionHeight = verlangerung?.name ? parseInt(verlangerung.name) : 0;
+
     const priceTableForSelectedSonnenschutz =
       sonnenschutzPriceLists[selectedCoverKey][insektenschutzKey];
 
@@ -802,11 +805,14 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
 
     const montageartRollladenPrice = calculateMontageartRollladenPrice(width);
 
+    const stahlkonsolePrice = calculateStahlkonsolePrice();
+
     // single window or one teilung selected
     if (selectedStyleKey === 'flugel1' || selectedTeilungKey === '1') {
       // RETURN SONNENSCHUTZ PRICE
       baseSonnentschutzPrice =
-        extractPriceFromTable(priceTableForSelectedSonnenschutz, width, height) || 0;
+        extractPriceFromTable(priceTableForSelectedSonnenschutz, width, height + extensionHeight) ||
+        0;
 
       const rolladenKastenPrice =
         (calculateRolladenKastenPriceMultiplier() * baseSonnentschutzPrice) / 100;
@@ -820,7 +826,8 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
         schragschnittPrice +
         antriebsartPrice +
         schallschutzmattePrice +
-        montageartRollladenPrice
+        montageartRollladenPrice +
+        stahlkonsolePrice
       );
     }
 
@@ -849,7 +856,11 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     // RETURN SONNENSCHUTZ PRICE
     baseSonnentschutzPrice = sectionsByTeilung.reduce((acc, sectionWidth) => {
       const sectionPrice =
-        extractPriceFromTable(priceTableForSelectedSonnenschutz, sectionWidth, height) || 0;
+        extractPriceFromTable(
+          priceTableForSelectedSonnenschutz,
+          sectionWidth,
+          height + extensionHeight
+        ) || 0;
       return acc + sectionPrice;
     }, 0);
 
@@ -865,7 +876,8 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
       schragschnittPrice +
       antriebsartPrice +
       schallschutzmattePrice +
-      montageartRollladenPrice
+      montageartRollladenPrice +
+      stahlkonsolePrice
     );
   };
 
@@ -985,7 +997,19 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     if (!('montageartRollladen' in configuration.sonnenschutz)) {
       return 0;
     }
+    if ((configuration.sonnenschutz.montageartRollladen as SelectionItem)?.key === 'nein') {
+      return 0;
+    }
     return (width / 1000) * 70;
+  };
+
+  const calculateStahlkonsolePrice = () => {
+    if ('stahlkonsole' in configuration.sonnenschutz) {
+      if ((configuration.sonnenschutz.stahlkonsole as SelectionItem)?.key === 'ja') {
+        return 45;
+      }
+    }
+    return 0;
   };
 
   // check if sonnenschutz is applicable for current SIZE
@@ -1185,6 +1209,27 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
       });
     }
   }, [windowHandleNumberTotal]);
+
+  // --------
+  useEffect(() => {
+    const verlangerung = configuration.sonnenschutz.verlangerung;
+    const extension = verlangerung?.name ? parseInt(verlangerung.name) : 0;
+    if (extension > 30 && 'montageartRollladen' in configuration.sonnenschutz) {
+      const selectedmontageartRollladen = configuration.sonnenschutz
+        .montageartRollladen as SelectionItem;
+      if (selectedmontageartRollladen.key !== 'nein') {
+        setConfiguration((pr) => {
+          return {
+            ...pr,
+            sonnenschutz: {
+              ...pr.sonnenschutz,
+              montageartRollladen: { key: 'nein', name: 'Ohne Rollladenmontage' },
+            },
+          };
+        });
+      }
+    }
+  }, [configuration.sonnenschutz.verlangerung]);
 
   return (
     <ConfiurationContext.Provider

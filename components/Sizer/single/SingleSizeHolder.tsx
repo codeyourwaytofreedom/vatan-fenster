@@ -416,6 +416,7 @@ export default function SingleSizer({
                       value={height}
                       min={minHeight}
                       max={maxHeight}
+                      tabIndex={2}
                       placeholder="höhe"
                       className={heightInputHasProblems() ? style.warn : ''}
                       ref={totalHeight}
@@ -475,10 +476,11 @@ export default function SingleSizer({
                   </h5>
                   <input
                     type="number"
+                    tabIndex={1}
                     onChange={(e) => updateWidth(e, 'w')}
                     value={size?.w}
                     min={minWidth}
-                    max={minHeight}
+                    max={maxWidth}
                     placeholder="breite"
                     className={widthInputHasProblems() ? style.warn : ''}
                     autoFocus

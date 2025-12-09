@@ -153,9 +153,11 @@ export default function Sonnenschutz_Group() {
     itemsToDisplay.length > 5 &&
     !expandedSteps.includes(currentStep?.key);
 
+  const excludedSteps = ['adapter'];
+
   useEffect(() => {
     if (groupActive) {
-      setCurrentStep(currentStepGroup[0]);
+      setCurrentStep(currentStepGroup.filter((step) => !excludedSteps.includes(step.key))[0]);
     }
   }, [groupActive]);
 
@@ -167,6 +169,14 @@ export default function Sonnenschutz_Group() {
           visibleSection?.items.filter((it) => it.key === configuration.sonnenschutz.adapter?.key)
         );
         return;
+      }
+      if (currentStep?.key === 'montageartRollladen') {
+        const verlangerung = configuration.sonnenschutz.verlangerung;
+        const extension = verlangerung?.name ? parseInt(verlangerung.name) : 0;
+        if (extension > 30) {
+          setItemsToDisplay([{ key: 'nein', name: 'Ohne Rollladenmontage' }]);
+          return;
+        }
       }
       setItemsToDisplay(visibleSection?.items);
     }
