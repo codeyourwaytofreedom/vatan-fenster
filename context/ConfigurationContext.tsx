@@ -783,6 +783,11 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     const verlangerung = configuration.sonnenschutz.verlangerung;
     const extensionHeight = verlangerung?.name ? parseInt(verlangerung.name) : 0;
 
+    const additionalSonnenschutzHeight =
+      'height' in configuration.basis.cover ? (configuration.basis.cover.height as number) : 0;
+
+    const totalHeight = height + extensionHeight + additionalSonnenschutzHeight;
+
     const priceTableForSelectedSonnenschutz =
       sonnenschutzPriceLists[selectedCoverKey][insektenschutzKey];
 
@@ -811,8 +816,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     if (selectedStyleKey === 'flugel1' || selectedTeilungKey === '1') {
       // RETURN SONNENSCHUTZ PRICE
       baseSonnentschutzPrice =
-        extractPriceFromTable(priceTableForSelectedSonnenschutz, width, height + extensionHeight) ||
-        0;
+        extractPriceFromTable(priceTableForSelectedSonnenschutz, width, totalHeight) || 0;
 
       const rolladenKastenPrice =
         (calculateRolladenKastenPriceMultiplier() * baseSonnentschutzPrice) / 100;
@@ -856,11 +860,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     // RETURN SONNENSCHUTZ PRICE
     baseSonnentschutzPrice = sectionsByTeilung.reduce((acc, sectionWidth) => {
       const sectionPrice =
-        extractPriceFromTable(
-          priceTableForSelectedSonnenschutz,
-          sectionWidth,
-          height + extensionHeight
-        ) || 0;
+        extractPriceFromTable(priceTableForSelectedSonnenschutz, sectionWidth, totalHeight) || 0;
       return acc + sectionPrice;
     }, 0);
 
