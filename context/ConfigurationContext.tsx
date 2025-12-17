@@ -968,13 +968,16 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
       return 0;
     }
     const count = teilungKey === '1' ? 1 : 2;
-    const wellePrice = (width / 1000) * 5;
+    let wellePrice = (width / 1000) * 5;
     if (
       configuration.sonnenschutz.antriebsart &&
       'category' in configuration.sonnenschutz.antriebsart &&
       'subCategory' in configuration.sonnenschutz.antriebsart
     ) {
       const categoryKey = (configuration.sonnenschutz.antriebsart?.category as SelectionItem)?.key;
+      if (['gurt', 'kurbel'].includes(categoryKey)) {
+        wellePrice = 0;
+      }
       const subcategoryKey = (configuration.sonnenschutz.antriebsart?.subCategory as SelectionItem)
         ?.key;
       const multiplier = antriebsartPrices[categoryKey][subcategoryKey];
