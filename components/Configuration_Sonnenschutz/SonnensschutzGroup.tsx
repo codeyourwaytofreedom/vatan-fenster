@@ -174,7 +174,13 @@ export default function Sonnenschutz_Group() {
         const verlangerung = configuration.sonnenschutz.verlangerung;
         const extension = verlangerung?.name ? parseInt(verlangerung.name) : 0;
         if (extension > 30) {
-          setItemsToDisplay([{ key: 'nein', name: 'Ohne Rollladenmontage' }]);
+          setItemsToDisplay(visibleSection?.items.filter((it) => it.key === 'nein'));
+          return;
+        }
+        const { links, rechts } = configuration.zusatze.rahmenverbreiterungAuswahlen;
+        const horizontalExtension = links + rechts;
+        if (horizontalExtension < 1) {
+          setItemsToDisplay(visibleSection?.items.filter((it) => it.key !== 'mrv'));
           return;
         }
       }
