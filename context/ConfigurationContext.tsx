@@ -786,29 +786,43 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     const additionalSonnenschutzHeight =
       'height' in configuration.basis.cover ? (configuration.basis.cover.height as number) : 0;
 
+    let additionalWidth = 0;
+
+    if ('montageartRollladen' in configuration.sonnenschutz) {
+      const montageartRollladenKey = (
+        configuration.sonnenschutz.montageartRollladen as SelectionItem
+      ).key;
+      const { links, rechts } = configuration.zusatze.rahmenverbreiterungAuswahlen;
+      const horizontalExtension = links + rechts;
+      if (horizontalExtension > 0 && montageartRollladenKey === 'mrv') {
+        additionalWidth = horizontalExtension;
+      }
+    }
+
     const totalHeight = height + extensionHeight + additionalSonnenschutzHeight;
+    const totalWidth = width + additionalWidth;
 
     const priceTableForSelectedSonnenschutz =
       sonnenschutzPriceLists[selectedCoverKey][insektenschutzKey];
 
     // steps that are priced same for single and multiple teilungs
 
-    const rollladenPanzerPrice = calculateRollladenPanzerPrice(width, height);
+    const rollladenPanzerPrice = calculateRollladenPanzerPrice(totalWidth, height);
 
-    const farbeEndschienePrice = calculateFarbeEndschienePrice(width, height);
+    const farbeEndschienePrice = calculateFarbeEndschienePrice(totalWidth, height);
 
     const schragschnittPrice = calculateSchragschnittPrice(
       configuration.sonnenschutz.schragschnitt?.key ?? 'nein',
       selectedTeilungKey
     );
 
-    const putztragerPrice = calculatePutztragerPrice(width);
+    const putztragerPrice = calculatePutztragerPrice(totalWidth);
 
-    const antriebsartPrice = calculateAntriebsartPrice(selectedTeilungKey, width);
+    const antriebsartPrice = calculateAntriebsartPrice(selectedTeilungKey, totalWidth);
 
-    const schallschutzmattePrice = calculateSchallschutzmattePrice(width);
+    const schallschutzmattePrice = calculateSchallschutzmattePrice(totalWidth);
 
-    const montageartRollladenPrice = calculateMontageartRollladenPrice(width);
+    const montageartRollladenPrice = calculateMontageartRollladenPrice(totalWidth);
 
     const stahlkonsolePrice = calculateStahlkonsolePrice();
 
@@ -816,7 +830,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     if (selectedStyleKey === 'flugel1' || selectedTeilungKey === '1') {
       // RETURN SONNENSCHUTZ PRICE
       baseSonnentschutzPrice =
-        extractPriceFromTable(priceTableForSelectedSonnenschutz, width, totalHeight) || 0;
+        extractPriceFromTable(priceTableForSelectedSonnenschutz, totalWidth, totalHeight) || 0;
 
       const rolladenKastenPrice =
         (calculateRolladenKastenPriceMultiplier() * baseSonnentschutzPrice) / 100;
@@ -860,6 +874,13 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     // RETURN SONNENSCHUTZ PRICE
     baseSonnentschutzPrice = sectionsByTeilung.reduce((acc, sectionWidth) => {
       const sectionPrice =
+        // !!
+        // !!
+        // additionalWidth varsa, multiTeilung larda fiyat çekerken nasıl dahil edilecek???
+        // !!
+        // !!
+        // !!
+        // !!
         extractPriceFromTable(priceTableForSelectedSonnenschutz, sectionWidth, totalHeight) || 0;
       return acc + sectionPrice;
     }, 0);
