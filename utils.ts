@@ -295,27 +295,42 @@ function calculateLayerGlassPrice({ multiWidth, multipliers, w, h }: GlassLayerP
   }
 }
 
-export function stripConfigKeys(config: FensterConfig, keysToDelete: string[] = []) {
-  const stripped = structuredClone(config);
+type AnyRecord = Record<string, unknown>;
 
-  (Object.keys(stripped) as (keyof FensterConfig)[]).forEach((section) => {
-    const sectionObj = stripped[section];
-    (Object.keys(sectionObj) as (keyof typeof sectionObj)[]).forEach((k) => {
-      const v = sectionObj[k];
-      if (v && typeof v === 'object') {
-        keysToDelete.forEach((key) => {
-          if (key in v) {
-            delete (v as Record<string, unknown>)[key];
-          }
-        });
+function deepStrip(value: unknown, keysToDelete: Set<string>): void {
+  if (Array.isArray(value)) {
+    value.forEach((item) => deepStrip(item, keysToDelete));
+    return;
+  }
+
+  if (value && typeof value === 'object') {
+    const obj = value as AnyRecord;
+
+    Object.keys(obj).forEach((key) => {
+      if (keysToDelete.has(key)) {
+        delete obj[key];
+      } else {
+        deepStrip(obj[key], keysToDelete);
       }
     });
-  });
+  }
+}
+
+export function stripConfigKeys(
+  config: FensterConfig,
+  keysToDelete: string[] = []
+) {
+  const stripped = structuredClone(config);
+
+  deepStrip(stripped, new Set(keysToDelete));
 
   return stripped;
 }
 
-export function purifyConfig(config: FensterConfig, keysToDelete: string[] = []) {
-  const purifiedConfig = stripConfigKeys(config, keysToDelete);
-  return purifiedConfig;
+export function purifyConfig(
+  config: FensterConfig,
+  keysToDelete: string[] = []
+) {
+  return stripConfigKeys(config, keysToDelete);
 }
+

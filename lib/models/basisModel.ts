@@ -113,6 +113,78 @@ export const basisValidator = {
           },
         },
       },
+      farben: {
+        bsonType: 'object',
+        required: [
+          'colorExt',
+          'colorInt',
+          'dichtungAussen',
+          'dichtungInnen',
+          'colorMid'
+        ],
+        additionalProperties: false,
+        properties: {
+          colorExt: {
+            bsonType: 'object',
+            required: ['key', 'name', 'colorCode'],
+            additionalProperties: false,
+            properties: {
+              key: { bsonType: 'string'  },
+              name: { bsonType: 'string' },
+              colorCode: { bsonType: 'string' },
+            },
+          },
+          colorInt: {
+            bsonType: 'object',
+            required: ['key', 'name', 'colorCode'],
+            additionalProperties: false,
+            properties: {
+              key: { bsonType: 'string'  },
+              name: { bsonType: 'string' },
+              colorCode: { bsonType: 'string' },
+            },
+          },
+          dichtungAussen: {
+            bsonType: 'object',
+            required: ['key', 'name'],
+            additionalProperties: false,
+            properties: {
+              key: { bsonType: 'string'  },
+              name: { bsonType: 'string' },
+            },
+          },
+          dichtungInnen: {
+            bsonType: 'object',
+            required: ['key', 'name'],
+            additionalProperties: false,
+            properties: {
+              key: { bsonType: 'string'  },
+              name: { bsonType: 'string' },
+            },
+          },
+          colorMid: {
+            bsonType: 'object',
+            required: ['key', 'name'],
+            additionalProperties: false,
+            properties: {
+              key: { bsonType: 'string'  },
+              name: { bsonType: 'string' },
+            },
+          },
+          // OPTIONALS
+          fenstergriffe: {
+            bsonType: 'object',
+            required: ['type', 'choice'],
+            additionalProperties: false,
+            properties: {
+              type: {
+                bsonType: 'object',
+              },
+              choice: { bsonType: 'object' },
+            },
+          },
+        },
+      },
     },
   },
 };

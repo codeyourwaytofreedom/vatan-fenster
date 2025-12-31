@@ -268,7 +268,7 @@ export default function SummaryDisplayer() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(
-          purifyConfig(configuration, ['image', 'details', 'children', 'isActive'])
+          purifyConfig(configuration, ['image', 'details', 'children', 'isActive', 'zoomable'])
         ),
       });
 
