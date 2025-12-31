@@ -5,6 +5,7 @@ import { SelectionItem } from '@/types/Configurator';
 import { useEffect } from 'react';
 import { steps } from '@/data/steps';
 import { warmenKante } from '@/data/selectionItems/verglasungData';
+import { optionNo } from '@/data/configurationData';
 
 export interface GlassPaketProps {
   items: SelectionItem[];
@@ -41,7 +42,7 @@ export default function StepGlassPaket({ items, expanded }: GlassPaketProps) {
     }, 300);
   };
 
-  const updateWarmeKante = (item: SelectionItem | 'Nein') => {
+  const updateWarmeKante = (item: SelectionItem) => {
     setConfiguration((prevConfig) => ({
       ...prevConfig,
       verglasung: {
@@ -60,7 +61,7 @@ export default function StepGlassPaket({ items, expanded }: GlassPaketProps) {
   };
 
   const warmeKanteSelected = (name: string) => {
-    return (configuration.verglasung.glasspaketWarmeKante as SelectionItem)?.name === name;
+    return configuration.verglasung.glasspaketWarmeKante?.name === name;
   };
 
   const showColorOptions = configuration.verglasung.glasspaket?.name.includes('warme');
@@ -68,7 +69,7 @@ export default function StepGlassPaket({ items, expanded }: GlassPaketProps) {
   useEffect(() => {
     if (showColorOptions) {
       const existingWarmeKante =
-        configuration.verglasung.glasspaketWarmeKante !== 'Nein'
+        configuration.verglasung.glasspaketWarmeKante?.key !== optionNo.key
           ? configuration.verglasung.glasspaketWarmeKante
           : null;
       setConfiguration((prevConfig) => ({
@@ -79,12 +80,12 @@ export default function StepGlassPaket({ items, expanded }: GlassPaketProps) {
         },
       }));
     }
-    if (!showColorOptions && configuration.verglasung.glasspaketWarmeKante !== 'Nein') {
+    if (!showColorOptions && configuration.verglasung.glasspaketWarmeKante?.key !== optionNo.key) {
       setConfiguration((prevConfig) => ({
         ...prevConfig,
         verglasung: {
           ...prevConfig.verglasung,
-          glasspaketWarmeKante: 'Nein',
+          glasspaketWarmeKante: optionNo,
         },
       }));
     }

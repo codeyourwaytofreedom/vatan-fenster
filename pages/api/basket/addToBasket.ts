@@ -13,7 +13,7 @@ type Error = {
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data | Error>) {
   try {
     const db = await getDb();
-    const { basis, farben } = req.body ?? {};
+    const { basis, farben, verglasung } = req.body ?? {};
 
     await db.createCollection('fenster-orders', {
       validator: basisValidator,
@@ -22,7 +22,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     });
 
     await db.collection('fenster-orders').insertOne({
-      basis, farben
+      basis, farben, verglasung
     });
 
     res.status(200).json({ message: 'Order added successfully' });

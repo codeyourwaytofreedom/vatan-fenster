@@ -1,9 +1,19 @@
 import { windowStyleKeys } from '@/data/common/common';
 
+const selectionItemSchema = {
+  bsonType: 'object',
+  required: ['key', 'name'],
+  additionalProperties: false,
+  properties: {
+    key: { bsonType: 'string' },
+    name: { bsonType: 'string' },
+  },
+};
+
 export const basisValidator = {
   $jsonSchema: {
     bsonType: 'object',
-    required: ['basis'],
+    required: ['basis', 'farben'],
     additionalProperties: false,
     properties: {
       _id: { bsonType: 'objectId' },
@@ -109,6 +119,11 @@ export const basisValidator = {
           multiHeight: {
             bsonType: 'object',
             required: ['obenHeight', 'untenHeight'],
+            additionalProperties: false,
+            properties: {
+              obenHeight: { bsonType: 'number' },
+              untenHeight: { bsonType: 'number' },
+            }
           },
           multiWidth: {
             bsonType: 'object',
@@ -156,31 +171,13 @@ export const basisValidator = {
             },
           },
           dichtungAussen: {
-            bsonType: 'object',
-            required: ['key', 'name'],
-            additionalProperties: false,
-            properties: {
-              key: { bsonType: 'string'  },
-              name: { bsonType: 'string' },
-            },
+            ...selectionItemSchema,
           },
           dichtungInnen: {
-            bsonType: 'object',
-            required: ['key', 'name'],
-            additionalProperties: false,
-            properties: {
-              key: { bsonType: 'string'  },
-              name: { bsonType: 'string' },
-            },
+            ...selectionItemSchema,
           },
           colorMid: {
-            bsonType: 'object',
-            required: ['key', 'name'],
-            additionalProperties: false,
-            properties: {
-              key: { bsonType: 'string'  },
-              name: { bsonType: 'string' },
-            },
+            ...selectionItemSchema,
           },
           // OPTIONALS
           fenstergriffe: {
@@ -189,13 +186,51 @@ export const basisValidator = {
             additionalProperties: false,
             properties: {
               type: {
-                bsonType: 'object',
+                ...selectionItemSchema,
               },
-              choice: { bsonType: 'object' },
+              choice: {
+                ...selectionItemSchema,
+              },
             },
           },
         },
       },
+      verglasung: {
+        bsonType: 'object',
+        required: [
+          'druckausgleichsventil',
+          'glasspaket',
+          'glasspaketWarmeKante',
+          'ornament',
+          'schallschutz',
+          'sicherheitsverglasung',
+          'sprossen'
+        ],
+        additionalProperties: false,
+        properties: {
+          druckausgleichsventil: {
+            ...selectionItemSchema,
+          },
+          glasspaket: {
+            ...selectionItemSchema,
+          },
+          glasspaketWarmeKante: {
+            ...selectionItemSchema,
+          },
+          ornament: {
+            ...selectionItemSchema,
+          },
+          schallschutz: {
+            ...selectionItemSchema,
+          },
+          sicherheitsverglasung: {
+            ...selectionItemSchema,
+          },
+          sprossen: {
+            bsonType: 'string',
+          },
+        }
+      }
     },
   },
 };

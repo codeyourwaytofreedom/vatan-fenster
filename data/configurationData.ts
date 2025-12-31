@@ -151,7 +151,7 @@ export const initialConfiguration: FensterConfig = {
   },
   verglasung: {
     glasspaket: verglasung.glasspaket[0],
-    glasspaketWarmeKante: 'Nein',
+    glasspaketWarmeKante: optionNo,
     ornament: verglasung.ornament[0],
     sicherheitsverglasung: verglasung.sicherheitsverglasung['2-f-v'][0],
     schallschutz: verglasung.schallschutz[0],

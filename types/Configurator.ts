@@ -132,7 +132,7 @@ export interface FarbenConfiuration {
 
 export interface VerglasungConfiuration {
   glasspaket: SelectionItem;
-  glasspaketWarmeKante: SelectionItem | 'Nein';
+  glasspaketWarmeKante: SelectionItem;
   ornament: SelectionItem;
   sicherheitsverglasung: SelectionItem;
   schallschutz: SelectionItem;
