@@ -68,8 +68,7 @@ export const basisValidator = {
           },
           type: {
             bsonType: 'object',
-            required: ['key', 'name'],
-            additionalProperties: false,
+            additionalProperties: true,
             properties: {
               key: {
                 bsonType: 'string',
@@ -107,7 +106,19 @@ export const basisValidator = {
             },
           },
           // OPTIONALS
+          multiHeight: {
+            bsonType: 'object',
+            required: ['obenHeight', 'untenHeight'],
+          },
           multiWidth: {
+            bsonType: 'object',
+            additionalProperties: { bsonType: 'number' },
+          },
+          obenMultiWidth: {
+            bsonType: 'object',
+            additionalProperties: { bsonType: 'number' },
+          },
+          untenMultiWidth: {
             bsonType: 'object',
             additionalProperties: { bsonType: 'number' },
           },

@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getDb } from '@/lib/mongodb';
-//import { basisValidator } from '@/lib/models/basisModel';
+import { basisValidator } from '@/lib/models/basisModel';
 
 type Data = {
   message: string;
@@ -15,11 +15,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     const db = await getDb();
     const { basis, farben } = req.body ?? {};
 
-    /* await db.createCollection('fenster-orders', {
+    await db.createCollection('fenster-orders', {
       validator: basisValidator,
       validationAction: 'error',
       validationLevel: 'strict',
-    }); */
+    });
 
     await db.collection('fenster-orders').insertOne({
       basis, farben
@@ -28,6 +28,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     res.status(200).json({ message: 'Order added successfully' });
   } catch (error) {
     console.dir(error, { depth: null });
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: 'Failed to add to DB' });
   }
 }
