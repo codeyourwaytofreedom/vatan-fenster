@@ -230,7 +230,62 @@ export const basisValidator = {
             bsonType: 'string',
           },
         }
-      }
+      },
+      zusatze: {
+        bsonType: 'object',
+        required: [
+          'sicherheitsbeschlage',
+          'verdecktLiegenderBeschlag',
+          'rahmenverbreiterung',
+          'rahmenverbreitungMontiert',
+          'dünneSchweißnahtVPerfect',
+          'reedKontakt',
+          'montagevorbohrungen',
+          'lüftungssysteme',
+          'druckausgleichsventilZusatze',
+          'rahmenverbreiterungAuswahlen',
+        ],
+        additionalProperties: false,
+        properties: {
+          sicherheitsbeschlage: {
+            bsonType: 'object',
+            required: ['category'],
+            additionalProperties: false,
+            properties: {
+              category: { ...selectionItemSchema },
+              subCategory: { ...selectionItemSchema },
+            },
+          },
+          verdecktLiegenderBeschlag: { ...selectionItemSchema },
+          rahmenverbreiterung: { ...selectionItemSchema },
+          rahmenverbreitungMontiert: { ...selectionItemSchema },
+          dünneSchweißnahtVPerfect: { ...selectionItemSchema },
+          reedKontakt: { ...selectionItemSchema },
+          montagevorbohrungen: { ...selectionItemSchema },
+          lüftungssysteme: {
+            bsonType: 'object',
+            required: ['category'],
+            additionalProperties: false,
+            properties: {
+              category: { ...selectionItemSchema },
+              subCategory: { ...selectionItemSchema },
+              paar: { bsonType: 'number' },
+            },
+          },
+          druckausgleichsventilZusatze: { ...selectionItemSchema },
+          rahmenverbreiterungAuswahlen: {
+            bsonType: 'object',
+            required: ['links', 'rechts', 'oben', 'unten'],
+            additionalProperties: false,
+            properties: {
+              links: { bsonType: 'number' },
+              rechts: { bsonType: 'number' },
+              oben: { bsonType: 'number' },
+              unten: { bsonType: 'number' },
+            },
+          },
+        },
+      },
     },
   },
 };
