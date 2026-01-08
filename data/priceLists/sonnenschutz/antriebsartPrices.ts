@@ -10,7 +10,7 @@ export const antriebsartPrices: Record<string, Record<string, number>> = {
         mmshssg: 350,
         fmsh: 630,
         fmshs1: 815,
-        fmshs1s: 1035
+        fmshs1s: 935
     },
     kurbel: {
         gks: 197,
