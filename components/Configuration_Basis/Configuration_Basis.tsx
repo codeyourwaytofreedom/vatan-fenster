@@ -234,11 +234,6 @@ export default function Basis_Configuration() {
       return;
     }
 
-    if (['I5', 'I5C', 'IL'].includes(item.key) && currentStep?.key === 'profile' && !key) {
-      scrollToElement({ elementId: 'profileHeights' });
-      return;
-    }
-
     setConfiguration((prev) => ({
       ...prev,
       [group]: {
@@ -246,6 +241,13 @@ export default function Basis_Configuration() {
         [key]: item, // key is now narrowed to keyof FensterConfig[group]
       } as FensterConfig[typeof group],
     }));
+
+    if (currentStep?.key === 'profile' && !keyOverride && ['I5', 'I5C', 'IL'].includes(item.key)) {
+      setTimeout(() => {
+        scrollToElement({ elementId: 'profileHeights' });
+      }, 100);
+      return;
+    }
 
     moveToNextStep();
   };

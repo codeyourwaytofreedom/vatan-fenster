@@ -7,7 +7,11 @@ import {
 } from '@/data/configurationData';
 import { minMaxSizes } from '@/data/minMaxSizes/minMaxSizes';
 import { priceLists } from '@/data/priceLists/priceLists';
-import { antriebsartPrices } from '@/data/priceLists/sonnenschutz/antriebsartPrices';
+import {
+  antriebsartPrices,
+  antriebsartPrices_21,
+  weightMultiplier,
+} from '@/data/priceLists/sonnenschutz/antriebsartPrices';
 import { farbeEndschienePrices } from '@/data/priceLists/sonnenschutz/farbeEndschienePrices';
 import {
   farbenAussenInnenfarbenRolladenKastenPriceMultipliersLayer1,
@@ -818,7 +822,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
 
     const putztragerPrice = calculatePutztragerPrice(totalWidth);
 
-    const antriebsartPrice = calculateAntriebsartPrice(selectedTeilungKey, totalWidth);
+    const antriebsartPrice = calculateAntriebsartPrice(selectedTeilungKey, totalWidth, height);
 
     const schallschutzmattePrice = calculateSchallschutzmattePrice(totalWidth);
 
@@ -984,7 +988,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     return teilungCount * 10;
   };
 
-  const calculateAntriebsartPrice = (teilungKey: string, width: number) => {
+  const calculateAntriebsartPrice = (teilungKey: string, width: number, height: number) => {
     if (!('antriebsart' in configuration.sonnenschutz)) {
       return 0;
     }
@@ -1001,7 +1005,10 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
       }
       const subcategoryKey = (configuration.sonnenschutz.antriebsart?.subCategory as SelectionItem)
         ?.key;
-      const multiplier = antriebsartPrices[categoryKey][subcategoryKey];
+      const area = (width * height) / 1000_000;
+      const weight = area * weightMultiplier;
+      const priceObjs = weight > 21 ? antriebsartPrices_21 : antriebsartPrices;
+      const multiplier = priceObjs[categoryKey][subcategoryKey];
       return multiplier * count + wellePrice;
     }
     return 0;

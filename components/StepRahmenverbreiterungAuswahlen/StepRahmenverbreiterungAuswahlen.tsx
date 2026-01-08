@@ -3,6 +3,7 @@ import style from './StepRahmenverbreiterungAuswahlen.module.css';
 import window from '@/assets/configurator/style/flugel2/2-Flügel.png';
 import { useConfiguration } from '@/context/ConfigurationContext';
 import { rahmenverbreiterungOptions } from '@/data/selectionItems/zusatze';
+
 export default function StepRahmenverbreiterungAuswahlen() {
   const { configuration, setConfiguration } = useConfiguration();
 
@@ -29,14 +30,15 @@ export default function StepRahmenverbreiterungAuswahlen() {
     e: React.ChangeEvent<HTMLSelectElement>,
     key: 'links' | 'rechts' | 'oben' | 'unten'
   ) => {
-    const rahmenverbreitungAuswahlen = configuration.zusatze.rahmenverbreiterungAuswahlen;
-    rahmenverbreitungAuswahlen[key] = Number(e.target.value);
     setConfiguration((pr) => {
       return {
         ...pr,
         zusatze: {
           ...pr.zusatze,
-          rahmenverbreiterungAuswahlen: rahmenverbreitungAuswahlen,
+          rahmenverbreiterungAuswahlen: {
+            ...pr.zusatze.rahmenverbreiterungAuswahlen,
+            [key]: Number(e.target.value),
+          },
         },
       };
     });

@@ -5,9 +5,24 @@ import style from './Zusatze.module.css';
 import { useConfiguration } from '@/context/ConfigurationContext';
 import { useRef } from 'react';
 import { scrollToElement } from '@/utils';
+import stepperStyle from '../Stepper/Stepper.module.css';
+import groupActionsStyle from '../GroupBottomActions/GroupBottomActions.module.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
 export default function ZusatzeGroup() {
-  const { configuration, windowHandleNumber, setConfiguration } = useConfiguration();
+  const {
+    configuration,
+    windowHandleNumber,
+    setConfiguration,
+    currentStep,
+    previousStep,
+    previousGroup,
+    setCurrentGroup,
+    setCurrentStep,
+    getStepsForGroup,
+    moveNextGroup,
+  } = useConfiguration();
 
   const options = [
     {
@@ -200,9 +215,38 @@ export default function ZusatzeGroup() {
   const paarSelected = (paar: number) => paar === configuration.zusatze.lüftungssysteme.paar;
 
   const lüftungssystemeSelected = configuration.zusatze['lüftungssysteme'].category.key === 'ja';
+  const isFirstStepInBasis = currentStep?.key === 'material';
+
+  const goToPreviousStep = () => {
+    if (previousStep) {
+      setTimeout(() => {
+        setCurrentStep(previousStep);
+      }, 100);
+    }
+    if (!previousStep && previousGroup) {
+      const previousGroupSteps = getStepsForGroup(previousGroup);
+      const lastStepInGroup = previousGroupSteps[previousGroupSteps.length - 1];
+      setTimeout(() => {
+        setCurrentGroup(previousGroup);
+        setCurrentStep(lastStepInGroup);
+      }, 100);
+    }
+  };
 
   return (
     <>
+      <div className={stepperStyle.step_actions}>
+        <button
+          style={{ display: !isFirstStepInBasis ? 'block' : 'none' }}
+          className={stepperStyle.previousStep}
+          onClick={goToPreviousStep}
+        >
+          <FontAwesomeIcon icon={faChevronLeft} />
+          <FontAwesomeIcon icon={faChevronLeft} />
+          <FontAwesomeIcon icon={faChevronLeft} />
+          &nbsp; Vorheriger Schritt
+        </button>
+      </div>
       {Boolean(windowHandleNumber) && (
         <>
           <br />
@@ -381,6 +425,14 @@ export default function ZusatzeGroup() {
       <br />
       <div ref={container7}>
         <StepRahmenverbreiterung />
+      </div>
+      <div className={groupActionsStyle.bottom_actions}>
+        <button onClick={moveNextGroup} className={groupActionsStyle.next_group}>
+          <span>
+            <FontAwesomeIcon icon={faChevronRight} size={'1x'} beat />
+            <FontAwesomeIcon icon={faChevronRight} size={'1x'} beat /> &nbsp; Nächster Schritt
+          </span>
+        </button>
       </div>
       <br />
       <br />
