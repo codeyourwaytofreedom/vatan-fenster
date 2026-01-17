@@ -992,7 +992,11 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     if (!('antriebsart' in configuration.sonnenschutz)) {
       return 0;
     }
-    const count = teilungKey === '1' ? 1 : 2;
+    const area = (width * height) / 1000_000;
+    const weight = area * weightMultiplier;
+
+    const count = weight < 21 ? 1 : 2;
+
     let wellePrice = (width / 1000) * 5;
     if (
       configuration.sonnenschutz.antriebsart &&
@@ -1005,8 +1009,6 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
       }
       const subcategoryKey = (configuration.sonnenschutz.antriebsart?.subCategory as SelectionItem)
         ?.key;
-      const area = (width * height) / 1000_000;
-      const weight = area * weightMultiplier;
       const priceObjs = weight > 21 ? antriebsartPrices_21 : antriebsartPrices;
       const multiplier = priceObjs[categoryKey][subcategoryKey];
       return multiplier * count + wellePrice;

@@ -171,14 +171,14 @@ export const flugel3_unten: SelectionItem[] = [
     name: 'Dreh-Kipp + Dreh links + Dreh-Kipp (Stulp)',
     image: dreh_kipp_dreh_links_dreh_kipp_stulp_u,
     key: 'DK_DL_DK_STULP',
-    handleNumber: 3,
+    handleNumber: 2,
     sectionNumber: 3,
   },
   {
     name: 'Dreh-Kipp + Dreh rechts + Dreh-Kipp (Stulp)',
     image: dreh_kipp_dreh_rechts_dreh_kipp_stulp_u,
     key: 'DK_DR_DK_STULP',
-    handleNumber: 3,
+    handleNumber: 2,
     sectionNumber: 3,
   },
 ];
