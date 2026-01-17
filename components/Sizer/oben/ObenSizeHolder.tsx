@@ -399,6 +399,10 @@ export default function ObenSizer({
     }
 
     if (newHeightFeedback.length > 0) {
+      setSizeFeedback((prev) => ({
+        ...prev,
+        height: newHeightFeedback,
+      }));
       setSize((prevSize) => ({
         ...(prevSize || { w: undefined, h: undefined }),
         h: undefined,
