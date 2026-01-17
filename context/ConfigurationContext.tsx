@@ -50,6 +50,7 @@ import {
   WindowStyle,
 } from '@/types/Configurator';
 import { calculateGlassPriceByM2, extractPriceFromTable, getColoringMultiplier } from '@/utils';
+import { getSonnenschutzPartitionPossibilitiesForSection } from '@/utils/sonnenschutzPartition';
 import { createContext, useState, ReactNode, useContext, useEffect } from 'react';
 
 type PriceDeterminants = {
@@ -350,236 +351,43 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
       return [];
     }
     const width = Number(configuration.basis.size?.w ?? 0);
-    const sectionValid = (w: number) =>
-      w >= sonnenschutzSectionMinWidth && w <= sonnenschutzSectionMaxWidth;
-
     const type = configuration.basis.type as SubStyle;
     const sectionNumber =
       section === 'oben' ? (type.oben?.sectionNumber ?? 1) : (type.unten?.sectionNumber ?? 1);
-    const styleKey = sectionNumber === 1 ? 'flugel1' : sectionNumber === 2 ? 'flugel2' : 'flugel3';
     const multiWidth =
       section === 'oben'
         ? Object.values(configuration.basis.obenMultiWidth ?? {})
         : Object.values(configuration.basis.untenMultiWidth ?? {});
-
-    const possibilities: number[] = [];
-    if (styleKey === 'flugel1') {
-      return sectionValid(width) ? [1] : [];
-    }
-    if (!multiWidth.length) {
-      return [];
-    }
-    const allSectionsValid = multiWidth.every((w) => sectionValid(w));
-
-    if (sectionValid(width)) {
-      possibilities.push(1);
-    }
-
-    if (allSectionsValid) {
-      if (styleKey === 'flugel2') {
-        if (multiWidth[0] === multiWidth[1]) {
-          possibilities.push(2);
-        }
-        if (multiWidth[0] > multiWidth[1]) {
-          possibilities.push(21);
-        }
-        if (multiWidth[1] > multiWidth[0]) {
-          possibilities.push(12);
-        }
-      }
-      if (styleKey === 'flugel3') {
-        if (multiWidth[0] === multiWidth[1] && multiWidth[1] === multiWidth[2]) {
-          possibilities.push(3);
-        }
-        if (
-          sectionValid(multiWidth[0] + multiWidth[1]) &&
-          multiWidth[0] + multiWidth[1] > multiWidth[2]
-        ) {
-          possibilities.push(21);
-        }
-        if (
-          sectionValid(multiWidth[1] + multiWidth[2]) &&
-          multiWidth[1] + multiWidth[2] > multiWidth[0]
-        ) {
-          possibilities.push(12);
-        }
-        possibilities.push(3);
-      }
-    }
-
-    if (styleKey === 'flugel3') {
-      const left2 = multiWidth[0] + multiWidth[1];
-      const right1 = multiWidth[2];
-
-      const _2_1_Possible = sectionValid(left2) && sectionValid(right1) && right1 === left2;
-
-      const left1 = multiWidth[0];
-      const right2 = multiWidth[1] + multiWidth[2];
-
-      const _1_2_Possible = sectionValid(left1) && sectionValid(right2) && left1 === right2;
-
-      if (_1_2_Possible || _2_1_Possible) {
-        possibilities.push(2);
-      }
-    }
-
-    return possibilities;
+    return getSonnenschutzPartitionPossibilitiesForSection({
+      width,
+      sectionNumber,
+      multiWidth,
+      sectionMinWidth: sonnenschutzSectionMinWidth,
+      sectionMaxWidth: sonnenschutzSectionMaxWidth,
+    });
   };
 
-  const getSonnenschutzPartitionUnterlichtPossibilitiesOben = () => {
+  const getSonnenschutzPartitionUnterlichtPossibilities = (section: 'oben' | 'unten') => {
     const width = Number(configuration.basis.size?.w ?? 0);
-    const sectionValid = (w: number) =>
-      w >= sonnenschutzSectionMinWidth && w <= sonnenschutzSectionMaxWidth;
-
     const type = configuration.basis.type as SubStyle;
-    const sectionNumber = type.unten?.sectionNumber ?? 1;
-    const styleKey = sectionNumber === 1 ? 'flugel1' : sectionNumber === 2 ? 'flugel2' : 'flugel3';
-    const multiWidth = Object.values(configuration.basis.obenMultiWidth ?? {});
-
-    const possibilities: number[] = [];
-    if (styleKey === 'flugel1') {
-      return sectionValid(width) ? [1] : [];
-    }
-    if (!multiWidth.length) {
-      return [];
-    }
-    const allSectionsValid = multiWidth.every((w) => sectionValid(w));
-
-    if (sectionValid(width)) {
-      possibilities.push(1);
-    }
-
-    if (allSectionsValid) {
-      if (styleKey === 'flugel2') {
-        if (multiWidth[0] === multiWidth[1]) {
-          possibilities.push(2);
-        }
-        if (multiWidth[0] > multiWidth[1]) {
-          possibilities.push(21);
-        }
-        if (multiWidth[1] > multiWidth[0]) {
-          possibilities.push(12);
-        }
-      }
-      if (styleKey === 'flugel3') {
-        if (multiWidth[0] === multiWidth[1] && multiWidth[1] === multiWidth[2]) {
-          possibilities.push(3);
-        }
-        if (
-          sectionValid(multiWidth[0] + multiWidth[1]) &&
-          multiWidth[0] + multiWidth[1] > multiWidth[2]
-        ) {
-          possibilities.push(21);
-        }
-        if (
-          sectionValid(multiWidth[1] + multiWidth[2]) &&
-          multiWidth[1] + multiWidth[2] > multiWidth[0]
-        ) {
-          possibilities.push(12);
-        }
-        possibilities.push(3);
-      }
-    }
-
-    if (styleKey === 'flugel3') {
-      const left2 = multiWidth[0] + multiWidth[1];
-      const right1 = multiWidth[2];
-
-      const _2_1_Possible = sectionValid(left2) && sectionValid(right1) && right1 === left2;
-
-      const left1 = multiWidth[0];
-      const right2 = multiWidth[1] + multiWidth[2];
-
-      const _1_2_Possible = sectionValid(left1) && sectionValid(right2) && left1 === right2;
-
-      if (_1_2_Possible || _2_1_Possible) {
-        possibilities.push(2);
-      }
-    }
-
-    return possibilities;
-  };
-
-  const getSonnenschutzPartitionUnterlichtPossibilitiesUnten = () => {
-    const width = Number(configuration.basis.size?.w ?? 0);
-    const sectionValid = (w: number) =>
-      w >= sonnenschutzSectionMinWidth && w <= sonnenschutzSectionMaxWidth;
-
-    const type = configuration.basis.type as SubStyle;
-    const sectionNumber = type.oben?.sectionNumber ?? 1;
-    const styleKey = sectionNumber === 1 ? 'flugel1' : sectionNumber === 2 ? 'flugel2' : 'flugel3';
-    const multiWidth = Object.values(configuration.basis.untenMultiWidth ?? {});
-
-    const possibilities: number[] = [];
-    if (styleKey === 'flugel1') {
-      return sectionValid(width) ? [1] : [];
-    }
-    if (!multiWidth.length) {
-      return [];
-    }
-    const allSectionsValid = multiWidth.every((w) => sectionValid(w));
-
-    if (sectionValid(width)) {
-      possibilities.push(1);
-    }
-
-    if (allSectionsValid) {
-      if (styleKey === 'flugel2') {
-        if (multiWidth[0] === multiWidth[1]) {
-          possibilities.push(2);
-        }
-        if (multiWidth[0] > multiWidth[1]) {
-          possibilities.push(21);
-        }
-        if (multiWidth[1] > multiWidth[0]) {
-          possibilities.push(12);
-        }
-      }
-      if (styleKey === 'flugel3') {
-        if (multiWidth[0] === multiWidth[1] && multiWidth[1] === multiWidth[2]) {
-          possibilities.push(3);
-        }
-        if (
-          sectionValid(multiWidth[0] + multiWidth[1]) &&
-          multiWidth[0] + multiWidth[1] > multiWidth[2]
-        ) {
-          possibilities.push(21);
-        }
-        if (
-          sectionValid(multiWidth[1] + multiWidth[2]) &&
-          multiWidth[1] + multiWidth[2] > multiWidth[0]
-        ) {
-          possibilities.push(12);
-        }
-        possibilities.push(3);
-      }
-    }
-
-    if (styleKey === 'flugel3') {
-      const left2 = multiWidth[0] + multiWidth[1];
-      const right1 = multiWidth[2];
-
-      const _2_1_Possible = sectionValid(left2) && sectionValid(right1) && right1 === left2;
-
-      const left1 = multiWidth[0];
-      const right2 = multiWidth[1] + multiWidth[2];
-
-      const _1_2_Possible = sectionValid(left1) && sectionValid(right2) && left1 === right2;
-
-      if (_1_2_Possible || _2_1_Possible) {
-        possibilities.push(2);
-      }
-    }
-
-    return possibilities;
+    const sectionNumber =
+      section === 'oben' ? (type.unten?.sectionNumber ?? 1) : (type.oben?.sectionNumber ?? 1);
+    const multiWidth =
+      section === 'oben'
+        ? Object.values(configuration.basis.obenMultiWidth ?? {})
+        : Object.values(configuration.basis.untenMultiWidth ?? {});
+    return getSonnenschutzPartitionPossibilitiesForSection({
+      width,
+      sectionNumber,
+      multiWidth,
+      sectionMinWidth: sonnenschutzSectionMinWidth,
+      sectionMaxWidth: sonnenschutzSectionMaxWidth,
+    });
   };
 
   const getSonnenschutzPartitionPossibilities = () => {
-    const possibilities = [];
     const selectedStyleKey = configuration.basis.style.key;
     const width = Number(configuration.basis.size?.w ?? 0);
-    const sectionValid = (w: number) =>
-      w >= sonnenschutzSectionMinWidth && w <= sonnenschutzSectionMaxWidth;
 
     if (selectedStyleKey === 'oberlicht') {
       const oben = getSonnenschutzPartitionOberlichtPossibilities('oben');
@@ -588,80 +396,26 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     }
 
     if (selectedStyleKey === 'unterlicht') {
-      const oben = getSonnenschutzPartitionUnterlichtPossibilitiesOben();
-      const unten = getSonnenschutzPartitionUnterlichtPossibilitiesUnten();
+      const oben = getSonnenschutzPartitionUnterlichtPossibilities('oben');
+      const unten = getSonnenschutzPartitionUnterlichtPossibilities('unten');
       return oben.filter((p) => unten.includes(p));
     }
 
-    if (selectedStyleKey === 'flugel1') {
-      if (sectionValid(width)) {
-        return [1];
-      }
+    if (!['flugel1', 'flugel2', 'flugel3'].includes(selectedStyleKey)) {
       return [];
     }
 
-    if (!configuration.basis.multiWidth) {
-      return [];
-    }
+    const sectionNumber =
+      selectedStyleKey === 'flugel1' ? 1 : selectedStyleKey === 'flugel2' ? 2 : 3;
+    const multiWidth = Object.values(configuration.basis.multiWidth ?? {});
 
-    const multiWidth = Object.values(configuration.basis.multiWidth);
-    const allSectionsValid = multiWidth.every((w) => sectionValid(w));
-
-    // if total width is valid, 1 Teilung is possible
-    if (sectionValid(width)) {
-      possibilities.push(1);
-    }
-
-    // if all sections are valid
-    if (allSectionsValid) {
-      if (selectedStyleKey === 'flugel2') {
-        if (multiWidth[0] === multiWidth[1]) {
-          possibilities.push(2);
-        }
-        if (multiWidth[0] > multiWidth[1]) {
-          possibilities.push(21);
-        }
-        if (multiWidth[1] > multiWidth[0]) {
-          possibilities.push(12);
-        }
-      }
-      if (selectedStyleKey === 'flugel3') {
-        if (multiWidth[0] === multiWidth[1] && multiWidth[1] === multiWidth[2]) {
-          possibilities.push(3);
-        }
-        if (
-          sectionValid(multiWidth[0] + multiWidth[1]) &&
-          multiWidth[0] + multiWidth[1] > multiWidth[2]
-        ) {
-          possibilities.push(21);
-        }
-        if (
-          sectionValid(multiWidth[1] + multiWidth[2]) &&
-          multiWidth[1] + multiWidth[2] > multiWidth[0]
-        ) {
-          possibilities.push(12);
-        }
-        possibilities.push(3);
-      }
-    }
-
-    if (selectedStyleKey === 'flugel3') {
-      const left2 = multiWidth[0] + multiWidth[1];
-      const right1 = multiWidth[2];
-
-      const _2_1_Possible = sectionValid(left2) && sectionValid(right1) && right1 === left2;
-
-      const left1 = multiWidth[0];
-      const right2 = multiWidth[1] + multiWidth[2];
-
-      const _1_2_Possible = sectionValid(left1) && sectionValid(right2) && left1 === right2;
-
-      if (_1_2_Possible || _2_1_Possible) {
-        possibilities.push(2);
-      }
-    }
-
-    return possibilities;
+    return getSonnenschutzPartitionPossibilitiesForSection({
+      width,
+      sectionNumber,
+      multiWidth,
+      sectionMinWidth: sonnenschutzSectionMinWidth,
+      sectionMaxWidth: sonnenschutzSectionMaxWidth,
+    });
   };
 
   /* ------------------------- PRICING ------------------------- */
