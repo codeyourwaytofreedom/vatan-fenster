@@ -8,7 +8,6 @@ import { DobuleSelection, GroupKey, SelectionItem, Size, SubStyle } from '@/type
 import { useEffect, useState } from 'react';
 import Sizer from '../Sizer/Sizer';
 import { windowStyles } from '@/data/selectionItems/basisData';
-import { allSonnenschutzStepsKeys } from '@/data/selectionItems/sonnenschutzData';
 import { useModal } from '@/context/ModalContext';
 import Infobox from '../1_General/Infobox/Infobox';
 import { zusatzeOnlyOpeningWindowOptions } from '@/data/configurationData';
@@ -53,13 +52,11 @@ export default function SummaryDisplayer() {
     return rest;
   };
 
-  const groupSonnenschutz = Object.fromEntries(
-    Object.entries(configuration.sonnenschutz).filter(([key]) =>
-      allSonnenschutzStepsKeys.includes(key)
-    )
-  );
-
   const sonnenschutzSteps = getStepsForGroup('sonnenschutz');
+  const sonnenschutzStepKeys = sonnenschutzSteps.map((step) => step.key);
+  const groupSonnenschutz = Object.fromEntries(
+    Object.entries(configuration.sonnenschutz).filter(([key]) => sonnenschutzStepKeys.includes(key))
+  );
 
   // include sonnenschutzSteps if cover is selected
   const allSteps =

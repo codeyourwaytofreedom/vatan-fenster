@@ -216,6 +216,7 @@ export default function ZusatzeGroup() {
 
   const lüftungssystemeSelected = configuration.zusatze['lüftungssysteme'].category.key === 'ja';
   const isFirstStepInBasis = currentStep?.key === 'material';
+  const hasNextGroup = configuration.basis.cover.key !== 'nein';
 
   const goToPreviousStep = () => {
     if (previousStep) {
@@ -426,14 +427,16 @@ export default function ZusatzeGroup() {
       <div ref={container7}>
         <StepRahmenverbreiterung />
       </div>
-      <div className={groupActionsStyle.bottom_actions}>
-        <button onClick={moveNextGroup} className={groupActionsStyle.next_group}>
-          <span>
-            <FontAwesomeIcon icon={faChevronRight} size={'1x'} beat />
-            <FontAwesomeIcon icon={faChevronRight} size={'1x'} beat /> &nbsp; Nächster Schritt
-          </span>
-        </button>
-      </div>
+      {hasNextGroup && (
+        <div className={groupActionsStyle.bottom_actions}>
+          <button onClick={moveNextGroup} className={groupActionsStyle.next_group}>
+            <span>
+              <FontAwesomeIcon icon={faChevronRight} size={'1x'} beat />
+              <FontAwesomeIcon icon={faChevronRight} size={'1x'} beat /> &nbsp; Nächster Schritt
+            </span>
+          </button>
+        </div>
+      )}
       <br />
       <br />
       <br />

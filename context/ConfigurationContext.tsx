@@ -86,6 +86,7 @@ interface ConfigurationContextType {
   orderOfKeys: string[] | undefined;
   windowSectionCount: number;
   windowHandleNumber: number;
+  motorCount: number;
   setConfiguration: React.Dispatch<React.SetStateAction<FensterConfig>>;
   setCurrentGroup: React.Dispatch<React.SetStateAction<GroupKey>>;
   setCurrentStep: React.Dispatch<React.SetStateAction<Step | null>>;
@@ -131,6 +132,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
   const [group, setCurrentGroup] = useState<GroupKey>('basis');
   const [currentStep, setCurrentStep] = useState<Step | null>(null);
   const [substyle, setSubStyle] = useState<SubStyle>(initialSubstyle);
+  const [motorCount, setMotorCount] = useState<number>(1);
 
   const orderOfKeys =
     configuration.basis.style.name === 'Oberlicht'
@@ -142,11 +144,14 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
   const getStepsForGroup = (group: GroupKey) => {
     // for sonnenschutz group, steps are built dynamically according to cover selection in Basis
     if (group === 'sonnenschutz') {
-      return (
+      const stepsForCover =
         sonnenschutzStepPacks[
           configuration.basis.cover.key as keyof typeof sonnenschutzStepPacks
-        ] || []
-      );
+        ] || [];
+      if (motorCount === 2) {
+        return stepsForCover.filter((step) => step.key !== 'antriebsseite');
+      }
+      return stepsForCover;
     }
     // farben steps changge if the window type has no handle
     if (group === 'farben') {
@@ -1264,6 +1269,39 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     }
   }, [configuration.sonnenschutz.verlangerung]);
 
+  useEffect(() => {
+    const size = configuration.basis.size;
+    if (!size) {
+      setMotorCount(1);
+      return;
+    }
+
+    const width = Number(size.w) || 0;
+    const height = Number(size.h) || 0;
+
+    let additionalWidth = 0;
+    if ('montageartRollladen' in configuration.sonnenschutz) {
+      const montageartRollladenKey = (
+        configuration.sonnenschutz.montageartRollladen as SelectionItem
+      ).key;
+      const { links, rechts } = configuration.zusatze.rahmenverbreiterungAuswahlen;
+      const horizontalExtension = links + rechts;
+      if (horizontalExtension > 0 && montageartRollladenKey === 'mrv') {
+        additionalWidth = horizontalExtension;
+      }
+    }
+
+    const totalWidth = width + additionalWidth;
+    const area = (totalWidth * height) / 1000_000;
+    const weight = area * weightMultiplier;
+
+    setMotorCount(weight < 21 ? 1 : 2);
+  }, [
+    configuration.basis.size,
+    configuration.sonnenschutz.montageartRollladen,
+    configuration.zusatze.rahmenverbreiterungAuswahlen,
+  ]);
+
   return (
     <ConfiurationContext.Provider
       value={{
@@ -1278,6 +1316,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
         previousGroup,
         windowSectionCount,
         windowHandleNumber: windowHandleNumberTotal,
+        motorCount,
         getStepsForGroup,
         setConfiguration,
         setCurrentStep,

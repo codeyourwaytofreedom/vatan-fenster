@@ -158,6 +158,7 @@ export interface SonnenschutzConfiuration {
   farbeFührungsschiene?: SelectionItem;
   putztrager?: SelectionItem;
   schragschnitt?: SelectionItem;
+  montageartRollladen?: SelectionItem;
   kastenheight?: SelectionItem;
   kastenart?: SelectionItem;
   kastenDimensions?: Size | null;
