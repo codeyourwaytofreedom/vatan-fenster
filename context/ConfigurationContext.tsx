@@ -344,12 +344,254 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     } as MinMaxSizes;
   };
 
+  const getSonnenschutzPartitionOberlichtPossibilities = (section: 'oben' | 'unten') => {
+    const selectedStyleKey = configuration.basis.style.key;
+    if (!['oberlicht', 'unterlicht'].includes(selectedStyleKey)) {
+      return [];
+    }
+    const width = Number(configuration.basis.size?.w ?? 0);
+    const sectionValid = (w: number) =>
+      w >= sonnenschutzSectionMinWidth && w <= sonnenschutzSectionMaxWidth;
+
+    const type = configuration.basis.type as SubStyle;
+    const sectionNumber =
+      section === 'oben' ? (type.oben?.sectionNumber ?? 1) : (type.unten?.sectionNumber ?? 1);
+    const styleKey = sectionNumber === 1 ? 'flugel1' : sectionNumber === 2 ? 'flugel2' : 'flugel3';
+    const multiWidth =
+      section === 'oben'
+        ? Object.values(configuration.basis.obenMultiWidth ?? {})
+        : Object.values(configuration.basis.untenMultiWidth ?? {});
+
+    const possibilities: number[] = [];
+    if (styleKey === 'flugel1') {
+      return sectionValid(width) ? [1] : [];
+    }
+    if (!multiWidth.length) {
+      return [];
+    }
+    const allSectionsValid = multiWidth.every((w) => sectionValid(w));
+
+    if (sectionValid(width)) {
+      possibilities.push(1);
+    }
+
+    if (allSectionsValid) {
+      if (styleKey === 'flugel2') {
+        if (multiWidth[0] === multiWidth[1]) {
+          possibilities.push(2);
+        }
+        if (multiWidth[0] > multiWidth[1]) {
+          possibilities.push(21);
+        }
+        if (multiWidth[1] > multiWidth[0]) {
+          possibilities.push(12);
+        }
+      }
+      if (styleKey === 'flugel3') {
+        if (multiWidth[0] === multiWidth[1] && multiWidth[1] === multiWidth[2]) {
+          possibilities.push(3);
+        }
+        if (
+          sectionValid(multiWidth[0] + multiWidth[1]) &&
+          multiWidth[0] + multiWidth[1] > multiWidth[2]
+        ) {
+          possibilities.push(21);
+        }
+        if (
+          sectionValid(multiWidth[1] + multiWidth[2]) &&
+          multiWidth[1] + multiWidth[2] > multiWidth[0]
+        ) {
+          possibilities.push(12);
+        }
+        possibilities.push(3);
+      }
+    }
+
+    if (styleKey === 'flugel3') {
+      const left2 = multiWidth[0] + multiWidth[1];
+      const right1 = multiWidth[2];
+
+      const _2_1_Possible = sectionValid(left2) && sectionValid(right1) && right1 === left2;
+
+      const left1 = multiWidth[0];
+      const right2 = multiWidth[1] + multiWidth[2];
+
+      const _1_2_Possible = sectionValid(left1) && sectionValid(right2) && left1 === right2;
+
+      if (_1_2_Possible || _2_1_Possible) {
+        possibilities.push(2);
+      }
+    }
+
+    return possibilities;
+  };
+
+  const getSonnenschutzPartitionUnterlichtPossibilitiesOben = () => {
+    const width = Number(configuration.basis.size?.w ?? 0);
+    const sectionValid = (w: number) =>
+      w >= sonnenschutzSectionMinWidth && w <= sonnenschutzSectionMaxWidth;
+
+    const type = configuration.basis.type as SubStyle;
+    const sectionNumber = type.unten?.sectionNumber ?? 1;
+    const styleKey = sectionNumber === 1 ? 'flugel1' : sectionNumber === 2 ? 'flugel2' : 'flugel3';
+    const multiWidth = Object.values(configuration.basis.obenMultiWidth ?? {});
+
+    const possibilities: number[] = [];
+    if (styleKey === 'flugel1') {
+      return sectionValid(width) ? [1] : [];
+    }
+    if (!multiWidth.length) {
+      return [];
+    }
+    const allSectionsValid = multiWidth.every((w) => sectionValid(w));
+
+    if (sectionValid(width)) {
+      possibilities.push(1);
+    }
+
+    if (allSectionsValid) {
+      if (styleKey === 'flugel2') {
+        if (multiWidth[0] === multiWidth[1]) {
+          possibilities.push(2);
+        }
+        if (multiWidth[0] > multiWidth[1]) {
+          possibilities.push(21);
+        }
+        if (multiWidth[1] > multiWidth[0]) {
+          possibilities.push(12);
+        }
+      }
+      if (styleKey === 'flugel3') {
+        if (multiWidth[0] === multiWidth[1] && multiWidth[1] === multiWidth[2]) {
+          possibilities.push(3);
+        }
+        if (
+          sectionValid(multiWidth[0] + multiWidth[1]) &&
+          multiWidth[0] + multiWidth[1] > multiWidth[2]
+        ) {
+          possibilities.push(21);
+        }
+        if (
+          sectionValid(multiWidth[1] + multiWidth[2]) &&
+          multiWidth[1] + multiWidth[2] > multiWidth[0]
+        ) {
+          possibilities.push(12);
+        }
+        possibilities.push(3);
+      }
+    }
+
+    if (styleKey === 'flugel3') {
+      const left2 = multiWidth[0] + multiWidth[1];
+      const right1 = multiWidth[2];
+
+      const _2_1_Possible = sectionValid(left2) && sectionValid(right1) && right1 === left2;
+
+      const left1 = multiWidth[0];
+      const right2 = multiWidth[1] + multiWidth[2];
+
+      const _1_2_Possible = sectionValid(left1) && sectionValid(right2) && left1 === right2;
+
+      if (_1_2_Possible || _2_1_Possible) {
+        possibilities.push(2);
+      }
+    }
+
+    return possibilities;
+  };
+
+  const getSonnenschutzPartitionUnterlichtPossibilitiesUnten = () => {
+    const width = Number(configuration.basis.size?.w ?? 0);
+    const sectionValid = (w: number) =>
+      w >= sonnenschutzSectionMinWidth && w <= sonnenschutzSectionMaxWidth;
+
+    const type = configuration.basis.type as SubStyle;
+    const sectionNumber = type.oben?.sectionNumber ?? 1;
+    const styleKey = sectionNumber === 1 ? 'flugel1' : sectionNumber === 2 ? 'flugel2' : 'flugel3';
+    const multiWidth = Object.values(configuration.basis.untenMultiWidth ?? {});
+
+    const possibilities: number[] = [];
+    if (styleKey === 'flugel1') {
+      return sectionValid(width) ? [1] : [];
+    }
+    if (!multiWidth.length) {
+      return [];
+    }
+    const allSectionsValid = multiWidth.every((w) => sectionValid(w));
+
+    if (sectionValid(width)) {
+      possibilities.push(1);
+    }
+
+    if (allSectionsValid) {
+      if (styleKey === 'flugel2') {
+        if (multiWidth[0] === multiWidth[1]) {
+          possibilities.push(2);
+        }
+        if (multiWidth[0] > multiWidth[1]) {
+          possibilities.push(21);
+        }
+        if (multiWidth[1] > multiWidth[0]) {
+          possibilities.push(12);
+        }
+      }
+      if (styleKey === 'flugel3') {
+        if (multiWidth[0] === multiWidth[1] && multiWidth[1] === multiWidth[2]) {
+          possibilities.push(3);
+        }
+        if (
+          sectionValid(multiWidth[0] + multiWidth[1]) &&
+          multiWidth[0] + multiWidth[1] > multiWidth[2]
+        ) {
+          possibilities.push(21);
+        }
+        if (
+          sectionValid(multiWidth[1] + multiWidth[2]) &&
+          multiWidth[1] + multiWidth[2] > multiWidth[0]
+        ) {
+          possibilities.push(12);
+        }
+        possibilities.push(3);
+      }
+    }
+
+    if (styleKey === 'flugel3') {
+      const left2 = multiWidth[0] + multiWidth[1];
+      const right1 = multiWidth[2];
+
+      const _2_1_Possible = sectionValid(left2) && sectionValid(right1) && right1 === left2;
+
+      const left1 = multiWidth[0];
+      const right2 = multiWidth[1] + multiWidth[2];
+
+      const _1_2_Possible = sectionValid(left1) && sectionValid(right2) && left1 === right2;
+
+      if (_1_2_Possible || _2_1_Possible) {
+        possibilities.push(2);
+      }
+    }
+
+    return possibilities;
+  };
+
   const getSonnenschutzPartitionPossibilities = () => {
     const possibilities = [];
     const selectedStyleKey = configuration.basis.style.key;
     const width = Number(configuration.basis.size?.w ?? 0);
     const sectionValid = (w: number) =>
-      w > sonnenschutzSectionMinWidth && w <= sonnenschutzSectionMaxWidth;
+      w >= sonnenschutzSectionMinWidth && w <= sonnenschutzSectionMaxWidth;
+
+    if (selectedStyleKey === 'oberlicht') {
+      const oben = getSonnenschutzPartitionOberlichtPossibilities('oben');
+      const unten = getSonnenschutzPartitionOberlichtPossibilities('unten');
+      return oben.filter((p) => unten.includes(p));
+    }
+
+    if (selectedStyleKey === 'unterlicht') {
+      const oben = getSonnenschutzPartitionUnterlichtPossibilitiesOben();
+      const unten = getSonnenschutzPartitionUnterlichtPossibilitiesUnten();
+      return oben.filter((p) => unten.includes(p));
+    }
 
     if (selectedStyleKey === 'flugel1') {
       if (sectionValid(width)) {
@@ -366,7 +608,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     const allSectionsValid = multiWidth.every((w) => sectionValid(w));
 
     // if total width is valid, 1 Teilung is possible
-    if (width <= sonnenschutzSectionMaxWidth) {
+    if (sectionValid(width)) {
       possibilities.push(1);
     }
 
@@ -493,6 +735,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
       width,
       height,
       isOberLichtUnterlicht: ['oberlicht', 'unterlicht'].includes(configuration.basis.style.key),
+      direction,
     });
 
     const { colouringPriceMultiplier } = getColoringMultiplier({
@@ -764,16 +1007,17 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
     width,
     height,
     isOberLichtUnterlicht,
+    direction,
   }: {
     width: number;
     height: number;
     isOberLichtUnterlicht: boolean;
+    direction?: 'oben' | 'unten';
   }) => {
     if (configuration.basis.cover.key === 'nein') {
       return 0;
     }
-    // to be adjusted !!!!!
-    if (isOberLichtUnterlicht) {
+    if (isOberLichtUnterlicht && direction && direction !== 'oben') {
       return 0;
     }
     const sonnenschutzPricingNotApplicable = showSonnenshutzNotApplicableWarning();
@@ -1124,7 +1368,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
         });
       }
     }
-  }, [configuration.basis.size]);
+  }, [configuration.basis.size, sonnenschutPartitionPossibilities?.length]);
 
   // if sprossen color is custom-color for innen-aussen, when innen-aussen combination changes,
   // reset the sprossen color
