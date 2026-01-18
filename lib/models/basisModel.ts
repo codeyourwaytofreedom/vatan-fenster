@@ -7,16 +7,18 @@ const selectionItemSchema = {
   properties: {
     key: { bsonType: 'string' },
     name: { bsonType: 'string' },
+    colorCode: { bsonType: 'string' },
   },
 };
 
-export const basisValidator = {
+export const windowConfigurationValidator = {
   $jsonSchema: {
     bsonType: 'object',
-    required: ['basis', 'farben'],
+    required: ['basis', 'farben', 'verglasung', 'zusatze', 'totalPrice'],
     additionalProperties: false,
     properties: {
       _id: { bsonType: 'objectId' },
+      totalPrice: { bsonType: 'number' },
       basis: {
         bsonType: 'object',
         required: [
@@ -230,6 +232,98 @@ export const basisValidator = {
             bsonType: 'string',
           },
         }
+      },
+      sonnenschutz: {
+        bsonType: 'object',
+        additionalProperties: false,
+        properties: {
+          adapter: { ...selectionItemSchema },
+          revisionsöffnung: { ...selectionItemSchema },
+          lamellenart: {
+            bsonType: 'object',
+            required: ['category'],
+            additionalProperties: false,
+            properties: {
+              category: { ...selectionItemSchema },
+              subCategory: { ...selectionItemSchema },
+            },
+          },
+          lamellenartVorsatzrollladen: { ...selectionItemSchema },
+          lamellenartAufStyroporkasten: { ...selectionItemSchema },
+          lamelleArtFarbe: { ...selectionItemSchema },
+          verlangerung: { ...selectionItemSchema },
+          antriebsart: {
+            bsonType: 'object',
+            required: ['category'],
+            additionalProperties: false,
+            properties: {
+              category: { ...selectionItemSchema },
+              subCategory: { ...selectionItemSchema },
+            },
+          },
+          antriebsartAufStyroporkasten: { ...selectionItemSchema },
+          antriebsartVorsatzraffstore: { ...selectionItemSchema },
+          antriebsseite: { ...selectionItemSchema },
+          farbeRollladenkasten: {
+            bsonType: 'object',
+            required: ['category'],
+            additionalProperties: false,
+            properties: {
+              category: { ...selectionItemSchema },
+              subCategory: { ...selectionItemSchema },
+            },
+          },
+          farbeRollladenPanzer: { ...selectionItemSchema },
+          farbeEndschiene: { ...selectionItemSchema },
+          farbeEndschieneAufStyroporkasten: { ...selectionItemSchema },
+          farbeEndschieneVorsatzraffstore: { ...selectionItemSchema },
+          farbeFührungsschiene: {
+            bsonType: 'object',
+            required: ['category'],
+            additionalProperties: false,
+            properties: {
+              category: { ...selectionItemSchema },
+              subCategory: { ...selectionItemSchema },
+            },
+          },
+          farbeRaffstorelamelleAufStyroporkasten: { ...selectionItemSchema },
+          farbeRaffstorelamelleVorsatzraffstore: { ...selectionItemSchema },
+          putztrager: {
+            bsonType: 'object',
+            required: ['category'],
+            additionalProperties: false,
+            properties: {
+              category: { ...selectionItemSchema },
+              subCategory: { ...selectionItemSchema },
+            },
+          },
+          putzträgerStyroporkasten: { ...selectionItemSchema },
+          schragschnitt: { ...selectionItemSchema },
+          schallschutzmatte: { ...selectionItemSchema },
+          montageartRollladen: { ...selectionItemSchema },
+          montageartVorsatzrollladen: { ...selectionItemSchema },
+          stahlkonsole: { ...selectionItemSchema },
+          kastentiefeStyroporkasten: { ...selectionItemSchema },
+          kastentiefeAufStyroporkasten: { ...selectionItemSchema },
+          kastenform: { ...selectionItemSchema },
+          kastenheight: { ...selectionItemSchema },
+          kastenart: { ...selectionItemSchema },
+          kastenDimensions: {
+            bsonType: 'object',
+            required: ['w', 'h'],
+            additionalProperties: false,
+            properties: {
+              w: { bsonType: 'number' },
+              h: { bsonType: 'number' },
+            },
+          },
+          kastendämmungAufStyroporkasten: { ...selectionItemSchema },
+          putzschieneAufStyroporkasten: { ...selectionItemSchema },
+          putzschieneVorsatzraffstore: { ...selectionItemSchema },
+          führungsschieneAufStyroporkasten: { ...selectionItemSchema },
+          führungsschieneVorsatzraffstore: { ...selectionItemSchema },
+          windSonnensensoren: { ...selectionItemSchema },
+        },
       },
       zusatze: {
         bsonType: 'object',

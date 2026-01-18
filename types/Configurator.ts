@@ -143,25 +143,42 @@ export interface VerglasungConfiuration {
 export interface SonnenschutzConfiuration {
   adapter?: SelectionItem;
   revisionsöffnung?: SelectionItem;
-  lamellenart?: {
-    category: SelectionItem;
-    subCategory: SelectionItem;
-  };
+  lamellenart?: DobuleSelection;
+  lamellenartVorsatzrollladen?: SelectionItem;
+  lamellenartAufStyroporkasten?: SelectionItem;
+  lamelleArtFarbe?: SelectionItem;
   verlangerung?: SelectionItem;
-  antriebsart?: SelectionItem;
-  farbeRollladenkasten?: {
-    category: SelectionItem;
-    subCategory: SelectionItem;
-  };
+  antriebsart?: DobuleSelection;
+  antriebsartAufStyroporkasten?: SelectionItem;
+  antriebsartVorsatzraffstore?: SelectionItem;
+  antriebsseite?: SelectionItem;
+  farbeRollladenkasten?: DobuleSelection;
   farbeRollladenPanzer?: SelectionItem;
   farbeEndschiene?: SelectionItem;
-  farbeFührungsschiene?: SelectionItem;
-  putztrager?: SelectionItem;
+  farbeEndschieneAufStyroporkasten?: SelectionItem;
+  farbeEndschieneVorsatzraffstore?: SelectionItem;
+  farbeFührungsschiene?: DobuleSelection;
+  farbeRaffstorelamelleAufStyroporkasten?: SelectionItem;
+  farbeRaffstorelamelleVorsatzraffstore?: SelectionItem;
+  putztrager?: DobuleSelection;
+  putzträgerStyroporkasten?: SelectionItem;
   schragschnitt?: SelectionItem;
+  schallschutzmatte?: SelectionItem;
   montageartRollladen?: SelectionItem;
+  montageartVorsatzrollladen?: SelectionItem;
+  stahlkonsole?: SelectionItem;
+  kastentiefeStyroporkasten?: SelectionItem;
+  kastentiefeAufStyroporkasten?: SelectionItem;
+  kastenform?: SelectionItem;
   kastenheight?: SelectionItem;
   kastenart?: SelectionItem;
   kastenDimensions?: Size | null;
+  kastendämmungAufStyroporkasten?: SelectionItem;
+  putzschieneAufStyroporkasten?: SelectionItem;
+  putzschieneVorsatzraffstore?: SelectionItem;
+  führungsschieneAufStyroporkasten?: SelectionItem;
+  führungsschieneVorsatzraffstore?: SelectionItem;
+  windSonnensensoren?: SelectionItem;
 }
 
 export interface ZusatzeConfiguration {

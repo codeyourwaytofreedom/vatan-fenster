@@ -264,9 +264,10 @@ export default function SummaryDisplayer() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(
-          purifyConfig(configuration, ['image', 'details', 'children', 'isActive', 'zoomable'])
-        ),
+        body: JSON.stringify({
+          ...purifyConfig(configuration, ['image', 'details', 'children', 'isActive', 'zoomable']),
+          totalPrice: totalPrice ?? null,
+        }),
       });
 
       if (!response.ok) {
