@@ -340,14 +340,25 @@ export const calculateSonnenschutzPrice = ({
     ? 'withInsektenschutz'
     : 'withoutInsektenschutz';
 
-  const totalHeight = height + extensionHeight + additionalSonnenschutzHeight;
+  const sonnenschutzHeight = isOberLichtUnterlicht
+    ? Number(configuration.basis.size?.h ?? height)
+    : height;
+  const totalHeight = sonnenschutzHeight + extensionHeight + additionalSonnenschutzHeight;
   const totalWidth = width + additionalWidth;
 
   const priceTableForSelectedSonnenschutz =
     sonnenschutzPriceLists[selectedCoverKey][insektenschutzKey];
 
-  const rollladenPanzerPrice = calculateRollladenPanzerPrice(configuration, totalWidth, height);
-  const farbeEndschienePrice = calculateFarbeEndschienePrice(configuration, totalWidth, height);
+  const rollladenPanzerPrice = calculateRollladenPanzerPrice(
+    configuration,
+    totalWidth,
+    sonnenschutzHeight
+  );
+  const farbeEndschienePrice = calculateFarbeEndschienePrice(
+    configuration,
+    totalWidth,
+    sonnenschutzHeight
+  );
   const schragschnittPrice = calculateSchragschnittPrice(
     configuration,
     configuration.sonnenschutz.schragschnitt?.key ?? 'nein',
@@ -358,7 +369,7 @@ export const calculateSonnenschutzPrice = ({
     configuration,
     selectedTeilungKey,
     totalWidth,
-    height
+    sonnenschutzHeight
   );
   const schallschutzmattePrice = calculateSchallschutzmattePrice(configuration, totalWidth);
   const montageartRollladenPrice = calculateMontageartRollladenPrice(configuration, totalWidth);
