@@ -318,12 +318,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
           partitionsPossible.includes(Number(o.key))
         );
 
-        const existingOption = configuration.sonnenschutz.lamellenart?.subCategory;
-
-        const optionToApply =
-          existingOption && possibleOptions.some((op) => op.key === existingOption?.key)
-            ? existingOption
-            : possibleOptions[0];
+        const optionToApply = possibleOptions[0];
 
         setConfiguration((pr) => {
           return {

@@ -285,21 +285,18 @@ export const showSonnenshutzNotApplicableWarning = (configuration: FensterConfig
 
 export const calculateSonnenschutzPrice = ({
   configuration,
+  selectedWindowStyleKey,
   width,
   height,
   isOberLichtUnterlicht,
-  direction,
 }: {
   configuration: FensterConfig;
+  selectedWindowStyleKey?: string;
   width: number;
   height: number;
   isOberLichtUnterlicht: boolean;
-  direction?: 'oben' | 'unten';
 }) => {
   if (configuration.basis.cover.key === 'nein') {
-    return 0;
-  }
-  if (isOberLichtUnterlicht && direction && direction !== 'oben') {
     return 0;
   }
   const sonnenschutzPricingNotApplicable = showSonnenshutzNotApplicableWarning(configuration);
@@ -312,7 +309,7 @@ export const calculateSonnenschutzPrice = ({
 
   const selectedTeilungKey = configuration.sonnenschutz.lamellenart?.subCategory.key ?? '';
 
-  const selectedStyleKey = configuration.basis.style.key;
+  const selectedStyleKey = selectedWindowStyleKey ?? configuration.basis.style.key;
   const selectedCoverKey = configuration.basis.cover.key;
 
   const verlangerung = configuration.sonnenschutz.verlangerung;
@@ -376,41 +373,11 @@ export const calculateSonnenschutzPrice = ({
   const stahlkonsolePrice = calculateStahlkonsolePrice(configuration);
 
   if (selectedStyleKey === 'flugel1' || selectedTeilungKey === '1') {
-    console.log('Sonnenschutz base price inputs (single)', {
-      priceTableForSelectedSonnenschutz,
-      totalWidth,
-      totalHeight,
-    });
-
     baseSonnentschutzPrice =
       extractPriceFromTable(priceTableForSelectedSonnenschutz, totalWidth, totalHeight) || 0;
 
     const rolladenKastenPrice =
       (calculateRolladenKastenPriceMultiplier(configuration) * baseSonnentschutzPrice) / 100;
-
-    console.log('Sonnenschutz price components (single)', {
-      baseSonnentschutzPrice,
-      rolladenKastenPrice,
-      rollladenPanzerPrice,
-      farbeEndschienePrice,
-      putztragerPrice,
-      schragschnittPrice,
-      antriebsartPrice,
-      schallschutzmattePrice,
-      montageartRollladenPrice,
-      stahlkonsolePrice,
-      total:
-        baseSonnentschutzPrice +
-        rolladenKastenPrice +
-        rollladenPanzerPrice +
-        farbeEndschienePrice +
-        putztragerPrice +
-        schragschnittPrice +
-        antriebsartPrice +
-        schallschutzmattePrice +
-        montageartRollladenPrice +
-        stahlkonsolePrice,
-    });
 
     return (
       baseSonnentschutzPrice +
@@ -426,10 +393,13 @@ export const calculateSonnenschutzPrice = ({
     );
   }
 
-  if (!configuration.basis.multiWidth) return 0;
+  const multiWidth = isOberLichtUnterlicht ? configuration.basis.obenMultiWidth : configuration.basis.multiWidth;
+  if (!multiWidth) {
+    return 0;
+  }
 
   let sectionsByTeilung: number[] = [];
-  const allSectionWidths = Object.values(configuration.basis.multiWidth);
+  const allSectionWidths = Object.values(multiWidth);
 
   if (selectedStyleKey === 'flugel2') {
     sectionsByTeilung = allSectionWidths;
@@ -455,30 +425,6 @@ export const calculateSonnenschutzPrice = ({
 
   const rolladenKastenPrice =
     (calculateRolladenKastenPriceMultiplier(configuration) * baseSonnentschutzPrice) / 100;
-
-  console.log('Sonnenschutz price components (multi)', {
-    baseSonnentschutzPrice,
-    rolladenKastenPrice,
-    rollladenPanzerPrice,
-    farbeEndschienePrice,
-    putztragerPrice,
-    schragschnittPrice,
-    antriebsartPrice,
-    schallschutzmattePrice,
-    montageartRollladenPrice,
-    stahlkonsolePrice,
-    total:
-      baseSonnentschutzPrice +
-      rolladenKastenPrice +
-      rollladenPanzerPrice +
-      farbeEndschienePrice +
-      putztragerPrice +
-      schragschnittPrice +
-      antriebsartPrice +
-      schallschutzmattePrice +
-      montageartRollladenPrice +
-      stahlkonsolePrice,
-  });
 
   return (
     baseSonnentschutzPrice +

@@ -113,13 +113,19 @@ export const calculateTotalPriceForConfiguration = (configuration: FensterConfig
       isOberLichtUnterlicht: ['oberlicht', 'unterlicht'].includes(configuration.basis.style.key),
     });
 
-    const sonnenschutzPrice = calculateSonnenschutzPrice({
-      configuration,
-      width,
-      height,
-      isOberLichtUnterlicht: ['oberlicht', 'unterlicht'].includes(configuration.basis.style.key),
-      direction,
-    });
+    const isOberLichtUnterlicht = ['oberlicht', 'unterlicht'].includes(
+      configuration.basis.style.key
+    );
+    const shouldChargeSonnenschutz = !(isOberLichtUnterlicht && direction === 'unten');
+    const sonnenschutzPrice = shouldChargeSonnenschutz
+      ? calculateSonnenschutzPrice({
+          configuration,
+          selectedWindowStyleKey,
+          width,
+          height,
+          isOberLichtUnterlicht,
+        })
+      : 0;
 
     const { colouringPriceMultiplier } = getColoringMultiplier({
       colorExteriorCode,
