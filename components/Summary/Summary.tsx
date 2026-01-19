@@ -2,6 +2,7 @@ import styles from '../.././styles/KonfiguratorPage.module.css';
 import { getColoringMultiplier, purifyConfig, scrollToElement } from '@/utils';
 import { steps } from '@/data/steps';
 import { useConfiguration } from '@/context/ConfigurationContext';
+import { calculateTotalPriceForConfiguration } from '@/utils/priceCalculator';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { DobuleSelection, GroupKey, SelectionItem, Size, SubStyle } from '@/types/Configurator';
@@ -26,7 +27,6 @@ export default function SummaryDisplayer() {
   const [expandedGroups, setExpandedGroups] = useState<string[]>([]);
   const slowAction = 100;
 
-  const { calculateTotalPrice } = useConfiguration();
   const { openModal } = useModal();
 
   const groupBasis = configuration.basis;
@@ -291,218 +291,15 @@ export default function SummaryDisplayer() {
           setTotalPrice(undefined);
           return;
         }
-        const colorCodeExt = configuration.farben.colorExt.colorCode;
-        const colorCodeInt = configuration.farben.colorInt.colorCode;
-        const colorMidKey = configuration.farben.colorMid?.key;
-
-        const profileHeightKey = configuration.basis.profileHeight.key;
-        const glasspaketKey = configuration.verglasung.glasspaket.key;
-        const druckausgleichsventilKey = configuration.verglasung.druckausgleichsventil.key;
-
-        const sprossen = configuration.verglasung.sprossen;
-
-        let totalPrice: number = 0;
-        setTotalPrice(totalPrice);
-
-        // if style is Oberlicht, calculate for 2 components seperately
-        if (
-          configuration.basis.style.key === 'oberlicht' &&
-          'oben' in configuration.basis.type &&
-          'unten' in configuration.basis.type
-        ) {
-          /* Calculate oben part */
-          const sectionNumberOben = configuration.basis.type.oben?.sectionNumber || 1;
-          const windowStyleOben =
-            sectionNumberOben === 1
-              ? windowStyles.find((st) => st.key === 'flugel1')
-              : sectionNumberOben === 2
-                ? windowStyles.find((st) => st.key === 'flugel2')
-                : windowStyles.find((st) => st.key === 'flugel3');
-          const windowProfileOben = configuration.basis.profile;
-          const windowTypeOben = configuration.basis.type.oben!;
-          const obenPrice = calculateTotalPrice({
-            selectedMaterialKey: configuration.basis.material.key,
-            selectedProfileKey: windowProfileOben.key,
-            selectedWindowStyleKey: windowStyleOben!.key,
-            selectedTypeKey: windowTypeOben.key,
-            selectedOrnamentKey: configuration.verglasung.ornament.key,
-            width: Number((configuration.basis.size as Size).w),
-            height: Number(configuration.basis.multiHeight!['obenHeight']),
-            multiWidth: configuration.basis.obenMultiWidth,
-            colorExteriorCode: colorCodeExt!,
-            colorInteriorCode: colorCodeInt!,
-            colorMidKey,
-            profileHeightKey,
-            glasspaketKey,
-            druckausgleichsventilKey,
-            sprossen,
-            numberOfSections: sectionNumberOben,
-            windowHandleNumber: configuration.basis.type.oben?.handleNumber ?? 0,
-            direction: 'oben',
-          });
-          /* Calculate unten part */
-          const sectionNumberUnten = configuration.basis.type.unten?.sectionNumber || 1;
-          const windowStyleUnten =
-            sectionNumberUnten === 1
-              ? windowStyles.find((st) => st.key === 'flugel1')
-              : sectionNumberUnten === 2
-                ? windowStyles.find((st) => st.key === 'flugel2')
-                : windowStyles.find((st) => st.key === 'flugel3');
-          const windowProfileUnten = configuration.basis.profile;
-          const windowTypeUnten = configuration.basis.type.unten!;
-          const untenPrice = calculateTotalPrice({
-            selectedMaterialKey: configuration.basis.material.key,
-            selectedProfileKey: windowProfileUnten.key,
-            selectedWindowStyleKey: windowStyleUnten!.key,
-            selectedTypeKey: windowTypeUnten.key,
-            selectedOrnamentKey: configuration.verglasung.ornament.key,
-            width: Number((configuration.basis.size as Size).w),
-            height: Number(configuration.basis.multiHeight!['untenHeight']),
-            multiWidth: configuration.basis.untenMultiWidth,
-            colorExteriorCode: colorCodeExt!,
-            colorInteriorCode: colorCodeInt!,
-            colorMidKey,
-            profileHeightKey,
-            glasspaketKey,
-            druckausgleichsventilKey,
-            sprossen,
-            numberOfSections: sectionNumberUnten,
-            windowHandleNumber: configuration.basis.type.unten?.handleNumber ?? 0,
-            direction: 'unten',
-          });
-          totalPrice = (obenPrice ?? 0) + (untenPrice ?? 0);
-        }
-
-        // if style is Unterlicht, calculate for 2 components seperately
-        if (
-          configuration.basis.style.key === 'unterlicht' &&
-          'oben' in configuration.basis.type &&
-          'unten' in configuration.basis.type
-        ) {
-          /* Calculate oben part */
-          const sectionNumberOben = configuration.basis.type.unten?.sectionNumber || 1;
-          const windowStyleOben =
-            sectionNumberOben === 1
-              ? windowStyles.find((st) => st.key === 'flugel1')
-              : sectionNumberOben === 2
-                ? windowStyles.find((st) => st.key === 'flugel2')
-                : windowStyles.find((st) => st.key === 'flugel3');
-          const windowProfileOben = configuration.basis.profile;
-          const windowTypeOben = configuration.basis.type.unten!;
-          const obenPrice = calculateTotalPrice({
-            selectedMaterialKey: configuration.basis.material.key,
-            selectedProfileKey: windowProfileOben.key,
-            selectedWindowStyleKey: windowStyleOben!.key,
-            selectedTypeKey: windowTypeOben.key,
-            selectedOrnamentKey: configuration.verglasung.ornament.key,
-            width: Number((configuration.basis.size as Size).w),
-            height: Number(configuration.basis.multiHeight!['obenHeight']),
-            multiWidth: configuration.basis.obenMultiWidth,
-            colorExteriorCode: colorCodeExt!,
-            colorInteriorCode: colorCodeInt!,
-            colorMidKey,
-            profileHeightKey,
-            glasspaketKey,
-            druckausgleichsventilKey,
-            sprossen,
-            numberOfSections: sectionNumberOben,
-            windowHandleNumber: configuration.basis.type.oben?.handleNumber ?? 0,
-            direction: 'unten',
-          });
-
-          /* Calculate unten part */
-          const sectionNumberUnten = configuration.basis.type.oben?.sectionNumber || 1;
-          const windowStyleUnten =
-            sectionNumberUnten === 1
-              ? windowStyles.find((st) => st.key === 'flugel1')
-              : sectionNumberUnten === 2
-                ? windowStyles.find((st) => st.key === 'flugel2')
-                : windowStyles.find((st) => st.key === 'flugel3');
-          const windowProfileUnten = configuration.basis.profile;
-          const windowTypeUnten = configuration.basis.type.oben!;
-          const untenPrice = calculateTotalPrice({
-            selectedMaterialKey: configuration.basis.material.key,
-            selectedProfileKey: windowProfileUnten.key,
-            selectedWindowStyleKey: windowStyleUnten!.key,
-            selectedTypeKey: windowTypeUnten.key,
-            selectedOrnamentKey: configuration.verglasung.ornament.key,
-            width: Number((configuration.basis.size as Size).w),
-            height: Number(configuration.basis.multiHeight!['untenHeight']),
-            multiWidth: configuration.basis.untenMultiWidth,
-            colorExteriorCode: colorCodeExt!,
-            colorInteriorCode: colorCodeInt!,
-            colorMidKey,
-            profileHeightKey,
-            glasspaketKey,
-            druckausgleichsventilKey,
-            sprossen,
-            numberOfSections: sectionNumberUnten,
-            windowHandleNumber: configuration.basis.type.unten?.handleNumber ?? 0,
-            direction: 'oben',
-          });
-
-          totalPrice = (obenPrice ?? 0) + (untenPrice ?? 0);
-        }
-
-        if (['flugel1', 'flugel2', 'flugel3'].includes(configuration.basis.style.key)) {
-          const numberOfSections =
-            configuration.basis.style.key === 'flugel1'
-              ? 1
-              : configuration.basis.style.key === 'flugel2'
-                ? 2
-                : 3;
-
-          totalPrice =
-            calculateTotalPrice({
-              selectedMaterialKey: configuration.basis.material.key,
-              selectedProfileKey: configuration.basis.profile.key,
-              selectedWindowStyleKey: configuration.basis.style.key,
-              selectedTypeKey: (configuration.basis.type as SelectionItem).key,
-              selectedOrnamentKey: configuration.verglasung.ornament.key,
-              width: Number((configuration.basis.size as Size).w),
-              height: Number((configuration.basis.size as Size).h),
-              multiWidth: configuration.basis.multiWidth,
-              colorExteriorCode: colorCodeExt!,
-              colorInteriorCode: colorCodeInt!,
-              colorMidKey,
-              profileHeightKey,
-              glasspaketKey,
-              druckausgleichsventilKey,
-              sprossen,
-              windowHandleNumber: (configuration.basis.type as SelectionItem)?.handleNumber ?? 0,
-              numberOfSections,
-            }) || 0;
-        }
-
-        // round for 2 decimal points
-        totalPrice = Math.round(totalPrice * 100) / 100;
-        setTotalPrice(totalPrice);
+        const total = calculateTotalPriceForConfiguration(configuration);
+        setTotalPrice(total === null ? undefined : total);
       } catch (err) {
         console.log(err);
       }
     }, 200);
 
     return () => clearTimeout(timeout);
-  }, [
-    calculateTotalPrice,
-    configuration.basis.material.key,
-    configuration.basis.multiHeight,
-    configuration.basis.multiWidth,
-    configuration.basis.obenMultiWidth,
-    configuration.basis.profile,
-    configuration.basis.profileHeight.key,
-    configuration.basis.size,
-    configuration.basis.style.key,
-    configuration.basis.type,
-    configuration.basis.untenMultiWidth,
-    configuration.farben.colorExt.colorCode,
-    configuration.farben.colorInt.colorCode,
-    configuration.farben.colorMid?.key,
-    configuration.verglasung.druckausgleichsventil.key,
-    configuration.verglasung.glasspaket.key,
-    configuration.verglasung.ornament.key,
-    configuration.verglasung.sprossen,
-  ]);
+  }, [configuration]);
 
   useEffect(() => {
     const { min10 } = getColoringMultiplier({
