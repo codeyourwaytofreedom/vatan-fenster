@@ -193,7 +193,7 @@ export const calculateAntriebsartPrice = (
   const area = (width * height) / 1000_000;
   const weight = area * weightMultiplier;
 
-  const count = weight < 21 ? 1 : 2;
+  const count = 1;
 
   let wellePrice = (width / 1000) * 5;
   if (
