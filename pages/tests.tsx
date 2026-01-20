@@ -1,8 +1,10 @@
 import { GetServerSideProps } from 'next';
+import { useRouter } from 'next/router';
 import { getDb } from '@/lib/mongodb';
 import { calculateTotalPriceForConfiguration } from '@/utils/priceCalculator';
 import { FensterConfig } from '@/types/Configurator';
 import { ObjectId } from 'mongodb';
+import { useEffect, useState } from 'react';
 
 type OrderDoc = {
   _id: string;
@@ -120,16 +122,68 @@ const renderGroup = (title: string, group?: Record<string, unknown>, order?: Ord
 };
 
 export default function TestsPage({ orders }: TestsPageProps) {
+  const safeOrders = Array.isArray(orders) ? orders : [];
+  const router = useRouter();
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const refreshIfVisible = () => {
+      if (document.visibilityState === 'visible') {
+        router.replace(router.asPath);
+      }
+    };
+    const handleFocus = () => refreshIfVisible();
+    const handleVisibility = () => refreshIfVisible();
+
+    window.addEventListener('focus', handleFocus);
+    document.addEventListener('visibilitychange', handleVisibility);
+    return () => {
+      window.removeEventListener('focus', handleFocus);
+      document.removeEventListener('visibilitychange', handleVisibility);
+    };
+  }, [router]);
+
+  const handleDelete = async (id: string) => {
+    if (deletingId) return;
+    setDeletingId(id);
+    try {
+      const response = await fetch('/api/basket/deleteOrder', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id }),
+      });
+      if (!response.ok) {
+        throw new Error('Failed to delete');
+      }
+      await router.replace(router.asPath);
+    } catch (error) {
+      console.error('Delete order failed', error);
+    } finally {
+      setDeletingId(null);
+    }
+  };
+
   return (
     <main style={{ padding: 24 }}>
       <div style={{ maxWidth: 900 }}>
         <h1>Orders</h1>
-        <p>Total: {orders.length}</p>
-        {orders.length === 0 ? (
-          <p>No orders found.</p>
+        <p>Total: {safeOrders.length}</p>
+        {safeOrders.length === 0 ? (
+          <div
+            style={{
+              marginTop: 12,
+              padding: '12px 14px',
+              backgroundColor: '#f8fafc',
+              border: '1px solid #e2e8f0',
+              borderRadius: 8,
+              color: '#0f172a',
+            }}
+          >
+            No tests yet. Add an order from the configurator to see it here.
+          </div>
         ) : (
           <div>
-            {orders.map((order) => {
+            {safeOrders.map((order) => {
               const pricesMatch =
                 typeof order.totalPrice === 'number' &&
                 typeof order.calculatedTotalPrice === 'number' &&
@@ -145,19 +199,19 @@ export default function TestsPage({ orders }: TestsPageProps) {
                   }}
                 >
                   <summary
-                  style={{
-                    cursor: 'pointer',
-                    fontWeight: 600,
-                    backgroundColor:
-                      typeof order.totalPrice === 'number' &&
-                      typeof order.calculatedTotalPrice === 'number'
-                        ? pricesMatch
-                          ? '#d1fae5'
-                          : '#fee2e2'
-                        : 'transparent',
-                    padding: '4px 6px',
-                    borderRadius: 6,
-                  }}
+                    style={{
+                      cursor: 'pointer',
+                      fontWeight: 600,
+                      backgroundColor:
+                        typeof order.totalPrice === 'number' &&
+                        typeof order.calculatedTotalPrice === 'number'
+                          ? pricesMatch
+                            ? '#d1fae5'
+                            : '#fee2e2'
+                          : 'transparent',
+                      padding: '4px 6px',
+                      borderRadius: 6,
+                    }}
                   >
                     {order._id}
                   </summary>
@@ -191,7 +245,23 @@ export default function TestsPage({ orders }: TestsPageProps) {
                         {order.calculatedTotalPrice === null ? '--' : order.calculatedTotalPrice}
                       </div>
                     )}
-                    <div style={{ marginLeft: 'auto' }}></div>
+                    <div style={{ marginLeft: 'auto' }}>
+                      <button
+                        onClick={() => handleDelete(order._id)}
+                        disabled={Boolean(deletingId)}
+                        style={{
+                          padding: '6px 10px',
+                          backgroundColor: '#ef4444',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: 6,
+                          cursor: deletingId ? 'not-allowed' : 'pointer',
+                          opacity: deletingId ? 0.6 : 1,
+                        }}
+                      >
+                        {deletingId === order._id ? 'Deleting...' : 'Delete'}
+                      </button>
+                    </div>
                   </div>
                   <div
                     style={{
@@ -221,36 +291,45 @@ export default function TestsPage({ orders }: TestsPageProps) {
 }
 
 export const getServerSideProps: GetServerSideProps<TestsPageProps> = async () => {
-  const db = await getDb();
-  const docs = await db
-    .collection<DbOrderDoc>('fenster-orders')
-    .find({}, { sort: { _id: -1 }, limit: 50 })
-    .toArray();
+  try {
+    const db = await getDb();
+    const docs = await db
+      .collection<DbOrderDoc>('fenster-orders')
+      .find({}, { sort: { _id: -1 }, limit: 50 })
+      .toArray();
 
-  const orders = docs.map((doc) => {
-    const base: OrderDoc = {
-      ...doc,
-      _id: doc._id.toString(),
-    };
-    const configuration = {
-      basis: base.basis,
-      farben: base.farben,
-      verglasung: base.verglasung,
-      zusatze: base.zusatze,
-      sonnenschutz: base.sonnenschutz ?? {},
-    } as FensterConfig;
+    const orders = docs.map((doc) => {
+      const base: OrderDoc = {
+        ...doc,
+        _id: doc._id.toString(),
+      };
+      const configuration = {
+        basis: base.basis,
+        farben: base.farben,
+        verglasung: base.verglasung,
+        zusatze: base.zusatze,
+        sonnenschutz: base.sonnenschutz ?? {},
+      } as FensterConfig;
 
-    const calculatedTotalPrice = calculateTotalPriceForConfiguration(configuration);
+      const calculatedTotalPrice = calculateTotalPriceForConfiguration(configuration);
+
+      return {
+        ...base,
+        calculatedTotalPrice,
+      };
+    });
 
     return {
-      ...base,
-      calculatedTotalPrice,
+      props: {
+        orders: JSON.parse(JSON.stringify(orders)),
+      },
     };
-  });
-
-  return {
-    props: {
-      orders: JSON.parse(JSON.stringify(orders)),
-    },
-  };
+  } catch (error) {
+    console.error('Failed to load orders', error);
+    return {
+      props: {
+        orders: [],
+      },
+    };
+  }
 };

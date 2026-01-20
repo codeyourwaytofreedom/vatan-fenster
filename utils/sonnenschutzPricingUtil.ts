@@ -312,14 +312,14 @@ export const calculateSonnenschutzPrice = ({
   const selectedStyleKey = selectedWindowStyleKey ?? configuration.basis.style.key;
   const selectedCoverKey = configuration.basis.cover.key;
 
-  alert(selectedStyleKey);
-  alert(selectedTeilungKey);
 
   const verlangerung = configuration.sonnenschutz.verlangerung;
   const extensionHeight = verlangerung?.name ? parseInt(verlangerung.name) : 0;
 
   const additionalSonnenschutzHeight =
-    'height' in configuration.basis.cover ? (configuration.basis.cover.height as number) : 0;
+    'height' in configuration.basis.cover
+      ? Number(configuration.basis.cover.height) || 0
+      : 0;
 
   let additionalWidth = 0;
 
@@ -374,8 +374,6 @@ export const calculateSonnenschutzPrice = ({
   const schallschutzmattePrice = calculateSchallschutzmattePrice(configuration, totalWidth);
   const montageartRollladenPrice = calculateMontageartRollladenPrice(configuration, totalWidth);
   const stahlkonsolePrice = calculateStahlkonsolePrice(configuration);
-
-  alert(selectedTeilungKey)
 
   if (selectedStyleKey === 'flugel1' || selectedTeilungKey === '1') {
     baseSonnentschutzPrice =

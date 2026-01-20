@@ -20,6 +20,7 @@ import {
   Step,
   SubStyle,
   WindowMaterial,
+  SonnenschutzKey,
 } from '@/types/Configurator';
 import {
   getSonnenschutzPartitionPossibilities as getSonnenschutzPartitionPossibilitiesUtil,
@@ -296,6 +297,26 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
 
   const sonnenschutPartitionPossibilities = getSonnenschutzPartitionPossibilities();
 
+  useEffect(() => {
+    setConfiguration((prev) => {
+      if (prev.basis.cover.key === 'nein') {
+        return prev;
+      }
+      const nextSonnenschutz = { ...prev.sonnenschutz };
+      Object.keys(nextSonnenschutz).forEach((key) => {
+        delete nextSonnenschutz[key as keyof typeof nextSonnenschutz];
+      });
+      return {
+        ...prev,
+        basis: {
+          ...prev.basis,
+          cover: optionNo as SelectionItem<SonnenschutzKey>,
+        },
+        sonnenschutz: nextSonnenschutz,
+      };
+    });
+  }, [configuration.basis.style, configuration.basis.type]);
+
   // for Lamellenart subcategory, select the first of possible partitions
   useEffect(() => {
     if (configuration.basis.cover.key !== 'nein') {
@@ -313,21 +334,32 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
 
         const allPartitionOptions = Object.values(lamellenartStep.props?.subCategoryItems)[0];
         const partitionsPossible = getSonnenschutzPartitionPossibilities();
-        console.log('partitionsPossible', partitionsPossible);
 
         const possibleOptions = allPartitionOptions.filter((o) =>
           partitionsPossible.includes(Number(o.key))
         );
 
         const optionToApply = possibleOptions[0];
+        if (!optionToApply) {
+          return;
+        }
 
         setConfiguration((pr) => {
+          const existingCategory = pr.sonnenschutz.lamellenart?.category;
+          const fallbackCategory =
+            'categoryItems' in lamellenartStep.props!
+              ? (lamellenartStep.props!.categoryItems as SelectionItem[])[0]
+              : undefined;
+          const categoryToUse = existingCategory ?? fallbackCategory;
+          if (!categoryToUse) {
+            return pr;
+          }
           return {
             ...pr,
             sonnenschutz: {
               ...pr.sonnenschutz,
               lamellenart: {
-                category: pr.sonnenschutz.lamellenart!.category,
+                category: categoryToUse,
                 subCategory: optionToApply,
               },
             },

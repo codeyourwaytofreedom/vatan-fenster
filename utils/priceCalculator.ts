@@ -48,6 +48,7 @@ export const calculateTotalPriceForConfiguration = (configuration: FensterConfig
   const glasspaketKey = configuration.verglasung.glasspaket.key;
   const druckausgleichsventilKey = configuration.verglasung.druckausgleichsventil.key;
   const sprossen = configuration.verglasung.sprossen;
+  let totalPrice = 0;
 
   const calculateTotalPrice = ({
     selectedMaterialKey,
@@ -118,13 +119,20 @@ export const calculateTotalPriceForConfiguration = (configuration: FensterConfig
     );
     const shouldChargeSonnenschutz = !(isOberLichtUnterlicht && direction === 'unten');
     const sonnenschutzPrice = shouldChargeSonnenschutz
-      ? calculateSonnenschutzPrice({
-          configuration,
-          selectedWindowStyleKey,
-          width,
-          height,
-          isOberLichtUnterlicht,
-        })
+      ? (() => {
+          try {
+            return calculateSonnenschutzPrice({
+              configuration,
+              selectedWindowStyleKey,
+              width,
+              height,
+              isOberLichtUnterlicht,
+            });
+          } catch (error) {
+            console.error('Sonnenschutz price failed', error);
+            return 0;
+          }
+        })()
       : 0;
 
     const { colouringPriceMultiplier } = getColoringMultiplier({
@@ -224,7 +232,6 @@ export const calculateTotalPriceForConfiguration = (configuration: FensterConfig
   };
 
   try {
-    let totalPrice = 0;
     if (
       configuration.basis.style.key === 'oberlicht' &&
       'oben' in configuration.basis.type &&
@@ -370,7 +377,8 @@ export const calculateTotalPriceForConfiguration = (configuration: FensterConfig
     }
 
     return Math.round(totalPrice * 100) / 100;
-  } catch {
-    return null;
+  } catch (error) {
+    console.error('Total price calculation failed', error);
+    return Math.round(totalPrice * 100) / 100;
   }
 };

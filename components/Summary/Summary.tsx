@@ -27,7 +27,8 @@ export default function SummaryDisplayer() {
   const [expandedGroups, setExpandedGroups] = useState<string[]>([]);
   const slowAction = 100;
 
-  const { openModal } = useModal();
+  const { openModal, closeModal } = useModal();
+  const [isSaving, setIsSaving] = useState(false);
 
   const groupBasis = configuration.basis;
 
@@ -258,7 +259,15 @@ export default function SummaryDisplayer() {
   };
 
   const addToBasket = async () => {
+    if (isSaving) return;
+    setIsSaving(true);
+    openModal(
+      <div style={{ padding: 30, minWidth: 240 }}>
+        <p style={{ margin: 0, color: 'white' }}>Saving configuration...</p>
+      </div>
+    );
     try {
+      await new Promise((resolve) => setTimeout(resolve, 1200));
       const response = await fetch('/api/basket/addToBasket', {
         method: 'POST',
         headers: {
@@ -274,10 +283,12 @@ export default function SummaryDisplayer() {
         throw new Error('Failed to add to basket');
       }
 
-      const data = await response.json();
-      console.log('Added to basket:', data);
+      await response.json();
     } catch (error) {
       console.error('Error adding to basket:', error);
+    } finally {
+      closeModal();
+      setIsSaving(false);
     }
   };
 
@@ -293,9 +304,7 @@ export default function SummaryDisplayer() {
         }
         const total = calculateTotalPriceForConfiguration(configuration);
         setTotalPrice(total === null ? undefined : total);
-      } catch (err) {
-        console.log(err);
-      }
+      } catch {}
     }, 200);
 
     return () => clearTimeout(timeout);
@@ -376,7 +385,7 @@ export default function SummaryDisplayer() {
         <textarea name="note" placeholder="Geben Sie hier Ihre Sonderwünsche ein"></textarea>
       </div>
       <div id={styles.actions}>
-        <button id={styles.add_to_chart} onClick={addToBasket}>
+        <button id={styles.add_to_chart} onClick={addToBasket} disabled={isSaving}>
           <>
             <FontAwesomeIcon icon={faShoppingCart} />
             <span style={{ marginLeft: '20px' }}>In den Warenkorb</span>

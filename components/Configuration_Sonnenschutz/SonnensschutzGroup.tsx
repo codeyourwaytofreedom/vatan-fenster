@@ -128,14 +128,9 @@ export default function Sonnenschutz_Group() {
         if (step.key === 'adapter') {
           const adapterOptions = sonnenschutzItems.adapter;
           const selectedProfileKey = configuration.basis.profile.key;
-          console.log(adapterOptions);
-          console.log(selectedProfileKey);
-
           const defaultSelection = adapterOptions.find((op) =>
             op.key.includes(selectedProfileKey)
           )!;
-
-          console.log(defaultSelection);
 
           sonnenschutzDefaultConfig.adapter = defaultSelection;
         } else {
