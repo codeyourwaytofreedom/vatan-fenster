@@ -313,6 +313,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
 
         const allPartitionOptions = Object.values(lamellenartStep.props?.subCategoryItems)[0];
         const partitionsPossible = getSonnenschutzPartitionPossibilities();
+        console.log('partitionsPossible', partitionsPossible);
 
         const possibleOptions = allPartitionOptions.filter((o) =>
           partitionsPossible.includes(Number(o.key))
@@ -334,7 +335,11 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
         });
       }
     }
-  }, [configuration.basis.size, sonnenschutPartitionPossibilities?.length]);
+  }, [
+    configuration.basis.size,
+    sonnenschutPartitionPossibilities?.length,
+    configuration.basis.cover,
+  ]);
 
   // if sprossen color is custom-color for innen-aussen, when innen-aussen combination changes,
   // reset the sprossen color

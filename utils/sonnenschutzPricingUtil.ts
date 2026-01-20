@@ -312,6 +312,9 @@ export const calculateSonnenschutzPrice = ({
   const selectedStyleKey = selectedWindowStyleKey ?? configuration.basis.style.key;
   const selectedCoverKey = configuration.basis.cover.key;
 
+  alert(selectedStyleKey);
+  alert(selectedTeilungKey);
+
   const verlangerung = configuration.sonnenschutz.verlangerung;
   const extensionHeight = verlangerung?.name ? parseInt(verlangerung.name) : 0;
 
@@ -372,6 +375,8 @@ export const calculateSonnenschutzPrice = ({
   const montageartRollladenPrice = calculateMontageartRollladenPrice(configuration, totalWidth);
   const stahlkonsolePrice = calculateStahlkonsolePrice(configuration);
 
+  alert(selectedTeilungKey)
+
   if (selectedStyleKey === 'flugel1' || selectedTeilungKey === '1') {
     baseSonnentschutzPrice =
       extractPriceFromTable(priceTableForSelectedSonnenschutz, totalWidth, totalHeight) || 0;
@@ -406,6 +411,22 @@ export const calculateSonnenschutzPrice = ({
   }
 
   if (selectedStyleKey === 'flugel3') {
+    if (selectedTeilungKey === '2') {
+      const left2 = allSectionWidths[0] + allSectionWidths[1];
+      const right2 = allSectionWidths[1] + allSectionWidths[2];
+      if (left2 === allSectionWidths[2]) {
+        sectionsByTeilung = [left2, allSectionWidths[2]];
+      } else if (right2 === allSectionWidths[0]) {
+        sectionsByTeilung = [allSectionWidths[0], right2];
+      } else {
+        const diff21 = Math.abs(left2 - allSectionWidths[2]);
+        const diff12 = Math.abs(right2 - allSectionWidths[0]);
+        sectionsByTeilung =
+          diff21 <= diff12
+            ? [left2, allSectionWidths[2]]
+            : [allSectionWidths[0], right2];
+      }
+    }
     if (selectedTeilungKey === '12') {
       sectionsByTeilung = [allSectionWidths[0], allSectionWidths[1] + allSectionWidths[2]];
     }
