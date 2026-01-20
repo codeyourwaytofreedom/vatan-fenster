@@ -262,12 +262,65 @@ export default function SummaryDisplayer() {
     if (isSaving) return;
     setIsSaving(true);
     openModal(
-      <div style={{ padding: 30, minWidth: 240 }}>
-        <p style={{ margin: 0, color: 'white' }}>Saving configuration...</p>
+      <div
+        style={{
+          minWidth: 320,
+          maxWidth: 520,
+          padding: '28px 32px',
+          background: 'linear-gradient(160deg, #0f1118 0%, #0b0d13 100%)',
+          borderRadius: 20,
+          color: '#e5e7eb',
+          textAlign: 'center',
+          boxShadow: '0 20px 60px rgba(0, 0, 0, 0.45)',
+          border: '1px solid rgba(255,255,255,0.08)',
+        }}
+      >
+        <div
+          style={{
+            width: 86,
+            height: 86,
+            margin: '0 auto 18px',
+            borderRadius: '50%',
+            display: 'grid',
+            placeItems: 'center',
+            boxShadow: '0 0 26px rgba(96, 165, 250, 0.5)',
+          }}
+        >
+          <svg
+            width="74"
+            height="74"
+            viewBox="0 0 74 74"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle cx="37" cy="37" r="27" stroke="rgba(59, 130, 246, 0.3)" strokeWidth="6" />
+            <circle
+              cx="37"
+              cy="37"
+              r="27"
+              stroke="#60a5fa"
+              strokeWidth="6"
+              strokeLinecap="round"
+              strokeDasharray="50 120"
+            >
+              <animateTransform
+                attributeName="transform"
+                type="rotate"
+                from="0 37 37"
+                to="360 37 37"
+                dur="1.2s"
+                repeatCount="indefinite"
+              />
+            </circle>
+          </svg>
+        </div>
+        <div style={{ fontSize: 21, fontWeight: 700, color: '#f9fafb' }}>
+          Saving Configuration...
+        </div>
       </div>
     );
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1200));
+      await new Promise((resolve) => setTimeout(resolve, 2000));
       const response = await fetch('/api/basket/addToBasket', {
         method: 'POST',
         headers: {
@@ -284,6 +337,52 @@ export default function SummaryDisplayer() {
       }
 
       await response.json();
+      openModal(
+        <div
+          style={{
+            minWidth: 320,
+            maxWidth: 520,
+            padding: '28px 32px',
+            background: 'linear-gradient(160deg, #1b1f2a 0%, #151821 100%)',
+            borderRadius: 20,
+            color: '#e5e7eb',
+            textAlign: 'center',
+            boxShadow: '0 20px 60px rgba(0, 0, 0, 0.45)',
+            border: '1px solid rgba(255,255,255,0.08)',
+          }}
+        >
+          <div
+            style={{
+              width: 86,
+              height: 86,
+              margin: '0 auto 18px',
+              borderRadius: '50%',
+              border: '3px solid #7cf29a',
+              display: 'grid',
+              placeItems: 'center',
+              boxShadow: '0 0 24px rgba(124, 242, 154, 0.55)',
+            }}
+          >
+            <svg
+              width="40"
+              height="30"
+              viewBox="0 0 40 30"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M3 16L15 27L37 3"
+                stroke="#7cf29a"
+                strokeWidth="5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </div>
+          <div style={{ fontSize: 21, fontWeight: 700, color: '#f9fafb' }}>Configuration Saved</div>
+        </div>
+      );
+      await new Promise((resolve) => setTimeout(resolve, 2000));
     } catch (error) {
       console.error('Error adding to basket:', error);
     } finally {

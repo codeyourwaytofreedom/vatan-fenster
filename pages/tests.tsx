@@ -125,6 +125,21 @@ export default function TestsPage({ orders }: TestsPageProps) {
   const safeOrders = Array.isArray(orders) ? orders : [];
   const router = useRouter();
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const groupedOrders = safeOrders.reduce<Record<string, OrderDoc[]>>((acc, order) => {
+    const styleName =
+      (order.basis as { style?: { name?: string } } | undefined)?.style?.name ?? 'Unknown Style';
+    if (!acc[styleName]) acc[styleName] = [];
+    acc[styleName].push(order);
+    return acc;
+  }, {});
+  const styleOrder = ['1. Flügel', '2. Flügel', '3. Flügel', 'Oberlicht', 'Unterlicht'];
+  const groupedEntries = Object.entries(groupedOrders).sort(([a], [b]) => {
+    const indexA = styleOrder.indexOf(a);
+    const indexB = styleOrder.indexOf(b);
+    const rankA = indexA === -1 ? Number.MAX_SAFE_INTEGER : indexA;
+    const rankB = indexB === -1 ? Number.MAX_SAFE_INTEGER : indexB;
+    return rankA - rankB || a.localeCompare(b);
+  });
 
   useEffect(() => {
     const refreshIfVisible = () => {
@@ -164,8 +179,8 @@ export default function TestsPage({ orders }: TestsPageProps) {
   };
 
   return (
-    <main style={{ padding: 24 }}>
-      <div style={{ maxWidth: 900 }}>
+    <main style={{ padding: 24, display: 'flex', justifyContent: 'center' }}>
+      <div style={{ width: 900 }}>
         <h1>Orders</h1>
         <p>Total: {safeOrders.length}</p>
         {safeOrders.length === 0 ? (
@@ -183,106 +198,146 @@ export default function TestsPage({ orders }: TestsPageProps) {
           </div>
         ) : (
           <div>
-            {safeOrders.map((order) => {
-              const pricesMatch =
-                typeof order.totalPrice === 'number' &&
-                typeof order.calculatedTotalPrice === 'number' &&
-                Math.abs(order.totalPrice - order.calculatedTotalPrice) <= 0.0000001;
-              return (
-                <details
-                  key={order._id}
+            {groupedEntries.map(([styleName, styleOrders]) => (
+              <details
+                key={styleName}
+                style={{
+                  marginBottom: 18,
+                  border: '1px solid #e3e3e3',
+                  borderRadius: 10,
+                  padding: '8px 10px',
+                }}
+              >
+                <summary
                   style={{
-                    marginBottom: 12,
-                    border: '1px solid #e3e3e3',
+                    cursor: 'pointer',
+                    padding: '6px 10px',
+                    backgroundColor: '#0f172a',
+                    color: 'white',
                     borderRadius: 8,
-                    padding: '8px 10px',
+                    fontWeight: 700,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 10,
                   }}
                 >
-                  <summary
-                    style={{
-                      cursor: 'pointer',
-                      fontWeight: 600,
-                      backgroundColor:
-                        typeof order.totalPrice === 'number' &&
-                        typeof order.calculatedTotalPrice === 'number'
-                          ? pricesMatch
-                            ? '#d1fae5'
-                            : '#fee2e2'
-                          : 'transparent',
-                      padding: '4px 6px',
-                      borderRadius: 6,
-                    }}
-                  >
-                    {order._id}
-                  </summary>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 6 }}>
-                    {typeof order.totalPrice === 'number' && (
-                      <div
+                  <span>{styleName}</span>
+                  <span style={{ marginLeft: 'auto', color: '#cbd5f5', fontWeight: 600 }}>
+                    {styleOrders.length}
+                  </span>
+                </summary>
+                <div style={{ marginTop: 10 }}>
+                  {styleOrders.map((order) => {
+                    const pricesMatch =
+                      typeof order.totalPrice === 'number' &&
+                      typeof order.calculatedTotalPrice === 'number' &&
+                      Math.abs(order.totalPrice - order.calculatedTotalPrice) <= 0.0000001;
+                    return (
+                      <details
+                        key={order._id}
                         style={{
-                          padding: '6px 10px',
-                          backgroundColor: '#e0f2fe',
-                          color: '#0c4a6e',
-                          fontWeight: 700,
-                          borderRadius: 6,
-                          display: 'inline-block',
+                          marginBottom: 12,
+                          border: '1px solid #e3e3e3',
+                          borderRadius: 8,
+                          padding: '8px 10px',
                         }}
                       >
-                        Stored Price: {order.totalPrice}
-                      </div>
-                    )}
-                    {order.calculatedTotalPrice !== undefined && (
-                      <div
-                        style={{
-                          padding: '6px 10px',
-                          backgroundColor: '#fef3c7',
-                          color: '#92400e',
-                          fontWeight: 600,
-                          borderRadius: 6,
-                          display: 'inline-block',
-                        }}
-                      >
-                        Calculated Price:{' '}
-                        {order.calculatedTotalPrice === null ? '--' : order.calculatedTotalPrice}
-                      </div>
-                    )}
-                    <div style={{ marginLeft: 'auto' }}>
-                      <button
-                        onClick={() => handleDelete(order._id)}
-                        disabled={Boolean(deletingId)}
-                        style={{
-                          padding: '6px 10px',
-                          backgroundColor: '#ef4444',
-                          color: 'white',
-                          border: 'none',
-                          borderRadius: 6,
-                          cursor: deletingId ? 'not-allowed' : 'pointer',
-                          opacity: deletingId ? 0.6 : 1,
-                        }}
-                      >
-                        {deletingId === order._id ? 'Deleting...' : 'Delete'}
-                      </button>
-                    </div>
-                  </div>
-                  <div
-                    style={{
-                      display: 'grid',
-                      gap: 12,
-                      gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
-                    }}
-                  >
-                    {renderGroup('Basis', order.basis as Record<string, unknown>, order)}
-                    {renderGroup('Farben', order.farben as Record<string, unknown>, order)}
-                    {renderGroup('Verglasung', order.verglasung as Record<string, unknown>, order)}
-                    {renderGroup('Zusatze', order.zusatze as Record<string, unknown>, order)}
-                    {renderGroup(
-                      'Sonnenschutz',
-                      order.sonnenschutz as Record<string, unknown>,
-                      order
-                    )}
-                  </div>
-                </details>
-              );
-            })}
+                        <summary
+                          style={{
+                            cursor: 'pointer',
+                            fontWeight: 600,
+                            backgroundColor:
+                              typeof order.totalPrice === 'number' &&
+                              typeof order.calculatedTotalPrice === 'number'
+                                ? pricesMatch
+                                  ? '#d1fae5'
+                                  : '#fee2e2'
+                                : 'transparent',
+                            padding: '4px 6px',
+                            borderRadius: 6,
+                          }}
+                        >
+                          {order._id}
+                        </summary>
+                        <div
+                          style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 6 }}
+                        >
+                          {typeof order.totalPrice === 'number' && (
+                            <div
+                              style={{
+                                padding: '6px 10px',
+                                backgroundColor: '#e0f2fe',
+                                color: '#0c4a6e',
+                                fontWeight: 700,
+                                borderRadius: 6,
+                                display: 'inline-block',
+                              }}
+                            >
+                              Stored Price: {order.totalPrice}
+                            </div>
+                          )}
+                          {order.calculatedTotalPrice !== undefined && (
+                            <div
+                              style={{
+                                padding: '6px 10px',
+                                backgroundColor: '#fef3c7',
+                                color: '#92400e',
+                                fontWeight: 600,
+                                borderRadius: 6,
+                                display: 'inline-block',
+                              }}
+                            >
+                              Calculated Price:{' '}
+                              {order.calculatedTotalPrice === null
+                                ? '--'
+                                : order.calculatedTotalPrice}
+                            </div>
+                          )}
+                          <div style={{ marginLeft: 'auto' }}>
+                            <button
+                              onClick={() => handleDelete(order._id)}
+                              disabled={Boolean(deletingId)}
+                              style={{
+                                padding: '6px 10px',
+                                backgroundColor: '#ef4444',
+                                color: 'white',
+                                border: 'none',
+                                borderRadius: 6,
+                                cursor: deletingId ? 'not-allowed' : 'pointer',
+                                opacity: deletingId ? 0.6 : 1,
+                              }}
+                            >
+                              {deletingId === order._id ? 'Deleting...' : 'Delete'}
+                            </button>
+                          </div>
+                        </div>
+                        <div
+                          style={{
+                            display: 'grid',
+                            gap: 12,
+                            gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+                          }}
+                        >
+                          {renderGroup('Basis', order.basis as Record<string, unknown>, order)}
+                          {renderGroup('Farben', order.farben as Record<string, unknown>, order)}
+                          {renderGroup(
+                            'Verglasung',
+                            order.verglasung as Record<string, unknown>,
+                            order
+                          )}
+                          {renderGroup('Zusatze', order.zusatze as Record<string, unknown>, order)}
+                          {renderGroup(
+                            'Sonnenschutz',
+                            order.sonnenschutz as Record<string, unknown>,
+                            order
+                          )}
+                        </div>
+                      </details>
+                    );
+                  })}
+                </div>
+              </details>
+            ))}
           </div>
         )}
       </div>
