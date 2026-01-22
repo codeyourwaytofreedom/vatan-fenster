@@ -116,7 +116,7 @@ export const getSonnenschutzPartitionPossibilitiesForSection = ({
     }
   }
 
-  return possibilities;
+  return Array.from(new Set(possibilities));
 };
 
 const calculateWeightKg = (width: number, height: number) => {
