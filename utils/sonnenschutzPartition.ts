@@ -88,16 +88,31 @@ export const getSonnenschutzPartitionPossibilitiesForSection = ({
   if (styleKey === 'flugel3') {
     const left2 = multiWidth[0] + multiWidth[1];
     const right1 = multiWidth[2];
-
-    const _2_1_Possible = sectionValid(left2) && sectionValid(right1) && right1 === left2;
+    if(sectionValid(left2) && sectionValid(right1)){
+      if(left2 === right1){
+        possibilities.push(2);
+      }
+      if(left2 > right1){
+        possibilities.push(21);
+      }
+      if(right1 > left2){
+        possibilities.push(12);
+      }
+    }
 
     const left1 = multiWidth[0];
     const right2 = multiWidth[1] + multiWidth[2];
 
-    const _1_2_Possible = sectionValid(left1) && sectionValid(right2) && left1 === right2;
-
-    if (_1_2_Possible || _2_1_Possible) {
-      possibilities.push(2);
+    if(sectionValid(left1) && sectionValid(right2)){
+      if(left1 === right2){
+        possibilities.push(2);
+      }
+      if(left1 > right2){
+        possibilities.push(21);
+      }
+      if(right2 > left1){
+        possibilities.push(12);
+      }
     }
   }
 
