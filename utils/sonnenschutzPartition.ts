@@ -1,9 +1,39 @@
+import { weightMultiplier } from '@/data/priceLists/sonnenschutz/antriebsartPrices';
+import { SelectionItem } from '@/types/Configurator';
+
 type PartitionParams = {
   width: number;
   sectionNumber: number;
   multiWidth: number[];
   sectionMinWidth: number;
   sectionMaxWidth: number;
+};
+
+type GurtWeightParams = {
+  width: number;
+  height: number;
+  multiWidth?: number[];
+  sectionNumber: number;
+  teilungKey: string;
+  maxWeightKg?: number;
+};
+
+type GurtLamellenOptionsParams = {
+  options: SelectionItem[];
+  width: number;
+  height: number;
+  multiWidth?: number[];
+  sectionNumber: number;
+};
+
+type AntriebsartAvailabilityParams = {
+  width: number;
+  height: number;
+  multiWidth?: number[];
+  sectionNumber: number;
+  teilungKey: string;
+  motorPossible?: boolean;
+  kurbelPossible?: boolean;
 };
 
 export const getSonnenschutzPartitionPossibilitiesForSection = ({
@@ -73,3 +103,87 @@ export const getSonnenschutzPartitionPossibilitiesForSection = ({
 
   return possibilities;
 };
+
+const calculateWeightKg = (width: number, height: number) => {
+  const area = (width * height) / 1_000_000;
+  return area * weightMultiplier;
+};
+
+export const isGurtAllowedForTeilung = ({
+  width,
+  height,
+  multiWidth,
+  sectionNumber,
+  teilungKey,
+  maxWeightKg = 11,
+}: GurtWeightParams) => {
+  const fits = (widths: number[]) =>
+    widths.every((w) => calculateWeightKg(w, height) <= maxWeightKg);
+
+  if (sectionNumber === 1) {
+    return teilungKey === '1' ? fits([width]) : false;
+  }
+
+  if (!multiWidth || multiWidth.length < sectionNumber) {
+    return false;
+  }
+
+  if (sectionNumber === 2) {
+    if (teilungKey === '1') return fits([width]);
+    if (['2', '12', '21'].includes(teilungKey)) {
+      return fits([multiWidth[0], multiWidth[1]]);
+    }
+    return false;
+  }
+
+  if (sectionNumber === 3) {
+    if (teilungKey === '1') return fits([width]);
+    if (teilungKey === '3') return fits([multiWidth[0], multiWidth[1], multiWidth[2]]);
+    if (teilungKey === '12') return fits([multiWidth[0], multiWidth[1] + multiWidth[2]]);
+    if (teilungKey === '21') return fits([multiWidth[0] + multiWidth[1], multiWidth[2]]);
+    if (teilungKey === '2') {
+      const left2 = [multiWidth[0], multiWidth[1] + multiWidth[2]];
+      const right2 = [multiWidth[0] + multiWidth[1], multiWidth[2]];
+      return fits(left2) || fits(right2);
+    }
+  }
+
+  return false;
+};
+
+export const getGurtAllowedLamellenOptions = ({
+  options,
+  width,
+  height,
+  multiWidth,
+  sectionNumber,
+}: GurtLamellenOptionsParams) =>
+  options.filter((o) =>
+    isGurtAllowedForTeilung({
+      width,
+      height,
+      multiWidth,
+      sectionNumber,
+      teilungKey: String(o.key),
+    })
+  );
+
+export const getAntriebsartAvailability = ({
+  width,
+  height,
+  multiWidth,
+  sectionNumber,
+  teilungKey,
+  motorPossible = true,
+  kurbelPossible = true,
+}: AntriebsartAvailabilityParams) => ({
+  gurt: isGurtAllowedForTeilung({
+    width,
+    height,
+    multiWidth,
+    sectionNumber,
+    teilungKey,
+  }),
+  motor: motorPossible,
+  kurbel: kurbelPossible,
+});

@@ -7,6 +7,7 @@ import {
   Size,
   Step,
   StepWithProps,
+  SubStyle,
 } from '@/types/Configurator';
 import style from '../../styles/KonfiguratorPage.module.css';
 import Stepper from '../Stepper/Stepper';
@@ -24,6 +25,7 @@ import StepVerlangerung from '../StepVerlängerung/StepVerlangerung';
 import Kastenart, { kastenartSizeOptions } from '../Kastenart/Kastenart';
 import KastenartVorsatzraffstore from '../KastenartVorsatzraffstore/KastenartVorsatzraffstore';
 import { useOrderDetailsReady } from '@/context/OrderDetailsContext';
+import { getAntriebsartAvailability } from '@/utils/sonnenschutzPartition';
 
 export default function Sonnenschutz_Group() {
   const {
@@ -101,6 +103,10 @@ export default function Sonnenschutz_Group() {
       //////////////////////////////////////////// if step has custom component
       if ('component' in step) {
         if (step.component === DoubleStepper) {
+          // no default for antriebsart and antriebsseite because this is dependent on lamellenart
+          if (step.key === 'antriebsart' || step.key === 'antriebsseite') {
+            continue;
+          }
           sonnenschutzDefaultConfig[step.key] = {
             category: (step?.props as DoubleStepperProps)?.categoryItems[0],
             subCategory: (step?.props as DoubleStepperProps)?.subCategoryItems[
@@ -232,6 +238,49 @@ export default function Sonnenschutz_Group() {
       const newProps = structuredClone(currentStep.props);
       // currently only L37 possible - temporary fix
       newProps.subCategoryItems.l37 = possibleOptions;
+      return newProps;
+    }
+    if (currentStep.key === 'antriebsart' && 'categoryItems' in currentStep.props!) {
+      const lamellenartKey = configuration.sonnenschutz.lamellenart?.subCategory?.key;
+      if (!lamellenartKey) {
+        return currentStep.props;
+      }
+      const styleKey = configuration.basis.style.key;
+      const width = Number(configuration.basis.size?.w ?? 0);
+      const height = Number(configuration.basis.size?.h ?? 0);
+      const sectionNumber =
+        styleKey === 'flugel1'
+          ? 1
+          : styleKey === 'flugel2'
+            ? 2
+            : styleKey === 'flugel3'
+              ? 3
+              : ((configuration.basis.type as SubStyle).oben?.sectionNumber ?? 1);
+      const multiWidth =
+        styleKey === 'oberlicht' || styleKey === 'unterlicht'
+          ? Object.values(configuration.basis.obenMultiWidth ?? {})
+          : Object.values(configuration.basis.multiWidth ?? {});
+      const { gurt: gurtAllowed } = getAntriebsartAvailability({
+        width,
+        height,
+        multiWidth,
+        sectionNumber,
+        teilungKey: String(lamellenartKey),
+      });
+      if (gurtAllowed) {
+        return currentStep.props;
+      }
+      const newProps = structuredClone(currentStep.props);
+      newProps.categoryItems = (newProps.categoryItems as SelectionItem[]).filter(
+        (item) => item.key !== 'gurt'
+      );
+      if ('subCategoryItems' in newProps) {
+        const nextSubCategoryItems = {
+          ...(newProps.subCategoryItems as Record<string, SelectionItem[]>),
+        };
+        delete nextSubCategoryItems.gurt;
+        newProps.subCategoryItems = nextSubCategoryItems;
+      }
       return newProps;
     }
     return currentStep?.props;
