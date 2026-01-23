@@ -24,6 +24,7 @@ import {
   windowStyles,
 } from '@/data/selectionItems/basisData';
 import { scrollToElement } from '@/utils';
+import StepSwitchNotice from '../StepSwitchNotice/StepSwitchNotice';
 
 export default function Basis_Configuration() {
   const [itemsToDisplay, setItemsToDisplay] = useState<SelectionItem[]>();
@@ -428,6 +429,7 @@ export default function Basis_Configuration() {
       {currentGroup === 'basis' && <Stepper />}
       {currentGroup === 'basis' && (
         <div className={style.group}>
+          <StepSwitchNotice stepKey={currentStep?.key} />
           <div className={style.config_wrapper}>
             {showDefaultProductHolders && (
               <>

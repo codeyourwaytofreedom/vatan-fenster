@@ -2,6 +2,7 @@ import { DobuleSelection, SelectionItem } from '@/types/Configurator';
 import OptionHolder from '../Product_Holder/Option_Holder';
 import StepRahmenverbreiterung from '../StepRahmenverbreiterung/StepRahmenverbreiterung';
 import style from './Zusatze.module.css';
+import configStyle from '../../styles/KonfiguratorPage.module.css';
 import { useConfiguration } from '@/context/ConfigurationContext';
 import { useRef } from 'react';
 import { scrollToElement } from '@/utils';
@@ -9,6 +10,7 @@ import stepperStyle from '../Stepper/Stepper.module.css';
 import groupActionsStyle from '../GroupBottomActions/GroupBottomActions.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import StepSwitchNotice from '../StepSwitchNotice/StepSwitchNotice';
 
 export default function ZusatzeGroup() {
   const {
@@ -248,201 +250,210 @@ export default function ZusatzeGroup() {
           &nbsp; Vorheriger Schritt
         </button>
       </div>
-      {Boolean(windowHandleNumber) && (
-        <>
-          <br />
-          <br />
-          <h4>Möchten Sie Sicherheitsbeschläge hinzufügen?</h4>
-          <br />
-          <div className={style.container}>
-            {options.map((option, i) => (
-              <OptionHolder
-                item={option}
-                key={i}
-                action={() =>
-                  updateCategory('sicherheitsbeschlage', option, sicherheitsbeschlageSubOptions)
-                }
-                selected={categorySelected(option, 'sicherheitsbeschlage')}
-              />
-            ))}
-          </div>
-          {configuration.zusatze['sicherheitsbeschlage'].category.key === 'ja' && <br />}
-          <div
-            className={style.container}
-            style={{
-              maxHeight:
-                configuration.zusatze['sicherheitsbeschlage'].category.key === 'ja' ? '700px' : 0,
-            }}
-          >
-            {sicherheitsbeschlageSubOptions.map((option, i) => (
-              <OptionHolder
-                item={option}
-                key={i}
-                action={() =>
-                  updateSubcategory('sicherheitsbeschlage', option, container1.current!)
-                }
-                selected={subCategorySelected(option, 'sicherheitsbeschlage')}
-              />
-            ))}
-          </div>
-          <br />
-          <br />
-          <h4 className={style.label}>Möchten Sie verdeckt liegende Beschläge hinzufügen?</h4>
-          <br />
-          <div className={style.container} ref={container1}>
-            {options.map((option, i) => (
-              <OptionHolder
-                item={option}
-                key={i}
-                action={() =>
-                  updateConfiguration(option, 'verdecktLiegenderBeschlag', container2.current!)
-                }
-                selected={isSelected(option.name, 'verdecktLiegenderBeschlag')}
-              />
-            ))}
-          </div>
-        </>
-      )}
-      <br />
-      <br />
-      <h4 className={style.label}>Möchten Sie für das Kunststoffprofil eine dünne Schweißnaht?</h4>
-      <br />
-      <div className={style.container} ref={container2}>
-        {options.map((option, i) => (
-          <OptionHolder
-            item={option}
-            key={i}
-            action={() =>
-              updateConfiguration(option, 'dünneSchweißnahtVPerfect', container3.current!)
-            }
-            selected={isSelected(option.name, 'dünneSchweißnahtVPerfect')}
-          />
-        ))}
-      </div>
-
-      {Boolean(windowHandleNumber) && (
-        <>
-          <br />
-          <br />
-          <h4 className={style.label}>Möchten Sie Reedkontakte hinzufügen?</h4>
-          <br />
-          <div className={style.container} ref={container3}>
-            {options.map((option, i) => (
-              <OptionHolder
-                item={option}
-                key={i}
-                action={() => updateConfiguration(option, 'reedKontakt', container4.current!)}
-                selected={isSelected(option.name, 'reedKontakt')}
-              />
-            ))}
-          </div>
-        </>
-      )}
-
-      <br />
-      <br />
-      <h4 className={style.label}>Möchten Sie Montagevorbohrungen hinzufügen?</h4>
-      <br />
-      <div className={style.container} ref={container4} style={{ marginBottom: 20 }}>
-        {options.map((option, i) => (
-          <OptionHolder
-            item={option}
-            key={i}
-            action={() => updateConfiguration(option, 'montagevorbohrungen', container5.current!)}
-            selected={isSelected(option.name, 'montagevorbohrungen')}
-          />
-        ))}
-      </div>
-
-      {Boolean(windowHandleNumber) && (
-        <>
-          <br />
-          <h4>Möchten Sie ein Lüftungssystem hinzufügen?</h4>
-          <br />
-          <div className={style.container} ref={container5}>
-            {options.map((option, i) => (
-              <OptionHolder
-                item={option}
-                key={i}
-                action={() =>
-                  updateCategory(
-                    'lüftungssysteme',
-                    option,
-                    lüftungssystemeSubOptions,
-                    container6.current!,
-                    1
-                  )
-                }
-                selected={categorySelected(option, 'lüftungssysteme')}
-              />
-            ))}
-          </div>
-          <br />
-          <div
-            className={style.container}
-            style={{
-              maxHeight: lüftungssystemeSelected ? '700px' : 0,
-            }}
-            ref={container6}
-          >
-            {lüftungssystemeSubOptions.map((option, i) => (
-              <OptionHolder
-                item={option}
-                key={i}
-                action={() => updateSubcategory('lüftungssysteme', option, container7.current!, 1)}
-                selected={subCategorySelected(option, 'lüftungssysteme')}
-              />
-            ))}
-          </div>
-          <div
-            className={style.container}
-            style={{
-              maxHeight: lüftungssystemeSelected ? '700px' : 0,
-              marginTop: 20,
-              marginBottom: lüftungssystemeSelected ? 20 : 0,
-            }}
-            ref={container6}
-          >
-            {paarOptions.map((option, i) => (
-              <OptionHolder
-                item={option}
-                key={i}
-                action={() => updateLüftungssystemePaar(parseInt(option.key))}
-                selected={paarSelected(parseInt(option.key))}
-              />
-            ))}
-          </div>
-          {lüftungssystemeSelected && (
-            <>
-              <h4 style={{ color: 'darkorange' }}>
-                Ein Paar der Fensterfalzlüfter besteht aus jeweils zwei Stück pro Flügel.
-              </h4>
-              <br />
-            </>
-          )}
-        </>
-      )}
-      <h4 className={style.label}>Möchten Sie Rahmenverbreitung hinzufügen?</h4>
-      <br />
-      <div ref={container7}>
-        <StepRahmenverbreiterung />
-      </div>
-      {hasNextGroup && (
-        <div className={groupActionsStyle.bottom_actions}>
-          <button onClick={moveNextGroup} className={groupActionsStyle.next_group}>
-            <span>
-              <FontAwesomeIcon icon={faChevronRight} size={'1x'} beat />
-              <FontAwesomeIcon icon={faChevronRight} size={'1x'} beat /> &nbsp; Nächster Schritt
-            </span>
-          </button>
+      <div className={configStyle.group}>
+        <StepSwitchNotice stepKey={currentStep?.key} />
+        {Boolean(windowHandleNumber) && (
+          <>
+            <br />
+            <br />
+            <h4>Möchten Sie Sicherheitsbeschläge hinzufügen?</h4>
+            <br />
+            <div className={style.container}>
+              {options.map((option, i) => (
+                <OptionHolder
+                  item={option}
+                  key={i}
+                  action={() =>
+                    updateCategory('sicherheitsbeschlage', option, sicherheitsbeschlageSubOptions)
+                  }
+                  selected={categorySelected(option, 'sicherheitsbeschlage')}
+                />
+              ))}
+            </div>
+            {configuration.zusatze['sicherheitsbeschlage'].category.key === 'ja' && <br />}
+            <div
+              className={style.container}
+              style={{
+                maxHeight:
+                  configuration.zusatze['sicherheitsbeschlage'].category.key === 'ja' ? '700px' : 0,
+              }}
+            >
+              {sicherheitsbeschlageSubOptions.map((option, i) => (
+                <OptionHolder
+                  item={option}
+                  key={i}
+                  action={() =>
+                    updateSubcategory('sicherheitsbeschlage', option, container1.current!)
+                  }
+                  selected={subCategorySelected(option, 'sicherheitsbeschlage')}
+                />
+              ))}
+            </div>
+            <br />
+            <br />
+            <h4 className={style.label}>Möchten Sie verdeckt liegende Beschläge hinzufügen?</h4>
+            <br />
+            <div className={style.container} ref={container1}>
+              {options.map((option, i) => (
+                <OptionHolder
+                  item={option}
+                  key={i}
+                  action={() =>
+                    updateConfiguration(option, 'verdecktLiegenderBeschlag', container2.current!)
+                  }
+                  selected={isSelected(option.name, 'verdecktLiegenderBeschlag')}
+                />
+              ))}
+            </div>
+          </>
+        )}
+        <br />
+        <br />
+        <h4 className={style.label}>
+          Möchten Sie für das Kunststoffprofil eine dünne Schweißnaht?
+        </h4>
+        <br />
+        <div className={style.container} ref={container2}>
+          {options.map((option, i) => (
+            <OptionHolder
+              item={option}
+              key={i}
+              action={() =>
+                updateConfiguration(option, 'dünneSchweißnahtVPerfect', container3.current!)
+              }
+              selected={isSelected(option.name, 'dünneSchweißnahtVPerfect')}
+            />
+          ))}
         </div>
-      )}
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
+
+        {Boolean(windowHandleNumber) && (
+          <>
+            <br />
+            <br />
+            <h4 className={style.label}>Möchten Sie Reedkontakte hinzufügen?</h4>
+            <br />
+            <div className={style.container} ref={container3}>
+              {options.map((option, i) => (
+                <OptionHolder
+                  item={option}
+                  key={i}
+                  action={() => updateConfiguration(option, 'reedKontakt', container4.current!)}
+                  selected={isSelected(option.name, 'reedKontakt')}
+                />
+              ))}
+            </div>
+          </>
+        )}
+
+        <br />
+        <br />
+        <h4 className={style.label}>Möchten Sie Montagevorbohrungen hinzufügen?</h4>
+        <br />
+        <div className={style.container} ref={container4} style={{ marginBottom: 20 }}>
+          {options.map((option, i) => (
+            <OptionHolder
+              item={option}
+              key={i}
+              action={() =>
+                updateConfiguration(option, 'montagevorbohrungen', container5.current!)
+              }
+              selected={isSelected(option.name, 'montagevorbohrungen')}
+            />
+          ))}
+        </div>
+
+        {Boolean(windowHandleNumber) && (
+          <>
+            <br />
+            <h4>Möchten Sie ein Lüftungssystem hinzufügen?</h4>
+            <br />
+            <div className={style.container} ref={container5}>
+              {options.map((option, i) => (
+                <OptionHolder
+                  item={option}
+                  key={i}
+                  action={() =>
+                    updateCategory(
+                      'lüftungssysteme',
+                      option,
+                      lüftungssystemeSubOptions,
+                      container6.current!,
+                      1
+                    )
+                  }
+                  selected={categorySelected(option, 'lüftungssysteme')}
+                />
+              ))}
+            </div>
+            <br />
+            <div
+              className={style.container}
+              style={{
+                maxHeight: lüftungssystemeSelected ? '700px' : 0,
+              }}
+              ref={container6}
+            >
+              {lüftungssystemeSubOptions.map((option, i) => (
+                <OptionHolder
+                  item={option}
+                  key={i}
+                  action={() =>
+                    updateSubcategory('lüftungssysteme', option, container7.current!, 1)
+                  }
+                  selected={subCategorySelected(option, 'lüftungssysteme')}
+                />
+              ))}
+            </div>
+            <div
+              className={style.container}
+              style={{
+                maxHeight: lüftungssystemeSelected ? '700px' : 0,
+                marginTop: 20,
+                marginBottom: lüftungssystemeSelected ? 20 : 0,
+              }}
+              ref={container6}
+            >
+              {paarOptions.map((option, i) => (
+                <OptionHolder
+                  item={option}
+                  key={i}
+                  action={() => updateLüftungssystemePaar(parseInt(option.key))}
+                  selected={paarSelected(parseInt(option.key))}
+                />
+              ))}
+            </div>
+            {lüftungssystemeSelected && (
+              <>
+                <h4 style={{ color: 'darkorange' }}>
+                  Ein Paar der Fensterfalzlüfter besteht aus jeweils zwei Stück pro Flügel.
+                </h4>
+                <br />
+              </>
+            )}
+          </>
+        )}
+        <h4 className={style.label}>Möchten Sie Rahmenverbreitung hinzufügen?</h4>
+        <br />
+        <div ref={container7}>
+          <StepRahmenverbreiterung />
+        </div>
+        {hasNextGroup && (
+          <div className={groupActionsStyle.bottom_actions}>
+            <button onClick={moveNextGroup} className={groupActionsStyle.next_group}>
+              <span>
+                <FontAwesomeIcon icon={faChevronRight} size={'1x'} beat />
+                <FontAwesomeIcon icon={faChevronRight} size={'1x'} beat /> &nbsp; Nächster Schritt
+              </span>
+            </button>
+          </div>
+        )}
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+      </div>
     </>
   );
 }

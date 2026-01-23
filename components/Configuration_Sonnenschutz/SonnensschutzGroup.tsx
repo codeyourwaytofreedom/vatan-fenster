@@ -26,6 +26,7 @@ import Kastenart, { kastenartSizeOptions } from '../Kastenart/Kastenart';
 import KastenartVorsatzraffstore from '../KastenartVorsatzraffstore/KastenartVorsatzraffstore';
 import { useOrderDetailsReady } from '@/context/OrderDetailsContext';
 import { getAntriebsartAvailability } from '@/utils/sonnenschutzPartition';
+import StepSwitchNotice from '../StepSwitchNotice/StepSwitchNotice';
 
 export default function Sonnenschutz_Group() {
   const {
@@ -294,6 +295,7 @@ export default function Sonnenschutz_Group() {
         <div>
           {<Stepper />}
           <div className={style.group}>
+            <StepSwitchNotice stepKey={currentStep?.key} />
             {Component && stepHasCustomComponent(currentStep!) && currentStep?.props ? (
               <Component {...purifyComponentProps()} />
             ) : Component ? (
