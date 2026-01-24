@@ -1,5 +1,5 @@
 export const festergriffePricingObj: Record<
-  'standart' | 'schluessel' | 'druckknopf',
+  'standart' | 'schlüssel' | 'druckknopf',
   Record<string, number>
 > = {
   standart: {
@@ -38,7 +38,7 @@ export const festergriffePricingObj: Record<
     dr_d_braun: 58,
     dr_d_ant: 58,
   },
-  schluessel: {
+  schlüssel: {
     schl_weis: 15,
     schl_silber: 25,
     schl_schwarz: 15,
