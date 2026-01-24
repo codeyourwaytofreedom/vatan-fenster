@@ -54,9 +54,14 @@ export default function SummaryDisplayer() {
   };
 
   const sonnenschutzSteps = getStepsForGroup('sonnenschutz');
-  const sonnenschutzStepKeys = sonnenschutzSteps.map((step) => step.key);
   const groupSonnenschutz = Object.fromEntries(
-    Object.entries(configuration.sonnenschutz).filter(([key]) => sonnenschutzStepKeys.includes(key))
+    sonnenschutzSteps
+      .map((step) => {
+        const value =
+          configuration.sonnenschutz[step.key as keyof typeof configuration.sonnenschutz];
+        return value ? [step.key, value] : null;
+      })
+      .filter(Boolean) as [string, unknown][]
   );
 
   // include sonnenschutzSteps if cover is selected

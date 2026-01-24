@@ -104,8 +104,12 @@ export default function Sonnenschutz_Group() {
       //////////////////////////////////////////// if step has custom component
       if ('component' in step) {
         if (step.component === DoubleStepper) {
-          // no default for antriebsart and antriebsseite because this is dependent on lamellenart
-          if (step.key === 'antriebsart' || step.key === 'antriebsseite') {
+          // no default for lamellenart/antriebsart/antriebsseite because these are interdependent
+          if (
+            step.key === 'lamellenart' ||
+            step.key === 'antriebsart' ||
+            step.key === 'antriebsseite'
+          ) {
             continue;
           }
           sonnenschutzDefaultConfig[step.key] = {
@@ -261,25 +265,29 @@ export default function Sonnenschutz_Group() {
         styleKey === 'oberlicht' || styleKey === 'unterlicht'
           ? Object.values(configuration.basis.obenMultiWidth ?? {})
           : Object.values(configuration.basis.multiWidth ?? {});
-      const { gurt: gurtAllowed } = getAntriebsartAvailability({
+      const availability = getAntriebsartAvailability({
         width,
         height,
         multiWidth,
         sectionNumber,
         teilungKey: String(lamellenartKey),
       });
-      if (gurtAllowed) {
-        return currentStep.props;
-      }
       const newProps = structuredClone(currentStep.props);
-      newProps.categoryItems = (newProps.categoryItems as SelectionItem[]).filter(
-        (item) => item.key !== 'gurt'
+      const allowedKeys = Object.entries(availability)
+        .filter(([, allowed]) => allowed)
+        .map(([key]) => key);
+      newProps.categoryItems = (newProps.categoryItems as SelectionItem[]).filter((item) =>
+        allowedKeys.includes(item.key)
       );
       if ('subCategoryItems' in newProps) {
         const nextSubCategoryItems = {
           ...(newProps.subCategoryItems as Record<string, SelectionItem[]>),
         };
-        delete nextSubCategoryItems.gurt;
+        Object.keys(nextSubCategoryItems).forEach((key) => {
+          if (!allowedKeys.includes(key)) {
+            delete nextSubCategoryItems[key];
+          }
+        });
         newProps.subCategoryItems = nextSubCategoryItems;
       }
       return newProps;

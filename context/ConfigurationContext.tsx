@@ -28,10 +28,7 @@ import {
 } from '@/utils/sonnenschutzPricingUtil';
 import { calculateTotalPriceForConfiguration } from '@/utils/priceCalculator';
 import { createContext, useState, ReactNode, useContext, useEffect } from 'react';
-import {
-  getAntriebsartAvailability,
-  getGurtAllowedLamellenOptions,
-} from '@/utils/sonnenschutzPartition';
+import { getAntriebsartAvailability } from '@/utils/sonnenschutzPartition';
 
 // Define the context type
 interface ConfigurationContextType {
@@ -342,6 +339,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
         const possibleOptions = allPartitionOptions.filter((o) =>
           partitionsPossible.includes(Number(o.key))
         );
+
         const styleKey = configuration.basis.style.key;
         const width = Number(configuration.basis.size?.w ?? 0);
         const height = Number(configuration.basis.size?.h ?? 0);
@@ -358,24 +356,8 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
             ? Object.values(configuration.basis.obenMultiWidth ?? {})
             : Object.values(configuration.basis.multiWidth ?? {});
 
-        const gurtAllowedOptions = getGurtAllowedLamellenOptions({
-          options: possibleOptions,
-          width,
-          height,
-          multiWidth,
-          sectionNumber,
-        });
+        const lamellenartOptionToApply = possibleOptions[0];
 
-        const gurtPossible = gurtAllowedOptions.length > 0;
-        console.log(
-          'gurtAllowedOptions',
-          gurtAllowedOptions.map((o) => o.key)
-        );
-
-        const lamellenartOptionToApply = gurtPossible ? gurtAllowedOptions[0] : possibleOptions[0];
-        if (!lamellenartOptionToApply) {
-          return;
-        }
         const antriebsartAvailability = getAntriebsartAvailability({
           width,
           height,
@@ -383,7 +365,7 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
           sectionNumber,
           teilungKey: String(lamellenartOptionToApply.key),
         });
-        const gurtAllowedForSelectedTeilung = antriebsartAvailability.gurt;
+        console.log('antriebsartAvailability', antriebsartAvailability);
 
         const antriebsartStep = sonnenschutzSteps.find((st) => st.key === 'antriebsart');
         if (!antriebsartStep || !('props' in antriebsartStep)) {
@@ -398,9 +380,15 @@ export const ConfigurationProvider = ({ children }: { children: ReactNode }) => 
             ? (antriebsartStep.props!.subCategoryItems as Record<string, SelectionItem[]>)
             : {};
 
-        const antriebsartCategory = gurtAllowedForSelectedTeilung
-          ? antriebsartCategories.find((c) => c.key === 'gurt')
-          : antriebsartCategories.find((c) => c.key === 'motor');
+        const antriebsartPriority: Array<keyof typeof antriebsartAvailability> = [
+          'gurt',
+          'motor',
+          'kurbel',
+        ];
+        const antriebsartKeyToUse = antriebsartPriority.find((key) => antriebsartAvailability[key]);
+        const antriebsartCategory = antriebsartKeyToUse
+          ? antriebsartCategories.find((c) => c.key === antriebsartKeyToUse)
+          : undefined;
         const antriebsartSubCategory = antriebsartCategory
           ? antriebsartSubCategories[antriebsartCategory.key]?.[0]
           : undefined;

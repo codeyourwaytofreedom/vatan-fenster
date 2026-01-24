@@ -1,5 +1,4 @@
 import { weightMultiplier } from '@/data/priceLists/sonnenschutz/antriebsartPrices';
-import { SelectionItem } from '@/types/Configurator';
 
 type PartitionParams = {
   width: number;
@@ -18,22 +17,12 @@ type GurtWeightParams = {
   maxWeightKg?: number;
 };
 
-type GurtLamellenOptionsParams = {
-  options: SelectionItem[];
-  width: number;
-  height: number;
-  multiWidth?: number[];
-  sectionNumber: number;
-};
-
 type AntriebsartAvailabilityParams = {
   width: number;
   height: number;
   multiWidth?: number[];
   sectionNumber: number;
   teilungKey: string;
-  motorPossible?: boolean;
-  kurbelPossible?: boolean;
 };
 
 export const getSonnenschutzPartitionPossibilitiesForSection = ({
@@ -124,7 +113,7 @@ const calculateWeightKg = (width: number, height: number) => {
   return area * weightMultiplier;
 };
 
-export const isGurtAllowedForTeilung = ({
+export const isAntriebsartAllowedForTeilung = ({
   width,
   height,
   multiWidth,
@@ -166,39 +155,34 @@ export const isGurtAllowedForTeilung = ({
   return false;
 };
 
-export const getGurtAllowedLamellenOptions = ({
-  options,
-  width,
-  height,
-  multiWidth,
-  sectionNumber,
-}: GurtLamellenOptionsParams) =>
-  options.filter((o) =>
-    isGurtAllowedForTeilung({
-      width,
-      height,
-      multiWidth,
-      sectionNumber,
-      teilungKey: String(o.key),
-    })
-  );
-
 export const getAntriebsartAvailability = ({
   width,
   height,
   multiWidth,
   sectionNumber,
   teilungKey,
-  motorPossible = true,
-  kurbelPossible = true,
 }: AntriebsartAvailabilityParams) => ({
-  gurt: isGurtAllowedForTeilung({
+  gurt: isAntriebsartAllowedForTeilung({
     width,
     height,
     multiWidth,
     sectionNumber,
     teilungKey,
   }),
-  motor: motorPossible,
-  kurbel: kurbelPossible,
+  kurbel: isAntriebsartAllowedForTeilung({
+    width,
+    height,
+    multiWidth,
+    sectionNumber,
+    teilungKey,
+    maxWeightKg: 20,
+  }),
+  motor: isAntriebsartAllowedForTeilung({
+    width,
+    height,
+    multiWidth,
+    sectionNumber,
+    teilungKey,
+    maxWeightKg: 21,
+  }),
 });
