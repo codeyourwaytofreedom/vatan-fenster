@@ -15,6 +15,7 @@ import {
 import { calculateGlassPriceByM2, extractPriceFromTable, getColoringMultiplier } from '@/utils';
 import { calculateSonnenschutzPrice } from '@/utils/sonnenschutzPricingUtil';
 import { calculateZusatzePrice } from '@/utils/zusatzePricingUtil';
+import { festergriffePricingObj } from '@/data/priceLists/farben/fenstergriffePricing';
 
 type PriceDeterminants = {
   selectedMaterialKey: WindowMaterial;
@@ -103,6 +104,19 @@ export const calculateTotalPriceForConfiguration = (configuration: FensterConfig
       sprossenPrice = sectionNumberInType * sprossenPriceMultipiler * numberOfSections;
     }
 
+    const calculateFenstergriffePrice = ()=> {
+      if('fenstergriffe' in configuration.farben && configuration.farben.fenstergriffe){
+        const fenstergriffe = configuration.farben.fenstergriffe;
+        const key = fenstergriffe.type.key;
+        const choice = fenstergriffe.choice.key;
+        const priceMultiplier = festergriffePricingObj[key as keyof typeof festergriffePricingObj][choice] || 0;
+        return priceMultiplier * numberOfSections;
+      }
+      return 0;
+    }
+
+    const fenstergriffePrice = calculateFenstergriffePrice()
+
     const zuzatsePrice = calculateZusatzePrice({
       configuration,
       windowHandleNumber,
@@ -166,7 +180,8 @@ export const calculateTotalPriceForConfiguration = (configuration: FensterConfig
         druckausgleichsventilPrice +
         sprossenPrice +
         zuzatsePrice +
-        sonnenschutzPrice
+        sonnenschutzPrice +
+        fenstergriffePrice
       );
     }
 
@@ -225,7 +240,8 @@ export const calculateTotalPriceForConfiguration = (configuration: FensterConfig
           druckausgleichsventilPrice +
           sprossenPrice +
           zuzatsePrice +
-          sonnenschutzPrice
+          sonnenschutzPrice + 
+          fenstergriffePrice
         );
       }
     }

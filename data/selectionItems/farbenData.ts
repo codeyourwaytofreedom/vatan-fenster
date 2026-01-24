@@ -19,12 +19,6 @@ import sec_oliv from '@/assets/configurator/fenstergriffe/standart/010.Secustik 
 import sec_champ from '@/assets/configurator/fenstergriffe/standart/011.Secustik champagner.webp';
 import sec_titan from '@/assets/configurator/fenstergriffe/standart/012.Secustik titan.webp';
 
-// Standard handle images - Eleganz Serie
-import el_weis from '@/assets/configurator/fenstergriffe/standart/013.Eleganz weiß.webp';
-import el_braun from '@/assets/configurator/fenstergriffe/standart/014.Eleganz braun.webp';
-import el_silber from '@/assets/configurator/fenstergriffe/standart/015.Eleganz silber.webp';
-import el_oliv from '@/assets/configurator/fenstergriffe/standart/016.Eleganz olive.webp';
-
 // Standard handle images - Dublin Serie
 import d_weis from '@/assets/configurator/fenstergriffe/standart/017.Dublin weiß.webp';
 import d_silber from '@/assets/configurator/fenstergriffe/standart/018.Dublin silber.webp';
@@ -51,11 +45,6 @@ const standartFenstergriffeOptions: SelectionItem[] = [
   { key: 'sec_champ', image: sec_champ, name: 'Secustik champagner', zoomable: true },
   { key: 'sec_titan', image: sec_titan, name: 'Secustik titan', zoomable: true },
 
-  { key: 'el_weis', image: el_weis, name: 'Eleganz weiß', zoomable: true },
-  { key: 'el_silber', image: el_silber, name: 'Eleganz silber', zoomable: true },
-  { key: 'el_braun', image: el_braun, name: 'Eleganz braun', zoomable: true },
-  { key: 'el_oliv', image: el_oliv, name: 'Eleganz olive', zoomable: true },
-
   { key: 'd_weis', image: d_weis, name: 'Dublin weiß', zoomable: true },
   { key: 'd_silber', image: d_silber, name: 'Dublin silber', zoomable: true },
   { key: 'd_schwarz', image: d_schwarz, name: 'Dublin schwarz', zoomable: true },
@@ -77,10 +66,6 @@ import schl_sec_silber from '../../assets/configurator/fenstergriffe/schlüssel/
 import schl_sec_braun from '../../assets/configurator/fenstergriffe/schlüssel/008.Secustik braun.webp';
 import schl_sec_champ from '../../assets/configurator/fenstergriffe/schlüssel/009.Secustik champagner.webp';
 import schl_sec_titan from '../../assets/configurator/fenstergriffe/schlüssel/010.Secustik titan.webp';
-import schl_el_weis from '../../assets/configurator/fenstergriffe/schlüssel/011.Eleganz weiß.webp';
-import schl_el_silber from '../../assets/configurator/fenstergriffe/schlüssel/012.Eleganz silber.webp';
-import schl_el_braun from '../../assets/configurator/fenstergriffe/schlüssel/013.Eleganz braun.webp';
-import schl_el_oliv from '../../assets/configurator/fenstergriffe/schlüssel/014.Eleganz gold_oliv.webp';
 import schl_d_weis from '../../assets/configurator/fenstergriffe/schlüssel/015.Dublin weiß.webp';
 import schl_d_silber from '../../assets/configurator/fenstergriffe/schlüssel/016.Dublin silber.webp';
 import schl_d_schwarz from '../../assets/configurator/fenstergriffe/schlüssel/017.Dublin schwarz.webp';
@@ -98,10 +83,7 @@ const schluesselFestergriffeOptions = [
   { key: 'schl_sec_braun', image: schl_sec_braun, name: 'Secustik braun', zoomable: true },
   { key: 'schl_sec_champ', image: schl_sec_champ, name: 'Secustik champagner', zoomable: true },
   { key: 'schl_sec_titan', image: schl_sec_titan, name: 'Secustik titan', zoomable: true },
-  { key: 'schl_el_weis', image: schl_el_weis, name: 'Eleganz weiß', zoomable: true },
-  { key: 'schl_el_silber', image: schl_el_silber, name: 'Eleganz silber', zoomable: true },
-  { key: 'schl_el_braun', image: schl_el_braun, name: 'Eleganz braun', zoomable: true },
-  { key: 'schl_el_oliv', image: schl_el_oliv, name: 'Eleganz gold_oliv', zoomable: true },
+
   { key: 'schl_d_weis', image: schl_d_weis, name: 'Dublin weiß', zoomable: true },
   { key: 'schl_d_silber', image: schl_d_silber, name: 'Dublin silber', zoomable: true },
   { key: 'schl_d_schwarz', image: schl_d_schwarz, name: 'Dublin schwarz', zoomable: true },
@@ -112,16 +94,12 @@ const schluesselFestergriffeOptions = [
 // Druckknopf handle options
 import dr_weis from '@/assets/configurator/fenstergriffe/druckknopf/001.Standart weiß.webp';
 import dr_silberfarbig from '@/assets/configurator/fenstergriffe/druckknopf/002.Standart silberfarbig.webp';
-import dr_schwarz from '@/assets/configurator/fenstergriffe/druckknopf/003.Standart schwarz.webp';
 import dr_braun from '@/assets/configurator/fenstergriffe/druckknopf/004.Standart braun.webp';
 import dr_oliv from '@/assets/configurator/fenstergriffe/druckknopf/005.Standart gold_oliv.webp';
-
 import dr_sec_weis from '@/assets/configurator/fenstergriffe/druckknopf/006.Secustik weiß.webp';
 import dr_sec_silber from '@/assets/configurator/fenstergriffe/druckknopf/007.Secustik silber.webp';
 import dr_sec_braun from '@/assets/configurator/fenstergriffe/druckknopf/008.Secustik braun.webp';
-import dr_sec_champ from '@/assets/configurator/fenstergriffe/druckknopf/009.Secustik champagner.webp';
 import dr_sec_titan from '@/assets/configurator/fenstergriffe/druckknopf/010.Secustik titan.webp';
-
 import dr_d_weis from '@/assets/configurator/fenstergriffe/druckknopf/011.Dublin weiß.webp';
 import dr_d_silber from '@/assets/configurator/fenstergriffe/druckknopf/012.Dublin silber.webp';
 import dr_d_schwarz from '@/assets/configurator/fenstergriffe/druckknopf/013.Dublin schwarz.webp';
@@ -131,13 +109,11 @@ import dr_d_ant from '@/assets/configurator/fenstergriffe/druckknopf/015.Dublin 
 const druckknopfFestergriffeOptions = [
   { key: 'dr_weis', image: dr_weis, name: 'Standart weiß', zoomable: true },
   { key: 'dr_silberfarbig', image: dr_silberfarbig, name: 'Standart silberfarbig', zoomable: true },
-  { key: 'dr_schwarz', image: dr_schwarz, name: 'Standart schwarz', zoomable: true },
   { key: 'dr_braun', image: dr_braun, name: 'Standart braun', zoomable: true },
   { key: 'dr_oliv', image: dr_oliv, name: 'Standart gold_oliv', zoomable: true },
   { key: 'dr_sec_weis', image: dr_sec_weis, name: 'Secustik weiß', zoomable: true },
   { key: 'dr_sec_silber', image: dr_sec_silber, name: 'Secustik silber', zoomable: true },
   { key: 'dr_sec_braun', image: dr_sec_braun, name: 'Secustik braun', zoomable: true },
-  { key: 'dr_sec_champ', image: dr_sec_champ, name: 'Secustik champagner', zoomable: true },
   { key: 'dr_sec_titan', image: dr_sec_titan, name: 'Secustik titan', zoomable: true },
   { key: 'dr_d_weis', image: dr_d_weis, name: 'Dublin weiß', zoomable: true },
   { key: 'dr_d_silber', image: dr_d_silber, name: 'Dublin silber', zoomable: true },
